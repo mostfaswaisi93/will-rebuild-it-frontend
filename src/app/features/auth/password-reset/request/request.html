@@ -1,5 +1,5 @@
-<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.reset.request.title' | translate }}</h1>
-<p class="mt-1 text-sm text-ink-500">{{ 'auth.reset.request.subtitle' | translate }}</p>
+<h1 class="text-2xl font-bold text-ink-900">{{ titleKey() | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ subtitleKey() | translate }}</p>
 
 <form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
   <div>

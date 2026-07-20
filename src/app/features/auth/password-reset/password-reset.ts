@@ -6,10 +6,13 @@ import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { PasswordResetFlow, ResetIntent } from './password-reset-flow.service';
 
 /**
- * Parent of the reset/activate steps. Exists to own `PasswordResetFlow` —
- * provided here rather than in root so the state is created when the flow
- * starts and destroyed when the user leaves it, instead of lingering for the
- * whole session.
+ * Parent of the reset/activate steps.
+ *
+ * `PasswordResetFlow` is provided on the *route* (see `app.routes.ts`), not
+ * here: `canActivate` guards resolve against the route injector and run before
+ * any component is instantiated, so a component-level provider would be
+ * invisible to `passwordResetStepGuard`. The route injector gives the same
+ * scoping — created when the flow is entered, destroyed when it is left.
  *
  * Mounted at two paths (`/auth/forgot-password` and `/auth/activate`) which
  * differ only by `data.intent`; the steps are shared.
@@ -17,7 +20,6 @@ import { PasswordResetFlow, ResetIntent } from './password-reset-flow.service';
 @Component({
   selector: 'app-password-reset',
   imports: [RouterOutlet, TranslatePipe],
-  providers: [PasswordResetFlow],
   templateUrl: './password-reset.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

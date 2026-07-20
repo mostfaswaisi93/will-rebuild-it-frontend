@@ -36,13 +36,18 @@
 | # | الأصل | الجديد | الحالة |
 |---|---|---|---|
 | 1 | `new-login-page` (`slideMode='loginPage'`) | `/auth/sign-in` | ✅ |
-| 2 | `new-login-page` (`FrgtPswdEmailPage`) | `/auth/forgot-password` | ⬜ |
-| 3 | `new-login-page` (`FrgtPswdModeSelection`) | `/auth/forgot-password/method` | ⬜ |
-| 4 | `new-login-page` (`FrgtPswdOTPPage`) | `/auth/forgot-password/verify` | ⬜ |
-| 5 | `new-login-page` (`PswConfirmationPage`) | `/auth/forgot-password/reset` | ⬜ |
-| 6 | `new-login-page` (`validateCustPswUpdate`) | `/auth/activate` | ⬜ |
+| 2 | `new-login-page` (`FrgtPswdEmailPage`) | `/auth/forgot-password` | ✅ |
+| 3 | `new-login-page` (`FrgtPswdModeSelection`) | `/auth/forgot-password/method` | ✅ |
+| 4 | `new-login-page` (`FrgtPswdOTPPage`) | `/auth/forgot-password/verify` | ✅ |
+| 5 | `new-login-page` (`PswConfirmationPage`) | `/auth/forgot-password/reset` | ✅ |
+| 6 | `new-login-page` (`validateCustPswUpdate`) | `/auth/activate/*` | ✅ |
 | 7 | `auth/sign-up` | `/auth/register` | ⬜ |
-| 8 | `auth/forgot-password` (القديم غير المستخدم) | مدموج في 2–5 | ⬜ |
+| 8 | `auth/forgot-password` (القديم غير المستخدم) | مدموج في 2–5 | ✅ |
+
+> **بنية تدفّق الاستعادة/التفعيل:** المساران `/auth/forgot-password` و`/auth/activate`
+> يشتركان في نفس الخطوات الأربع ولا يختلفان إلا في `data.intent` والخطوة الأخيرة.
+> الحالة محفوظة في `PasswordResetFlow` المُوفَّر على مستوى **المسار** (لا المكوّن)،
+> لأن الـ guards تعمل قبل إنشاء أي مكوّن. رمز التحقق التجريبي: `123456`.
 | 9 | `registrations/proregistration` | `/auth/contractor-register` | ⬜ |
 | 10 | `registrations/proregistration2/:loginId/:emailId/:dataChecking` | `/auth/contractor-register/:step` | ⬜ |
 | 11 | `registrations/proregistrationlead/...` | `/auth/contractor-register/leadgen` | ⬜ |

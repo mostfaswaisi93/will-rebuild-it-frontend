@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@core/guards/auth.guard';
+import { PasswordResetFlow } from './features/auth/password-reset/password-reset-flow.service';
 import { passwordResetStepGuard } from './features/auth/password-reset/password-reset-step.guard';
 
 /**
@@ -69,9 +70,13 @@ export const routes: Routes = [
         path: 'sign-in',
         loadComponent: () => import('./features/auth/sign-in/sign-in').then((m) => m.SignIn),
       },
+      // `PasswordResetFlow` is provided per-route rather than on the parent
+      // component: the step guards resolve it before any component exists, and
+      // each mount point gets its own instance scoped to that route's lifetime.
       {
         path: 'forgot-password',
         data: { intent: 'reset' },
+        providers: [PasswordResetFlow],
         loadComponent: () =>
           import('./features/auth/password-reset/password-reset').then((m) => m.PasswordReset),
         children: passwordResetChildren,
@@ -79,6 +84,7 @@ export const routes: Routes = [
       {
         path: 'activate',
         data: { intent: 'activate' },
+        providers: [PasswordResetFlow],
         loadComponent: () =>
           import('./features/auth/password-reset/password-reset').then((m) => m.PasswordReset),
         children: passwordResetChildren,

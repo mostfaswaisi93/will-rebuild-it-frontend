@@ -67,7 +67,8 @@ export function mustMatch(controlName: string, matchingControlName: string): Val
 
     // Clear only our own error, leaving any others intact.
     if (matching.hasError('mustMatch')) {
-      const { mustMatch: _removed, ...rest } = matching.errors ?? {};
+      const rest = { ...matching.errors };
+      delete rest['mustMatch'];
       matching.setErrors(Object.keys(rest).length > 0 ? rest : null);
     }
     return null;

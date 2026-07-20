@@ -15,6 +15,42 @@ interface LoginBody {
   role?: UserRole;
 }
 
+interface SendCodeBody {
+  email?: string;
+  channel?: 'email' | 'sms';
+  role?: UserRole;
+}
+
+interface VerifyCodeBody {
+  challengeId?: string;
+  code?: string;
+}
+
+interface ResetPasswordBody {
+  resetToken?: string;
+  password?: string;
+}
+
+interface ActivateBody {
+  resetToken?: string;
+  password?: string;
+  acceptedTerms?: boolean;
+  subscribeToEmails?: boolean;
+}
+
+/**
+ * Fixed demo code. A real backend would generate and deliver one; here there is
+ * no inbox or SMS gateway to deliver to, so the flow is testable with a known
+ * value. It still lives only in the store — never in a response body.
+ */
+const DEMO_CODE = '123456';
+
+let sequence = 0;
+function nextId(prefix: string): string {
+  sequence += 1;
+  return `${prefix}-${sequence}-${Date.now()}`;
+}
+
 /** Shape the sign-in page consumes — see `AccountRoleDto`. */
 function toAccountRole(user: User) {
   return {
@@ -87,6 +123,107 @@ export const handleAuth: MockHandler = (ctx) => {
     if (user.registrationComplete === false) {
       return unauthorized('Registration is not complete for this account.');
     }
+
+    return ok({ token: `mock-token-${user.id}-${Date.now()}`, user });
+  }
+
+  if (ctx.method === 'POST' && ctx.segments[1] === 'verification-code' && !ctx.segments[2]) {
+    const { email, channel, role } = (ctx.body ?? {}) as SendCodeBody;
+    if (!email || !channel || !role) {
+      return badRequest('Email, channel and role are required.');
+    }
+
+    const normalised = email.toLowerCase();
+    const account = ctx.store.users.find(
+      (user) => user.email.toLowerCase() === normalised && user.role === role,
+    );
+    if (!account) {
+      return badRequest('No such account.');
+    }
+    if (channel === 'sms' && !account.phone) {
+      return badRequest('This account has no phone number on file.');
+    }
+
+    const challengeId = nextId('challenge');
+    ctx.store.verificationChallenges.set(challengeId, {
+      email: normalised,
+      role,
+      code: DEMO_CODE,
+      channel,
+    });
+    // Only the id crosses the wire; the code is delivered out of band.
+    return ok({ challengeId });
+  }
+
+  if (ctx.method === 'POST' && ctx.segments[1] === 'verification-code' && ctx.segments[2] === 'verify') {
+    const { challengeId, code } = (ctx.body ?? {}) as VerifyCodeBody;
+    const challenge = challengeId ? ctx.store.verificationChallenges.get(challengeId) : undefined;
+
+    if (!challenge || challenge.code !== code) {
+      return unauthorized('That code is not correct.');
+    }
+
+    // Single use: burn the challenge so a captured code can't be replayed.
+    ctx.store.verificationChallenges.delete(challengeId as string);
+
+    const resetToken = nextId('reset');
+    ctx.store.resetTokens.set(resetToken, { email: challenge.email, role: challenge.role });
+    return ok({ resetToken });
+  }
+
+  if (ctx.method === 'POST' && ctx.segments[1] === 'reset-password') {
+    const { resetToken, password } = (ctx.body ?? {}) as ResetPasswordBody;
+    const grant = resetToken ? ctx.store.resetTokens.get(resetToken) : undefined;
+
+    if (!grant || !password) {
+      return unauthorized('This reset link has expired.');
+    }
+    ctx.store.resetTokens.delete(resetToken as string);
+
+    const credential = ctx.store.credentials[grant.email];
+    if (credential) {
+      credential.password = password;
+    }
+
+    const user = ctx.store.users.find(
+      (candidate) => candidate.email.toLowerCase() === grant.email && candidate.role === grant.role,
+    );
+    if (!user) {
+      return unauthorized();
+    }
+
+    return ok({ token: `mock-token-${user.id}-${Date.now()}`, user });
+  }
+
+  if (ctx.method === 'POST' && ctx.segments[1] === 'activate') {
+    const { resetToken, password, acceptedTerms } = (ctx.body ?? {}) as ActivateBody;
+    const grant = resetToken ? ctx.store.resetTokens.get(resetToken) : undefined;
+
+    if (!grant || !password) {
+      return unauthorized('This activation link has expired.');
+    }
+    // Consent is enforced server-side too — a disabled submit button is not a
+    // record that the terms were accepted.
+    if (acceptedTerms !== true) {
+      return badRequest('The terms must be accepted to activate an account.');
+    }
+    ctx.store.resetTokens.delete(resetToken as string);
+
+    const credential = ctx.store.credentials[grant.email];
+    if (credential) {
+      credential.password = password;
+    }
+
+    const user = ctx.store.users.find(
+      (candidate) => candidate.email.toLowerCase() === grant.email && candidate.role === grant.role,
+    );
+    if (!user) {
+      return unauthorized();
+    }
+
+    // Activation is what clears the pending state that blocked sign-in.
+    user.status = 'active';
+    user.registrationComplete = true;
 
     return ok({ token: `mock-token-${user.id}-${Date.now()}`, user });
   }

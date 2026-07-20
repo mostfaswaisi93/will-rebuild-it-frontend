@@ -56,6 +56,21 @@ export class PasswordResetRequest {
 
   protected readonly submitted = signal(false);
 
+  /**
+   * Step 1 is shared by both journeys, but "reset your password" is wrong copy
+   * for someone activating a brand-new account who has never had one.
+   */
+  protected readonly titleKey = computed(() =>
+    this.flow.intent() === 'activate'
+      ? 'auth.reset.request.activateTitle'
+      : 'auth.reset.request.title',
+  );
+  protected readonly subtitleKey = computed(() =>
+    this.flow.intent() === 'activate'
+      ? 'auth.reset.request.activateSubtitle'
+      : 'auth.reset.request.subtitle',
+  );
+
   private readonly emailValue = toSignal(
     this.form.controls.email.valueChanges.pipe(startWith(this.form.controls.email.value)),
     { initialValue: '' },

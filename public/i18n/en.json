@@ -204,6 +204,60 @@
       "completeRegistration": "Complete registration",
       "noAccount": "Don't have an account?",
       "registerAsContractor": "Register as a contractor"
+    },
+    "reset": {
+      "stepsLabel": "Password recovery steps",
+      "request": {
+        "title": "Reset your password",
+        "subtitle": "Enter your email and we will send you a verification code.",
+        "suspended": "This account is suspended and cannot be recovered by resetting a password. Please contact the platform administrators.",
+        "activateTitle": "Activate your account",
+        "activateSubtitle": "Enter your email and we will send a verification code to activate your account."
+      },
+      "method": {
+        "title": "Choose a verification method",
+        "subtitle": "Where should we send the code?",
+        "viaEmail": "By email",
+        "viaSms": "By text message",
+        "noPhone": "No phone number on file for this account",
+        "sendCode": "Send code",
+        "sendFailed": "Could not send the code. Please try again."
+      },
+      "verify": {
+        "title": "Enter the verification code",
+        "subtitle": "We sent a 6-digit code to",
+        "wrongCode": "That code is not correct. Check it and try again.",
+        "resent": "A new code has been sent."
+      },
+      "reset": {
+        "title": "New password",
+        "subtitle": "Choose a strong password for your account.",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm password",
+        "mustMatch": "The passwords do not match",
+        "submit": "Save and sign in",
+        "success": "Your password has been changed.",
+        "failed": "Could not change the password — the code may have expired. Request a new one."
+      },
+      "activate": {
+        "title": "Activate your account",
+        "subtitle": "Choose a password and accept the terms to get started.",
+        "subscribe": "Email me platform updates",
+        "agreePrefix": "I accept the",
+        "termsLink": "terms of use",
+        "termsRequired": "You must accept the terms to activate your account",
+        "termsTitle": "Platform terms of use",
+        "termsIntro": "Please read the following terms carefully before accepting:",
+        "termsClause1": "You undertake to provide accurate information about damage and projects, and are responsible for any misleading data.",
+        "termsClause2": "Your data is used only to coordinate reconstruction work and verify eligibility, and is not shared outside the platform without your permission.",
+        "termsClause3": "All work orders and progress claims are subject to review and audit by the platform and its funders.",
+        "termsClause4": "Contractors commit to occupational safety standards and to the approved building specifications at every stage.",
+        "termsClause5": "The platform may suspend any account that breaches these terms, while preserving the rights of other parties.",
+        "agreeButton": "I agree",
+        "submit": "Activate account",
+        "success": "Your account has been activated.",
+        "failed": "Could not activate the account. Please try again."
+      }
     }
   },
   "requests": {
