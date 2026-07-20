@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@core/guards/auth.guard';
+import { passwordResetStepGuard } from './features/auth/password-reset/password-reset-step.guard';
 
 /**
  * Route map for the back-office portal, ported from the legacy TopProz Angular
@@ -7,6 +8,46 @@ import { authGuard } from '@core/guards/auth.guard';
  * ~130 legacy routes and tracks which have been ported; routes appear here only
  * once their page actually exists, so the build never points at a stub.
  */
+
+/**
+ * Shared by `/auth/forgot-password` and `/auth/activate`: both prove control of
+ * the address the same way and differ only in their last step. The legacy
+ * portal ran both through one component branching on a `mode` query param.
+ */
+const passwordResetChildren: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/auth/password-reset/request/request').then((m) => m.PasswordResetRequest),
+  },
+  {
+    path: 'method',
+    canActivate: [passwordResetStepGuard('method')],
+    loadComponent: () =>
+      import('./features/auth/password-reset/method/method').then((m) => m.PasswordResetMethod),
+  },
+  {
+    path: 'verify',
+    canActivate: [passwordResetStepGuard('verify')],
+    loadComponent: () =>
+      import('./features/auth/password-reset/verify/verify').then((m) => m.PasswordResetVerify),
+  },
+  {
+    path: 'reset',
+    canActivate: [passwordResetStepGuard('reset')],
+    loadComponent: () =>
+      import('./features/auth/password-reset/reset/reset').then((m) => m.PasswordResetReset),
+  },
+  {
+    path: 'activate',
+    canActivate: [passwordResetStepGuard('reset')],
+    loadComponent: () =>
+      import('./features/auth/password-reset/activate/activate').then(
+        (m) => m.PasswordResetActivate,
+      ),
+  },
+];
+
 export const routes: Routes = [
   {
     path: '',
@@ -27,6 +68,20 @@ export const routes: Routes = [
       {
         path: 'sign-in',
         loadComponent: () => import('./features/auth/sign-in/sign-in').then((m) => m.SignIn),
+      },
+      {
+        path: 'forgot-password',
+        data: { intent: 'reset' },
+        loadComponent: () =>
+          import('./features/auth/password-reset/password-reset').then((m) => m.PasswordReset),
+        children: passwordResetChildren,
+      },
+      {
+        path: 'activate',
+        data: { intent: 'activate' },
+        loadComponent: () =>
+          import('./features/auth/password-reset/password-reset').then((m) => m.PasswordReset),
+        children: passwordResetChildren,
       },
     ],
   },

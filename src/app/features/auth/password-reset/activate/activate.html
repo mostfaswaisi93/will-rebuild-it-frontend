@@ -1,0 +1,117 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.reset.activate.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.reset.activate.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <app-password-field
+    formControlName="password"
+    labelKey="auth.reset.reset.newPassword"
+    [showRules]="true"
+  />
+
+  <div>
+    <app-password-field
+      formControlName="confirmPassword"
+      labelKey="auth.reset.reset.confirmPassword"
+    />
+
+    @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('mustMatch')) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.reset.reset.mustMatch' | translate }}</p>
+    }
+  </div>
+
+  <label class="flex items-start gap-2 text-sm text-ink-700">
+    <input
+      type="checkbox"
+      formControlName="subscribeToEmails"
+      class="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+    />
+    {{ 'auth.reset.activate.subscribe' | translate }}
+  </label>
+
+  <div>
+    <label class="flex items-start gap-2 text-sm text-ink-700">
+      <input
+        type="checkbox"
+        formControlName="acceptedTerms"
+        class="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+      />
+      <span>
+        {{ 'auth.reset.activate.agreePrefix' | translate }}
+        <button
+          type="button"
+          (click)="openTerms()"
+          class="font-semibold text-brand-600 underline underline-offset-2 hover:text-brand-700"
+        >
+          {{ 'auth.reset.activate.termsLink' | translate }}
+        </button>
+      </span>
+    </label>
+
+    @if (form.controls.acceptedTerms.touched && form.controls.acceptedTerms.invalid) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.reset.activate.termsRequired' | translate }}</p>
+    }
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="submitting()"
+    class="inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {{ (submitting() ? 'common.loading' : 'auth.reset.activate.submit') | translate }}
+  </button>
+</form>
+
+@if (termsOpen()) {
+  <div
+    class="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/50 p-0 sm:items-center sm:p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="terms-title"
+  >
+    <div
+      class="flex max-h-[90vh] w-full max-w-2xl flex-col rounded-t-card bg-surface shadow-card sm:rounded-card"
+    >
+      <div class="flex items-center justify-between gap-3 border-b border-ink-300 px-5 py-4">
+        <h2 id="terms-title" class="text-lg font-semibold text-ink-900">
+          {{ 'auth.reset.activate.termsTitle' | translate }}
+        </h2>
+        <button
+          type="button"
+          (click)="closeTerms()"
+          class="flex min-h-11 min-w-11 items-center justify-center rounded-card text-ink-500 hover:bg-surface-container-low"
+          [attr.aria-label]="'common.close' | translate"
+        >
+          ✕
+        </button>
+      </div>
+
+      <div class="min-h-0 flex-1 overflow-y-auto px-5 py-4 text-sm leading-relaxed text-ink-700">
+        <p class="mb-3">{{ 'auth.reset.activate.termsIntro' | translate }}</p>
+        <ol class="list-decimal space-y-3 ps-5">
+          <li>{{ 'auth.reset.activate.termsClause1' | translate }}</li>
+          <li>{{ 'auth.reset.activate.termsClause2' | translate }}</li>
+          <li>{{ 'auth.reset.activate.termsClause3' | translate }}</li>
+          <li>{{ 'auth.reset.activate.termsClause4' | translate }}</li>
+          <li>{{ 'auth.reset.activate.termsClause5' | translate }}</li>
+        </ol>
+      </div>
+
+      <div class="flex flex-wrap justify-end gap-2 border-t border-ink-300 px-5 py-4">
+        <button
+          type="button"
+          (click)="closeTerms()"
+          class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+        >
+          {{ 'common.close' | translate }}
+        </button>
+        <button
+          type="button"
+          (click)="acceptTerms()"
+          class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-600"
+        >
+          {{ 'auth.reset.activate.agreeButton' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

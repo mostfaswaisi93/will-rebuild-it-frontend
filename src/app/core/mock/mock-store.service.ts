@@ -14,6 +14,7 @@ import {
   Team,
   TeamReview,
   User,
+  UserRole,
 } from '@core/models';
 import { seedCredentials, seedUsers } from './fixtures/users.fixture';
 import { seedGeoAreas, seedGlobalSettings } from './fixtures/master.fixture';
@@ -62,4 +63,18 @@ export class MockStore {
 
   /** The "currently signed-in" demo beneficiary's requests/projects are the ones seeded above. */
   readonly currentBeneficiaryId = 'user-beneficiary-1';
+
+  /**
+   * Live one-time-code challenges, keyed by challenge id. A real backend would
+   * hash these and expire them server-side; the important part the mock does
+   * preserve is that the code never travels to the client — the legacy portal
+   * returned it in the response body, making the check cosmetic.
+   */
+  readonly verificationChallenges = new Map<
+    string,
+    { email: string; role: UserRole; code: string; channel: 'email' | 'sms' }
+  >();
+
+  /** Reset tokens minted by a successful code verification. */
+  readonly resetTokens = new Map<string, { email: string; role: UserRole }>();
 }

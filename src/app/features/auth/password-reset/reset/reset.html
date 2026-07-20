@@ -1,0 +1,29 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.reset.reset.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.reset.reset.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <app-password-field
+    formControlName="password"
+    labelKey="auth.reset.reset.newPassword"
+    [showRules]="true"
+  />
+
+  <div>
+    <app-password-field
+      formControlName="confirmPassword"
+      labelKey="auth.reset.reset.confirmPassword"
+    />
+
+    @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('mustMatch')) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.reset.reset.mustMatch' | translate }}</p>
+    }
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="submitting()"
+    class="inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {{ (submitting() ? 'common.loading' : 'auth.reset.reset.submit') | translate }}
+  </button>
+</form>

@@ -1,0 +1,83 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.reset.method.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.reset.method.subtitle' | translate }}</p>
+
+<fieldset class="mt-6 space-y-3">
+  <legend class="sr-only">{{ 'auth.reset.method.title' | translate }}</legend>
+
+  <label
+    class="flex cursor-pointer items-center gap-3 rounded-card border-2 p-4 transition-colors"
+    [class]="
+      channel() === 'email'
+        ? 'border-brand-500 bg-brand-50'
+        : 'border-ink-300 bg-surface hover:border-brand-300'
+    "
+  >
+    <input
+      type="radio"
+      name="channel"
+      value="email"
+      [checked]="channel() === 'email'"
+      (change)="select('email')"
+      class="size-4 shrink-0 border-ink-300 text-brand-500 focus:ring-brand-500/30"
+    />
+    <svg lucideMail [size]="20" class="shrink-0 text-ink-500" aria-hidden="true"></svg>
+    <span class="min-w-0">
+      <span class="block text-sm font-medium text-ink-900">
+        {{ 'auth.reset.method.viaEmail' | translate }}
+      </span>
+      <span class="block truncate text-sm text-ink-500" dir="ltr">{{ flow.maskedEmail() }}</span>
+    </span>
+  </label>
+
+  <label
+    class="flex items-center gap-3 rounded-card border-2 p-4 transition-colors"
+    [class]="
+      !smsAvailable()
+        ? 'cursor-not-allowed border-ink-300 bg-surface-container-low opacity-60'
+        : channel() === 'sms'
+          ? 'cursor-pointer border-brand-500 bg-brand-50'
+          : 'cursor-pointer border-ink-300 bg-surface hover:border-brand-300'
+    "
+  >
+    <input
+      type="radio"
+      name="channel"
+      value="sms"
+      [checked]="channel() === 'sms'"
+      [disabled]="!smsAvailable()"
+      (change)="select('sms')"
+      class="size-4 shrink-0 border-ink-300 text-brand-500 focus:ring-brand-500/30"
+    />
+    <svg lucideSmartphone [size]="20" class="shrink-0 text-ink-500" aria-hidden="true"></svg>
+    <span class="min-w-0">
+      <span class="block text-sm font-medium text-ink-900">
+        {{ 'auth.reset.method.viaSms' | translate }}
+      </span>
+      @if (smsAvailable()) {
+        <span class="block truncate text-sm text-ink-500" dir="ltr">{{ flow.maskedPhone() }}</span>
+      } @else {
+        <span class="block text-sm text-ink-500">
+          {{ 'auth.reset.method.noPhone' | translate }}
+        </span>
+      }
+    </span>
+  </label>
+</fieldset>
+
+<div class="mt-6 flex items-center gap-3">
+  <button
+    type="button"
+    (click)="back()"
+    class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+  >
+    {{ 'common.previous' | translate }}
+  </button>
+  <button
+    type="button"
+    (click)="submit()"
+    [disabled]="sending()"
+    class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {{ (sending() ? 'common.loading' : 'auth.reset.method.sendCode') | translate }}
+  </button>
+</div>
