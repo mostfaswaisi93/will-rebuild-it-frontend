@@ -32,6 +32,11 @@ export function badRequest(message: string): MockResult {
   return { status: 400, body: { message } };
 }
 
+/** The resource already exists — e.g. registering an email that is taken. */
+export function conflict(message: string): MockResult {
+  return { status: 409, body: { message } };
+}
+
 export function unauthorized(message = 'Invalid credentials'): MockResult {
   return { status: 401, body: { message } };
 }

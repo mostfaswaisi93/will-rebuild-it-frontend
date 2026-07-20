@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@core/guards/auth.guard';
+import { OnboardingFlow } from './features/auth/contractor-register/onboarding-flow.service';
+import { onboardingStepGuard } from './features/auth/contractor-register/onboarding-step.guard';
 import { PasswordResetFlow } from './features/auth/password-reset/password-reset-flow.service';
 import { passwordResetStepGuard } from './features/auth/password-reset/password-reset-step.guard';
 
@@ -69,6 +71,53 @@ export const routes: Routes = [
       {
         path: 'sign-in',
         loadComponent: () => import('./features/auth/sign-in/sign-in').then((m) => m.SignIn),
+      },
+      {
+        path: 'register',
+        loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
+      },
+      {
+        // Same reason as the reset flow: the step guards resolve the flow
+        // service before any component is created, so it is provided here.
+        path: 'contractor-register',
+        providers: [OnboardingFlow],
+        loadComponent: () =>
+          import('./features/auth/contractor-register/contractor-register').then(
+            (m) => m.ContractorRegister,
+          ),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/auth/contractor-register/business/business').then(
+                (m) => m.OnboardingBusiness,
+              ),
+          },
+          {
+            path: 'identity',
+            canActivate: [onboardingStepGuard('identity')],
+            loadComponent: () =>
+              import('./features/auth/contractor-register/identity/identity').then(
+                (m) => m.OnboardingIdentity,
+              ),
+          },
+          {
+            path: 'location',
+            canActivate: [onboardingStepGuard('location')],
+            loadComponent: () =>
+              import('./features/auth/contractor-register/location/location').then(
+                (m) => m.OnboardingLocation,
+              ),
+          },
+          {
+            path: 'confirm',
+            canActivate: [onboardingStepGuard('confirm')],
+            loadComponent: () =>
+              import('./features/auth/contractor-register/confirm/confirm').then(
+                (m) => m.OnboardingConfirm,
+              ),
+          },
+        ],
       },
       // `PasswordResetFlow` is provided per-route rather than on the parent
       // component: the step guards resolve it before any component exists, and

@@ -1,0 +1,72 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.onboarding.identity.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.onboarding.identity.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <div>
+    <label for="nationalId" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.identity.nationalId' | translate }}
+    </label>
+    <input
+      id="nationalId"
+      type="text"
+      inputmode="numeric"
+      maxlength="9"
+      formControlName="nationalId"
+      dir="ltr"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start tracking-widest text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    />
+    <p class="mt-1 text-xs text-ink-500">
+      {{ 'auth.onboarding.identity.nationalIdHint' | translate }}
+    </p>
+
+    @if (form.controls.nationalId.touched && form.controls.nationalId.hasError('required')) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.identity.nationalIdRequired' | translate }}
+      </p>
+    } @else if (form.controls.nationalId.touched && form.controls.nationalId.hasError('nationalId')) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.identity.nationalIdInvalid' | translate }}
+      </p>
+    }
+  </div>
+
+  <div>
+    <label for="dateOfBirth" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.identity.dateOfBirth' | translate }}
+    </label>
+    <input
+      id="dateOfBirth"
+      type="date"
+      formControlName="dateOfBirth"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    />
+
+    @if (form.controls.dateOfBirth.touched && form.controls.dateOfBirth.hasError('required')) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.identity.dateOfBirthRequired' | translate }}
+      </p>
+    } @else if (form.controls.dateOfBirth.touched && form.controls.dateOfBirth.hasError('dateOfBirth')) {
+      <p class="mt-1 text-sm text-danger">
+        {{
+          'auth.onboarding.identity.' + form.controls.dateOfBirth.getError('dateOfBirth') | translate
+        }}
+      </p>
+    }
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <button
+      type="button"
+      (click)="back()"
+      class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'common.previous' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+    >
+      {{ 'common.next' | translate }}
+    </button>
+  </div>
+</form>

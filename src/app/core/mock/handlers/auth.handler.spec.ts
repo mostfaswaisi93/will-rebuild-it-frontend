@@ -133,6 +133,85 @@ describe('auth handler', () => {
     });
   });
 
+  describe('POST /auth/register', () => {
+    const NEW_ACCOUNT = {
+      firstName: 'Kareem',
+      lastName: 'Abu Odeh',
+      email: 'kareem@example.com',
+      phone: '+970591112233',
+      password: 'Newpass1!',
+    };
+
+    it('creates a contractor account in the pending state', () => {
+      const result = expectHandled(
+        handleAuth(makeContext(store, { path: 'auth/register', body: NEW_ACCOUNT })),
+      );
+      expect(result.status).toBe(201);
+
+      const created = store.users.find((user) => user.email === NEW_ACCOUNT.email);
+      expect(created?.role).toBe('contractor');
+      // Pending until the onboarding wizard finishes — sign-in must refuse it.
+      expect(created?.registrationComplete).toBeFalse();
+
+      const login = expectHandled(
+        handleAuth(
+          makeContext(store, {
+            path: 'auth/login',
+            body: { email: NEW_ACCOUNT.email, password: NEW_ACCOUNT.password, role: 'contractor' },
+          }),
+        ),
+      );
+      expect(login.status).toBe(401);
+    });
+
+    it('rejects a duplicate contractor registration', () => {
+      handleAuth(makeContext(store, { path: 'auth/register', body: NEW_ACCOUNT }));
+      const again = expectHandled(
+        handleAuth(makeContext(store, { path: 'auth/register', body: NEW_ACCOUNT })),
+      );
+      expect(again.status).toBe(409);
+    });
+
+    it('lets an existing beneficiary add a contractor account', () => {
+      // Same person, second role — the lookup/role-picker case.
+      const result = expectHandled(
+        handleAuth(
+          makeContext(store, {
+            path: 'auth/register',
+            body: { ...NEW_ACCOUNT, email: 'youssef@example.com' },
+          }),
+        ),
+      );
+      expect(result.status).toBe(201);
+
+      const lookup = expectHandled(
+        handleAuth(makeContext(store, { path: 'auth/lookup', body: { email: 'youssef@example.com' } })),
+      ).body as { accounts: AccountRole[] };
+      expect(lookup.accounts.map((a) => a.role).sort()).toEqual(['beneficiary', 'contractor']);
+    });
+
+    it('does not overwrite an existing password when adding a role', () => {
+      // The credential map is keyed by email; clobbering it would silently
+      // change the password of the account the person already had.
+      handleAuth(
+        makeContext(store, {
+          path: 'auth/register',
+          body: { ...NEW_ACCOUNT, email: 'youssef@example.com', password: 'Different1!' },
+        }),
+      );
+      expect(store.credentials['youssef@example.com']?.password).toBe('Demo@1234');
+    });
+
+    it('rejects an incomplete submission', () => {
+      const result = expectHandled(
+        handleAuth(
+          makeContext(store, { path: 'auth/register', body: { email: 'x@example.com' } }),
+        ),
+      );
+      expect(result.status).toBe(400);
+    });
+  });
+
   describe('password reset / activation', () => {
     const DEMO_CODE = '123456';
 

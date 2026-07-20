@@ -236,6 +236,36 @@ export type EquipmentProblemSeverity = (typeof EQUIPMENT_PROBLEM_SEVERITIES)[num
 export const TIMECARD_ACTIVITY_STATUSES = ['clockedIn', 'onBreak', 'clockedOut'] as const;
 export type TimecardActivityStatus = (typeof TIMECARD_ACTIVITY_STATUSES)[number];
 
+/**
+ * Legal form of a contracting business. Replaces the legacy US set
+ * (Sole Proprietor / LLC / Corporation) with the Palestinian equivalents.
+ */
+export const BUSINESS_TYPES = [
+  'soleTrader',
+  'partnership',
+  'limitedCompany',
+  'jointStock',
+  'cooperative',
+  'ngo',
+] as const;
+export type BusinessType = (typeof BUSINESS_TYPES)[number];
+
+/** Trades a contracting firm can register for. */
+export const CONTRACTOR_TRADES = [
+  'generalConstruction',
+  'debrisRemoval',
+  'structuralRepair',
+  'roofing',
+  'plumbing',
+  'electrical',
+  'carpentry',
+  'glazing',
+  'finishing',
+  'waterSanitation',
+  'surveying',
+] as const;
+export type ContractorTrade = (typeof CONTRACTOR_TRADES)[number];
+
 export const CONTRACTOR_VERIFICATION_STATUSES = [
   'pending',
   'documentsRequested',

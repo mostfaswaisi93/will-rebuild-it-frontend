@@ -258,6 +258,76 @@
         "success": "Your account has been activated.",
         "failed": "Could not activate the account. Please try again."
       }
+    },
+    "register": {
+      "title": "Create a contractor account",
+      "subtitle": "Register to start receiving reconstruction requests.",
+      "firstName": "First name",
+      "firstNameRequired": "Please enter your first name",
+      "lastName": "Last name",
+      "lastNameRequired": "Please enter your last name",
+      "phone": "Mobile number",
+      "phoneInvalid": "Enter a valid 9-digit mobile number",
+      "emailTaken": "A contractor account already exists for this email.",
+      "signInInstead": "Sign in instead",
+      "submit": "Create account",
+      "success": "Your account was created. Sign in to complete your details.",
+      "failed": "Could not create the account. Please try again.",
+      "haveAccount": "Already have an account?"
+    },
+    "onboarding": {
+      "stepsLabel": "Contractor profile steps",
+      "business": {
+        "title": "Business details",
+        "subtitle": "Tell us about your company and the work it does.",
+        "name": "Company name",
+        "nameRequired": "Please enter the company name",
+        "type": "Legal form",
+        "typePlaceholder": "Select a legal form",
+        "typeRequired": "Please select a legal form",
+        "registrationNumber": "Commercial registration number",
+        "registrationHint": "Your registration with the Ministry of National Economy.",
+        "registrationRequired": "Please enter the registration number",
+        "trades": "Trades",
+        "tradesHint": "Select at least one trade.",
+        "tradesRequired": "Please select at least one trade"
+      },
+      "identity": {
+        "title": "Authorised signatory",
+        "subtitle": "Details of the person authorised to sign for the company.",
+        "nationalId": "National ID number",
+        "nationalIdHint": "Nine digits, as printed on the ID card.",
+        "nationalIdRequired": "Please enter the national ID number",
+        "nationalIdInvalid": "That national ID is not valid — check the nine digits.",
+        "dateOfBirth": "Date of birth",
+        "dateOfBirthRequired": "Please enter the date of birth",
+        "invalid": "That date is not valid",
+        "future": "The date of birth cannot be in the future",
+        "tooYoung": "The signatory must be at least 18",
+        "tooOld": "Please check the date of birth"
+      },
+      "location": {
+        "title": "Location and contact",
+        "subtitle": "Where the company is based, and how we reach you with work.",
+        "governorate": "Governorate",
+        "governoratePlaceholder": "Select a governorate",
+        "governorateRequired": "Please select a governorate",
+        "area": "Neighbourhood / area",
+        "areaRequired": "Please enter the neighbourhood or area",
+        "streetAddress": "Street address",
+        "streetAddressRequired": "Please enter the street address",
+        "contactPhone": "Work enquiries number",
+        "contactPhoneHint": "The number that receives new reconstruction requests."
+      },
+      "confirm": {
+        "title": "Review and submit",
+        "subtitle": "Check your details before submitting — you can go back to edit any step.",
+        "declaration": "I declare that all the information provided is accurate, and accept responsibility for any misleading data.",
+        "declarationRequired": "You must confirm the information is accurate before submitting",
+        "submit": "Submit application",
+        "success": "Your profile is complete. Welcome to the platform.",
+        "failed": "Could not submit your details. Please try again."
+      }
     }
   },
   "requests": {
@@ -1216,5 +1286,33 @@
     "title": "Page not found",
     "body": "The link you opened is invalid, or the page has moved.",
     "backHome": "Back to home"
+  },
+  "businessTypes": {
+    "soleTrader": "Sole trader",
+    "partnership": "Partnership",
+    "limitedCompany": "Limited liability company",
+    "jointStock": "Joint-stock company",
+    "cooperative": "Cooperative",
+    "ngo": "Non-governmental organisation"
+  },
+  "trades": {
+    "generalConstruction": "General construction",
+    "debrisRemoval": "Debris removal",
+    "structuralRepair": "Structural repair",
+    "roofing": "Roofing",
+    "plumbing": "Plumbing",
+    "electrical": "Electrical",
+    "carpentry": "Carpentry",
+    "glazing": "Glazing and aluminium",
+    "finishing": "Finishing",
+    "waterSanitation": "Water and sanitation",
+    "surveying": "Surveying and damage assessment"
+  },
+  "governorates": {
+    "northGaza": "North Gaza",
+    "gazaCity": "Gaza City",
+    "deirAlBalah": "Deir al-Balah",
+    "khanYounis": "Khan Younis",
+    "rafah": "Rafah"
   }
 }

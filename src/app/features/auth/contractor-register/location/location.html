@@ -1,0 +1,86 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.onboarding.location.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.onboarding.location.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <div>
+    <label for="governorate" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.location.governorate' | translate }}
+    </label>
+    <select
+      id="governorate"
+      formControlName="governorate"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    >
+      <option value="">{{ 'auth.onboarding.location.governoratePlaceholder' | translate }}</option>
+      @for (governorate of governorates; track governorate) {
+        <option [value]="governorate">{{ 'governorates.' + governorate | translate }}</option>
+      }
+    </select>
+    @if (form.controls.governorate.touched && form.controls.governorate.invalid) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.location.governorateRequired' | translate }}
+      </p>
+    }
+  </div>
+
+  <div>
+    <label for="area" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.location.area' | translate }}
+    </label>
+    <input
+      id="area"
+      type="text"
+      formControlName="area"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    />
+    @if (form.controls.area.touched && form.controls.area.invalid) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.location.areaRequired' | translate }}</p>
+    }
+  </div>
+
+  <div>
+    <label for="streetAddress" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.location.streetAddress' | translate }}
+    </label>
+    <input
+      id="streetAddress"
+      type="text"
+      formControlName="streetAddress"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    />
+    @if (form.controls.streetAddress.touched && form.controls.streetAddress.invalid) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.location.streetAddressRequired' | translate }}
+      </p>
+    }
+  </div>
+
+  <div>
+    <app-phone-input
+      formControlName="contactPhone"
+      labelKey="auth.onboarding.location.contactPhone"
+    />
+    <p class="mt-1 text-xs text-ink-500">
+      {{ 'auth.onboarding.location.contactPhoneHint' | translate }}
+    </p>
+    @if (form.controls.contactPhone.touched && form.controls.contactPhone.invalid) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.register.phoneInvalid' | translate }}</p>
+    }
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <button
+      type="button"
+      (click)="back()"
+      class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'common.previous' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+    >
+      {{ 'common.next' | translate }}
+    </button>
+  </div>
+</form>

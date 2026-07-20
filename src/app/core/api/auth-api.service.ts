@@ -5,6 +5,7 @@ import { environment } from '@env/environment';
 import { AuthSession, UserRole } from '@core/models';
 import {
   AccountRoleDto,
+  ContractorOnboardingDto,
   EmailLookupResponseDto,
   LoginResponseDto,
   mapAuthSessionFromDto,
@@ -37,6 +38,33 @@ export class AuthApi {
   login(email: string, password: string, role?: UserRole): Observable<AuthSession> {
     return this.http
       .post<LoginResponseDto>(`${this.base}/login`, { email, password, role })
+      .pipe(map(mapAuthSessionFromDto));
+  }
+
+  /**
+   * Creates a contractor account in the pending state. Sign-in blocks it until
+   * onboarding is finished, which is what the registration wizard does next.
+   *
+   * Rejects with 409 when the address already holds a contractor account.
+   */
+  register(payload: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+  }): Observable<{ userId: string }> {
+    return this.http.post<{ userId: string }>(`${this.base}/register`, payload);
+  }
+
+  /**
+   * Submits the contractor onboarding profile. Clears the pending state that
+   * blocks sign-in, and returns a session so the contractor lands inside the
+   * portal rather than back at the sign-in form.
+   */
+  completeContractorOnboarding(payload: ContractorOnboardingDto): Observable<AuthSession> {
+    return this.http
+      .post<LoginResponseDto>(`${this.base}/contractor-onboarding`, payload)
       .pipe(map(mapAuthSessionFromDto));
   }
 

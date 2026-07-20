@@ -1,5 +1,5 @@
 import { User, UserRole } from '@core/models';
-import { MockHandler, badRequest, ok, unauthorized } from '../mock-types';
+import { MockHandler, badRequest, conflict, created, ok, unauthorized } from '../mock-types';
 
 interface CheckEmailBody {
   email?: string;
@@ -13,6 +13,21 @@ interface LoginBody {
   email?: string;
   password?: string;
   role?: UserRole;
+}
+
+interface RegisterBody {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  password?: string;
+}
+
+interface OnboardingBody {
+  email?: string;
+  businessName?: string;
+  nationalId?: string;
+  acceptedTerms?: boolean;
 }
 
 interface SendCodeBody {
@@ -123,6 +138,68 @@ export const handleAuth: MockHandler = (ctx) => {
     if (user.registrationComplete === false) {
       return unauthorized('Registration is not complete for this account.');
     }
+
+    return ok({ token: `mock-token-${user.id}-${Date.now()}`, user });
+  }
+
+  if (ctx.method === 'POST' && ctx.segments[1] === 'register') {
+    const { firstName, lastName, email, phone, password } = (ctx.body ?? {}) as RegisterBody;
+    if (!firstName || !lastName || !email || !phone || !password) {
+      return badRequest('All fields are required.');
+    }
+
+    const normalised = email.toLowerCase();
+    const clash = ctx.store.users.some(
+      (user) => user.email.toLowerCase() === normalised && user.role === 'contractor',
+    );
+    if (clash) {
+      return conflict('An account already exists for this email.');
+    }
+
+    const id = nextId('user-contractor');
+    ctx.store.users.push({
+      id,
+      role: 'contractor',
+      firstName,
+      lastName,
+      email,
+      phone,
+      createdAt: new Date().toISOString(),
+      // Registered but not yet onboarded — sign-in blocks this until the
+      // contractor wizard completes, exactly as the legacy flags did.
+      status: 'inactive',
+      registrationComplete: false,
+    });
+    // Only set when the address is new to the credential map: an existing
+    // beneficiary re-registering as a contractor keeps their current password.
+    ctx.store.credentials[normalised] ??= { password, userId: id };
+
+    return created({ userId: id });
+  }
+
+  if (ctx.method === 'POST' && ctx.segments[1] === 'contractor-onboarding') {
+    const { email, businessName, nationalId, acceptedTerms } = (ctx.body ?? {}) as OnboardingBody;
+
+    if (!email || !businessName || !nationalId) {
+      return badRequest('Business and identity details are required.');
+    }
+    // Enforced server-side as well: the checkbox is a UI affordance, the record
+    // of consent is what matters.
+    if (acceptedTerms !== true) {
+      return badRequest('The declaration must be accepted.');
+    }
+
+    const normalised = email.toLowerCase();
+    const user = ctx.store.users.find(
+      (candidate) => candidate.email.toLowerCase() === normalised && candidate.role === 'contractor',
+    );
+    if (!user) {
+      return unauthorized('No contractor account for this email.');
+    }
+
+    // Completing onboarding is what lifts the block sign-in enforces.
+    user.registrationComplete = true;
+    user.status = 'active';
 
     return ok({ token: `mock-token-${user.id}-${Date.now()}`, user });
   }

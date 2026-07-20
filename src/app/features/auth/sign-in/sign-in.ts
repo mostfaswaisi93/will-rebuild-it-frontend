@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, of, startWith, switchMap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import {
@@ -69,8 +69,11 @@ export class SignIn {
   private readonly toast = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
+  /** Registration hands the new address over so it isn't retyped here. */
+  private readonly prefilledEmail = inject(ActivatedRoute).snapshot.queryParamMap.get('email') ?? '';
+
   protected readonly form = new FormGroup({
-    email: new FormControl('', {
+    email: new FormControl(this.prefilledEmail.trim(), {
       nonNullable: true,
       validators: [Validators.required, Validators.pattern(EMAIL_PATTERN)],
     }),
@@ -101,6 +104,7 @@ export class SignIn {
   /** null while the address is unparseable, in flight, or the lookup failed. */
   private readonly lookup = toSignal(
     this.form.controls.email.valueChanges.pipe(
+      startWith(this.form.controls.email.value),
       debounceTime(400),
       map((value) => value.trim()),
       distinctUntilChanged(),

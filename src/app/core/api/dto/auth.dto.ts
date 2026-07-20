@@ -1,4 +1,12 @@
-import { AccountStatus, AuthSession, User, UserRole } from '@core/models';
+import {
+  AccountStatus,
+  AuthSession,
+  BusinessType,
+  ContractorTrade,
+  GazaGovernorate,
+  User,
+  UserRole,
+} from '@core/models';
 
 export interface UserDto {
   id: string;
@@ -37,6 +45,24 @@ export interface AccountRoleDto {
 
 export interface EmailLookupResponseDto {
   accounts: AccountRoleDto[];
+}
+
+/** Payload the contractor onboarding wizard submits on its final step. */
+export interface ContractorOnboardingDto {
+  email: string;
+  businessName: string;
+  businessType: BusinessType | '';
+  registrationNumber: string;
+  trades: ContractorTrade[];
+  nationalId: string;
+  dateOfBirth: string;
+  governorate: GazaGovernorate | '';
+  area: string;
+  streetAddress: string;
+  contactPhone: string;
+  latitude: number | null;
+  longitude: number | null;
+  acceptedTerms: boolean;
 }
 
 export function mapUserFromDto(dto: UserDto): User {

@@ -1,0 +1,121 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.onboarding.confirm.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.onboarding.confirm.subtitle' | translate }}</p>
+
+@if (business(); as biz) {
+  <section class="mt-6 rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'auth.onboarding.business.title' | translate }}
+    </h2>
+    <dl class="mt-2 space-y-1.5 text-sm">
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.business.name' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900">{{ biz.businessName }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.business.type' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900">
+          {{ 'businessTypes.' + biz.businessType | translate }}
+        </dd>
+      </div>
+      @if (biz.registrationNumber) {
+        <div class="flex justify-between gap-3">
+          <dt class="text-ink-500">
+            {{ 'auth.onboarding.business.registrationNumber' | translate }}
+          </dt>
+          <dd class="text-end font-medium text-ink-900" dir="ltr">{{ biz.registrationNumber }}</dd>
+        </div>
+      }
+      <div class="flex justify-between gap-3">
+        <dt class="shrink-0 text-ink-500">{{ 'auth.onboarding.business.trades' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900">
+          @for (trade of biz.trades; track trade) {
+            <span class="inline-block">
+              {{ 'trades.' + trade | translate }}@if (!$last) {<span>،</span>}
+            </span>
+          }
+        </dd>
+      </div>
+    </dl>
+  </section>
+}
+
+@if (identity(); as id) {
+  <section class="mt-3 rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'auth.onboarding.identity.title' | translate }}
+    </h2>
+    <dl class="mt-2 space-y-1.5 text-sm">
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.identity.nationalId' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900" dir="ltr">{{ id.nationalId }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.identity.dateOfBirth' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900" dir="ltr">{{ id.dateOfBirth }}</dd>
+      </div>
+    </dl>
+  </section>
+}
+
+@if (location(); as loc) {
+  <section class="mt-3 rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'auth.onboarding.location.title' | translate }}
+    </h2>
+    <dl class="mt-2 space-y-1.5 text-sm">
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.location.governorate' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900">
+          {{ 'governorates.' + loc.governorate | translate }}
+        </dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.location.area' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900">{{ loc.area }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.location.streetAddress' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900">{{ loc.streetAddress }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'auth.onboarding.location.contactPhone' | translate }}</dt>
+        <dd class="text-end font-medium text-ink-900" dir="ltr">{{ loc.contactPhone }}</dd>
+      </div>
+    </dl>
+  </section>
+}
+
+<div class="mt-4">
+  <label class="flex items-start gap-2 text-sm text-ink-700">
+    <input
+      type="checkbox"
+      [formControl]="acceptedTerms"
+      class="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+    />
+    {{ 'auth.onboarding.confirm.declaration' | translate }}
+  </label>
+
+  @if (submitted() && acceptedTerms.invalid) {
+    <p class="mt-1 text-sm text-danger">
+      {{ 'auth.onboarding.confirm.declarationRequired' | translate }}
+    </p>
+  }
+</div>
+
+<div class="mt-6 flex items-center gap-3">
+  <button
+    type="button"
+    (click)="back()"
+    class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+  >
+    {{ 'common.previous' | translate }}
+  </button>
+  <button
+    type="button"
+    (click)="submit()"
+    [disabled]="submitting()"
+    class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {{ (submitting() ? 'common.loading' : 'auth.onboarding.confirm.submit') | translate }}
+  </button>
+</div>

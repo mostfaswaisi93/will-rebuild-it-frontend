@@ -1,0 +1,111 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.onboarding.business.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.onboarding.business.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <div>
+    <label for="businessName" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.business.name' | translate }}
+    </label>
+    <input
+      id="businessName"
+      type="text"
+      formControlName="businessName"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    />
+    @if (form.controls.businessName.touched && form.controls.businessName.invalid) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.nameRequired' | translate }}</p>
+    }
+  </div>
+
+  <div>
+    <label for="businessType" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.business.type' | translate }}
+    </label>
+    <select
+      id="businessType"
+      formControlName="businessType"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    >
+      <option value="">{{ 'auth.onboarding.business.typePlaceholder' | translate }}</option>
+      @for (type of businessTypes; track type) {
+        <option [value]="type">{{ 'businessTypes.' + type | translate }}</option>
+      }
+    </select>
+    @if (form.controls.businessType.touched && form.controls.businessType.invalid) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.typeRequired' | translate }}</p>
+    }
+  </div>
+
+  @if (registrationRequired()) {
+    <div>
+      <label for="registrationNumber" class="block text-sm font-medium text-ink-700">
+        {{ 'auth.onboarding.business.registrationNumber' | translate }}
+      </label>
+      <input
+        id="registrationNumber"
+        type="text"
+        inputmode="numeric"
+        formControlName="registrationNumber"
+        dir="ltr"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      <p class="mt-1 text-xs text-ink-500">
+        {{ 'auth.onboarding.business.registrationHint' | translate }}
+      </p>
+      @if (form.controls.registrationNumber.touched && form.controls.registrationNumber.invalid) {
+        <p class="mt-1 text-sm text-danger">
+          {{ 'auth.onboarding.business.registrationRequired' | translate }}
+        </p>
+      }
+    </div>
+  }
+
+  <fieldset>
+    <legend class="text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.business.trades' | translate }}
+    </legend>
+    <p class="mt-0.5 text-xs text-ink-500">
+      {{ 'auth.onboarding.business.tradesHint' | translate }}
+    </p>
+
+    <div class="mt-2 grid gap-2 sm:grid-cols-2">
+      @for (trade of allTrades; track trade) {
+        <label
+          class="flex cursor-pointer items-center gap-2 rounded-card border p-3 text-sm transition-colors"
+          [class]="
+            isTradeSelected(trade)
+              ? 'border-brand-500 bg-brand-50 text-ink-900'
+              : 'border-ink-300 bg-surface text-ink-700 hover:border-brand-300'
+          "
+        >
+          <input
+            type="checkbox"
+            [checked]="isTradeSelected(trade)"
+            (change)="toggleTrade(trade)"
+            class="size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+          />
+          {{ 'trades.' + trade | translate }}
+        </label>
+      }
+    </div>
+
+    @if (submitted() && tradesInvalid()) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.tradesRequired' | translate }}</p>
+    }
+  </fieldset>
+
+  <div class="flex items-center gap-3 pt-2">
+    <a
+      routerLink="/auth/sign-in"
+      class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'common.back' | translate }}
+    </a>
+    <button
+      type="submit"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+    >
+      {{ 'common.next' | translate }}
+    </button>
+  </div>
+</form>

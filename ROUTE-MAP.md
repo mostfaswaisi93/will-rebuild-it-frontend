@@ -41,19 +41,47 @@
 | 4 | `new-login-page` (`FrgtPswdOTPPage`) | `/auth/forgot-password/verify` | ✅ |
 | 5 | `new-login-page` (`PswConfirmationPage`) | `/auth/forgot-password/reset` | ✅ |
 | 6 | `new-login-page` (`validateCustPswUpdate`) | `/auth/activate/*` | ✅ |
-| 7 | `auth/sign-up` | `/auth/register` | ⬜ |
+| 7 | `auth/sign-up` | `/auth/register` | ✅ |
 | 8 | `auth/forgot-password` (القديم غير المستخدم) | مدموج في 2–5 | ✅ |
 
 > **بنية تدفّق الاستعادة/التفعيل:** المساران `/auth/forgot-password` و`/auth/activate`
 > يشتركان في نفس الخطوات الأربع ولا يختلفان إلا في `data.intent` والخطوة الأخيرة.
 > الحالة محفوظة في `PasswordResetFlow` المُوفَّر على مستوى **المسار** (لا المكوّن)،
 > لأن الـ guards تعمل قبل إنشاء أي مكوّن. رمز التحقق التجريبي: `123456`.
-| 9 | `registrations/proregistration` | `/auth/contractor-register` | ⬜ |
+| 9 | `registrations/proregistration` | `/auth/contractor-register/*` (٤ خطوات) | ✅ |
 | 10 | `registrations/proregistration2/:loginId/:emailId/:dataChecking` | `/auth/contractor-register/:step` | ⬜ |
-| 11 | `registrations/proregistrationlead/...` | `/auth/contractor-register/leadgen` | ⬜ |
+| 11 | `registrations/proregistrationlead/...` (`lead-registration2`) | `/auth/contractor-register/leadgen` | ⬜ |
 | 12 | `registrations/leadgeneration` | `/auth/beneficiary-register` | ⬜ |
-| 13 | `registrations/map/:loginId` | `/auth/register/service-area` | ⬜ |
+| 13 | `registrations/map/:loginId` (+ `map1`) | `/auth/register/service-area` | ⬜ |
 | 14 | `registrations/topprozConfirmation/:mode/:proId/:loginId/:emailId` | `/auth/register/confirmation` | ⬜ |
+| 15 | `registrations/pro-registration3` | مدموج في 10 | ⬜ |
+
+### ⚠️ حجم المتبقّي من المرحلة 1
+
+معالِج التسجيل في المشروع القديم ضخم — **≈23,000 سطر** موزّعة كالتالي
+(TS + HTML، بدون spec):
+
+| المكوّن | الأسطر |
+|---|---:|
+| `pro-registration2` | 5,135 |
+| `lead-generation` | 5,000 |
+| `lead-registration2` | 4,738 |
+| `pro-registration` | 3,864 |
+| `map1` | 2,135 |
+| ~~`map`~~ | ~~1,760~~ ❌ كود ميت |
+| `pro-registration3` | 324 |
+| `topproz-confirmation` | 138 |
+| **الإجمالي** | **≈23,094** |
+
+**اكتشاف:** `registrations/map/` (1,760 سطرًا) **كود ميت** — غير مُصرَّح به في
+`registrations.module.ts` وغير مستورد في أي مكان. النسخة الحيّة هي `map1` فقط.
+لا يُرحَّل.
+
+للمقارنة: كل ما رُحِّل حتى الآن (٨ صفحات) كان مصدره ≈1,400 سطر. أي أن بقية
+المرحلة 1 وحدها أكبر بـ 16 مرة مما أُنجز، وتحتاج **جلسة مخصّصة لكل معالِج**.
+
+`topproz-confirmation` (14) صغيرة لكن زرّها الوحيد «متابعة» يفتح المعالِج،
+فبناؤها قبله يعني صفحة إجراؤها الأساسي معطّل — لذلك أُجّلت معه لا قبله.
 
 ---
 
