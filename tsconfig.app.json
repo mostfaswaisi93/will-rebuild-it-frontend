@@ -4,6 +4,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    /* TypeScript infers this from the common source directory today, but TS 6
+       requires it to be explicit (aka.ms/ts6). Stating it also keeps the output
+       layout stable if a file is ever added outside src/. */
+    "rootDir": "./src",
     "types": [
       "node"
     ]

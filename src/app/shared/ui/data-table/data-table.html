@@ -3,10 +3,7 @@
     @if (searchable()) {
       <label class="relative min-w-0 flex-1 sm:max-w-xs">
         <span class="sr-only">{{ 'common.search' | translate }}</span>
-        <lucide-search
-          class="pointer-events-none absolute inset-y-0 start-3 my-auto size-4 text-ink-500"
-          aria-hidden="true"
-        />
+        <svg lucideSearch [size]="16" class="pointer-events-none absolute inset-y-0 start-3 my-auto size-4 text-ink-500" aria-hidden="true"></svg>
         <input
           type="search"
           [value]="query()"
@@ -30,7 +27,7 @@
             [attr.aria-expanded]="columnsMenuOpen()"
             class="inline-flex items-center gap-1.5 rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           >
-            <lucide-settings-2 class="size-4" aria-hidden="true" />
+            <svg lucideSettings2 [size]="16" class="size-4" aria-hidden="true"></svg>
             <span class="hidden sm:inline">{{ 'table.columns' | translate }}</span>
           </button>
 
@@ -62,7 +59,7 @@
           (click)="exportCsv()"
           class="inline-flex items-center gap-1.5 rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         >
-          <lucide-download class="size-4" aria-hidden="true" />
+          <svg lucideDownload [size]="16" class="size-4" aria-hidden="true"></svg>
           <span class="hidden sm:inline">{{ 'table.export' | translate }}</span>
         </button>
       }
@@ -175,13 +172,13 @@
                   <span>{{ column.headerKey | translate }}</span>
                   @switch (sortStateFor(column.key)) {
                     @case ('asc') {
-                      <lucide-chevron-up class="size-3.5 text-brand-500" aria-hidden="true" />
+                      <svg lucideChevronUp [size]="14" class="size-3.5 text-brand-500" aria-hidden="true"></svg>
                     }
                     @case ('desc') {
-                      <lucide-chevron-down class="size-3.5 text-brand-500" aria-hidden="true" />
+                      <svg lucideChevronDown [size]="14" class="size-3.5 text-brand-500" aria-hidden="true"></svg>
                     }
                     @default {
-                      <lucide-arrow-down-up class="size-3.5 opacity-40" aria-hidden="true" />
+                      <svg lucideArrowDownUp [size]="14" class="size-3.5 opacity-40" aria-hidden="true"></svg>
                     }
                   }
                 </button>

@@ -8,10 +8,7 @@
       {{ 'auth.signIn.email' | translate }}
     </label>
     <div class="relative mt-1">
-      <lucide-mail
-        class="pointer-events-none absolute inset-y-0 start-3 my-auto size-4 text-ink-500"
-        aria-hidden="true"
-      />
+      <svg lucideMail [size]="16" class="pointer-events-none absolute inset-y-0 start-3 my-auto size-4 text-ink-500" aria-hidden="true"></svg>
       <input
         id="email"
         type="email"
@@ -24,15 +21,9 @@
       />
 
       @if (knownEmail()) {
-        <lucide-check-circle-2
-          class="absolute inset-y-0 end-3 my-auto size-4 text-brand-500"
-          aria-hidden="true"
-        />
+        <svg lucideCheckCircle2 [size]="16" class="absolute inset-y-0 end-3 my-auto size-4 text-brand-500" aria-hidden="true"></svg>
       } @else if (unknownEmail()) {
-        <lucide-x-circle
-          class="absolute inset-y-0 end-3 my-auto size-4 text-danger"
-          aria-hidden="true"
-        />
+        <svg lucideXCircle [size]="16" class="absolute inset-y-0 end-3 my-auto size-4 text-danger" aria-hidden="true"></svg>
       }
     </div>
 
@@ -124,9 +115,9 @@
         "
       >
         @if (showPassword()) {
-          <lucide-eye-off class="size-4" aria-hidden="true" />
+          <svg lucideEyeOff [size]="16" class="size-4" aria-hidden="true"></svg>
         } @else {
-          <lucide-eye class="size-4" aria-hidden="true" />
+          <svg lucideEye [size]="16" class="size-4" aria-hidden="true"></svg>
         }
       </button>
     </div>

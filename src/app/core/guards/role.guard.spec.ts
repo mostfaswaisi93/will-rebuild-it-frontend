@@ -10,7 +10,7 @@ import { User, UserRole } from '@core/models';
 import { SessionStore } from '../session/session-store.service';
 import { roleGuard } from './role.guard';
 
-const STORAGE_KEY = 'grp-session';
+const STORAGE_KEY = 'wri-session';
 
 const userWithRole = (role: UserRole): User => ({
   id: `u-${role}`,

@@ -308,7 +308,7 @@ export class DataTable<T> {
       columns.map((column) => this.csvCell(column.cell(row))).join(','),
     );
     // Excel only reads a UTF-8 CSV as Arabic if it starts with a BOM.
-    const csv = `﻿${[header.join(','), ...body].join('\r\n')}`;
+    const csv = `\uFEFF${[header.join(','), ...body].join('\r\n')}`;
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');

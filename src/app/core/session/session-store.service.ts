@@ -2,7 +2,7 @@ import { Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core
 import { isPlatformBrowser } from '@angular/common';
 import { User, UserRole } from '@core/models';
 
-const STORAGE_KEY = 'grp-session';
+const STORAGE_KEY = 'wri-session';
 
 export interface StoredSession {
   token: string;

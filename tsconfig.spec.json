@@ -4,6 +4,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
+    /* Same TS 6 requirement as tsconfig.app.json — see the note there. */
+    "rootDir": "./src",
     "types": [
       "jasmine"
     ]

@@ -10,7 +10,7 @@ import { User } from '@core/models';
 import { SessionStore } from '../session/session-store.service';
 import { authGuard } from './auth.guard';
 
-const STORAGE_KEY = 'grp-session';
+const STORAGE_KEY = 'wri-session';
 
 const BENEFICIARY: User = {
   id: 'u-1',

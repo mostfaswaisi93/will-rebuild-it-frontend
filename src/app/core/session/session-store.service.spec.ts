@@ -3,7 +3,7 @@ import { User } from '@core/models';
 import { SessionStore, StoredSession } from './session-store.service';
 
 /** Must match `STORAGE_KEY` in session-store.service.ts. */
-const STORAGE_KEY = 'grp-session';
+const STORAGE_KEY = 'wri-session';
 
 const DONOR: User = {
   id: 'u-donor-1',

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { SessionStore } from './session-store.service';
 
-const STORAGE_KEY = 'grp-session';
+const STORAGE_KEY = 'wri-session';
 
 /**
  * Guards a real defect: `JSON.parse` succeeding is not the same as the stored

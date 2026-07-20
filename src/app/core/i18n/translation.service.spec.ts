@@ -13,30 +13,32 @@ describe('TranslationService', () => {
   let service: TranslationService;
 
   beforeEach(() => {
-    localStorage.removeItem('grp-locale');
+    localStorage.removeItem('wri-locale');
     TestBed.configureTestingModule({
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
     service = TestBed.inject(TranslationService);
   });
 
-  it('defaults to English', () => {
-    expect(service.locale()).toBe('en');
-    expect(service.isRtl()).toBeFalse();
-  });
-
-  it('marks Arabic as RTL', () => {
-    service.setLocale('ar');
+  // Arabic is the portal's primary locale — beneficiaries, contractors and
+  // field staff all work in it. English is the secondary, for donors/partners.
+  it('defaults to Arabic, in RTL', () => {
     expect(service.locale()).toBe('ar');
     expect(service.isRtl()).toBeTrue();
   });
 
-  it('toggles between the two locales', () => {
+  it('marks English as LTR', () => {
+    service.setLocale('en');
     expect(service.locale()).toBe('en');
-    service.toggleLocale();
+    expect(service.isRtl()).toBeFalse();
+  });
+
+  it('toggles between the two locales', () => {
     expect(service.locale()).toBe('ar');
     service.toggleLocale();
     expect(service.locale()).toBe('en');
+    service.toggleLocale();
+    expect(service.locale()).toBe('ar');
   });
 
   it('falls back to the key when the dictionary has no entry', () => {
