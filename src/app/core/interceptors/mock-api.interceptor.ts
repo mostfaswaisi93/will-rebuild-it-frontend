@@ -6,6 +6,7 @@ import { environment } from '@env/environment';
 import { MockStore } from '../mock/mock-store.service';
 import { MockRequestContext } from '../mock/mock-types';
 import { handleAuth } from '../mock/handlers/auth.handler';
+import { handleDashboard } from '../mock/handlers/dashboard.handler';
 import { handleMaster } from '../mock/handlers/master.handler';
 import { handleRequests } from '../mock/handlers/requests.handler';
 import { handleProjects } from '../mock/handlers/projects.handler';
@@ -22,6 +23,7 @@ import { handleReviews } from '../mock/handlers/reviews.handler';
 
 const handlers = [
   handleAuth,
+  handleDashboard,
   handleMaster,
   handleRequests,
   handleProjects,

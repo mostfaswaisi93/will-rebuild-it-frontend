@@ -10,11 +10,26 @@ const BUSINESS = {
   trades: ['generalConstruction' as const],
 };
 const IDENTITY = { nationalId: '999999998', dateOfBirth: '1990-05-10' };
+const CAPACITY = {
+  employeeCount: 12,
+  vehicleCount: 3,
+  foundedYear: 2015,
+  summary: 'خبرة في ترميم المباني السكنية.',
+};
+const CREDENTIALS = {
+  licences: [{ name: 'نقابة المقاولين', number: 'GC-4471', expiresOn: '2030-01-01' }],
+  isInsured: true,
+  hasPerformanceBond: true,
+  offersWarranty: false,
+  freeEstimates: true,
+  acceptsBankTransfer: true,
+};
 const LOCATION = {
   governorate: 'gazaCity' as const,
   area: 'الرمال',
   streetAddress: 'شارع عمر المختار',
   contactPhone: '+970598334455',
+  servedGovernorates: ['gazaCity' as const, 'northGaza' as const],
   latitude: null,
   longitude: null,
 };
@@ -40,6 +55,14 @@ describe('OnboardingFlow', () => {
 
     flow.setLocation(LOCATION);
     expect(flow.hasLocation()).toBeTrue();
+    expect(flow.hasCapacity()).toBeFalse();
+
+    flow.setCapacity(CAPACITY);
+    expect(flow.hasCapacity()).toBeTrue();
+    expect(flow.hasCredentials()).toBeFalse();
+
+    flow.setCredentials(CREDENTIALS);
+    expect(flow.hasCredentials()).toBeTrue();
   });
 
   it('treats a later step as unreachable while an earlier one is missing', () => {
@@ -48,12 +71,15 @@ describe('OnboardingFlow', () => {
     flow.setIdentity(IDENTITY);
     expect(flow.hasIdentity()).toBeFalse();
     expect(flow.hasLocation()).toBeFalse();
+    expect(flow.hasCredentials()).toBeFalse();
   });
 
   it('clears everything on reset', () => {
     flow.setBusiness(BUSINESS);
     flow.setIdentity(IDENTITY);
     flow.setLocation(LOCATION);
+    flow.setCapacity(CAPACITY);
+    flow.setCredentials(CREDENTIALS);
 
     flow.reset();
 
@@ -65,7 +91,7 @@ describe('OnboardingFlow', () => {
 describe('onboardingStepGuard', () => {
   let flow: OnboardingFlow;
 
-  function run(step: 'identity' | 'location' | 'confirm') {
+  function run(step: 'identity' | 'location' | 'capacity' | 'credentials' | 'confirm') {
     return TestBed.runInInjectionContext(() =>
       // The guard reads neither argument; the router state is irrelevant here.
       (onboardingStepGuard(step) as unknown as () => boolean | UrlTree)(),
@@ -94,6 +120,12 @@ describe('onboardingStepGuard', () => {
     expect(run('location')).toBeTrue();
 
     flow.setLocation(LOCATION);
+    expect(run('capacity')).toBeTrue();
+
+    flow.setCapacity(CAPACITY);
+    expect(run('credentials')).toBeTrue();
+
+    flow.setCredentials(CREDENTIALS);
     expect(run('confirm')).toBeTrue();
   });
 
@@ -103,5 +135,11 @@ describe('onboardingStepGuard', () => {
 
     flow.setIdentity(IDENTITY);
     expect(urlOf(run('confirm'))).toBe('/auth/contractor-register/location');
+
+    flow.setLocation(LOCATION);
+    expect(urlOf(run('confirm'))).toBe('/auth/contractor-register/capacity');
+
+    flow.setCapacity(CAPACITY);
+    expect(urlOf(run('confirm'))).toBe('/auth/contractor-register/credentials');
   });
 });

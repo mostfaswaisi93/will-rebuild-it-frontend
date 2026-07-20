@@ -1,0 +1,41 @@
+<app-page-header
+  [title]="'dashboard.staff.title' | translate"
+  [subtitle]="'dashboard.greeting' | translate: { name: greeting() }"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2">
+    <app-stat-card
+      labelKey="dashboard.staff.assignedProjects"
+      [value]="count(data()?.assignedProjects ?? 0)"
+      [icon]="icons.projects"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.staff.phasesInProgress"
+      [value]="count(data()?.phasesInProgress ?? 0)"
+      [icon]="icons.phases"
+      tone="sand"
+      [loading]="loading()"
+    />
+  </section>
+
+  <section class="mt-6">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'dashboard.staff.onSite' | translate }}
+    </h2>
+    <div class="mt-2">
+      <app-data-table
+        [columns]="projectColumns"
+        [rows]="projects()"
+        [loading]="loading()"
+        [rowId]="trackProject"
+      />
+    </div>
+  </section>
+}

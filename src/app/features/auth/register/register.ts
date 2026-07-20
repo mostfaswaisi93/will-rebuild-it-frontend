@@ -91,10 +91,11 @@ export class Register {
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => {
+        next: ({ userId }) => {
           this.submitting.set(false);
-          this.toast.success('auth.register.success');
-          void this.router.navigate(['/auth/sign-in'], { queryParams: { email: email.trim() } });
+          void this.router.navigate(['/auth/registered'], {
+            queryParams: { email: email.trim(), ref: userId },
+          });
         },
         error: (error: HttpErrorResponse) => {
           this.submitting.set(false);

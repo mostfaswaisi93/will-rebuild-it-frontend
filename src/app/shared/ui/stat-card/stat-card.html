@@ -1,0 +1,24 @@
+<div class="rounded-card border border-ink-300 bg-surface p-4">
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0">
+      @if (loading()) {
+        <div class="h-8 w-20 animate-pulse rounded bg-ink-300/40"></div>
+      } @else {
+        <p class="text-2xl font-bold tabular-nums text-ink-900">{{ value() }}</p>
+      }
+      <p class="mt-1 text-sm text-ink-500">{{ labelKey() | translate }}</p>
+      @if (hint(); as hintText) {
+        <p class="mt-0.5 text-xs text-ink-500">{{ hintText }}</p>
+      }
+    </div>
+
+    @if (icon(); as iconRef) {
+      <span
+        class="flex size-9 shrink-0 items-center justify-center rounded-card"
+        [class]="iconClasses()"
+      >
+        <svg [lucideIcon]="iconRef" [size]="18" aria-hidden="true"></svg>
+      </span>
+    }
+  </div>
+</div>

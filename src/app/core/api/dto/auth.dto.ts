@@ -60,6 +60,7 @@ export interface ContractorOnboardingDto {
   area: string;
   streetAddress: string;
   contactPhone: string;
+  servedGovernorates: GazaGovernorate[];
   latitude: number | null;
   longitude: number | null;
   employeeCount: number | null;

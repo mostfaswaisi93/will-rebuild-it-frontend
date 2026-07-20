@@ -77,6 +77,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/auth/register/register').then((m) => m.Register),
       },
       {
+        path: 'registered',
+        loadComponent: () =>
+          import('./features/auth/register/registered/registered').then((m) => m.Registered),
+      },
+      {
         // Same reason as the reset flow: the step guards resolve the flow
         // service before any component is created, so it is provided here.
         path: 'contractor-register',

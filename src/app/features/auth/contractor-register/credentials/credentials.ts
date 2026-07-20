@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { LucidePlus, LucideTrash2 } from '@lucide/angular';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { futureDateValidator } from '@shared/validators/date.validators';
-import { TradeLicence } from '../onboarding-flow.service';
-import { OnboardingFlow } from '../onboarding-flow.service';
+import { OnboardingFlow, TradeLicence } from '../onboarding-flow.service';
 
 function licenceGroup(licence?: TradeLicence) {
   return new FormGroup({

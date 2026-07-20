@@ -1,0 +1,87 @@
+<app-page-header
+  [title]="'dashboard.admin.title' | translate"
+  [subtitle]="'dashboard.greeting' | translate: { name: greeting() }"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <app-stat-card
+      labelKey="dashboard.admin.activeProjects"
+      [value]="count(data()?.activeProjects ?? 0)"
+      [icon]="icons.projects"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.admin.openRequests"
+      [value]="count(data()?.openRequests ?? 0)"
+      [icon]="icons.requests"
+      tone="sand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.admin.contractors"
+      [value]="count(data()?.registeredContractors ?? 0)"
+      [icon]="icons.contractors"
+      tone="neutral"
+      [hint]="
+        (data()?.pendingContractors ?? 0) > 0
+          ? ('dashboard.admin.pendingContractors' | translate: { count: data()?.pendingContractors })
+          : undefined
+      "
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.admin.disbursed"
+      [value]="money(data()?.disbursedTotal ?? 0, data()?.currency ?? 'USD')"
+      [icon]="icons.funds"
+      tone="brand"
+      [hint]="
+        'dashboard.admin.outstanding'
+          | translate: { amount: money(data()?.outstandingTotal ?? 0, data()?.currency ?? 'USD') }
+      "
+      [loading]="loading()"
+    />
+  </section>
+
+  @if (activePhases().length > 0) {
+    <section class="mt-6">
+      <h2 class="text-sm font-semibold text-ink-900">
+        {{ 'dashboard.admin.byPhase' | translate }}
+      </h2>
+      <ul class="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        @for (phase of activePhases(); track phase.phaseKey) {
+          <li
+            class="flex items-center justify-between gap-3 rounded-card border border-ink-300 bg-surface px-4 py-3"
+          >
+            <span class="min-w-0 truncate text-sm text-ink-700">
+              {{ 'project.phase.' + phase.phaseKey | translate }}
+            </span>
+            <span class="shrink-0 text-lg font-bold tabular-nums text-ink-900">
+              {{ count(phase.count) }}
+            </span>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  <section class="mt-6">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'dashboard.admin.recentRequests' | translate }}
+    </h2>
+    <div class="mt-2">
+      <app-data-table
+        [columns]="requestColumns"
+        [rows]="recentRequests()"
+        [loading]="loading()"
+        [rowId]="trackRequest"
+        [rowLink]="undefined"
+      />
+    </div>
+  </section>
+}

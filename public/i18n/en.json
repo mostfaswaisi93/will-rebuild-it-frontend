@@ -317,7 +317,11 @@
         "streetAddress": "Street address",
         "streetAddressRequired": "Please enter the street address",
         "contactPhone": "Work enquiries number",
-        "contactPhoneHint": "The number that receives new reconstruction requests."
+        "contactPhoneHint": "The number that receives new reconstruction requests.",
+        "serviceArea": "Service areas",
+        "serviceAreaHint": "Governorates you will take projects in. Your home governorate is selected automatically.",
+        "serviceAreaRequired": "Please select at least one service area",
+        "homeArea": "Home base"
       },
       "confirm": {
         "title": "Review and submit",
@@ -365,6 +369,15 @@
         "freeEstimates": "Cost estimates are free",
         "acceptsBankTransfer": "I accept payment by bank transfer"
       }
+    },
+    "registered": {
+      "title": "Your account is created",
+      "subtitle": "One step remains before you can receive reconstruction requests.",
+      "signInWith": "Sign in with",
+      "reference": "Reference number",
+      "nextStep": "Your account stays inactive until you complete the company profile — your details, licences and service areas.",
+      "proceed": "Complete company profile",
+      "later": "Later, back to sign in"
     }
   },
   "requests": {

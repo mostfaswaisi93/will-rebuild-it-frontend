@@ -16,12 +16,18 @@ export interface IdentityDetails {
 }
 
 export interface LocationDetails {
+  /** Where the business is based. */
   governorate: GazaGovernorate | '';
   /** Neighbourhood / area within the governorate. */
   area: string;
   streetAddress: string;
   /** Number that receives new reconstruction requests. */
   contactPhone: string;
+  /**
+   * Governorates the contractor will actually take work in — the legacy
+   * `serviceArea`. Always includes the home governorate.
+   */
+  servedGovernorates: GazaGovernorate[];
   latitude: number | null;
   longitude: number | null;
 }

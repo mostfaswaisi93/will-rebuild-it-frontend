@@ -1,0 +1,55 @@
+<app-page-header
+  [title]="'dashboard.contractor.title' | translate"
+  [subtitle]="'dashboard.greeting' | translate: { name: greeting() }"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <app-stat-card
+      labelKey="dashboard.contractor.assignedProjects"
+      [value]="count(data()?.assignedProjects ?? 0)"
+      [icon]="icons.projects"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.contractor.pendingEstimates"
+      [value]="count(data()?.pendingEstimates ?? 0)"
+      [icon]="icons.estimates"
+      tone="sand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.contractor.openRequests"
+      [value]="count(data()?.openRequests ?? 0)"
+      [icon]="icons.requests"
+      tone="neutral"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.contractor.outstanding"
+      [value]="money(data()?.outstandingAmount ?? 0, data()?.currency ?? 'USD')"
+      [icon]="icons.funds"
+      tone="brand"
+      [loading]="loading()"
+    />
+  </section>
+
+  <section class="mt-6">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'dashboard.contractor.activeProjects' | translate }}
+    </h2>
+    <div class="mt-2">
+      <app-data-table
+        [columns]="projectColumns"
+        [rows]="projects()"
+        [loading]="loading()"
+        [rowId]="trackProject"
+      />
+    </div>
+  </section>
+}

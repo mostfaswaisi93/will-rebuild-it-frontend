@@ -82,6 +82,20 @@ export type ComplaintStatus = (typeof COMPLAINT_STATUSES)[number];
 export const GAZA_GOVERNORATES = ['northGaza', 'gazaCity', 'deirAlBalah', 'khanYounis', 'rafah'] as const;
 export type GazaGovernorate = (typeof GAZA_GOVERNORATES)[number];
 
+/**
+ * Approximate centroid per governorate, for centring a map on a chosen area.
+ * Service coverage is recorded per governorate, not as a precise pin, so these
+ * only ever drive the map view — never a stored address.
+ */
+export const GOVERNORATE_CENTROIDS: Readonly<Record<GazaGovernorate, { lat: number; lng: number }>> =
+  {
+    northGaza: { lat: 31.5417, lng: 34.5035 },
+    gazaCity: { lat: 31.5069, lng: 34.456 },
+    deirAlBalah: { lat: 31.4181, lng: 34.3512 },
+    khanYounis: { lat: 31.3444, lng: 34.3063 },
+    rafah: { lat: 31.2968, lng: 34.2435 },
+  };
+
 export const CURRENCY = 'USD';
 
 /**

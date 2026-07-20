@@ -43,18 +43,30 @@
 | 6 | `new-login-page` (`validateCustPswUpdate`) | `/auth/activate/*` | ✅ |
 | 7 | `auth/sign-up` | `/auth/register` | ✅ |
 | 8 | `auth/forgot-password` (القديم غير المستخدم) | مدموج في 2–5 | ✅ |
+| 9 | `registrations/proregistration` | `/auth/contractor-register/*` (خطوات ١–٤) | ✅ |
+| 10 | `registrations/proregistration2/...` (مسار VANLYNK) | مؤجّل — انظر أدناه | ⬜ |
+| 11 | `registrations/proregistrationlead/...` (`lead-registration2`) | `/auth/contractor-register/*` (خطوتا ٥–٦) | ✅ |
+| 12 | `registrations/leadgeneration` | ليس تسجيلًا — انظر أدناه (المرحلة ٤) | ⬜ |
+| 13 | `registrations/map/:loginId` (`map1`) | مدموج في خطوة الموقع — «مناطق العمل» | ✅ |
+| 14 | `registrations/topprozConfirmation/...` | `/auth/registered` | ✅ |
+| 15 | `registrations/pro-registration3` | مدموج في 10 | ⬜ |
 
 > **بنية تدفّق الاستعادة/التفعيل:** المساران `/auth/forgot-password` و`/auth/activate`
 > يشتركان في نفس الخطوات الأربع ولا يختلفان إلا في `data.intent` والخطوة الأخيرة.
 > الحالة محفوظة في `PasswordResetFlow` المُوفَّر على مستوى **المسار** (لا المكوّن)،
 > لأن الـ guards تعمل قبل إنشاء أي مكوّن. رمز التحقق التجريبي: `123456`.
-| 9 | `registrations/proregistration` | `/auth/contractor-register/*` (٤ خطوات) | ✅ |
-| 10 | `registrations/proregistration2/:loginId/:emailId/:dataChecking` | `/auth/contractor-register/:step` | ⬜ |
-| 11 | `registrations/proregistrationlead/...` (`lead-registration2`) | `/auth/contractor-register/leadgen` | ⬜ |
-| 12 | `registrations/leadgeneration` | `/auth/beneficiary-register` | ⬜ |
-| 13 | `registrations/map/:loginId` (+ `map1`) | `/auth/register/service-area` | ⬜ |
-| 14 | `registrations/topprozConfirmation/:mode/:proId/:loginId/:emailId` | `/auth/register/confirmation` | ⬜ |
-| 15 | `registrations/pro-registration3` | مدموج في 10 | ⬜ |
+
+> **لماذا `lead-registration2` أولًا؟** صفحة الدخول الحيّة (`new-login-page`) توجّه
+> إلى `proregistrationlead` **مرّتين ولا توجّه إلى `proregistration2` إطلاقًا**.
+> مجموع نقاط الاستدعاء: ٨ لـ `lead-registration2` مقابل ٣ لـ `pro-registration2`.
+
+> **`lead-generation` ليس نسخة ثالثة من تسجيل المقاول.** يُستدعى من `leadgen-home`
+> و`pro-public-profile` — أي أنه **طلب خدمة يقدّمه المستفيد**، كيان مختلف ينتمي
+> إلى المرحلة ٤ (طلبات الإعمار) لا إلى المرحلة ١.
+
+> **تدفّق المقاول الكامل الآن:** `/auth/register` ← `/auth/registered` ←
+> `/auth/contractor-register` (٦ خطوات) ← لوحة المقاول. الحساب يبقى «معلّقًا»
+> ويرفضه تسجيل الدخول حتى تكتمل الخطوة السادسة.
 
 ### ⚠️ حجم المتبقّي من المرحلة 1
 

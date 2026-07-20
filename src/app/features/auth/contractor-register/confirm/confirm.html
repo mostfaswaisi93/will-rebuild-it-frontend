@@ -81,6 +81,18 @@
         <dt class="text-ink-500">{{ 'auth.onboarding.location.contactPhone' | translate }}</dt>
         <dd class="text-end font-medium text-ink-900" dir="ltr">{{ loc.contactPhone }}</dd>
       </div>
+      <div class="flex justify-between gap-3">
+        <dt class="shrink-0 text-ink-500">
+          {{ 'auth.onboarding.location.serviceArea' | translate }}
+        </dt>
+        <dd class="text-end font-medium text-ink-900">
+          @for (governorate of loc.servedGovernorates; track governorate) {
+            <span class="inline-block">
+              {{ 'governorates.' + governorate | translate }}@if (!$last) {<span>،</span>}
+            </span>
+          }
+        </dd>
+      </div>
     </dl>
   </section>
 }

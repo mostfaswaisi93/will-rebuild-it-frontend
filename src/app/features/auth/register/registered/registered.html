@@ -1,0 +1,47 @@
+<div class="text-center">
+  <svg
+    lucideCircleCheckBig
+    [size]="56"
+    class="mx-auto text-brand-500"
+    aria-hidden="true"
+  ></svg>
+
+  <h1 class="mt-4 text-2xl font-bold text-ink-900">
+    {{ 'auth.registered.title' | translate }}
+  </h1>
+  <p class="mt-2 text-sm text-ink-500">{{ 'auth.registered.subtitle' | translate }}</p>
+</div>
+
+<dl class="mt-6 space-y-2 rounded-card border border-ink-300 bg-surface p-4 text-sm">
+  @if (email) {
+    <div class="flex justify-between gap-3">
+      <dt class="text-ink-500">{{ 'auth.registered.signInWith' | translate }}</dt>
+      <dd class="text-end font-medium text-ink-900" dir="ltr">{{ email }}</dd>
+    </div>
+  }
+  @if (reference) {
+    <div class="flex justify-between gap-3">
+      <dt class="text-ink-500">{{ 'auth.registered.reference' | translate }}</dt>
+      <dd class="text-end font-medium text-ink-900" dir="ltr">{{ reference }}</dd>
+    </div>
+  }
+</dl>
+
+<p class="mt-4 rounded-card border border-sand-500/40 bg-sand-100 px-4 py-3 text-sm text-ink-700">
+  {{ 'auth.registered.nextStep' | translate }}
+</p>
+
+<div class="mt-6 flex flex-col gap-2">
+  <a
+    routerLink="/auth/contractor-register"
+    class="inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+  >
+    {{ 'auth.registered.proceed' | translate }}
+  </a>
+  <a
+    routerLink="/auth/sign-in"
+    class="inline-flex min-h-11 w-full items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+  >
+    {{ 'auth.registered.later' | translate }}
+  </a>
+</div>

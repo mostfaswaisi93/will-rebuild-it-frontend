@@ -68,6 +68,54 @@
     }
   </div>
 
+  <fieldset class="pt-2">
+    <legend class="text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.location.serviceArea' | translate }}
+    </legend>
+    <p class="mt-0.5 text-xs text-ink-500">
+      {{ 'auth.onboarding.location.serviceAreaHint' | translate }}
+    </p>
+
+    <div class="mt-2 grid gap-2 sm:grid-cols-2">
+      @for (governorate of governorates; track governorate) {
+        <label
+          class="flex items-center gap-2 rounded-card border p-3 text-sm transition-colors"
+          [class]="
+            isLocked(governorate)
+              ? 'cursor-not-allowed border-brand-500 bg-brand-50 text-ink-900'
+              : isServed(governorate)
+                ? 'cursor-pointer border-brand-500 bg-brand-50 text-ink-900'
+                : 'cursor-pointer border-ink-300 bg-surface text-ink-700 hover:border-brand-300'
+          "
+        >
+          <input
+            type="checkbox"
+            [checked]="isServed(governorate)"
+            [disabled]="isLocked(governorate)"
+            (change)="toggleServed(governorate)"
+            class="size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+          />
+          <span class="min-w-0 flex-1">{{ 'governorates.' + governorate | translate }}</span>
+          @if (isLocked(governorate)) {
+            <span class="shrink-0 text-xs text-brand-700">
+              {{ 'auth.onboarding.location.homeArea' | translate }}
+            </span>
+          }
+        </label>
+      }
+    </div>
+
+    @if (submitted() && servedInvalid()) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.location.serviceAreaRequired' | translate }}
+      </p>
+    }
+
+    <div class="mt-3 overflow-hidden rounded-card border border-ink-300">
+      <app-map [center]="mapCenter()" [markers]="mapMarkers()" [zoom]="10" heightClass="h-56" />
+    </div>
+  </fieldset>
+
   <div class="flex items-center gap-3 pt-2">
     <button
       type="button"
