@@ -30,18 +30,28 @@
     </button>
   </div>
 
-  <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
-    @for (item of navItems(); track item.path) {
-      <a
-        [routerLink]="item.path"
-        routerLinkActive="bg-brand-500 text-white"
-        [routerLinkActiveOptions]="{ exact: false }"
-        class="flex min-h-11 items-center gap-3 rounded-card px-3 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-nav-hover hover:text-white"
-        (click)="closeOnNavigate()"
-      >
-        <svg [lucideIcon]="item.icon" [size]="20"></svg>
-        {{ item.labelKey | translate }}
-      </a>
+  <nav class="flex-1 overflow-y-auto px-3 pb-4">
+    @for (group of navGroups(); track group.labelKey ?? $index) {
+      <div class="mb-4 space-y-1 last:mb-0">
+        @if (group.labelKey) {
+          <h2 class="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-white/40">
+            {{ group.labelKey | translate }}
+          </h2>
+        }
+
+        @for (item of group.items; track item.path) {
+          <a
+            [routerLink]="item.path"
+            routerLinkActive="bg-brand-500 text-white"
+            [routerLinkActiveOptions]="{ exact: false }"
+            class="flex min-h-11 items-center gap-3 rounded-card px-3 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-nav-hover hover:text-white"
+            (click)="closeOnNavigate()"
+          >
+            <svg [lucideIcon]="item.icon" [size]="20"></svg>
+            {{ item.labelKey | translate }}
+          </a>
+        }
+      </div>
     }
   </nav>
 </aside>

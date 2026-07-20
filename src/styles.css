@@ -80,6 +80,9 @@
   --color-info: #2563eb;
 
   --radius-card: 0.875rem;
+  /* Form controls sit slightly tighter than cards — this portal is form-heavy
+     enough that the two radii need to be distinguishable. */
+  --radius-input: 0.625rem;
   --shadow-card:
     0 1px 2px rgb(25 28 27 / 0.06),
     0 1px 3px rgb(25 28 27 / 0.1);

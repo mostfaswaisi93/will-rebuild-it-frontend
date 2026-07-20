@@ -1,0 +1,176 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.signIn.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.signIn.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <!-- Email -->
+  <div>
+    <label for="email" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.signIn.email' | translate }}
+    </label>
+    <div class="relative mt-1">
+      <lucide-mail
+        class="pointer-events-none absolute inset-y-0 start-3 my-auto size-4 text-ink-500"
+        aria-hidden="true"
+      />
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        autocomplete="email"
+        dir="ltr"
+        [attr.aria-invalid]="unknownEmail() || (form.controls.email.touched && form.controls.email.invalid)"
+        class="w-full rounded-input border border-ink-300 bg-surface py-2.5 pe-10 ps-9 text-start text-ink-900 placeholder:text-ink-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        placeholder="name@example.ps"
+      />
+
+      @if (knownEmail()) {
+        <lucide-check-circle-2
+          class="absolute inset-y-0 end-3 my-auto size-4 text-brand-500"
+          aria-hidden="true"
+        />
+      } @else if (unknownEmail()) {
+        <lucide-x-circle
+          class="absolute inset-y-0 end-3 my-auto size-4 text-danger"
+          aria-hidden="true"
+        />
+      }
+    </div>
+
+    @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.emailRequired' | translate }}</p>
+    } @else if (form.controls.email.touched && form.controls.email.hasError('pattern')) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.emailInvalid' | translate }}</p>
+    } @else if (unknownEmail()) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.noSuchUser' | translate }}</p>
+    }
+  </div>
+
+  <!-- Role picker: only when one address holds several role accounts -->
+  @if (needsRoleChoice()) {
+    <div>
+      <label for="role" class="block text-sm font-medium text-ink-700">
+        {{ 'auth.signIn.role' | translate }}
+      </label>
+      <select
+        id="role"
+        formControlName="role"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'auth.signIn.rolePlaceholder' | translate }}</option>
+        @for (account of accounts(); track account.id) {
+          <option [value]="account.role">{{ 'roles.' + account.role | translate }}</option>
+        }
+      </select>
+
+      @if (submitted() && form.controls.role.value === '') {
+        <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.roleRequired' | translate }}</p>
+      }
+    </div>
+  }
+
+  <!-- Blocking account states -->
+  @switch (block()) {
+    @case ('suspended') {
+      <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+        {{ 'auth.signIn.accountSuspended' | translate }}
+      </p>
+    }
+    @case ('inactive') {
+      <div class="rounded-card border border-sand-500/40 bg-sand-100 px-4 py-3 text-sm text-ink-700">
+        <p>{{ 'auth.signIn.accountInactive' | translate }}</p>
+        <a
+          routerLink="/auth/activate"
+          [queryParams]="{ email: form.controls.email.value, role: form.controls.role.value }"
+          class="mt-2 inline-block font-semibold text-brand-600 underline underline-offset-2"
+        >
+          {{ 'auth.signIn.activateNow' | translate }}
+        </a>
+      </div>
+    }
+    @case ('incompleteRegistration') {
+      <div class="rounded-card border border-sand-500/40 bg-sand-100 px-4 py-3 text-sm text-ink-700">
+        <p>{{ 'auth.signIn.registrationIncomplete' | translate }}</p>
+        <a
+          routerLink="/auth/contractor-register"
+          [queryParams]="{ email: form.controls.email.value }"
+          class="mt-2 inline-block font-semibold text-brand-600 underline underline-offset-2"
+        >
+          {{ 'auth.signIn.completeRegistration' | translate }}
+        </a>
+      </div>
+    }
+  }
+
+  <!-- Password -->
+  <div>
+    <label for="password" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.signIn.password' | translate }}
+    </label>
+    <div class="relative mt-1">
+      <input
+        id="password"
+        [type]="showPassword() ? 'text' : 'password'"
+        formControlName="password"
+        autocomplete="current-password"
+        maxlength="15"
+        class="w-full rounded-input border border-ink-300 bg-surface py-2.5 pe-11 ps-3 text-ink-900 placeholder:text-ink-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      <button
+        type="button"
+        (click)="togglePassword()"
+        class="absolute inset-y-0 end-0 flex min-h-11 w-11 items-center justify-center text-ink-500 hover:text-ink-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/30"
+        [attr.aria-label]="
+          (showPassword() ? 'auth.signIn.hidePassword' : 'auth.signIn.showPassword') | translate
+        "
+      >
+        @if (showPassword()) {
+          <lucide-eye-off class="size-4" aria-hidden="true" />
+        } @else {
+          <lucide-eye class="size-4" aria-hidden="true" />
+        }
+      </button>
+    </div>
+
+    @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.passwordRequired' | translate }}</p>
+    } @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
+      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.passwordTooShort' | translate }}</p>
+    }
+  </div>
+
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <label class="flex items-center gap-2 text-sm text-ink-700">
+      <input
+        type="checkbox"
+        formControlName="rememberMe"
+        class="size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+      />
+      {{ 'auth.signIn.rememberMe' | translate }}
+    </label>
+
+    <a
+      routerLink="/auth/forgot-password"
+      class="text-sm font-medium text-brand-600 hover:text-brand-700 hover:underline"
+    >
+      {{ 'auth.signIn.forgotPassword' | translate }}
+    </a>
+  </div>
+
+  <button
+    type="submit"
+    [disabled]="!canSubmit()"
+    class="inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {{ (submitting() ? 'common.loading' : 'auth.signIn.submit') | translate }}
+  </button>
+</form>
+
+<p class="mt-6 text-center text-sm text-ink-500">
+  {{ 'auth.signIn.noAccount' | translate }}
+  <a
+    routerLink="/auth/contractor-register"
+    class="font-semibold text-brand-600 hover:text-brand-700 hover:underline"
+  >
+    {{ 'auth.signIn.registerAsContractor' | translate }}
+  </a>
+</p>

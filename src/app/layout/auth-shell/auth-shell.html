@@ -1,0 +1,30 @@
+<div class="flex min-h-screen flex-col bg-canvas lg:flex-row">
+  <!-- Brand panel: decorative on large screens, a compact header on small ones -->
+  <div class="relative flex shrink-0 flex-col justify-between bg-brand-500 px-6 py-6 text-white lg:w-2/5 lg:px-10 lg:py-10">
+    <a routerLink="/" class="flex items-center gap-3">
+      <app-brand-mark [size]="36" emerald="var(--color-brand-300)" sand="var(--color-sand-300)" />
+      <span class="leading-tight">
+        <span class="block text-base font-semibold">{{ 'brand.nameAr' | translate }}</span>
+        <span class="block text-xs text-white/70">{{ 'brand.nameEn' | translate }}</span>
+      </span>
+    </a>
+
+    <div class="hidden max-w-md lg:block">
+      <h1 class="text-3xl font-bold leading-snug">{{ 'auth.shellHeadline' | translate }}</h1>
+      <p class="mt-4 text-white/80">{{ 'auth.shellBody' | translate }}</p>
+    </div>
+
+    <p class="hidden text-xs text-white/60 lg:block">
+      {{ 'footer.copyright' | translate: { year: currentYear } }}
+    </p>
+  </div>
+
+  <!-- Form panel -->
+  <div class="flex flex-1 items-center justify-center px-4 py-8 sm:px-6 lg:px-10">
+    <div class="w-full max-w-md">
+      <router-outlet />
+    </div>
+  </div>
+</div>
+
+<app-toasts />

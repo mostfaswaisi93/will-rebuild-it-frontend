@@ -19,6 +19,14 @@ export type UserRole = (typeof USER_ROLES)[number];
 export const BACK_OFFICE_ROLES = ['admin', 'contractor', 'staff', 'supplier'] as const;
 export type BackOfficeRole = (typeof BACK_OFFICE_ROLES)[number];
 
+/**
+ * One email can hold several role accounts (a contractor who is also a
+ * beneficiary), and each carries its own status — which is why sign-in resolves
+ * the email to a list of accounts before it can ask for a password.
+ */
+export const ACCOUNT_STATUSES = ['active', 'inactive', 'suspended'] as const;
+export type AccountStatus = (typeof ACCOUNT_STATUSES)[number];
+
 export const REQUEST_TYPES = ['assessment', 'reconstruction'] as const;
 export type RequestType = (typeof REQUEST_TYPES)[number];
 

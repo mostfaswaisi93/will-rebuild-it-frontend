@@ -175,6 +175,35 @@
         "donor": "Donor account",
         "team": "Reconstruction team account"
       }
+    },
+    "shellHeadline": "Rebuilding what was destroyed, home by home",
+    "shellBody": "One platform connecting beneficiaries, reconstruction teams, suppliers and funders — with full transparency at every stage.",
+    "signIn": {
+      "title": "Sign in",
+      "subtitle": "Enter your email and password to reach your dashboard.",
+      "email": "Email address",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "That email address is not valid",
+      "noSuchUser": "No account exists for this email",
+      "role": "Role",
+      "rolePlaceholder": "Select your role",
+      "roleRequired": "Please select a role",
+      "password": "Password",
+      "passwordRequired": "Please enter your password",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "invalidCredentials": "Incorrect email or password",
+      "accountSuspended": "Your account is suspended. Please contact the platform administrators.",
+      "accountInactive": "Your account is not activated yet. Activate it to sign in.",
+      "activateNow": "Activate account now",
+      "registrationIncomplete": "Your contractor registration is incomplete, so your account is not visible on the platform.",
+      "completeRegistration": "Complete registration",
+      "noAccount": "Don't have an account?",
+      "registerAsContractor": "Register as a contractor"
     }
   },
   "requests": {
@@ -1119,5 +1148,19 @@
     "resources": "Resources",
     "monitoring": "Monitoring",
     "settings": "Settings"
+  },
+  "roles": {
+    "beneficiary": "Beneficiary",
+    "team": "Reconstruction team",
+    "donor": "Donor",
+    "admin": "Platform admin",
+    "contractor": "Contractor",
+    "staff": "Field staff",
+    "supplier": "Material supplier"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The link you opened is invalid, or the page has moved.",
+    "backHome": "Back to home"
   }
 }
