@@ -1,0 +1,62 @@
+<div class="flex flex-col gap-3">
+  <div class="inline-flex w-fit rounded-card border border-ink-300 bg-surface-container-low p-1">
+    <button
+      type="button"
+      class="flex min-h-9 items-center gap-1.5 rounded-card px-3 text-sm font-medium transition-colors"
+      [class]="mode() === 'draw' ? 'bg-brand-500 text-white' : 'text-ink-700'"
+      (click)="setMode('draw')"
+    >
+      <svg lucidePenLine [size]="16"></svg>
+      {{ 'shared.signaturePad.draw' | translate }}
+    </button>
+    <button
+      type="button"
+      class="flex min-h-9 items-center gap-1.5 rounded-card px-3 text-sm font-medium transition-colors"
+      [class]="mode() === 'type' ? 'bg-brand-500 text-white' : 'text-ink-700'"
+      (click)="setMode('type')"
+    >
+      <svg lucideType [size]="16"></svg>
+      {{ 'shared.signaturePad.type' | translate }}
+    </button>
+  </div>
+
+  <div class="relative h-48 w-full overflow-hidden rounded-card border border-ink-300 bg-white sm:h-56">
+    <canvas #signatureCanvas class="h-full w-full touch-none" [class.hidden]="mode() !== 'draw'"></canvas>
+
+    @if (mode() === 'type') {
+      <div class="flex h-full w-full items-center justify-center px-4">
+        <input
+          type="text"
+          class="w-full border-0 border-b-2 border-ink-300 bg-transparent text-center font-serif text-2xl text-ink-900 italic outline-none focus:border-brand-500"
+          [placeholder]="'shared.signaturePad.typePlaceholder' | translate"
+          [value]="typedName()"
+          (input)="onTypedNameInput($event)"
+        />
+      </div>
+    }
+
+    @if (mode() === 'draw' && isEmpty()) {
+      <p class="pointer-events-none absolute inset-0 flex items-center justify-center px-4 text-center text-sm text-ink-500">
+        {{ 'shared.signaturePad.drawHint' | translate }}
+      </p>
+    }
+  </div>
+
+  <div class="flex items-center justify-between gap-2">
+    <button
+      type="button"
+      class="min-h-11 rounded-card px-3 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+      (click)="clear()"
+    >
+      {{ 'shared.signaturePad.clear' | translate }}
+    </button>
+    <button
+      type="button"
+      class="min-h-11 rounded-card bg-brand-500 px-4 text-base font-medium text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:bg-ink-300"
+      [disabled]="isEmpty()"
+      (click)="confirm()"
+    >
+      {{ 'shared.signaturePad.confirm' | translate }}
+    </button>
+  </div>
+</div>

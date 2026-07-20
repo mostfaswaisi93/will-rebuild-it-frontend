@@ -1,0 +1,53 @@
+<div class="relative flex flex-col gap-1">
+  @if (labelKey()) {
+    <label [for]="uid" class="text-sm font-medium text-ink-700">{{ labelKey()! | translate }}</label>
+  }
+  <div
+    class="flex min-h-11 items-center gap-2 rounded-card border border-ink-300 bg-surface-container-low px-3 focus-within:border-brand-500 focus-within:outline focus-within:outline-2 focus-within:outline-brand-500/30"
+  >
+    <svg lucideSearch [size]="16" class="shrink-0 text-ink-500"></svg>
+    <input
+      [id]="uid"
+      type="text"
+      role="combobox"
+      aria-autocomplete="list"
+      [attr.aria-expanded]="isOpen()"
+      [attr.aria-controls]="uid + '-listbox'"
+      [attr.aria-activedescendant]="highlightedIndex() >= 0 ? uid + '-option-' + highlightedIndex() : null"
+      class="min-w-0 flex-1 bg-transparent py-2 text-base text-ink-900 outline-none disabled:opacity-60"
+      [disabled]="disabled()"
+      [value]="query()"
+      [placeholder]="placeholderKey() ? (placeholderKey()! | translate) : ''"
+      autocomplete="off"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (keydown)="onKeydown($event)"
+    />
+  </div>
+
+  @if (isOpen() && filteredOptions().length > 0) {
+    <ul
+      [id]="uid + '-listbox'"
+      role="listbox"
+      class="absolute inset-x-0 top-full z-10 mt-1 max-h-60 overflow-y-auto rounded-card border border-ink-300 bg-surface shadow-card"
+    >
+      @for (option of filteredOptions(); track option.id; let i = $index) {
+        <li
+          [id]="uid + '-option-' + i"
+          role="option"
+          [attr.aria-selected]="i === highlightedIndex()"
+          class="cursor-pointer px-3 py-2.5 text-base"
+          [class]="i === highlightedIndex() ? 'bg-brand-50 text-brand-700' : 'text-ink-900 hover:bg-surface-container-low'"
+          (mousedown)="selectOption(option)"
+        >
+          {{ option.label }}
+        </li>
+      }
+    </ul>
+  } @else if (isOpen() && query().trim().length > 0 && filteredOptions().length === 0) {
+    <div class="absolute inset-x-0 top-full z-10 mt-1 rounded-card border border-ink-300 bg-surface p-3 text-sm text-ink-500 shadow-card">
+      {{ 'common.noResults' | translate }}
+    </div>
+  }
+</div>

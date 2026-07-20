@@ -1,0 +1,87 @@
+<div class="rounded-card bg-surface shadow-card p-4 sm:p-6">
+  @if (projectTitle(); as title) {
+    <p class="text-ink-700 mb-4 text-sm font-medium">
+      {{ 'shared.donationWidget.supporting' | translate: { title: title } }}
+    </p>
+  } @else {
+    <p class="text-ink-700 mb-4 text-sm font-medium">
+      {{ 'shared.donationWidget.generalFund' | translate }}
+    </p>
+  }
+
+  <div class="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+    @for (preset of suggestedAmounts(); track preset) {
+      <button
+        type="button"
+        class="min-h-11 rounded-card px-3 py-2 text-sm font-medium transition-colors"
+        [class.bg-brand-500]="amount() === preset"
+        [class.text-white]="amount() === preset"
+        [class.border]="amount() !== preset"
+        [class.border-ink-300]="amount() !== preset"
+        [class.text-ink-700]="amount() !== preset"
+        (click)="selectAmount(preset)"
+      >
+        ${{ preset }}
+      </button>
+    }
+  </div>
+
+  <div class="mb-4">
+    <label for="donation-widget-custom-amount" class="text-ink-700 mb-1 block text-sm font-medium">
+      {{ 'shared.donationWidget.customAmount' | translate }}
+    </label>
+    <div
+      class="border-ink-300 focus-within:border-brand-500 flex items-center rounded-card border px-3 transition-colors"
+    >
+      <span class="text-ink-500 pe-1 text-sm">$</span>
+      <input
+        id="donation-widget-custom-amount"
+        type="number"
+        min="1"
+        step="1"
+        inputmode="numeric"
+        class="text-ink-900 min-h-11 w-full bg-transparent py-2 text-sm outline-none"
+        [value]="amount() ?? ''"
+        [placeholder]="'shared.donationWidget.customAmountPlaceholder' | translate"
+        (input)="onCustomAmountInput($event)"
+      />
+    </div>
+  </div>
+
+  <div class="mb-4 grid grid-cols-2 gap-2">
+    <button
+      type="button"
+      class="min-h-11 rounded-card px-3 py-2 text-sm font-medium transition-colors"
+      [class.bg-brand-500]="frequency() === 'once'"
+      [class.text-white]="frequency() === 'once'"
+      [class.border]="frequency() !== 'once'"
+      [class.border-ink-300]="frequency() !== 'once'"
+      [class.text-ink-700]="frequency() !== 'once'"
+      (click)="selectFrequency('once')"
+    >
+      {{ 'shared.donationWidget.once' | translate }}
+    </button>
+    <button
+      type="button"
+      class="min-h-11 rounded-card px-3 py-2 text-sm font-medium transition-colors"
+      [class.bg-brand-500]="frequency() === 'monthly'"
+      [class.text-white]="frequency() === 'monthly'"
+      [class.border]="frequency() !== 'monthly'"
+      [class.border-ink-300]="frequency() !== 'monthly'"
+      [class.text-ink-700]="frequency() !== 'monthly'"
+      (click)="selectFrequency('monthly')"
+    >
+      {{ 'shared.donationWidget.monthly' | translate }}
+    </button>
+  </div>
+
+  <button
+    type="button"
+    class="bg-brand-500 hover:enabled:bg-brand-600 flex min-h-11 w-full items-center justify-center gap-2 rounded-card font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+    [disabled]="isDonateDisabled()"
+    (click)="onDonateClick()"
+  >
+    <svg lucideHeart [size]="18"></svg>
+    {{ 'shared.donationWidget.donate' | translate }}
+  </button>
+</div>

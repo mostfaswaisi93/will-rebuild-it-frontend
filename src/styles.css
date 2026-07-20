@@ -1,0 +1,119 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+@import '@angular/cdk/overlay-prebuilt.css';
+
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
+
+/*
+  Design tokens — "Reconstruction & Resilience" (DESIGN.md).
+  Values are taken from DESIGN.md's authoritative front-matter (a Material 3
+  token set): primary emerald #006a45, warm-amber secondary, and the tonal
+  surface/outline tiers. The existing utility names (brand-*, sand-*, ink-*,
+  canvas, surface, nav-*) are repointed to those values so the whole app
+  re-skins from this one file; the raw M3 tokens are also exposed for
+  components that reference them directly.
+*/
+@theme {
+  --font-sans: 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand — renewal emerald (anchored on DESIGN primary #006a45) */
+  --color-brand-50: #e7f4ee;
+  --color-brand-100: #c9e8d8;
+  --color-brand-200: #98d5b6;
+  --color-brand-300: #6adca4; /* DESIGN inverse-primary */
+  --color-brand-400: #2f9f6f;
+  --color-brand-500: #006a45; /* DESIGN primary */
+  --color-brand-600: #005c3b;
+  --color-brand-700: #004d31;
+  --color-brand-800: #003f28;
+  --color-brand-900: #00301e;
+
+  /* Accent — warm sand / construction (DESIGN secondary family) */
+  --color-sand-100: #fbeccb;
+  --color-sand-300: #fdc170; /* DESIGN secondary-container */
+  --color-sand-500: #d29b4e;
+  --color-sand-700: #81550b; /* DESIGN secondary */
+
+  /* Neutrals — ink & surface (DESIGN on-surface / outline family) */
+  --color-ink-900: #191c1b; /* DESIGN on-surface */
+  --color-ink-700: #3e4a42; /* DESIGN on-surface-variant */
+  --color-ink-500: #6d7a71; /* DESIGN outline */
+  --color-ink-300: #bdcabf; /* DESIGN outline-variant */
+  --color-surface: #ffffff; /* DESIGN surface-container-lowest */
+  --color-canvas: #f8faf8; /* DESIGN surface / background */
+
+  /* Tonal surface tiers (DESIGN) */
+  --color-surface-container-low: #f2f4f2;
+  --color-surface-container: #eceeec;
+  --color-surface-container-high: #e6e9e7;
+  --color-surface-container-highest: #e1e3e1;
+  --color-outline: #6d7a71;
+  --color-outline-variant: #bdcabf;
+
+  /* Secondary/primary containers (DESIGN) */
+  --color-primary-container: #008558;
+  --color-on-primary-container: #f6fff6;
+  --color-secondary-container: #fdc170;
+  --color-on-secondary-container: #784d01;
+
+  /* Tertiary (DESIGN) */
+  --color-tertiary: #525f58;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #d8e6dd;
+  --color-on-tertiary-container: #121e19;
+
+  /* Error (DESIGN) */
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Sidebar — deep emerald charcoal */
+  --color-nav-bg: #0f3a29;
+  --color-nav-hover: #185640;
+
+  /* Semantic */
+  --color-success: #006a45;
+  --color-warning: #9a6a05;
+  --color-danger: #ba1a1a; /* DESIGN error */
+  --color-info: #2563eb;
+
+  --radius-card: 0.875rem;
+  --shadow-card:
+    0 1px 2px rgb(25 28 27 / 0.06),
+    0 1px 3px rgb(25 28 27 / 0.1);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    color-scheme: light;
+  }
+
+  body {
+    @apply bg-canvas text-ink-700 antialiased;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-ink-900 font-semibold;
+  }
+
+  :focus-visible {
+    @apply outline-brand-500 outline-2 outline-offset-2;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-200);
+  }
+}
+
+.grp-dialog-backdrop {
+  background: rgb(25 28 27 / 0.55);
+}

@@ -1,0 +1,26 @@
+<div class="flex flex-col gap-1">
+  @if (labelKey()) {
+    <label [for]="uid" class="text-sm font-medium text-ink-700">{{ labelKey()! | translate }}</label>
+  }
+  <div
+    class="flex min-h-11 items-stretch overflow-hidden rounded-card border border-ink-300 bg-surface-container-low focus-within:border-brand-500 focus-within:outline focus-within:outline-2 focus-within:outline-brand-500/30"
+  >
+    <span class="flex items-center border-e border-ink-300 bg-surface-container px-3 text-base font-medium text-ink-700">
+      {{ dialCode }}
+    </span>
+    <input
+      #phoneNative
+      [id]="uid"
+      type="tel"
+      inputmode="numeric"
+      autocomplete="tel-national"
+      appPhoneMask
+      maxlength="11"
+      class="min-w-0 flex-1 bg-transparent px-3 text-base text-ink-900 outline-none disabled:opacity-60"
+      [disabled]="disabled()"
+      [placeholder]="'shared.phoneInput.placeholder' | translate"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+    />
+  </div>
+</div>

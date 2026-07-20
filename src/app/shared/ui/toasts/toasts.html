@@ -1,0 +1,20 @@
+<div
+  class="fixed z-50 bottom-4 inset-x-4 flex flex-col gap-2 sm:inset-x-auto sm:bottom-6 sm:inset-e-6 sm:w-96"
+>
+  @for (toast of toastService.all(); track toast.id) {
+    <div class="flex items-start gap-3 rounded-card p-4 shadow-card" [class]="toneClasses(toast.tone)">
+      <svg [lucideIcon]="toneIcon(toast.tone)" [size]="20" class="mt-0.5 shrink-0"></svg>
+
+      <p class="flex-1 text-sm">{{ toast.messageKey | translate: toast.params }}</p>
+
+      <button
+        type="button"
+        class="-m-2.5 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-current opacity-70 hover:bg-black/10 hover:opacity-100"
+        [attr.aria-label]="'common.close' | translate"
+        (click)="toastService.dismiss(toast.id)"
+      >
+        <svg lucideX [size]="16"></svg>
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,74 @@
+<ol class="flex flex-col lg:flex-row lg:items-start">
+  @for (phase of steps(); track phase.key; let i = $index; let isLast = $last) {
+    <li class="relative flex gap-4 pb-8 last:pb-0 lg:flex-1 lg:flex-col lg:items-center lg:gap-3 lg:pb-0 lg:text-center">
+      <div class="flex flex-col items-center">
+        <span
+          class="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+          [class]="
+            phase.status === 'completed'
+              ? 'bg-brand-500 text-white'
+              : phase.status === 'inProgress'
+                ? 'border-2 border-brand-500 bg-surface'
+                : 'border-2 border-ink-300 bg-surface text-ink-500'
+          "
+        >
+          @switch (phase.status) {
+            @case ('completed') {
+              <svg lucideCheck [size]="18"></svg>
+            }
+            @case ('inProgress') {
+              <span class="h-2.5 w-2.5 rounded-full bg-brand-500 animate-pulse"></span>
+            }
+            @default {
+              <span class="text-sm font-medium">{{ i + 1 }}</span>
+            }
+          }
+        </span>
+        <span class="sr-only">{{ statusLabelKey(phase) | translate }}</span>
+
+        @if (!isLast) {
+          <!-- Mobile/tablet: vertical connector running along the start side, stacked below the circle. -->
+          <span
+            class="mt-1 w-0.5 flex-1 lg:hidden"
+            [class]="phase.status === 'completed' ? 'bg-brand-500' : 'bg-ink-300'"
+          ></span>
+          <!-- Desktop: horizontal connector from this circle's center spanning to the next step. -->
+          <span
+            class="hidden lg:absolute lg:top-5 lg:inset-s-1/2 lg:block lg:h-0.5 lg:w-full"
+            [class]="phase.status === 'completed' ? 'bg-brand-500' : 'bg-ink-300'"
+          ></span>
+        }
+      </div>
+
+      <div class="min-w-0 flex-1 lg:mt-1 lg:px-2">
+        <p class="text-base" [class]="phase.status === 'pending' ? 'text-ink-500' : 'font-semibold text-ink-900'">
+          {{ 'project.phase.' + phase.key | translate }}
+          @if (phase.status === 'inProgress') {
+            <span class="ms-1 text-sm font-medium text-brand-600">{{ phase.completionPercent }}%</span>
+          }
+        </p>
+        @if (metaText(phase); as meta) {
+          <p class="mt-0.5 text-sm text-ink-500">{{ meta }}</p>
+        }
+        @if (phase.photos.length > 0) {
+          <div class="mt-2 flex items-center justify-start gap-1.5 lg:justify-center">
+            @for (photo of visiblePhotos(phase); track photo.id) {
+              <img
+                [src]="photo.url"
+                [alt]="'shared.phaseStepper.photoAlt' | translate"
+                class="h-12 w-12 shrink-0 rounded object-cover"
+              />
+            }
+            @if (extraPhotoCount(phase) > 0) {
+              <span
+                class="flex h-12 shrink-0 items-center justify-center rounded bg-surface-container-low px-2 text-xs font-medium text-ink-500"
+              >
+                {{ 'shared.phaseStepper.morePhotos' | translate: { count: extraPhotoCount(phase) } }}
+              </span>
+            }
+          </div>
+        }
+      </div>
+    </li>
+  }
+</ol>

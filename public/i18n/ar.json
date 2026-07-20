@@ -1,0 +1,1174 @@
+{
+  "brand": {
+    "nameEn": "Gaza Reconstruction Platform",
+    "nameAr": "حنعمرها",
+    "tagline": "نُعمّرها سويًا، بشفافية كاملة."
+  },
+  "common": {
+    "loading": "جارٍ التحميل…",
+    "retry": "إعادة المحاولة",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "previous": "السابق",
+    "submit": "إرسال",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "filters": "الفلاتر",
+    "clearFilters": "مسح الفلاتر",
+    "viewAll": "عرض الكل",
+    "viewDetails": "عرض التفاصيل",
+    "comingSoon": "قريبًا",
+    "comingSoonBody": "هذا القسم قيد الإنشاء وسيُتاح في مرحلة قادمة.",
+    "noResults": "لا توجد نتائج",
+    "errorGeneric": "حدث خطأ ما، يرجى المحاولة مرة أخرى.",
+    "requiredField": "هذا الحقل مطلوب",
+    "optional": "اختياري",
+    "signOut": "تسجيل الخروج",
+    "signIn": "تسجيل الدخول"
+  },
+  "nav": {
+    "dashboard": "لوحتي",
+    "requests": "طلباتي",
+    "projects": "مشاريعي",
+    "teams": "فِرقي",
+    "estimates": "التقديرات",
+    "funding": "التمويل والصرف",
+    "donations": "تبرعاتي",
+    "browseProjects": "تصفّح المشاريع",
+    "reviews": "تقييماتي",
+    "teamDashboard": "مساحة عمل الفريق",
+    "adminDashboard": "لوحة الإدارة",
+    "contractorDashboard": "لوحة المقاول",
+    "staffDashboard": "لوحة الكادر",
+    "supplierDashboard": "لوحة المورّد",
+    "workRequests": "طلبات الإعمار",
+    "dispatch": "لوحة التوزيع",
+    "workOrders": "أوامر العمل",
+    "inspections": "المعاينات",
+    "beneficiaries": "المستفيدون",
+    "contractors": "المقاولون",
+    "suppliers": "موردو المواد",
+    "staff": "الكادر",
+    "statements": "المستخلصات",
+    "disbursements": "الصرف والدفعات",
+    "pricebook": "دليل أسعار البنود",
+    "priceList": "قوائم أسعار المنصة",
+    "subscriptions": "الاشتراكات",
+    "inventory": "مخزون المواد",
+    "warehouses": "المستودعات",
+    "purchaseOrders": "أوامر التوريد",
+    "shipments": "الشحنات والنقل",
+    "equipment": "المعدّات الثقيلة",
+    "equipmentSchedule": "جدولة المعدّات",
+    "scorecard": "بطاقات التقييم",
+    "externalRatings": "التقييمات الخارجية",
+    "questions": "بنك الأسئلة",
+    "campaigns": "حملات التوعية",
+    "logs": "سجلات النظام",
+    "accountSettings": "إعدادات الحساب",
+    "globalSettings": "الإعدادات العامة",
+    "permissions": "الصلاحيات"
+  },
+  "header": {
+    "openMenu": "فتح القائمة",
+    "searchRequests": "ابحث في طلباتك",
+    "toggleLanguage": "تبديل اللغة",
+    "notifications": "الإشعارات",
+    "signOutConfirmTitle": "تسجيل الخروج؟",
+    "signOutConfirmBody": "ستحتاج إلى تسجيل الدخول مجددًا للوصول إلى حسابك.",
+    "menu": {
+      "profile": "الملف الشخصي",
+      "support": "الدعم",
+      "reportTeam": "الإبلاغ عن فريق",
+      "privacy": "الخصوصية"
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} منصة إعادة إعمار غزة · حنعمرها"
+  },
+  "content": {
+    "privacy": {
+      "title": "سياسة الخصوصية"
+    },
+    "terms": {
+      "title": "شروط الاستخدام"
+    },
+    "help": {
+      "title": "المساعدة والأسئلة الشائعة",
+      "subtitle": "إجابات عن الأسئلة الأكثر تكرارًا",
+      "faq": {
+        "q1": "كيف أطلب تقييمًا للأضرار في عقاري؟",
+        "a1": "من الشاشة الرئيسية، اختر «طلب جديد» ثم حدد تقييم الأضرار. أضف تفاصيل عقارك وموقعه ووصفًا موجزًا. سيراجع أحد فرق إعادة الإعمار طلبك ويرتّب موعدًا للزيارة.",
+        "q2": "من يراجع تقدير التكلفة لمشروعي، وكيف أعتمده؟",
+        "a2": "بعد أن يعاين الفريق عقارك، يُعدّ تقديرًا تفصيليًا للتكلفة. سيصلك إشعار لمراجعة البنود، ويمكنك اعتماده بتوقيعك أو طلب تعديلات قبل بدء أي عمل.",
+        "q3": "كيف يُموَّل إعادة إعمار عقاري؟",
+        "a3": "تُعرض المشاريع المعتمدة على المتبرعين للمساهمة في المبلغ المطلوب. يمكنك متابعة تقدّم التمويل لكل مرحلة، وتُصرف الأموال للفريق عند تأكيد إنجاز المراحل.",
+        "q4": "كيف أتابع سير أعمال إعادة الإعمار؟",
+        "a4": "افتح مشروعك لتطّلع على المرحلة الحالية ونسبة الإنجاز وصور التقدّم. كما ستصلك إشعارات عند كل مرحلة جديدة يسجّلها الفريق.",
+        "q5": "ماذا أفعل إذا كان لديّ ملاحظة بشأن فريق إعادة الإعمار؟",
+        "a5": "يمكنك تقديم شكوى من صفحة مشروعك، مع وصف الأمر وتحديد الأسباب المتعلقة به. سيراجعها فريق الدعم ويتابع معك.",
+        "q6": "كيف أؤكد استلام الأموال أو إتمام العمل؟",
+        "a6": "عند جاهزية أي صرف أو تسليم، سيُطلب منك تأكيد الاستلام والتوقيع. يحفظ ذلك سجلًا واضحًا وشفافًا لك ولفريقك وللمتبرعين."
+      },
+      "contact": {
+        "title": "هل ما زلت بحاجة إلى مساعدة؟",
+        "intro": "يمكنك التواصل مع فريق الدعم مباشرة."
+      }
+    }
+  },
+  "public": {
+    "home": {
+      "missionBody": "نربط بين العائلات في غزة التي تضررت منازلها وفرق إعادة الإعمار الموثوقة والمتبرعين، مع تتبع كل خطوة بشفافية كاملة من التقييم وحتى التسليم.",
+      "getStarted": "ابدأ الآن",
+      "projectsUnderway": "مشاريع قيد التنفيذ",
+      "projectsUnderwaySubtitle": "لمحة عن أعمال إعادة الإعمار الجارية في غزة حاليًا.",
+      "percentComplete": "نسبة الإنجاز: {{percent}}٪"
+    },
+    "projectPublic": {
+      "notFound": "تعذّر العثور على هذا المشروع. ربما تم نقله أو لم يعد متاحًا.",
+      "progressTitle": "مراحل إعادة الإعمار",
+      "photosTitle": "صور سير العمل",
+      "teamTitle": "فريق إعادة الإعمار",
+      "locationTitle": "الموقع"
+    },
+    "areaStart": {
+      "title": "أين تحتاج المساعدة في إعادة البناء؟",
+      "subtitle": "اختر منطقتك لترى فرق إعادة الإعمار العاملة فيها. لا حاجة لحساب للاطّلاع.",
+      "stepGovernorate": "١ · المحافظة",
+      "stepDistrict": "٢ · الحي",
+      "teamsAvailable": {
+        "zero": "لا توجد فرق تعمل في منطقتك",
+        "one": "فريق إعادة إعمار واحد يعمل في منطقتك",
+        "two": "فريقا إعادة إعمار يعملان في منطقتك",
+        "few": "{{count}} فرق إعادة إعمار تعمل في منطقتك",
+        "many": "{{count}} فريقًا لإعادة الإعمار تعمل في منطقتك",
+        "other": "{{count}} فريق إعادة إعمار يعمل في منطقتك"
+      },
+      "completedNearby": {
+        "=0": "لم تُسجَّل بعد أعمال إعمار مكتملة هنا.",
+        "zero": "لم تُسجَّل بعد أعمال إعمار مكتملة هنا.",
+        "one": "أنجزوا عملية إعمار واحدة.",
+        "two": "أنجزوا عمليتَي إعمار.",
+        "few": "أنجزوا {{count}} عمليات إعمار.",
+        "many": "أنجزوا {{count}} عملية إعمار.",
+        "other": "أنجزوا {{count}} عملية إعمار."
+      },
+      "startRequest": "ابدأ تقرير الأضرار",
+      "haveAccount": "لديّ حساب بالفعل",
+      "noTeamsTitle": "لا يوجد فريق مسجَّل في هذه المنطقة بعد",
+      "noTeamsBody": "يمكنك تسجيل تقرير الأضرار الآن، وسيبقى محفوظًا، وسنوصلك بفريق فور توفّره في منطقتك.",
+      "registerAnyway": "سجّل تقرير الأضرار على أي حال"
+    }
+  },
+  "auth": {
+    "emailCheck": {
+      "title": "تسجيل الدخول إلى حسابك",
+      "titleDonate": "سجّل الدخول لإتمام تبرعك",
+      "subtitle": "أدخل بريدك الإلكتروني للمتابعة.",
+      "emailLabel": "البريد الإلكتروني",
+      "passwordLabel": "كلمة المرور",
+      "incorrectPassword": "كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.",
+      "unavailableBody": "لم نتمكن من العثور على حساب بهذا البريد الإلكتروني. التسجيل الذاتي غير متاح في هذه النسخة التجريبية بعد — يمكنك استكشاف المنصة أدناه باستخدام أحد الحسابات التجريبية.",
+      "tryAnotherEmail": "جرّب بريدًا إلكترونيًا آخر",
+      "welcomeBack": "مرحبًا بعودتك، {{name}}.",
+      "demo": {
+        "title": "جرّب حسابًا تجريبيًا",
+        "subtitle": "استكشف المنصة فورًا باستخدام أحد هذه الحسابات التجريبية.",
+        "fillIn": "تعبئة البيانات",
+        "beneficiary": "حساب مستفيد",
+        "donor": "حساب متبرع",
+        "team": "حساب فريق إعادة الإعمار"
+      }
+    }
+  },
+  "requests": {
+    "list": {
+      "title": "طلباتي",
+      "subtitle": {
+        "zero": "لا توجد طلبات",
+        "one": "طلب واحد",
+        "two": "طلبان",
+        "few": "{{count}} طلبات",
+        "many": "{{count}} طلبًا",
+        "other": "{{count}} طلب"
+      },
+      "searchPlaceholder": "ابحث برقم الطلب أو الوصف",
+      "statusFilter": "تصفية حسب الحالة",
+      "allStatuses": "جميع الحالات",
+      "emptyHint": "لم تُقدّم أي طلبات إعادة إعمار أو تقييم أضرار بعد.",
+      "columns": {
+        "requestNumber": "رقم الطلب",
+        "propertyType": "نوع العقار",
+        "governorate": "المحافظة",
+        "createdAt": "تاريخ التقديم",
+        "status": "الحالة"
+      }
+    },
+    "view": {
+      "loadError": "تعذّر تحميل هذا الطلب. يرجى المحاولة مرة أخرى.",
+      "tabs": {
+        "damage": "تفاصيل الضرر",
+        "contact": "معلومات التواصل",
+        "teams": "الفرق المطابقة"
+      },
+      "propertyDetails": "تفاصيل العقار",
+      "description": "الوصف",
+      "address": "العنوان",
+      "attachments": "المرفقات",
+      "noAttachments": "لم تتم إضافة صور إلى هذا الطلب بعد.",
+      "contactName": "اسم جهة التواصل",
+      "contactPhone": "رقم هاتف التواصل",
+      "noMatchedTeams": "لم تتم مطابقة أي فريق إعادة إعمار مع هذا الطلب بعد.",
+      "matchScore": "نسبة التطابق: {{score}}%",
+      "teamStatus": {
+        "suggested": "مقترح",
+        "assigned": "معيّن"
+      }
+    }
+  },
+  "projects": {
+    "list": {
+      "title": "مشاريعي",
+      "subtitle": "تابع كل مشروع إعادة إعمار مرتبط بطلباتك.",
+      "searchPlaceholder": "ابحث برقم المشروع أو العنوان",
+      "allStatuses": "كل الحالات",
+      "column": {
+        "projectNumber": "رقم المشروع",
+        "title": "العنوان",
+        "team": "الفريق",
+        "phase": "المرحلة",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء"
+      }
+    },
+    "view": {
+      "tabs": {
+        "details": "التفاصيل",
+        "team": "الفريق",
+        "timeline": "الجدول الزمني"
+      },
+      "notFound": "تعذر العثور على هذا المشروع.",
+      "details": {
+        "overviewTitle": "نظرة عامة",
+        "projectNumber": "رقم المشروع",
+        "createdAt": "تاريخ الإنشاء",
+        "addressTitle": "عنوان العقار",
+        "governorateLabel": "المحافظة",
+        "districtLabel": "الحي",
+        "streetLabel": "الشارع / علامة مميزة",
+        "documentsTitle": "المستندات",
+        "noDocuments": "لم تتم إضافة أي مستندات بعد.",
+        "photosTitle": "الصور",
+        "noPhotos": "لم تتم إضافة أي صور بعد.",
+        "locationTitle": "الموقع"
+      },
+      "team": {
+        "reviewsCount": {
+          "=0": "لا توجد تقييمات بعد",
+          "zero": "لا توجد تقييمات",
+          "one": "تقييم واحد",
+          "two": "تقييمان",
+          "few": "{{count}} تقييمات",
+          "many": "{{count}} تقييمًا",
+          "other": "{{count}} تقييم"
+        },
+        "reviewCardTitle": "قيّم هذا الفريق",
+        "reviewPrompt": "شاركنا تجربتك في العمل مع هذا الفريق على مشروعك.",
+        "reviewsTitle": "التقييمات",
+        "noReviews": "لا توجد تقييمات بعد."
+      },
+      "timeline": {
+        "updatesTitle": "تحديثات سير العمل",
+        "noUpdates": "لم يتم نشر أي تحديثات بعد."
+      }
+    },
+    "teamReview": {
+      "title": "قيّم هذا الفريق",
+      "workQuality": "جودة العمل",
+      "timeliness": "الالتزام بالوقت",
+      "professionalism": "الاحترافية",
+      "comments": "ملاحظاتك",
+      "commentsPlaceholder": "شاركنا تجربتك مع هذا الفريق",
+      "writeButton": "أضف تقييمًا",
+      "editButton": "تعديل التقييم",
+      "thanksMessage": "شكرًا لك — تم إرسال تقييمك."
+    }
+  },
+  "teams": {
+    "list": {
+      "title": "فرق إعادة الإعمار",
+      "subtitle": "تصفّح الفرق المرخّصة العاملة في مختلف أنحاء غزة، واختر الأنسب لإعادة بناء منزلك.",
+      "searchPlaceholder": "ابحث عن فريق بالاسم",
+      "governorateFilter": "تصفية حسب المحافظة",
+      "allGovernorates": "كل المحافظات",
+      "specializationFilter": "تصفية حسب التخصص",
+      "allSpecializations": "كل التخصصات",
+      "follow": "متابعة الفريق",
+      "unfollow": "إلغاء متابعة الفريق",
+      "followSuccess": "أصبحت تتابع هذا الفريق الآن.",
+      "unfollowSuccess": "تم إلغاء متابعة هذا الفريق.",
+      "completedProjects": {
+        "=0": "لا توجد مشاريع مكتملة",
+        "zero": "لا توجد مشاريع مكتملة",
+        "one": "مشروع مكتمل واحد",
+        "two": "مشروعان مكتملان",
+        "few": "{{count}} مشاريع مكتملة",
+        "many": "{{count}} مشروعًا مكتملًا",
+        "other": "{{count}} مشروع مكتمل"
+      }
+    },
+    "specialization": {
+      "residential": "سكني",
+      "commercial": "تجاري",
+      "agricultural": "زراعي",
+      "infrastructure": "بنية تحتية",
+      "structuralRepair": "ترميم إنشائي",
+      "finishingWorks": "أعمال تشطيب"
+    },
+    "profile": {
+      "title": "الملف التعريفي للفريق",
+      "notFound": "تعذّر العثور على هذا الفريق. ربما تمت إزالته.",
+      "completedProjects": {
+        "=0": "لا توجد مشاريع مكتملة",
+        "zero": "لا توجد مشاريع مكتملة",
+        "one": "مشروع مكتمل واحد",
+        "two": "مشروعان مكتملان",
+        "few": "{{count}} مشاريع مكتملة",
+        "many": "{{count}} مشروعًا مكتملًا",
+        "other": "{{count}} مشروع مكتمل"
+      },
+      "workingSince": "يعمل منذ عام {{year}}",
+      "reviewsCount": {
+        "=0": "لا توجد تقييمات بعد",
+        "zero": "لا توجد تقييمات",
+        "one": "تقييم واحد",
+        "two": "تقييمان",
+        "few": "{{count}} تقييمات",
+        "many": "{{count}} تقييمًا",
+        "other": "{{count}} تقييم"
+      },
+      "requestReconstruction": "طلب إعادة الإعمار",
+      "reportTeam": "الإبلاغ عن الفريق",
+      "signInToRequest": "سجّل الدخول لطلب إعادة الإعمار",
+      "reviewsTitle": "التقييمات",
+      "noReviews": "لا توجد تقييمات بعد.",
+      "servicesTitle": "الخدمات المقدَّمة",
+      "noServices": "لم يُدرج هذا الفريق أي خدمات بعد.",
+      "coverageTitle": "نطاق التغطية",
+      "noCoverage": "لم يُدرج هذا الفريق نطاق تغطية بعد.",
+      "hoursTitle": "ساعات العمل",
+      "closed": "مغلق",
+      "portfolioTitle": "أعمال منجزة",
+      "badges": {
+        "licensed": "مرخّص",
+        "insured": "مؤمَّن",
+        "acceptsLargeProjects": "يقبل المشاريع الكبيرة"
+      },
+      "day": {
+        "sunday": "الأحد",
+        "monday": "الاثنين",
+        "tuesday": "الثلاثاء",
+        "wednesday": "الأربعاء",
+        "thursday": "الخميس",
+        "friday": "الجمعة",
+        "saturday": "السبت"
+      }
+    }
+  },
+  "master": {
+    "governorate": {
+      "northGaza": "شمال غزة",
+      "gazaCity": "مدينة غزة",
+      "deirAlBalah": "دير البلح",
+      "khanYounis": "خان يونس",
+      "rafah": "رفح"
+    },
+    "propertyType": {
+      "residential": "سكني",
+      "commercial": "تجاري",
+      "agricultural": "زراعي",
+      "infrastructure": "بنية تحتية",
+      "publicFacility": "مرفق عام"
+    },
+    "severity": {
+      "partial": "ضرر جزئي",
+      "severe": "ضرر شديد",
+      "totalLoss": "دمار كامل"
+    }
+  },
+  "project": {
+    "phase": {
+      "damageAssessment": "تقييم الأضرار",
+      "debrisRemoval": "إزالة الأنقاض",
+      "designAndPermits": "التصميم والتراخيص",
+      "foundation": "الأساسات",
+      "structure": "الهيكل الإنشائي",
+      "finishing": "التشطيبات",
+      "handover": "التسليم"
+    }
+  },
+  "shared": {
+    "pageHeader": {
+      "back": "رجوع"
+    },
+    "statusPill": {
+      "request": {
+        "new": "جديد",
+        "underReview": "قيد المراجعة",
+        "matched": "تمت المطابقة",
+        "accepted": "مقبول",
+        "rejected": "مرفوض"
+      },
+      "project": {
+        "active": "نشط",
+        "onHold": "متوقف مؤقتًا",
+        "completed": "مكتمل",
+        "delivered": "تم التسليم",
+        "cancelled": "ملغى"
+      },
+      "projectPhase": {
+        "pending": "قيد الانتظار",
+        "inProgress": "قيد التنفيذ",
+        "completed": "مكتمل"
+      },
+      "estimate": {
+        "pendingApproval": "بانتظار الموافقة",
+        "approved": "تمت الموافقة",
+        "rejected": "مرفوض"
+      },
+      "funding": {
+        "unfunded": "غير ممول",
+        "partiallyFunded": "ممول جزئيًا",
+        "fullyFunded": "ممول بالكامل",
+        "refunded": "مسترد"
+      },
+      "donation": {
+        "succeeded": "ناجح",
+        "processing": "قيد المعالجة",
+        "failed": "فشل"
+      },
+      "support": {
+        "open": "مفتوحة",
+        "closed": "مغلقة"
+      },
+      "severity": {
+        "partial": "ضرر جزئي",
+        "severe": "ضرر شديد",
+        "totalLoss": "خسارة كاملة"
+      }
+    },
+    "ratingStars": {
+      "outOf": "{{value}} من {{max}} نجوم",
+      "rateValue": "تقييم {{value}} من {{max}} نجوم"
+    },
+    "paginator": {
+      "pageOfTotal": "صفحة {{page}} من {{total}}",
+      "navigationLabel": "التنقل بين الصفحات"
+    },
+    "carouselModal": {
+      "photoCounter": "{{current}} / {{total}}"
+    },
+    "phaseStepper": {
+      "statusCompleted": "مكتملة",
+      "statusInProgress": "قيد التنفيذ",
+      "statusPending": "قادمة",
+      "photoAlt": "صورة من تقدّم المرحلة",
+      "morePhotos": "+{{count}} أخرى"
+    },
+    "fileUploader": {
+      "dragHint": "اسحب الملفات وأفلتها هنا، أو",
+      "chooseFiles": "اختيار الملفات",
+      "offline": "أنت غير متصل بالإنترنت. تم إيقاف الرفع مؤقتًا وسيُستأنف تلقائيًا عند عودة الاتصال.",
+      "paused": "متوقف مؤقتًا",
+      "retry": "إعادة المحاولة",
+      "remove": "إزالة الملف",
+      "tooManyFiles": "يمكنك رفع {{max}} ملفات كحد أقصى."
+    },
+    "addressPicker": {
+      "governorate": "المحافظة",
+      "selectGovernorate": "اختر المحافظة",
+      "district": "الحي",
+      "selectDistrict": "اختر الحي",
+      "streetDescription": "وصف الشارع / معلم مميز"
+    },
+    "locationInput": {
+      "governorate": "المحافظة",
+      "selectGovernorate": "اختر المحافظة",
+      "district": "الحي",
+      "selectDistrict": "اختر الحي",
+      "streetDescription": "وصف الشارع / معلم مميز",
+      "latitude": "خط العرض",
+      "longitude": "خط الطول"
+    },
+    "damageCategorySelect": {
+      "groupLabel": "نوع العقار"
+    },
+    "severitySelect": {
+      "groupLabel": "شدة الضرر"
+    },
+    "phoneInput": {
+      "placeholder": "٥٩ ١٢٣ ٤٥٦٧"
+    },
+    "passwordField": {
+      "show": "إظهار كلمة المرور",
+      "hide": "إخفاء كلمة المرور",
+      "rule": {
+        "length": "٨ إلى ١٥ حرفًا",
+        "uppercase": "حرف كبير واحد",
+        "lowercase": "حرف صغير واحد",
+        "number": "رقم واحد",
+        "symbol": "رمز واحد"
+      }
+    },
+    "otpVerificationStep": {
+      "resend": "إعادة إرسال الرمز",
+      "resendIn": "يمكن إعادة الإرسال خلال {{seconds}} ثانية"
+    },
+    "signaturePad": {
+      "draw": "رسم",
+      "type": "كتابة",
+      "typePlaceholder": "اكتب اسمك الكامل",
+      "drawHint": "وقّع هنا",
+      "clear": "مسح",
+      "confirm": "تأكيد التوقيع"
+    },
+    "donationWidget": {
+      "supporting": "دعم مشروع: {{title}}",
+      "generalFund": "التبرع لصندوق إعادة الإعمار العام",
+      "customAmount": "مبلغ مخصص",
+      "customAmountPlaceholder": "أدخل المبلغ",
+      "once": "تبرع لمرة واحدة",
+      "monthly": "تبرع شهري",
+      "donate": "تبرع الآن"
+    }
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "subtitle": "راجع بياناتك الشخصية وقم بتحديثها.",
+    "personalInfo": "المعلومات الشخصية",
+    "edit": "تعديل",
+    "firstName": "الاسم الأول",
+    "lastName": "اسم العائلة",
+    "phone": "رقم الهاتف",
+    "contactLocked": "يرجى التواصل مع فريق الدعم لتغيير رقم هاتفك.",
+    "email": "البريد الإلكتروني",
+    "propertyAddress": "عنوان العقار",
+    "familySize": "عدد أفراد الأسرة",
+    "familySizeError": "يرجى إدخال عدد صحيح لأفراد الأسرة.",
+    "saved": "تم تحديث ملفك الشخصي.",
+    "idLabel": "رقم المستفيد",
+    "qrHint": "اعرض هذا الرمز ليتمكن فرق إعادة الإعمار من التحقق من هويتك.",
+    "changePasswordButton": "تغيير كلمة المرور",
+    "changePassword": {
+      "title": "تغيير كلمة المرور",
+      "current": "كلمة المرور الحالية",
+      "new": "كلمة المرور الجديدة",
+      "confirm": "تأكيد كلمة المرور الجديدة",
+      "weak": "كلمة المرور لا تستوفي المتطلبات.",
+      "mismatch": "كلمتا المرور غير متطابقتين.",
+      "saved": "تم تغيير كلمة المرور بنجاح."
+    }
+  },
+  "account": {
+    "title": "إعدادات الحساب",
+    "subtitle": "إدارة بياناتك ومشاركتها وتفضيلات الإشعارات.",
+    "tabs": {
+      "data": "البيانات والمشاركة",
+      "notifications": "الإشعارات"
+    },
+    "data": {
+      "title": "بياناتك",
+      "description": "أنت من يقرر كيفية استخدام معلوماتك عبر المنصة.",
+      "pointVisibility": "تظهر تفاصيل ملفك الشخصي للفرق المكلفة بمشاريعك فقط.",
+      "pointSharing": "لا تتم مشاركة هويتك مع المتبرعين إلا باختيارك.",
+      "pointRetention": "يمكنك طلب نسخة من بياناتك أو طلب حذفها في أي وقت."
+    },
+    "dangerZone": {
+      "title": "منطقة الإجراءات الحساسة"
+    },
+    "deactivate": {
+      "description": "يؤدي إيقاف حسابك إلى تعليق مشاريعك وإخفاء ملفك الشخصي. يمكنك التواصل مع الدعم لاستعادته لاحقاً.",
+      "button": "إيقاف الحساب",
+      "confirmTitle": "إيقاف الحساب؟",
+      "confirmBody": "سيتم تعليق مشاريعك وإخفاء ملفك الشخصي حتى تعيد تفعيل الحساب. هل ترغب في المتابعة؟",
+      "confirmButton": "إيقاف",
+      "done": "تم استلام طلب إيقاف حسابك."
+    },
+    "notifications": {
+      "title": "تفضيلات الإشعارات",
+      "description": "اختر التحديثات التي ترغب في تلقيها.",
+      "projectUpdates": "تحديثات المشاريع",
+      "projectUpdatesDesc": "تقدم مراحل إعادة الإعمار والمحطات الرئيسية.",
+      "fundingUpdates": "تحديثات التمويل",
+      "fundingUpdatesDesc": "التغييرات في حالة التمويل والمبالغ المصروفة لمشاريعك.",
+      "teamMessages": "رسائل الفرق",
+      "teamMessagesDesc": "الرسائل الواردة من الفرق العاملة على مشاريعك.",
+      "donationReceipts": "إيصالات التبرعات",
+      "donationReceiptsDesc": "تأكيدات التبرعات المرتبطة بمشاريعك.",
+      "saved": "تم حفظ تفضيلات الإشعارات."
+    },
+    "emailPreferences": {
+      "title": "تفضيلات الإشعارات",
+      "subtitle": "اختر الموضوعات التي نتواصل معك بشأنها."
+    }
+  },
+  "complaints": {
+    "list": {
+      "title": "شكاواي",
+      "subtitle": {
+        "zero": "لا توجد شكاوى",
+        "one": "شكوى واحدة",
+        "two": "شكويان",
+        "few": "{{count}} شكاوى",
+        "many": "{{count}} شكوى",
+        "other": "{{count}} شكوى"
+      },
+      "statusFilter": "التصفية حسب الحالة",
+      "allStatuses": "كل الحالات",
+      "emptyHint": "لم تقدّم أي شكاوى حتى الآن."
+    },
+    "reason": {
+      "delay": "تأخير في التنفيذ",
+      "poorQuality": "جودة عمل غير مُرضية",
+      "specificationMismatch": "عدم مطابقة العمل للمواصفات",
+      "misconduct": "سلوك غير مهني",
+      "otherReason": "سبب آخر"
+    },
+    "form": {
+      "title": "تقديم شكوى",
+      "teamLabel": "الفريق",
+      "projectLabel": "المشروع المرتبط (اختياري)",
+      "projectNone": "غير مرتبطة بمشروع محدد",
+      "reasonsLabel": "الأسباب",
+      "reasonsHint": "اختر كل ما ينطبق.",
+      "reasonsRequired": "يرجى اختيار سبب واحد على الأقل.",
+      "otherDetailLabel": "يرجى التوضيح",
+      "otherDetailPlaceholder": "أخبرنا بمزيد من التفاصيل",
+      "otherDetailRequired": "يرجى إضافة توضيح موجز للسبب الآخر.",
+      "descriptionLabel": "ما الذي حدث؟",
+      "descriptionPlaceholder": "صف المشكلة بأسلوبك الخاص",
+      "descriptionRequired": "يرجى وصف المشكلة.",
+      "attachmentsLabel": "صور (اختياري)",
+      "submit": "إرسال الشكوى",
+      "loadError": "تعذّر تحميل بيانات الفريق."
+    },
+    "view": {
+      "team": "الفريق",
+      "createdAt": "تاريخ التقديم",
+      "reasons": "الأسباب",
+      "description": "الوصف",
+      "response": {
+        "title": "الرد"
+      },
+      "loadError": "تعذّر تحميل هذه الشكوى.",
+      "notFound": "تعذّر العثور على هذه الشكوى."
+    },
+    "thanks": {
+      "title": "شكرًا لك",
+      "body": "لقد تلقّينا شكواك. سيقوم فريقنا بمراجعتها ومتابعتها معك."
+    }
+  },
+  "dashboard": {
+    "greeting": "أهلاً بعودتك، {{name}}",
+    "greetingGeneric": "أهلاً بعودتك",
+    "subtitle": "نظرة عامة على رحلة إعادة الإعمار الخاصة بك",
+    "stats": {
+      "activeProjects": "المشاريع النشطة",
+      "openRequests": "الطلبات المفتوحة",
+      "deliveredProjects": "المشاريع المُسلّمة"
+    },
+    "quickLinks": {
+      "newRequest": "طلب جديد",
+      "browseTeams": "تصفّح الفرق",
+      "estimates": "التقديرات"
+    },
+    "recentProjects": {
+      "title": "أحدث المشاريع",
+      "empty": "لا توجد مشاريع بعد"
+    },
+    "recentRequests": {
+      "title": "أحدث الطلبات",
+      "empty": "لا توجد طلبات بعد"
+    }
+  },
+  "donations": {
+    "general": {
+      "fund": "الصندوق العام"
+    },
+    "frequency": {
+      "once": "مرة واحدة",
+      "monthly": "شهري"
+    },
+    "list": {
+      "title": "تبرعاتي",
+      "subtitle": "شكرًا لدعمك العائلات في إعادة إعمار منازلها.",
+      "newDonation": "تبرع جديد",
+      "allStatuses": "جميع الحالات",
+      "receipt": "عرض الإيصال",
+      "summary": {
+        "totalDonated": "إجمالي التبرعات",
+        "projectsSupported": "المشاريع المدعومة",
+        "donationsCount": "عدد التبرعات"
+      },
+      "empty": {
+        "title": "لا توجد تبرعات بعد",
+        "body": "ستظهر مساهماتك هنا بمجرد إتمام أول تبرع لك."
+      }
+    },
+    "donate": {
+      "title": "قدّم تبرعًا",
+      "subtitle": "كل مساهمة تساعد عائلة على العودة إلى منزلها.",
+      "amountLabel": "اختر مبلغًا",
+      "customAmountLabel": "أو أدخل مبلغًا مخصصًا",
+      "amountError": "يرجى إدخال مبلغ لا يقل عن دولار واحد.",
+      "frequencyLabel": "التكرار",
+      "nameLabel": "الاسم",
+      "emailLabel": "البريد الإلكتروني",
+      "emailError": "يرجى إدخال بريد إلكتروني صحيح.",
+      "anonymousLabel": "التبرع دون ذكر الاسم",
+      "paymentNote": "ستُضاف مدفوعات البطاقة في مرحلة لاحقة. حاليًا يتم تسجيل نية التبرع فقط.",
+      "submit": "تبرّع",
+      "success": "شكرًا لتبرعك.",
+      "thankYou": {
+        "title": "شكرًا لكرمك",
+        "body": "تم تسجيل تبرعك بمبلغ {{amount}}.",
+        "qrHint": "احتفظ بهذا الرمز كمرجع لتبرعك.",
+        "viewDonation": "عرض التبرع"
+      }
+    },
+    "detail": {
+      "title": "تفاصيل التبرع",
+      "loadError": "تعذّر تحميل هذا التبرع.",
+      "amount": "المبلغ",
+      "frequency": "التكرار",
+      "status": "الحالة",
+      "donor": "المتبرع",
+      "anonymous": "غير معلن",
+      "date": "التاريخ",
+      "project": "المشروع المدعوم",
+      "viewProject": "عرض المشروع",
+      "downloadReceipt": "تنزيل الإيصال",
+      "receiptComingSoon": "سيتوفر تنزيل الإيصال قريبًا.",
+      "reference": "مرجع التبرع"
+    }
+  },
+  "estimates": {
+    "list": {
+      "title": "تقديرات التكلفة",
+      "subtitle": {
+        "zero": "لا توجد تقديرات",
+        "one": "تقدير واحد",
+        "two": "تقديران",
+        "few": "{{count}} تقديرات",
+        "many": "{{count}} تقديرًا",
+        "other": "{{count}} تقدير"
+      },
+      "searchPlaceholder": "ابحث برقم التقدير أو المشروع",
+      "allStatuses": "جميع الحالات",
+      "column": {
+        "estimateNumber": "التقدير",
+        "project": "المشروع",
+        "team": "الفريق",
+        "total": "الإجمالي",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء"
+      }
+    },
+    "view": {
+      "notFound": "تعذّر العثور على هذا التقدير.",
+      "teamTitle": "فريق إعادة الإعمار",
+      "summaryTitle": "ملخص التقدير",
+      "estimateNumberLabel": "رقم التقدير",
+      "createdAtLabel": "تاريخ الإنشاء",
+      "statusLabel": "الحالة",
+      "boqTitle": "جدول الكميات",
+      "category": {
+        "materials": "المواد",
+        "labor": "العمالة",
+        "equipment": "المعدّات",
+        "custom": "بنود أخرى"
+      },
+      "boq": {
+        "description": "الوصف",
+        "quantity": "الكمية",
+        "unitCost": "تكلفة الوحدة",
+        "lineTotal": "إجمالي البند"
+      },
+      "calc": {
+        "title": "ملخص التكلفة",
+        "subtotal": "المجموع الفرعي",
+        "discounts": "الخصم",
+        "tax": "الضريبة",
+        "total": "الإجمالي",
+        "fundingRequired": "التمويل المطلوب",
+        "fundedAmount": "المموّل حتى الآن"
+      },
+      "decision": {
+        "title": "المراجعة والرد",
+        "intro": "يرجى مراجعة التقدير أعلاه. للموافقة عليه، أكّد الشروط وأضف توقيعك.",
+        "termsLabel": "لقد راجعت هذا التقدير وأوافق على نطاق العمل والتكاليف الموضّحة أعلاه.",
+        "signatureLabel": "توقيعك",
+        "signatureCaptured": "تم حفظ التوقيع.",
+        "approveHint": "أكّد الشروط وأضف توقيعك للموافقة على هذا التقدير.",
+        "approve": "الموافقة على التقدير",
+        "reject": "رفض"
+      },
+      "approvedTitle": "تمت الموافقة على هذا التقدير.",
+      "approvedAtLabel": "تمت الموافقة بتاريخ {{date}}",
+      "rejectedTitle": "تم رفض هذا التقدير.",
+      "rejectionReasonLabel": "السبب",
+      "approveSuccess": "تمت الموافقة على التقدير.",
+      "rejectSuccess": "تم رفض التقدير."
+    },
+    "reject": {
+      "title": "رفض هذا التقدير؟",
+      "body": "سيتم إشعار فريق إعادة الإعمار وقد يعدّ تقديرًا منقّحًا. يمكنك مراجعة أي تقدير جديد عند وصوله.",
+      "confirm": "رفض التقدير"
+    }
+  },
+  "funding": {
+    "list": {
+      "title": "التمويل",
+      "subtitle": "التمويل المُجمَّع لمشاريع إعادة إعمارك",
+      "searchPlaceholder": "ابحث برقم التمويل أو المشروع",
+      "allStatuses": "جميع الحالات",
+      "column": {
+        "fundingNumber": "رقم التمويل",
+        "project": "المشروع",
+        "phase": "المرحلة",
+        "fundedAmount": "المبلغ المُموَّل",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء"
+      }
+    },
+    "details": {
+      "loadError": "تعذّر تحميل سجل التمويل. يرجى المحاولة مرة أخرى.",
+      "teamProject": "المشروع والفريق",
+      "project": "المشروع",
+      "phase": "المرحلة",
+      "summary": "الملخص",
+      "fundingNumber": "رقم التمويل",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء",
+      "amounts": {
+        "funded": "المبلغ المُموَّل",
+        "outstanding": "المبلغ المتبقّي",
+        "refunded": "المبلغ المُسترَد"
+      },
+      "disbursements": {
+        "title": "الدفعات",
+        "empty": "لم تُسجَّل أي دفعات بعد.",
+        "viewReceipt": "عرض الإيصال",
+        "column": {
+          "amount": "المبلغ",
+          "funder": "المموِّل",
+          "date": "التاريخ",
+          "receipt": "الإيصال"
+        },
+        "badge": {
+          "voided": "مُلغاة",
+          "refunded": "مُسترَدّة"
+        }
+      },
+      "confirmReceipt": {
+        "title": "تأكيد الاستلام",
+        "description": "بعد وصول تمويل هذه المرحلة إليك، يرجى تأكيد الاستلام لكي يتمكّن المشروع من المضي قدمًا.",
+        "termsLabel": "أؤكّد أنني استلمت هذه المبالغ وأوافق على شروط التسليم.",
+        "button": "تأكيد الاستلام",
+        "confirmedOn": "تم تأكيد الاستلام بتاريخ {{date}}."
+      }
+    },
+    "signature": {
+      "title": "تأكيد الاستلام والتسليم",
+      "instructions": "يرجى تقديم توقيعك أدناه لتأكيد استلامك تمويل هذه المرحلة.",
+      "success": "شكرًا لك. تم تأكيد استلامك."
+    },
+    "txn": {
+      "title": "تفاصيل المعاملة",
+      "loadError": "تعذّر تحميل هذه المعاملة. يرجى المحاولة مرة أخرى.",
+      "notFound": "تعذّر العثور على هذه المعاملة.",
+      "mode": {
+        "normal": "دفعة مكتملة",
+        "voided": "دفعة مُلغاة",
+        "refunded": "دفعة مُسترَدّة"
+      },
+      "details": {
+        "title": "التفاصيل",
+        "amount": "المبلغ",
+        "funder": "المموِّل",
+        "date": "التاريخ",
+        "receipt": "الإيصال"
+      },
+      "viewReceipt": "عرض الإيصال",
+      "notes": {
+        "title": "ملاحظات",
+        "normal": "تمّت هذه الدفعة بنجاح.",
+        "voided": "أُلغيت هذه الدفعة ولم يتم تحويل أي مبالغ.",
+        "refunded": "أُعيدت هذه الدفعة إلى المموِّل."
+      }
+    }
+  },
+  "notifications": {
+    "list": {
+      "title": "الإشعارات",
+      "subtitle": "مستجدات مشاريعك وتمويلك وطلباتك",
+      "markAllRead": "تحديد الكل كمقروء",
+      "delete": "حذف الإشعار",
+      "unread": "غير مقروء",
+      "removed": "تم حذف الإشعار",
+      "empty": "لا توجد إشعارات بعد"
+    }
+  },
+  "support": {
+    "list": {
+      "title": "طلبات الدعم",
+      "subtitle": {
+        "zero": "لا توجد طلبات",
+        "one": "طلب واحد",
+        "two": "طلبان",
+        "few": "{{count}} طلبات",
+        "many": "{{count}} طلبًا",
+        "other": "{{count}} طلب"
+      },
+      "newRequest": "طلب جديد",
+      "searchPlaceholder": "ابحث في طلبات الدعم",
+      "statusFilter": "التصفية حسب الحالة",
+      "allStatuses": "كل الحالات",
+      "empty": "لا توجد طلبات دعم بعد",
+      "emptyHint": "عندما تحتاج إلى مساعدة في أحد المشاريع، يمكنك فتح طلب دعم وسيقوم فريقنا بالرد عليك."
+    },
+    "form": {
+      "title": "طلب دعم جديد",
+      "subtitle": "أخبرنا كيف يمكننا مساعدتك",
+      "project": "المشروع المرتبط",
+      "projectPlaceholder": "اختر مشروعًا",
+      "noProjects": "لا توجد لديك مشاريع بعد لربط الطلب بها.",
+      "loadProjectsError": "تعذّر تحميل مشاريعك. يرجى المحاولة مرة أخرى.",
+      "subject": "الموضوع",
+      "subjectPlaceholder": "ملخص موجز لطلبك",
+      "description": "الوصف",
+      "descriptionPlaceholder": "صف ما تحتاج المساعدة فيه",
+      "submit": "إرسال الطلب",
+      "success": "تم إرسال طلب الدعم الخاص بك."
+    },
+    "view": {
+      "conversation": "المحادثة",
+      "originalRequest": "الطلب الأصلي",
+      "you": "أنت",
+      "supportTeam": "فريق الدعم",
+      "replyLabel": "ردّك",
+      "replyPlaceholder": "اكتب ردًا",
+      "send": "إرسال",
+      "closedNotice": "هذا الطلب مغلق. شكرًا لتواصلك معنا.",
+      "noMessages": "لا توجد رسائل بعد.",
+      "replySuccess": "تم إرسال ردّك.",
+      "notFound": "طلب الدعم غير موجود",
+      "notFoundHint": "قد يكون هذا الطلب قد أُزيل، أو أن الرابط غير صحيح.",
+      "loadError": "تعذّر تحميل طلب الدعم هذا."
+    }
+  },
+  "wizards": {
+    "common": {
+      "stepOf": "الخطوة {{current}} من {{total}}"
+    },
+    "request": {
+      "title": "طلب إعادة إعمار جديد",
+      "subtitleToTeam": "طلب موجّه إلى {{team}}",
+      "steps": {
+        "details": "تفاصيل الأضرار",
+        "confirm": "المراجعة والتأكيد"
+      },
+      "fields": {
+        "location": "موقع العقار",
+        "propertyType": "نوع العقار",
+        "severity": "درجة الضرر",
+        "description": "وصف الأضرار",
+        "descriptionPlaceholder": "اشرح للفريق ما حدث وما يحتاج إلى إعادة إعمار.",
+        "photos": "صور (اختياري)",
+        "consent": "أوافق على مشاركة هذه المعلومات مع فريق إعادة الإعمار لمراجعة طلبي."
+      },
+      "errors": {
+        "location": "يرجى اختيار المحافظة والمنطقة."
+      },
+      "summary": {
+        "title": "يرجى مراجعة طلبك قبل الإرسال.",
+        "team": "الفريق المكلّف",
+        "propertyType": "نوع العقار",
+        "severity": "درجة الضرر",
+        "location": "الموقع",
+        "description": "الوصف",
+        "photos": "الصور",
+        "photosCount": {
+          "=0": "لم تُرفق صور",
+          "zero": "لم تُرفق صور",
+          "one": "صورة واحدة مرفقة",
+          "two": "صورتان مرفقتان",
+          "few": "{{count}} صور مرفقة",
+          "many": "{{count}} صورة مرفقة",
+          "other": "{{count}} صورة مرفقة"
+        }
+      },
+      "submit": "إرسال الطلب",
+      "submitSuccess": "تم إرسال طلبك."
+    },
+    "assessment": {
+      "title": "تقييم ذاتي للأضرار",
+      "subtitle": "أجب عن بعض الأسئلة كي نفهم وضعك بشكل أفضل.",
+      "steps": {
+        "details": "تفاصيل إضافية"
+      },
+      "loadError": "تعذّر تحميل التقييم في الوقت الحالي. يرجى المحاولة مرة أخرى.",
+      "questionRequired": "يرجى اختيار إجابة للمتابعة.",
+      "selectPlaceholder": "اختر خيارًا",
+      "fields": {
+        "description": "وصف الأضرار",
+        "descriptionPlaceholder": "شارك أي تفاصيل تساعدنا على فهم ما حدث.",
+        "photos": "صور (اختياري)",
+        "location": "موقع العقار",
+        "consent": "أوافق على مشاركة هذه المعلومات لمراجعة طلبي."
+      },
+      "errors": {
+        "location": "يرجى اختيار المحافظة والمنطقة."
+      },
+      "submit": "إرسال التقييم",
+      "submitSuccess": "تم إرسال تقييمك.",
+      "confirm": {
+        "title": "تم إرسال التقييم",
+        "body": "شكرًا لك. تم تسجيل طلبك وستتم مراجعته قريبًا.",
+        "requestNumber": "رقم الطلب",
+        "viewRequest": "عرض الطلب"
+      }
+    },
+    "newBeneficiary": {
+      "title": "أنشئ حسابك",
+      "subtitle": "أبلغ عن الأضرار وأنشئ حسابك عبر خطوات بسيطة.",
+      "steps": {
+        "contact": "بياناتك",
+        "verify": "تأكيد بريدك الإلكتروني",
+        "password": "تعيين كلمة المرور",
+        "confirm": "المراجعة والإرسال"
+      },
+      "fields": {
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "propertyType": "نوع العقار",
+        "severity": "درجة الضرر",
+        "location": "موقع العقار",
+        "description": "وصف الأضرار",
+        "descriptionPlaceholder": "أخبرنا بما حدث وما يحتاج إلى إعادة إعمار.",
+        "photos": "صور (اختياري)",
+        "consent": "أوافق على مشاركة هذه المعلومات لمراجعة طلبي.",
+        "password": "كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور"
+      },
+      "verify": {
+        "body": "أرسلنا رمزًا مكوّنًا من 6 أرقام إلى بريدك الإلكتروني. أدخله أدناه للمتابعة.",
+        "resent": "تم إرسال رمز جديد.",
+        "invalid": "يرجى إدخال الرمز المكوّن من 6 أرقام."
+      },
+      "errors": {
+        "email": "يرجى إدخال بريد إلكتروني صحيح.",
+        "phone": "يرجى إدخال رقم هاتف صحيح.",
+        "location": "يرجى اختيار المحافظة والمنطقة.",
+        "passwordMismatch": "كلمتا المرور غير متطابقتين."
+      },
+      "summary": {
+        "title": "يرجى مراجعة بياناتك قبل الإرسال.",
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "propertyType": "نوع العقار",
+        "severity": "درجة الضرر",
+        "location": "الموقع",
+        "description": "الوصف"
+      },
+      "submit": "إرسال",
+      "submitSuccess": "تم إرسال طلبك.",
+      "confirm": {
+        "title": "تم إرسال الطلب",
+        "body": "شكرًا لك. تم استلام طلبك وستتم مراجعته قريبًا.",
+        "requestNumber": "رقم الطلب",
+        "signIn": "تسجيل الدخول إلى حسابك"
+      }
+    }
+  },
+  "reviews": {
+    "title": "تقييماتي",
+    "subtitle": {
+      "=0": "لا توجد تقييمات بعد",
+      "zero": "لا توجد تقييمات",
+      "one": "تقييم واحد",
+      "two": "تقييمان",
+      "few": "{{count}} تقييمات",
+      "many": "{{count}} تقييمًا",
+      "other": "{{count}} تقييم"
+    },
+    "emptyHint": "ستظهر هنا التقييمات التي تكتبها عن الفرق التي تعيد إعمار منزلك.",
+    "emptyCta": "الانتقال إلى مشاريعي",
+    "criteria": {
+      "workQuality": "جودة العمل",
+      "timeliness": "الالتزام بالمواعيد",
+      "professionalism": "الاحترافية"
+    }
+  },
+  "teamWorkspace": {
+    "greeting": "أهلاً بعودتك، {{name}}",
+    "greetingGeneric": "أهلاً بعودتك",
+    "subtitle": "مساحة عمل فريقك",
+    "stats": {
+      "activeProjects": "المشاريع النشطة",
+      "deliveredProjects": "المشاريع المُسلّمة",
+      "pendingEstimates": "التقديرات بانتظار الموافقة",
+      "openRequests": "الطلبات المفتوحة المطابقة",
+      "averageRating": "متوسط التقييم",
+      "outstandingFunding": "التمويل المستحق"
+    },
+    "projects": {
+      "title": "المشاريع المُسندة",
+      "empty": "لا توجد مشاريع مُسندة بعد"
+    },
+    "requests": {
+      "title": "الطلبات الواردة",
+      "empty": "لا توجد طلبات مطابقة بعد"
+    },
+    "estimates": {
+      "title": "التقديرات",
+      "empty": "لا توجد تقديرات بعد"
+    },
+    "reviews": {
+      "title": "أحدث التقييمات",
+      "empty": "لا توجد تقييمات بعد"
+    }
+  },
+  "table": {
+    "columns": "الأعمدة",
+    "export": "تصدير",
+    "actions": "إجراءات",
+    "selectAll": "تحديد كل الصفوف",
+    "selectRow": "تحديد الصف",
+    "clearSelection": "إلغاء التحديد",
+    "selectedCount": {
+      "zero": "لم يتم تحديد أي صف",
+      "one": "تم تحديد صف واحد",
+      "two": "تم تحديد صفّين",
+      "few": "تم تحديد {{count}} صفوف",
+      "many": "تم تحديد {{count}} صفًا",
+      "other": "تم تحديد {{count}} صف"
+    }
+  },
+  "navGroup": {
+    "overview": "نظرة عامة",
+    "operations": "العمليات",
+    "parties": "الأطراف",
+    "finance": "المالية",
+    "resources": "الموارد",
+    "monitoring": "المتابعة",
+    "settings": "الإعدادات"
+  }
+}

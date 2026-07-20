@@ -1,0 +1,47 @@
+<!-- Mobile backdrop -->
+@if (sidebarState.isOpen()) {
+  <button
+    type="button"
+    class="fixed inset-0 z-30 cursor-default bg-ink-900/50 lg:hidden"
+    [attr.aria-label]="'common.close' | translate"
+    (click)="sidebarState.close()"
+  ></button>
+}
+
+<aside
+  class="fixed inset-y-0 start-0 z-40 flex w-72 flex-col bg-nav-bg text-white transition-transform duration-200 ease-linear lg:static lg:z-auto lg:w-64 lg:!translate-x-0"
+  [class]="panelTransformClass()"
+>
+  <div class="flex items-center justify-between gap-3 px-5 py-5">
+    <a routerLink="/app" class="flex items-center gap-3" (click)="closeOnNavigate()">
+      <app-brand-mark [size]="32" emerald="var(--color-brand-300)" sand="var(--color-sand-300)" />
+      <span class="leading-tight">
+        <span class="block text-sm font-semibold text-white">{{ 'brand.nameEn' | translate }}</span>
+        <span class="block text-xs text-white/60">{{ 'brand.nameAr' | translate }}</span>
+      </span>
+    </a>
+    <button
+      type="button"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full text-white/80 hover:bg-nav-hover lg:hidden"
+      [attr.aria-label]="'common.close' | translate"
+      (click)="sidebarState.close()"
+    >
+      <svg lucideX [size]="20"></svg>
+    </button>
+  </div>
+
+  <nav class="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
+    @for (item of navItems(); track item.path) {
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="bg-brand-500 text-white"
+        [routerLinkActiveOptions]="{ exact: false }"
+        class="flex min-h-11 items-center gap-3 rounded-card px-3 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-nav-hover hover:text-white"
+        (click)="closeOnNavigate()"
+      >
+        <svg [lucideIcon]="item.icon" [size]="20"></svg>
+        {{ item.labelKey | translate }}
+      </a>
+    }
+  </nav>
+</aside>

@@ -1,0 +1,209 @@
+import {
+  DAMAGE_SEVERITIES,
+  DONATION_STATUSES,
+  ESTIMATE_STATUSES,
+  FUNDING_STATUSES,
+  PROJECT_STATUSES,
+  ProjectPhase,
+  REQUEST_STATUSES,
+  SUPPORT_STATUSES,
+} from '@core/models';
+import { resolveStatusTone, StatusPillContext, StatusTone } from './status-tone.util';
+
+/**
+ * `ProjectPhase['status']` has no exported constant array, so mirror it here.
+ * Typing the array against the model means dropping or renaming a phase status
+ * in the model breaks compilation of this spec.
+ */
+const PROJECT_PHASE_STATUSES: readonly ProjectPhase['status'][] = ['pending', 'inProgress', 'completed'];
+
+/** Every (context, status) pair the app is expected to render, with its known tone. */
+const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> = {
+  request: {
+    new: 'info',
+    underReview: 'info',
+    matched: 'info',
+    accepted: 'brand',
+    rejected: 'danger',
+  },
+  project: {
+    active: 'info',
+    onHold: 'warning',
+    completed: 'success',
+    delivered: 'success',
+    cancelled: 'neutral',
+  },
+  projectPhase: {
+    pending: 'neutral',
+    inProgress: 'info',
+    completed: 'success',
+  },
+  estimate: {
+    pendingApproval: 'warning',
+    approved: 'success',
+    rejected: 'danger',
+  },
+  funding: {
+    unfunded: 'danger',
+    partiallyFunded: 'warning',
+    fullyFunded: 'success',
+    refunded: 'info',
+  },
+  donation: {
+    succeeded: 'success',
+    processing: 'warning',
+    failed: 'danger',
+  },
+  support: {
+    open: 'info',
+    closed: 'neutral',
+  },
+  severity: {
+    partial: 'warning',
+    severe: 'sandStrong',
+    totalLoss: 'danger',
+  },
+};
+
+/** The status values whose real, intended tone happens to be `neutral`. */
+const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
+  project: ['cancelled'],
+  projectPhase: ['pending'],
+  support: ['closed'],
+};
+
+/** Pairs each context with the constant array that defines its full status domain. */
+const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly string[] }[] = [
+  { context: 'request', statuses: REQUEST_STATUSES },
+  { context: 'project', statuses: PROJECT_STATUSES },
+  { context: 'projectPhase', statuses: PROJECT_PHASE_STATUSES },
+  { context: 'estimate', statuses: ESTIMATE_STATUSES },
+  { context: 'funding', statuses: FUNDING_STATUSES },
+  { context: 'donation', statuses: DONATION_STATUSES },
+  { context: 'support', statuses: SUPPORT_STATUSES },
+  { context: 'severity', statuses: DAMAGE_SEVERITIES },
+];
+
+describe('resolveStatusTone', () => {
+  describe('tone and label key for every known status', () => {
+    for (const { context, statuses } of CONTEXT_DOMAINS) {
+      for (const status of statuses) {
+        it(`maps ${context}/${status} to the "${EXPECTED[context][status]}" tone and its own label key`, () => {
+          expect(resolveStatusTone(context, status)).toEqual({
+            tone: EXPECTED[context][status],
+            labelKey: `shared.statusPill.${context}.${status}`,
+          });
+        });
+      }
+    }
+  });
+
+  describe('completeness guard across every status constant', () => {
+    for (const { context, statuses } of CONTEXT_DOMAINS) {
+      it(`gives every ${context} status listed in its constant a deliberate, non-fallback tone`, () => {
+        const neutralByDesign = INTENTIONALLY_NEUTRAL[context] ?? [];
+        const unmapped = statuses.filter(
+          (status) => resolveStatusTone(context, status).tone === 'neutral' && !neutralByDesign.includes(status),
+        );
+
+        expect(unmapped)
+          .withContext(
+            `these ${context} statuses fell back to the neutral tone, which means they are missing from ` +
+              'CONTEXT_TONES in status-tone.util.ts (or are neutral on purpose and belong in INTENTIONALLY_NEUTRAL here)',
+          )
+          .toEqual([]);
+      });
+
+      it(`returns a tone that is one of the declared StatusTone values for every ${context} status`, () => {
+        const allowedTones: readonly StatusTone[] = [
+          'brand',
+          'success',
+          'warning',
+          'danger',
+          'info',
+          'neutral',
+          'sandStrong',
+        ];
+
+        for (const status of statuses) {
+          const { tone } = resolveStatusTone(context, status);
+          expect(allowedTones).withContext(`${context}/${status} produced "${tone}"`).toContain(tone);
+        }
+      });
+    }
+
+    it('covers exactly the eight contexts the pill supports, so a new context cannot slip in untested', () => {
+      expect(CONTEXT_DOMAINS.map((entry) => entry.context)).toEqual([
+        'request',
+        'project',
+        'projectPhase',
+        'estimate',
+        'funding',
+        'donation',
+        'support',
+        'severity',
+      ]);
+    });
+  });
+
+  describe('fallback behaviour for unrecognised status values', () => {
+    it('falls back to the neutral tone rather than throwing when the backend sends an unknown status', () => {
+      expect(resolveStatusTone('request', 'quantumSuperposition').tone).toBe('neutral');
+    });
+
+    it('still builds a label key for an unknown status so the missing translation is visible', () => {
+      expect(resolveStatusTone('project', 'mothballed').labelKey).toBe('shared.statusPill.project.mothballed');
+    });
+
+    it('falls back for an empty status string', () => {
+      expect(resolveStatusTone('estimate', '')).toEqual({
+        tone: 'neutral',
+        labelKey: 'shared.statusPill.estimate.',
+      });
+    });
+
+    it('does not leak a status from one context into another', () => {
+      // `accepted` is a request status only; asking the estimate context must not resolve it.
+      expect(resolveStatusTone('estimate', 'accepted').tone).toBe('neutral');
+      // `approved` is an estimate status only.
+      expect(resolveStatusTone('request', 'approved').tone).toBe('neutral');
+    });
+
+    it('falls back to neutral for status names that collide with Object.prototype members', () => {
+      // Regression guard: the lookup previously used `?? 'neutral'`, which only
+      // falls back on null/undefined — so an inherited prototype member resolved
+      // to a *function* as the tone. Now an own-property check, so these are
+      // treated as the unknown values they are.
+      for (const inherited of ['toString', 'constructor', 'valueOf', 'hasOwnProperty']) {
+        expect(resolveStatusTone('request', inherited).tone)
+          .withContext(`status "${inherited}" must not leak from the prototype`)
+          .toBe('neutral');
+      }
+    });
+
+    it('still builds a normal label key for a prototype-shaped status name', () => {
+      expect(resolveStatusTone('request', 'toString').labelKey).toBe('shared.statusPill.request.toString');
+    });
+
+    it('falls back to neutral for ordinary unknown names that are not on Object.prototype', () => {
+      for (const bogus of ['pending', 'archived', 'foo', 'undefined', 'null']) {
+        expect(resolveStatusTone('request', bogus).tone).toBe('neutral');
+      }
+    });
+  });
+
+  describe('label key construction', () => {
+    it('namespaces the key by context so two contexts sharing a status name get distinct keys', () => {
+      expect(resolveStatusTone('request', 'rejected').labelKey).toBe('shared.statusPill.request.rejected');
+      expect(resolveStatusTone('estimate', 'rejected').labelKey).toBe('shared.statusPill.estimate.rejected');
+    });
+
+    it('produces a unique label key for every known (context, status) pair', () => {
+      const keys = CONTEXT_DOMAINS.flatMap(({ context, statuses }) =>
+        statuses.map((status) => resolveStatusTone(context, status).labelKey),
+      );
+
+      expect(new Set(keys).size).toBe(keys.length);
+    });
+  });
+});

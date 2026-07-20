@@ -1,0 +1,30 @@
+<div class="flex flex-wrap items-end gap-3">
+  <div class="relative w-full sm:w-auto sm:min-w-64">
+    <svg
+      lucideSearch
+      [size]="16"
+      class="pointer-events-none absolute inset-s-3 top-1/2 -translate-y-1/2 text-ink-500"
+    ></svg>
+    <input
+      #searchInput
+      type="search"
+      class="min-h-11 w-full rounded-card border border-ink-300 bg-surface ps-9 pe-3 text-sm text-ink-900 placeholder:text-ink-500 focus-visible:border-brand-500"
+      [placeholder]="searchPlaceholderKey() | translate"
+      [attr.aria-label]="searchPlaceholderKey() | translate"
+      [value]="draft()"
+      (input)="onInput(searchInput.value)"
+    />
+  </div>
+
+  <ng-content />
+
+  @if (search()) {
+    <button
+      type="button"
+      class="inline-flex min-h-11 items-center text-sm font-medium text-brand-600 hover:text-brand-700"
+      (click)="onClear()"
+    >
+      {{ 'common.clearFilters' | translate }}
+    </button>
+  }
+</div>

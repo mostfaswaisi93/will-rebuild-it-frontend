@@ -1,0 +1,9 @@
+<div class="inline-block rounded-card border border-ink-300 bg-white p-2">
+  <qrcode
+    [qrdata]="value()"
+    [width]="size()"
+    [elementType]="'svg'"
+    [errorCorrectionLevel]="'M'"
+    [ariaLabel]="value()"
+  />
+</div>

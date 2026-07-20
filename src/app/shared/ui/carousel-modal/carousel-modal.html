@@ -1,0 +1,57 @@
+@if (open()) {
+  <div class="fixed inset-0 z-50 flex flex-col bg-ink-900/90" role="dialog" aria-modal="true">
+    <button
+      type="button"
+      class="absolute inset-0 cursor-default"
+      [attr.aria-label]="'common.close' | translate"
+      (click)="close()"
+    ></button>
+
+    <button
+      type="button"
+      class="absolute top-4 inset-e-4 z-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-surface/10 text-surface hover:bg-surface/20"
+      [attr.aria-label]="'common.close' | translate"
+      (click)="close()"
+    >
+      <svg lucideX [size]="20"></svg>
+    </button>
+
+    <div class="relative z-10 flex flex-1 items-center justify-center gap-2 p-4 sm:gap-6">
+      @if (total() > 1) {
+        <button
+          type="button"
+          class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-surface/10 text-surface hover:bg-surface/20"
+          [attr.aria-label]="'common.previous' | translate"
+          (click)="previous()"
+        >
+          <svg lucideChevronLeft [size]="24" class="rtl:rotate-180"></svg>
+        </button>
+      }
+
+      @if (currentPhoto(); as photo) {
+        <img
+          [src]="photo.url"
+          [alt]="photo.fileName ?? ''"
+          class="max-h-[75vh] max-w-full rounded-card object-contain"
+        />
+      }
+
+      @if (total() > 1) {
+        <button
+          type="button"
+          class="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full bg-surface/10 text-surface hover:bg-surface/20"
+          [attr.aria-label]="'common.next' | translate"
+          (click)="next()"
+        >
+          <svg lucideChevronRight [size]="24" class="rtl:rotate-180"></svg>
+        </button>
+      }
+    </div>
+
+    @if (total() > 1) {
+      <p class="relative z-10 pointer-events-none pb-4 text-center text-sm text-surface">
+        {{ 'shared.carouselModal.photoCounter' | translate: { current: currentIndex() + 1, total: total() } }}
+      </p>
+    }
+  </div>
+}

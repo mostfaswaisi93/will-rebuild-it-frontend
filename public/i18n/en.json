@@ -1,0 +1,1123 @@
+{
+  "brand": {
+    "nameEn": "Gaza Reconstruction Platform",
+    "nameAr": "حنعمرها",
+    "tagline": "Rebuilding, together, with transparency."
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "filters": "Filters",
+    "clearFilters": "Clear filters",
+    "viewAll": "View all",
+    "viewDetails": "View details",
+    "comingSoon": "Coming soon",
+    "comingSoonBody": "This area is being built in the next phase. Check back soon.",
+    "noResults": "No results found",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "requiredField": "This field is required",
+    "optional": "Optional",
+    "signOut": "Sign out",
+    "signIn": "Sign in"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "requests": "Requests",
+    "projects": "Projects",
+    "teams": "Teams",
+    "estimates": "Estimates",
+    "funding": "Funding & disbursements",
+    "donations": "Donations",
+    "browseProjects": "Browse projects",
+    "reviews": "My reviews",
+    "teamDashboard": "Team workspace",
+    "adminDashboard": "Admin dashboard",
+    "contractorDashboard": "Contractor dashboard",
+    "staffDashboard": "Staff dashboard",
+    "supplierDashboard": "Supplier dashboard",
+    "workRequests": "Reconstruction requests",
+    "dispatch": "Dispatch board",
+    "workOrders": "Work orders",
+    "inspections": "Inspections",
+    "beneficiaries": "Beneficiaries",
+    "contractors": "Contractors",
+    "suppliers": "Material suppliers",
+    "staff": "Staff",
+    "statements": "Progress claims",
+    "disbursements": "Disbursements",
+    "pricebook": "Pricebook",
+    "priceList": "Platform price lists",
+    "subscriptions": "Subscriptions",
+    "inventory": "Material stock",
+    "warehouses": "Warehouses",
+    "purchaseOrders": "Purchase orders",
+    "shipments": "Shipments",
+    "equipment": "Heavy equipment",
+    "equipmentSchedule": "Equipment schedule",
+    "scorecard": "Scorecards",
+    "externalRatings": "External ratings",
+    "questions": "Question bank",
+    "campaigns": "Awareness campaigns",
+    "logs": "System logs",
+    "accountSettings": "Account settings",
+    "globalSettings": "Global settings",
+    "permissions": "Permissions"
+  },
+  "header": {
+    "openMenu": "Open menu",
+    "searchRequests": "Search your requests",
+    "toggleLanguage": "Switch language",
+    "notifications": "Notifications",
+    "signOutConfirmTitle": "Sign out?",
+    "signOutConfirmBody": "You'll need to sign in again to access your account.",
+    "menu": {
+      "profile": "Profile",
+      "support": "Support",
+      "reportTeam": "Report a team",
+      "privacy": "Privacy"
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} Gaza Reconstruction Platform · حنعمرها"
+  },
+  "content": {
+    "privacy": {
+      "title": "Privacy policy"
+    },
+    "terms": {
+      "title": "Terms of service"
+    },
+    "help": {
+      "title": "Help & FAQ",
+      "subtitle": "Answers to the questions we hear most",
+      "faq": {
+        "q1": "How do I request a damage assessment for my property?",
+        "a1": "From the home screen, choose New request and select a damage assessment. Add your property details, its location, and a short description. A reconstruction team will review your request and arrange a visit.",
+        "q2": "Who reviews the cost estimate for my project, and how do I approve it?",
+        "a2": "After a team surveys your property, they prepare an itemised cost estimate. You will be notified to review the breakdown, and you can approve it with your signature or ask for changes before any work begins.",
+        "q3": "How is the reconstruction of my property funded?",
+        "a3": "Approved projects are shared with donors who contribute toward the required amount. You can follow the funding progress for each phase, and funds are released to the team as milestones are confirmed.",
+        "q4": "How do I follow the progress of my reconstruction?",
+        "a4": "Open your project to see its current phase, completion percentage, and progress photos. You will also receive a notification each time your team records a new milestone.",
+        "q5": "What can I do if I have a concern about my reconstruction team?",
+        "a5": "You can raise a complaint from your project page, describing the matter and selecting the relevant reasons. Our support staff will review it and follow up with you.",
+        "q6": "How do I confirm that I received funds or that work was completed?",
+        "a6": "When a disbursement or a handover is ready, you will be asked to confirm receipt and sign. This keeps a clear, transparent record for you, your team, and the donors."
+      },
+      "contact": {
+        "title": "Still need help?",
+        "intro": "You can reach our support team directly."
+      }
+    }
+  },
+  "public": {
+    "home": {
+      "missionBody": "We connect Gaza families whose homes were damaged with vetted reconstruction teams and verified donors — every step tracked and visible, from assessment to handover.",
+      "getStarted": "Get started",
+      "projectsUnderway": "Projects underway",
+      "projectsUnderwaySubtitle": "A glimpse of reconstruction work happening across Gaza right now.",
+      "percentComplete": "{{percent}}% complete"
+    },
+    "projectPublic": {
+      "notFound": "We couldn't find this project. It may have been moved or is no longer available.",
+      "progressTitle": "Reconstruction progress",
+      "photosTitle": "Progress photos",
+      "teamTitle": "Reconstruction team",
+      "locationTitle": "Location"
+    },
+    "areaStart": {
+      "title": "Where do you need help rebuilding?",
+      "subtitle": "Choose your area to see which reconstruction teams work there. No account needed to look.",
+      "stepGovernorate": "1 · Your governorate",
+      "stepDistrict": "2 · Your district",
+      "teamsAvailable": {
+        "one": "{{count}} reconstruction team works in your area",
+        "other": "{{count}} reconstruction teams work in your area"
+      },
+      "completedNearby": {
+        "=0": "They have not recorded completed rebuilds here yet.",
+        "one": "{{count}} rebuild completed between them.",
+        "other": "{{count}} rebuilds completed between them."
+      },
+      "startRequest": "Start a damage report",
+      "haveAccount": "I already have an account",
+      "noTeamsTitle": "No team is registered in this area yet",
+      "noTeamsBody": "You can still register your damage report. It stays on record, and we will match you as soon as a team covers your area.",
+      "registerAnyway": "Register my damage report anyway"
+    }
+  },
+  "auth": {
+    "emailCheck": {
+      "title": "Sign in to your account",
+      "titleDonate": "Sign in to continue your donation",
+      "subtitle": "Enter your email to continue.",
+      "emailLabel": "Email address",
+      "passwordLabel": "Password",
+      "incorrectPassword": "That password doesn't look right. Please try again.",
+      "unavailableBody": "We couldn't find an account with that email. Self-registration isn't available in this preview yet — explore the platform below using one of our demo accounts.",
+      "tryAnotherEmail": "Try another email",
+      "welcomeBack": "Welcome back, {{name}}.",
+      "demo": {
+        "title": "Try a demo account",
+        "subtitle": "Explore the platform instantly with one of these preview accounts.",
+        "fillIn": "Fill in",
+        "beneficiary": "Beneficiary account",
+        "donor": "Donor account",
+        "team": "Reconstruction team account"
+      }
+    }
+  },
+  "requests": {
+    "list": {
+      "title": "My requests",
+      "subtitle": {
+        "one": "{{count}} request in total",
+        "other": "{{count}} requests in total"
+      },
+      "searchPlaceholder": "Search by request number or description",
+      "statusFilter": "Filter by status",
+      "allStatuses": "All statuses",
+      "emptyHint": "You haven't submitted any reconstruction or assessment requests yet.",
+      "columns": {
+        "requestNumber": "Request #",
+        "propertyType": "Property type",
+        "governorate": "Governorate",
+        "createdAt": "Submitted on",
+        "status": "Status"
+      }
+    },
+    "view": {
+      "loadError": "We couldn't load this request. Please try again.",
+      "tabs": {
+        "damage": "Damage details",
+        "contact": "Contact info",
+        "teams": "Matched teams"
+      },
+      "propertyDetails": "Property details",
+      "description": "Description",
+      "address": "Address",
+      "attachments": "Attachments",
+      "noAttachments": "No photos have been attached to this request yet.",
+      "contactName": "Contact name",
+      "contactPhone": "Contact phone",
+      "noMatchedTeams": "No reconstruction teams have been matched to this request yet.",
+      "matchScore": "{{score}}% match",
+      "teamStatus": {
+        "suggested": "Suggested",
+        "assigned": "Assigned"
+      }
+    }
+  },
+  "projects": {
+    "list": {
+      "title": "My projects",
+      "subtitle": "Track every reconstruction project tied to your requests.",
+      "searchPlaceholder": "Search by project number or title",
+      "allStatuses": "All statuses",
+      "column": {
+        "projectNumber": "Project #",
+        "title": "Title",
+        "team": "Team",
+        "phase": "Phase",
+        "status": "Status",
+        "created": "Created"
+      }
+    },
+    "view": {
+      "tabs": {
+        "details": "Details",
+        "team": "Team",
+        "timeline": "Timeline"
+      },
+      "notFound": "We couldn't find this project.",
+      "details": {
+        "overviewTitle": "Overview",
+        "projectNumber": "Project number",
+        "createdAt": "Created on",
+        "addressTitle": "Property address",
+        "governorateLabel": "Governorate",
+        "districtLabel": "District",
+        "streetLabel": "Street / landmark",
+        "documentsTitle": "Documents",
+        "noDocuments": "No documents have been added yet.",
+        "photosTitle": "Photos",
+        "noPhotos": "No photos have been added yet.",
+        "locationTitle": "Location"
+      },
+      "team": {
+        "reviewsCount": {
+          "=0": "No reviews yet",
+          "one": "{{count}} review",
+          "other": "{{count}} reviews"
+        },
+        "reviewCardTitle": "Rate this team",
+        "reviewPrompt": "Share your experience working with this team on your project.",
+        "reviewsTitle": "Reviews",
+        "noReviews": "No reviews yet."
+      },
+      "timeline": {
+        "updatesTitle": "Progress updates",
+        "noUpdates": "No updates have been posted yet."
+      }
+    },
+    "teamReview": {
+      "title": "Rate this team",
+      "workQuality": "Work quality",
+      "timeliness": "Timeliness",
+      "professionalism": "Professionalism",
+      "comments": "Comments",
+      "commentsPlaceholder": "Tell us about your experience with this team",
+      "writeButton": "Write a review",
+      "editButton": "Edit review",
+      "thanksMessage": "Thank you — your review has been submitted."
+    }
+  },
+  "teams": {
+    "list": {
+      "title": "Reconstruction teams",
+      "subtitle": "Browse licensed teams working across Gaza and find the right fit for your rebuild.",
+      "searchPlaceholder": "Search teams by name",
+      "governorateFilter": "Filter by governorate",
+      "allGovernorates": "All governorates",
+      "specializationFilter": "Filter by specialization",
+      "allSpecializations": "All specializations",
+      "follow": "Follow team",
+      "unfollow": "Unfollow team",
+      "followSuccess": "You're now following this team.",
+      "unfollowSuccess": "You've unfollowed this team.",
+      "completedProjects": {
+        "=0": "No completed projects",
+        "one": "{{count}} completed project",
+        "other": "{{count}} completed projects"
+      }
+    },
+    "specialization": {
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "agricultural": "Agricultural",
+      "infrastructure": "Infrastructure",
+      "structuralRepair": "Structural repair",
+      "finishingWorks": "Finishing works"
+    },
+    "profile": {
+      "title": "Team profile",
+      "notFound": "We couldn't find this team. It may have been removed.",
+      "completedProjects": {
+        "=0": "No completed projects",
+        "one": "{{count}} completed project",
+        "other": "{{count}} completed projects"
+      },
+      "workingSince": "Working since {{year}}",
+      "reviewsCount": {
+        "=0": "No reviews yet",
+        "one": "{{count}} review",
+        "other": "{{count}} reviews"
+      },
+      "requestReconstruction": "Request reconstruction",
+      "reportTeam": "Report team",
+      "signInToRequest": "Sign in to request reconstruction",
+      "reviewsTitle": "Reviews",
+      "noReviews": "No reviews yet.",
+      "servicesTitle": "Services offered",
+      "noServices": "This team hasn't listed any services yet.",
+      "coverageTitle": "Coverage area",
+      "noCoverage": "This team hasn't listed a coverage area yet.",
+      "hoursTitle": "Business hours",
+      "closed": "Closed",
+      "portfolioTitle": "Completed work",
+      "badges": {
+        "licensed": "Licensed",
+        "insured": "Insured",
+        "acceptsLargeProjects": "Accepts large projects"
+      },
+      "day": {
+        "sunday": "Sunday",
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday"
+      }
+    }
+  },
+  "master": {
+    "governorate": {
+      "northGaza": "North Gaza",
+      "gazaCity": "Gaza City",
+      "deirAlBalah": "Deir al-Balah",
+      "khanYounis": "Khan Younis",
+      "rafah": "Rafah"
+    },
+    "propertyType": {
+      "residential": "Residential",
+      "commercial": "Commercial",
+      "agricultural": "Agricultural",
+      "infrastructure": "Infrastructure",
+      "publicFacility": "Public facility"
+    },
+    "severity": {
+      "partial": "Partial damage",
+      "severe": "Severe damage",
+      "totalLoss": "Total loss"
+    }
+  },
+  "project": {
+    "phase": {
+      "damageAssessment": "Damage assessment",
+      "debrisRemoval": "Debris removal",
+      "designAndPermits": "Design and permits",
+      "foundation": "Foundation",
+      "structure": "Structure",
+      "finishing": "Finishing",
+      "handover": "Handover"
+    }
+  },
+  "shared": {
+    "pageHeader": {
+      "back": "Back"
+    },
+    "statusPill": {
+      "request": {
+        "new": "New",
+        "underReview": "Under review",
+        "matched": "Matched",
+        "accepted": "Accepted",
+        "rejected": "Rejected"
+      },
+      "project": {
+        "active": "Active",
+        "onHold": "On hold",
+        "completed": "Completed",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled"
+      },
+      "projectPhase": {
+        "pending": "Pending",
+        "inProgress": "In progress",
+        "completed": "Completed"
+      },
+      "estimate": {
+        "pendingApproval": "Pending approval",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "funding": {
+        "unfunded": "Unfunded",
+        "partiallyFunded": "Partially funded",
+        "fullyFunded": "Fully funded",
+        "refunded": "Refunded"
+      },
+      "donation": {
+        "succeeded": "Succeeded",
+        "processing": "Processing",
+        "failed": "Failed"
+      },
+      "support": {
+        "open": "Open",
+        "closed": "Closed"
+      },
+      "severity": {
+        "partial": "Partial damage",
+        "severe": "Severe damage",
+        "totalLoss": "Total loss"
+      }
+    },
+    "ratingStars": {
+      "outOf": "{{value}} out of {{max}} stars",
+      "rateValue": "Rate {{value}} out of {{max}} stars"
+    },
+    "paginator": {
+      "pageOfTotal": "Page {{page}} of {{total}}",
+      "navigationLabel": "Pagination"
+    },
+    "carouselModal": {
+      "photoCounter": "{{current}} / {{total}}"
+    },
+    "phaseStepper": {
+      "statusCompleted": "Completed",
+      "statusInProgress": "In progress",
+      "statusPending": "Pending",
+      "photoAlt": "Phase progress photo",
+      "morePhotos": "+{{count}} more"
+    },
+    "fileUploader": {
+      "dragHint": "Drag and drop files here, or",
+      "chooseFiles": "Choose files",
+      "offline": "You're offline. Uploads are paused and will resume automatically once you're back online.",
+      "paused": "Paused",
+      "retry": "Retry",
+      "remove": "Remove file",
+      "tooManyFiles": "You can upload up to {{max}} files."
+    },
+    "addressPicker": {
+      "governorate": "Governorate",
+      "selectGovernorate": "Select a governorate",
+      "district": "District",
+      "selectDistrict": "Select a district",
+      "streetDescription": "Street / landmark description"
+    },
+    "locationInput": {
+      "governorate": "Governorate",
+      "selectGovernorate": "Select a governorate",
+      "district": "District",
+      "selectDistrict": "Select a district",
+      "streetDescription": "Street / landmark description",
+      "latitude": "Latitude",
+      "longitude": "Longitude"
+    },
+    "damageCategorySelect": {
+      "groupLabel": "Property type"
+    },
+    "severitySelect": {
+      "groupLabel": "Damage severity"
+    },
+    "phoneInput": {
+      "placeholder": "59 123 4567"
+    },
+    "passwordField": {
+      "show": "Show password",
+      "hide": "Hide password",
+      "rule": {
+        "length": "8–15 characters",
+        "uppercase": "One uppercase letter",
+        "lowercase": "One lowercase letter",
+        "number": "One number",
+        "symbol": "One symbol"
+      }
+    },
+    "otpVerificationStep": {
+      "resend": "Resend code",
+      "resendIn": "Resend code in {{seconds}}s"
+    },
+    "signaturePad": {
+      "draw": "Draw",
+      "type": "Type",
+      "typePlaceholder": "Type your full name",
+      "drawHint": "Sign here",
+      "clear": "Clear",
+      "confirm": "Confirm signature"
+    },
+    "donationWidget": {
+      "supporting": "Supporting: {{title}}",
+      "generalFund": "Donating to the general reconstruction fund",
+      "customAmount": "Custom amount",
+      "customAmountPlaceholder": "Enter an amount",
+      "once": "One-time",
+      "monthly": "Monthly",
+      "donate": "Donate"
+    }
+  },
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Review and update your personal details.",
+    "personalInfo": "Personal information",
+    "edit": "Edit",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone number",
+    "contactLocked": "Contact the support team to change your phone number.",
+    "email": "Email address",
+    "propertyAddress": "Property address",
+    "familySize": "Family size",
+    "familySizeError": "Please enter a valid family size.",
+    "saved": "Your profile has been updated.",
+    "idLabel": "Beneficiary ID",
+    "qrHint": "Show this code so reconstruction teams can confirm your identity.",
+    "changePasswordButton": "Change password",
+    "changePassword": {
+      "title": "Change password",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "weak": "Password does not meet the requirements.",
+      "mismatch": "The two passwords do not match.",
+      "saved": "Your password has been changed."
+    }
+  },
+  "account": {
+    "title": "Account settings",
+    "subtitle": "Manage your data, sharing and notification preferences.",
+    "tabs": {
+      "data": "Data & sharing",
+      "notifications": "Notifications"
+    },
+    "data": {
+      "title": "Your data",
+      "description": "You decide how your information is used across the platform.",
+      "pointVisibility": "Your profile details are visible only to teams assigned to your projects.",
+      "pointSharing": "Your identity is never shared with donors unless you choose to.",
+      "pointRetention": "You may request a copy of your data or ask for it to be removed at any time."
+    },
+    "dangerZone": {
+      "title": "Danger zone"
+    },
+    "deactivate": {
+      "description": "Deactivating your account pauses your projects and hides your profile. You can reach out to support to restore it later.",
+      "button": "Deactivate account",
+      "confirmTitle": "Deactivate account?",
+      "confirmBody": "Your projects will be paused and your profile hidden until you restore the account. Would you like to continue?",
+      "confirmButton": "Deactivate",
+      "done": "Your deactivation request has been received."
+    },
+    "notifications": {
+      "title": "Notification preferences",
+      "description": "Choose which updates you would like to receive.",
+      "projectUpdates": "Project updates",
+      "projectUpdatesDesc": "Progress on your reconstruction phases and milestones.",
+      "fundingUpdates": "Funding updates",
+      "fundingUpdatesDesc": "Changes to funding status and disbursements for your projects.",
+      "teamMessages": "Team messages",
+      "teamMessagesDesc": "Messages from the teams working on your projects.",
+      "donationReceipts": "Donation receipts",
+      "donationReceiptsDesc": "Confirmations for donations linked to your projects.",
+      "saved": "Your notification preferences have been saved."
+    },
+    "emailPreferences": {
+      "title": "Notification preferences",
+      "subtitle": "Choose what we contact you about."
+    }
+  },
+  "complaints": {
+    "list": {
+      "title": "My complaints",
+      "subtitle": {
+        "one": "{{count}} complaint in total",
+        "other": "{{count}} complaints in total"
+      },
+      "statusFilter": "Filter by status",
+      "allStatuses": "All statuses",
+      "emptyHint": "You haven't filed any complaints yet."
+    },
+    "reason": {
+      "delay": "Delays",
+      "poorQuality": "Poor quality of work",
+      "specificationMismatch": "Work does not match specifications",
+      "misconduct": "Unprofessional conduct",
+      "otherReason": "Other"
+    },
+    "form": {
+      "title": "File a complaint",
+      "teamLabel": "Team",
+      "projectLabel": "Related project (optional)",
+      "projectNone": "Not related to a specific project",
+      "reasonsLabel": "Reasons",
+      "reasonsHint": "Select all that apply.",
+      "reasonsRequired": "Please select at least one reason.",
+      "otherDetailLabel": "Please specify",
+      "otherDetailPlaceholder": "Tell us a little more",
+      "otherDetailRequired": "Please add a short note for the other reason.",
+      "descriptionLabel": "What happened?",
+      "descriptionPlaceholder": "Describe the issue in your own words",
+      "descriptionRequired": "Please describe the issue.",
+      "attachmentsLabel": "Photos (optional)",
+      "submit": "Submit complaint",
+      "loadError": "We couldn't load the team details."
+    },
+    "view": {
+      "team": "Team",
+      "createdAt": "Filed on",
+      "reasons": "Reasons",
+      "description": "Description",
+      "response": {
+        "title": "Response"
+      },
+      "loadError": "We couldn't load this complaint.",
+      "notFound": "This complaint could not be found."
+    },
+    "thanks": {
+      "title": "Thank you",
+      "body": "Your complaint has been received. Our team will review it and follow up with you."
+    }
+  },
+  "dashboard": {
+    "greeting": "Welcome back, {{name}}",
+    "greetingGeneric": "Welcome back",
+    "subtitle": "An overview of your reconstruction journey",
+    "stats": {
+      "activeProjects": "Active projects",
+      "openRequests": "Open requests",
+      "deliveredProjects": "Projects delivered"
+    },
+    "quickLinks": {
+      "newRequest": "New request",
+      "browseTeams": "Browse teams",
+      "estimates": "Estimates"
+    },
+    "recentProjects": {
+      "title": "Recent projects",
+      "empty": "No projects yet"
+    },
+    "recentRequests": {
+      "title": "Recent requests",
+      "empty": "No requests yet"
+    }
+  },
+  "donations": {
+    "general": {
+      "fund": "General fund"
+    },
+    "frequency": {
+      "once": "One-time",
+      "monthly": "Monthly"
+    },
+    "list": {
+      "title": "My donations",
+      "subtitle": "Thank you for supporting families rebuilding their homes.",
+      "newDonation": "New donation",
+      "allStatuses": "All statuses",
+      "receipt": "View receipt",
+      "summary": {
+        "totalDonated": "Total donated",
+        "projectsSupported": "Projects supported",
+        "donationsCount": "Donations"
+      },
+      "empty": {
+        "title": "No donations yet",
+        "body": "Your contributions will appear here once you make your first donation."
+      }
+    },
+    "donate": {
+      "title": "Make a donation",
+      "subtitle": "Every contribution helps a family return home.",
+      "amountLabel": "Choose an amount",
+      "customAmountLabel": "Or enter a custom amount",
+      "amountError": "Please enter an amount of at least $1.",
+      "frequencyLabel": "Frequency",
+      "nameLabel": "Your name",
+      "emailLabel": "Email address",
+      "emailError": "Please enter a valid email address.",
+      "anonymousLabel": "Donate anonymously",
+      "paymentNote": "Card payment will be added in a later phase. For now, this records your donation intent.",
+      "submit": "Donate",
+      "success": "Thank you for your donation.",
+      "thankYou": {
+        "title": "Thank you for your generosity",
+        "body": "Your donation of {{amount}} has been recorded.",
+        "qrHint": "Keep this code as a reference for your donation.",
+        "viewDonation": "View donation"
+      }
+    },
+    "detail": {
+      "title": "Donation details",
+      "loadError": "We couldn't load this donation.",
+      "amount": "Amount",
+      "frequency": "Frequency",
+      "status": "Status",
+      "donor": "Donor",
+      "anonymous": "Anonymous",
+      "date": "Date",
+      "project": "Supported project",
+      "viewProject": "View project",
+      "downloadReceipt": "Download receipt",
+      "receiptComingSoon": "Receipt download will be available soon.",
+      "reference": "Donation reference"
+    }
+  },
+  "estimates": {
+    "list": {
+      "title": "Cost estimates",
+      "subtitle": {
+        "one": "{{count}} estimate",
+        "other": "{{count}} estimates"
+      },
+      "searchPlaceholder": "Search by estimate or project",
+      "allStatuses": "All statuses",
+      "column": {
+        "estimateNumber": "Estimate",
+        "project": "Project",
+        "team": "Team",
+        "total": "Total",
+        "status": "Status",
+        "created": "Created"
+      }
+    },
+    "view": {
+      "notFound": "This estimate could not be found.",
+      "teamTitle": "Reconstruction team",
+      "summaryTitle": "Estimate summary",
+      "estimateNumberLabel": "Estimate number",
+      "createdAtLabel": "Created on",
+      "statusLabel": "Status",
+      "boqTitle": "Bill of quantities",
+      "category": {
+        "materials": "Materials",
+        "labor": "Labor",
+        "equipment": "Equipment",
+        "custom": "Other items"
+      },
+      "boq": {
+        "description": "Description",
+        "quantity": "Quantity",
+        "unitCost": "Unit cost",
+        "lineTotal": "Line total"
+      },
+      "calc": {
+        "title": "Cost summary",
+        "subtotal": "Subtotal",
+        "discounts": "Discount",
+        "tax": "Tax",
+        "total": "Total",
+        "fundingRequired": "Funding required",
+        "fundedAmount": "Funded so far"
+      },
+      "decision": {
+        "title": "Review and respond",
+        "intro": "Please review the estimate above. To approve it, confirm the terms and add your signature.",
+        "termsLabel": "I have reviewed this estimate and agree to the scope and costs described above.",
+        "signatureLabel": "Your signature",
+        "signatureCaptured": "Signature captured.",
+        "approveHint": "Confirm the terms and capture your signature to approve this estimate.",
+        "approve": "Approve estimate",
+        "reject": "Reject"
+      },
+      "approvedTitle": "This estimate has been approved.",
+      "approvedAtLabel": "Approved on {{date}}",
+      "rejectedTitle": "This estimate was rejected.",
+      "rejectionReasonLabel": "Reason",
+      "approveSuccess": "Estimate approved.",
+      "rejectSuccess": "Estimate rejected."
+    },
+    "reject": {
+      "title": "Reject this estimate?",
+      "body": "The reconstruction team will be notified and may prepare a revised estimate. You can review any new estimate when it arrives.",
+      "confirm": "Reject estimate"
+    }
+  },
+  "funding": {
+    "list": {
+      "title": "Funding",
+      "subtitle": "Funding raised for your reconstruction projects",
+      "searchPlaceholder": "Search by funding number or project",
+      "allStatuses": "All statuses",
+      "column": {
+        "fundingNumber": "Funding #",
+        "project": "Project",
+        "phase": "Phase",
+        "fundedAmount": "Funded amount",
+        "status": "Status",
+        "created": "Created"
+      }
+    },
+    "details": {
+      "loadError": "We couldn't load this funding record. Please try again.",
+      "teamProject": "Project and team",
+      "project": "Project",
+      "phase": "Phase",
+      "summary": "Summary",
+      "fundingNumber": "Funding number",
+      "status": "Status",
+      "created": "Created",
+      "amounts": {
+        "funded": "Funded amount",
+        "outstanding": "Outstanding amount",
+        "refunded": "Refunded amount"
+      },
+      "disbursements": {
+        "title": "Disbursements",
+        "empty": "No disbursements have been recorded yet.",
+        "viewReceipt": "View receipt",
+        "column": {
+          "amount": "Amount",
+          "funder": "Funder",
+          "date": "Date",
+          "receipt": "Receipt"
+        },
+        "badge": {
+          "voided": "Voided",
+          "refunded": "Refunded"
+        }
+      },
+      "confirmReceipt": {
+        "title": "Confirm receipt",
+        "description": "Once the funds for this phase have reached you, please confirm receipt so the project can move forward.",
+        "termsLabel": "I confirm that I have received these funds and agree to the terms of handover.",
+        "button": "Confirm receipt",
+        "confirmedOn": "Receipt confirmed on {{date}}."
+      }
+    },
+    "signature": {
+      "title": "Confirm receipt and handover",
+      "instructions": "Please provide your signature below to confirm that you have received the funds for this phase.",
+      "success": "Thank you. Your receipt has been confirmed."
+    },
+    "txn": {
+      "title": "Transaction details",
+      "loadError": "We couldn't load this transaction. Please try again.",
+      "notFound": "This transaction could not be found.",
+      "mode": {
+        "normal": "Completed disbursement",
+        "voided": "Voided disbursement",
+        "refunded": "Refunded disbursement"
+      },
+      "details": {
+        "title": "Details",
+        "amount": "Amount",
+        "funder": "Funder",
+        "date": "Date",
+        "receipt": "Receipt"
+      },
+      "viewReceipt": "View receipt",
+      "notes": {
+        "title": "Notes",
+        "normal": "This disbursement was completed successfully.",
+        "voided": "This disbursement was voided and no funds were transferred.",
+        "refunded": "This disbursement was refunded to the funder."
+      }
+    }
+  },
+  "notifications": {
+    "list": {
+      "title": "Notifications",
+      "subtitle": "Updates on your projects, funding, and requests",
+      "markAllRead": "Mark all as read",
+      "delete": "Delete notification",
+      "unread": "Unread",
+      "removed": "Notification removed",
+      "empty": "You have no notifications yet"
+    }
+  },
+  "support": {
+    "list": {
+      "title": "Support requests",
+      "subtitle": {
+        "one": "{{count}} request",
+        "other": "{{count}} requests"
+      },
+      "newRequest": "New request",
+      "searchPlaceholder": "Search support requests",
+      "statusFilter": "Filter by status",
+      "allStatuses": "All statuses",
+      "empty": "No support requests yet",
+      "emptyHint": "When you need help with a project, open a support request and our team will respond."
+    },
+    "form": {
+      "title": "New support request",
+      "subtitle": "Tell us how we can help",
+      "project": "Related project",
+      "projectPlaceholder": "Select a project",
+      "noProjects": "You have no projects yet, so there is nothing to link a request to.",
+      "loadProjectsError": "We couldn't load your projects. Please try again.",
+      "subject": "Subject",
+      "subjectPlaceholder": "Brief summary of your request",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe what you need help with",
+      "submit": "Submit request",
+      "success": "Your support request has been submitted."
+    },
+    "view": {
+      "conversation": "Conversation",
+      "originalRequest": "Original request",
+      "you": "You",
+      "supportTeam": "Support team",
+      "replyLabel": "Your reply",
+      "replyPlaceholder": "Write a reply",
+      "send": "Send",
+      "closedNotice": "This request is closed. Thank you for reaching out.",
+      "noMessages": "No messages yet.",
+      "replySuccess": "Your reply has been sent.",
+      "notFound": "Support request not found",
+      "notFoundHint": "This support request may have been removed, or the link is incorrect.",
+      "loadError": "We couldn't load this support request."
+    }
+  },
+  "wizards": {
+    "common": {
+      "stepOf": "Step {{current}} of {{total}}"
+    },
+    "request": {
+      "title": "New reconstruction request",
+      "subtitleToTeam": "Request to {{team}}",
+      "steps": {
+        "details": "Damage details",
+        "confirm": "Review and confirm"
+      },
+      "fields": {
+        "location": "Property location",
+        "propertyType": "Property type",
+        "severity": "Damage severity",
+        "description": "Describe the damage",
+        "descriptionPlaceholder": "Tell the team what happened and what needs rebuilding.",
+        "photos": "Photos (optional)",
+        "consent": "I agree to share this information with the reconstruction team so they can review my request."
+      },
+      "errors": {
+        "location": "Please choose the governorate and district."
+      },
+      "summary": {
+        "title": "Please review your request before submitting.",
+        "team": "Assigned team",
+        "propertyType": "Property type",
+        "severity": "Damage severity",
+        "location": "Location",
+        "description": "Description",
+        "photos": "Photos",
+        "photosCount": {
+          "=0": "No photos attached",
+          "one": "{{count}} photo attached",
+          "other": "{{count}} photos attached"
+        }
+      },
+      "submit": "Submit request",
+      "submitSuccess": "Your request has been submitted."
+    },
+    "assessment": {
+      "title": "Damage self-assessment",
+      "subtitle": "Answer a few questions so we can understand your situation.",
+      "steps": {
+        "details": "Additional details"
+      },
+      "loadError": "We could not load the assessment right now. Please try again.",
+      "questionRequired": "Please choose an answer to continue.",
+      "selectPlaceholder": "Choose an option",
+      "fields": {
+        "description": "Describe the damage",
+        "descriptionPlaceholder": "Share any details that help us understand what happened.",
+        "photos": "Photos (optional)",
+        "location": "Property location",
+        "consent": "I agree to share this information so my request can be reviewed."
+      },
+      "errors": {
+        "location": "Please choose the governorate and district."
+      },
+      "submit": "Submit assessment",
+      "submitSuccess": "Your assessment has been submitted.",
+      "confirm": {
+        "title": "Assessment submitted",
+        "body": "Thank you. Your request has been recorded and will be reviewed shortly.",
+        "requestNumber": "Request number",
+        "viewRequest": "View request"
+      }
+    },
+    "newBeneficiary": {
+      "title": "Create your account",
+      "subtitle": "Report the damage and set up your account in a few simple steps.",
+      "steps": {
+        "contact": "Your details",
+        "verify": "Verify your email",
+        "password": "Set a password",
+        "confirm": "Review and submit"
+      },
+      "fields": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email address",
+        "phone": "Phone number",
+        "propertyType": "Property type",
+        "severity": "Damage severity",
+        "location": "Property location",
+        "description": "Describe the damage",
+        "descriptionPlaceholder": "Tell us what happened and what needs rebuilding.",
+        "photos": "Photos (optional)",
+        "consent": "I agree to share this information so my request can be reviewed.",
+        "password": "Password",
+        "confirmPassword": "Confirm password"
+      },
+      "verify": {
+        "body": "We sent a 6-digit code to your email. Enter it below to continue.",
+        "resent": "A new code has been sent.",
+        "invalid": "Please enter the 6-digit code."
+      },
+      "errors": {
+        "email": "Please enter a valid email address.",
+        "phone": "Please enter a valid phone number.",
+        "location": "Please choose the governorate and district.",
+        "passwordMismatch": "The passwords do not match."
+      },
+      "summary": {
+        "title": "Please review your details before submitting.",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "propertyType": "Property type",
+        "severity": "Damage severity",
+        "location": "Location",
+        "description": "Description"
+      },
+      "submit": "Submit",
+      "submitSuccess": "Your request has been submitted.",
+      "confirm": {
+        "title": "Request submitted",
+        "body": "Thank you. Your request has been received and will be reviewed shortly.",
+        "requestNumber": "Request number",
+        "signIn": "Sign in to your account"
+      }
+    }
+  },
+  "reviews": {
+    "title": "My reviews",
+    "subtitle": {
+      "=0": "No reviews yet",
+      "one": "{{count}} review in total",
+      "other": "{{count}} reviews in total"
+    },
+    "emptyHint": "Reviews you write about the teams rebuilding your home will appear here.",
+    "emptyCta": "Go to my projects",
+    "criteria": {
+      "workQuality": "Work quality",
+      "timeliness": "Timeliness",
+      "professionalism": "Professionalism"
+    }
+  },
+  "teamWorkspace": {
+    "greeting": "Welcome back, {{name}}",
+    "greetingGeneric": "Welcome back",
+    "subtitle": "Your team workspace",
+    "stats": {
+      "activeProjects": "Active projects",
+      "deliveredProjects": "Projects delivered",
+      "pendingEstimates": "Estimates awaiting approval",
+      "openRequests": "Open matched requests",
+      "averageRating": "Average rating",
+      "outstandingFunding": "Outstanding funding"
+    },
+    "projects": {
+      "title": "Assigned projects",
+      "empty": "No projects assigned yet"
+    },
+    "requests": {
+      "title": "Incoming requests",
+      "empty": "No matched requests yet"
+    },
+    "estimates": {
+      "title": "Estimates",
+      "empty": "No estimates yet"
+    },
+    "reviews": {
+      "title": "Recent reviews",
+      "empty": "No reviews yet"
+    }
+  },
+  "table": {
+    "columns": "Columns",
+    "export": "Export",
+    "actions": "Actions",
+    "selectAll": "Select all rows",
+    "selectRow": "Select row",
+    "clearSelection": "Clear selection",
+    "selectedCount": {
+      "=0": "No rows selected",
+      "one": "1 row selected",
+      "other": "{{count}} rows selected"
+    }
+  },
+  "navGroup": {
+    "overview": "Overview",
+    "operations": "Operations",
+    "parties": "Parties",
+    "finance": "Finance",
+    "resources": "Resources",
+    "monitoring": "Monitoring",
+    "settings": "Settings"
+  }
+}

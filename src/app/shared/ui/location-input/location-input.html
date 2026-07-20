@@ -1,0 +1,93 @@
+<div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-1">
+    <label [for]="uid + '-governorate'" class="text-sm font-medium text-ink-700">
+      {{ 'shared.locationInput.governorate' | translate }}
+    </label>
+    <select
+      [id]="uid + '-governorate'"
+      class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:opacity-60"
+      [disabled]="disabled()"
+      [value]="draft().governorate"
+      (change)="onGovernorateChange($any($event.target).value)"
+      (blur)="onBlur()"
+    >
+      <option value="" disabled>{{ 'shared.locationInput.selectGovernorate' | translate }}</option>
+      @for (governorate of governorates; track governorate) {
+        <option [value]="governorate">{{ 'master.governorate.' + governorate | translate }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label [for]="uid + '-district'" class="text-sm font-medium text-ink-700">
+      {{ 'shared.locationInput.district' | translate }}
+    </label>
+    <select
+      [id]="uid + '-district'"
+      class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:cursor-not-allowed disabled:opacity-60"
+      [disabled]="disabled() || districts().length === 0"
+      [value]="draft().district"
+      (change)="onDistrictChange($any($event.target).value)"
+      (blur)="onBlur()"
+    >
+      <option value="" disabled>{{ 'shared.locationInput.selectDistrict' | translate }}</option>
+      @for (district of districts(); track district) {
+        <option [value]="district">{{ district }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label [for]="uid + '-street'" class="text-sm font-medium text-ink-700">
+      {{ 'shared.locationInput.streetDescription' | translate }}
+      <span class="font-normal text-ink-500">({{ 'common.optional' | translate }})</span>
+    </label>
+    <input
+      [id]="uid + '-street'"
+      type="text"
+      class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:opacity-60"
+      [disabled]="disabled()"
+      [value]="draft().streetDescription"
+      (input)="onStreetDescriptionChange($any($event.target).value)"
+      (blur)="onBlur()"
+    />
+  </div>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div class="flex flex-col gap-1">
+      <label [for]="uid + '-lat'" class="text-sm font-medium text-ink-700">
+        {{ 'shared.locationInput.latitude' | translate }}
+        <span class="font-normal text-ink-500">({{ 'common.optional' | translate }})</span>
+      </label>
+      <input
+        [id]="uid + '-lat'"
+        type="number"
+        inputmode="decimal"
+        step="0.000001"
+        class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:opacity-60"
+        [disabled]="disabled()"
+        [value]="draft().latitude"
+        (input)="onLatitudeChange($any($event.target).value)"
+        (blur)="onBlur()"
+      />
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label [for]="uid + '-lng'" class="text-sm font-medium text-ink-700">
+        {{ 'shared.locationInput.longitude' | translate }}
+        <span class="font-normal text-ink-500">({{ 'common.optional' | translate }})</span>
+      </label>
+      <input
+        [id]="uid + '-lng'"
+        type="number"
+        inputmode="decimal"
+        step="0.000001"
+        class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:opacity-60"
+        [disabled]="disabled()"
+        [value]="draft().longitude"
+        (input)="onLongitudeChange($any($event.target).value)"
+        (blur)="onBlur()"
+      />
+    </div>
+  </div>
+</div>

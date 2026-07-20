@@ -1,0 +1,7 @@
+/* app-map is a custom element (inline by default) — force it to behave like
+   a block-level, full-width container so the height-utility classes bound
+   on the inner wrapper div actually have a containing block to size against. */
+:host {
+  display: block;
+  width: 100%;
+}

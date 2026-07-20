@@ -1,0 +1,17 @@
+<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+  <title>Gaza Reconstruction Platform</title>
+  <path
+    d="M0 11 L0 19 Q0 22 3 22 L19 22 Q22 22 22 19 L22 11 A11 11 0 0 0 0 11 Z
+       M6 22 L6 11 A5 5 0 0 1 16 11 L16 22 Z"
+    fill-rule="evenodd"
+    fill="#006a45"
+  />
+  <path d="M26 11 L26 19 Q26 22 29 22 L45 22 Q48 22 48 19 L48 11 A11 11 0 0 0 26 11 Z" fill="#d29b4e" />
+  <path d="M0 37 L0 45 Q0 48 3 48 L19 48 Q22 48 22 45 L22 37 A11 11 0 0 0 0 37 Z" fill="#d29b4e" />
+  <path
+    d="M26 37 L26 45 Q26 48 29 48 L45 48 Q48 48 48 45 L48 37 A11 11 0 0 0 26 37 Z
+       M32 48 L32 37 A5 5 0 0 1 42 37 L42 48 Z"
+    fill-rule="evenodd"
+    fill="#006a45"
+  />
+</svg>

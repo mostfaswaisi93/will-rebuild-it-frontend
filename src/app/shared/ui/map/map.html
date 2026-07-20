@@ -1,0 +1,7 @@
+<div class="relative w-full overflow-hidden rounded-card" [class]="heightClass()">
+  <div #mapContainer class="h-full w-full"></div>
+
+  @if (!isReady()) {
+    <div class="bg-surface-container-low absolute inset-0 animate-pulse"></div>
+  }
+</div>

@@ -1,0 +1,22 @@
+<app-dialog-shell [titleKey]="data.titleKey">
+  <p class="text-sm text-ink-700">{{ data.bodyKey | translate: data.bodyParams }}</p>
+
+  <button
+    dialogShellFooter
+    type="button"
+    class="inline-flex min-h-11 items-center justify-center rounded-card border border-outline px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    (click)="dismiss()"
+  >
+    {{ cancelKey | translate }}
+  </button>
+  <button
+    dialogShellFooter
+    type="button"
+    class="inline-flex min-h-11 items-center justify-center rounded-card px-4 py-2 text-sm font-medium text-white"
+    [class.bg-danger]="isDanger"
+    [class.bg-brand-500]="!isDanger"
+    (click)="confirm()"
+  >
+    {{ confirmKey | translate }}
+  </button>
+</app-dialog-shell>

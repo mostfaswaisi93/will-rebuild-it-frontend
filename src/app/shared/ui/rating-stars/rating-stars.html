@@ -1,0 +1,34 @@
+<div
+  class="inline-flex items-center gap-0.5"
+  [attr.role]="readonly() ? 'img' : null"
+  [attr.aria-label]="readonly() ? ('shared.ratingStars.outOf' | translate: { value: value(), max: max() }) : null"
+  (mouseleave)="onMouseLeave()"
+>
+  @for (star of stars(); track star) {
+    @if (readonly()) {
+      <span class="flex h-6 w-6 items-center justify-center">
+        <svg
+          lucideStar
+          [size]="18"
+          [style.fill]="star <= displayValue() ? 'currentColor' : 'none'"
+          [class]="star <= displayValue() ? 'text-sand-500' : 'text-ink-300'"
+        ></svg>
+      </span>
+    } @else {
+      <button
+        type="button"
+        class="flex min-h-11 min-w-11 items-center justify-center rounded-card"
+        [attr.aria-label]="'shared.ratingStars.rateValue' | translate: { value: star, max: max() }"
+        (click)="onStarClick(star)"
+        (mouseenter)="onStarHover(star)"
+      >
+        <svg
+          lucideStar
+          [size]="20"
+          [style.fill]="star <= displayValue() ? 'currentColor' : 'none'"
+          [class]="star <= displayValue() ? 'text-sand-500' : 'text-ink-300'"
+        ></svg>
+      </button>
+    }
+  }
+</div>

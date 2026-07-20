@@ -1,0 +1,32 @@
+<div class="flex flex-col items-center gap-4">
+  <!-- OTP digits always read left-to-right, even under dir="rtl": numeric sequences are read universally in LTR order. -->
+  <div class="flex justify-center gap-2" dir="ltr">
+    @for (value of boxValues(); track $index) {
+      <input
+        #otpBox
+        type="text"
+        inputmode="numeric"
+        autocomplete="one-time-code"
+        maxlength="1"
+        class="h-12 w-10 rounded-card border border-ink-300 bg-surface-container-low text-center text-xl font-semibold text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 sm:h-14 sm:w-12"
+        [value]="value"
+        (input)="onDigitInput($event, $index)"
+        (keydown)="onKeydown($event, $index)"
+        (paste)="onPaste($event, $index)"
+      />
+    }
+  </div>
+
+  <button
+    type="button"
+    class="min-h-11 rounded-card px-2 text-sm font-medium text-brand-600 disabled:text-ink-500"
+    [disabled]="secondsRemaining() > 0"
+    (click)="requestResend()"
+  >
+    @if (secondsRemaining() > 0) {
+      {{ 'shared.otpVerificationStep.resendIn' | translate: { seconds: secondsRemaining() } }}
+    } @else {
+      {{ 'shared.otpVerificationStep.resend' | translate }}
+    }
+  </button>
+</div>

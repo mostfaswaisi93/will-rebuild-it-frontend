@@ -1,0 +1,76 @@
+<div class="flex flex-col gap-3">
+  @if (isOffline()) {
+    <div class="rounded-card bg-warning/10 px-3 py-2 text-sm font-medium text-sand-700">
+      {{ 'shared.fileUploader.offline' | translate }}
+    </div>
+  }
+
+  <div
+    class="flex flex-col items-center justify-center gap-2 rounded-card border-2 border-dashed border-ink-300 bg-surface-container-low px-4 py-6 text-center"
+    (dragover)="onDragOver($event)"
+    (drop)="onDrop($event)"
+  >
+    <svg lucideUpload [size]="26" class="text-ink-500"></svg>
+    <p class="text-base text-ink-700">{{ 'shared.fileUploader.dragHint' | translate }}</p>
+    <label
+      class="mt-1 inline-flex min-h-11 cursor-pointer items-center justify-center rounded-card bg-brand-500 px-4 text-base font-medium text-white hover:bg-brand-600"
+    >
+      {{ 'shared.fileUploader.chooseFiles' | translate }}
+      <input
+        #fileInput
+        type="file"
+        class="sr-only"
+        [multiple]="multiple()"
+        [accept]="accept()"
+        (change)="onFilesSelected($event)"
+      />
+    </label>
+  </div>
+
+  @if (files().length > 0) {
+    <div class="grid grid-cols-3 gap-3 sm:grid-cols-4">
+      @for (item of files(); track item.id) {
+        <div class="relative aspect-square overflow-hidden rounded-card border border-ink-300 bg-surface-container-low">
+          <img [src]="item.previewUrl" [alt]="item.file.name" class="h-full w-full object-cover" />
+
+          @if (item.status === 'uploading' || item.status === 'queued') {
+            <div class="absolute inset-x-0 bottom-0 bg-black/40 px-1.5 py-1.5">
+              <div class="h-1.5 w-full overflow-hidden rounded-full bg-white/30">
+                <div class="h-full rounded-full bg-brand-500 transition-[width]" [style.width.%]="item.progress"></div>
+              </div>
+            </div>
+          }
+
+          @if (item.status === 'paused') {
+            <div class="absolute inset-0 flex items-center justify-center bg-black/50 px-1 text-center text-xs font-medium text-white">
+              {{ 'shared.fileUploader.paused' | translate }}
+            </div>
+          }
+
+          @if (item.status === 'error') {
+            <div class="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/55 text-white">
+              <svg lucideCircleAlert [size]="18"></svg>
+              <button
+                type="button"
+                class="flex items-center gap-1 rounded-full bg-white/20 px-2 py-1 text-xs font-medium"
+                (click)="retry(item.id)"
+              >
+                <svg lucideRefreshCw [size]="12"></svg>
+                {{ 'shared.fileUploader.retry' | translate }}
+              </button>
+            </div>
+          }
+
+          <button
+            type="button"
+            class="absolute inset-e-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/60 text-white"
+            [attr.aria-label]="'shared.fileUploader.remove' | translate"
+            (click)="removeFile(item.id)"
+          >
+            <svg lucideX [size]="14"></svg>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,23 @@
+<header class="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-3 sm:py-4">
+  <div class="flex min-w-0 items-center gap-2">
+    @if (showBack()) {
+      <button
+        type="button"
+        class="flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-card text-ink-700 hover:bg-surface-container-low"
+        [attr.aria-label]="'shared.pageHeader.back' | translate"
+        (click)="goBack()"
+      >
+        <svg lucideArrowLeft [size]="20" class="rtl:rotate-180"></svg>
+      </button>
+    }
+    <div class="min-w-0">
+      <h1 class="truncate text-lg font-semibold text-ink-900 sm:text-xl">{{ title() }}</h1>
+      @if (subtitle(); as subtitleText) {
+        <p class="truncate text-sm text-ink-500">{{ subtitleText }}</p>
+      }
+    </div>
+  </div>
+  <div class="flex shrink-0 flex-wrap items-center gap-2">
+    <ng-content select="[pageHeaderActions]" />
+  </div>
+</header>

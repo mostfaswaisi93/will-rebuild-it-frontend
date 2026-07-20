@@ -1,0 +1,101 @@
+<header class="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-ink-300/60 bg-surface px-4 sm:px-5 lg:px-6">
+  <button
+    type="button"
+    class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-card text-ink-700 hover:bg-surface-container-low lg:hidden"
+    [attr.aria-label]="'header.openMenu' | translate"
+    (click)="sidebarState.toggle()"
+  >
+    <svg lucideMenu [size]="22"></svg>
+  </button>
+
+  <form class="hidden flex-1 sm:flex sm:max-w-sm" (submit)="$event.preventDefault(); onSearchSubmit()">
+    <label class="relative w-full">
+      <span class="sr-only">{{ 'header.searchRequests' | translate }}</span>
+      <svg lucideSearch [size]="16" class="text-ink-500 pointer-events-none absolute inset-s-3 top-1/2 -translate-y-1/2"></svg>
+      <input
+        type="search"
+        name="search"
+        class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low ps-9 pe-3 text-base text-ink-900 outline-none focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30"
+        [placeholder]="'header.searchRequests' | translate"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
+      />
+    </label>
+  </form>
+
+  <div class="ms-auto flex items-center gap-1 sm:gap-2">
+    <button
+      type="button"
+      class="inline-flex min-h-11 items-center gap-1.5 rounded-card px-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+      [attr.aria-label]="'header.toggleLanguage' | translate"
+      (click)="toggleLocale()"
+    >
+      <svg lucideGlobe [size]="18"></svg>
+      <span class="hidden sm:inline">{{ i18n.locale() === 'ar' ? 'EN' : 'ع' }}</span>
+    </button>
+
+    <a
+      routerLink="/app/notifications"
+      class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-card text-ink-700 hover:bg-surface-container-low"
+      [attr.aria-label]="'header.notifications' | translate"
+    >
+      <svg lucideBell [size]="20"></svg>
+    </a>
+
+    <div class="relative">
+      <button
+        type="button"
+        class="flex min-h-11 items-center gap-1.5 rounded-card px-1.5 hover:bg-surface-container-low"
+        [attr.aria-expanded]="isMenuOpen()"
+        (click)="toggleMenu()"
+      >
+        <span class="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500 text-sm font-semibold text-white">
+          {{ session.user()?.firstName?.charAt(0) }}{{ session.user()?.lastName?.charAt(0) }}
+        </span>
+        <svg lucideChevronDown [size]="16" class="hidden text-ink-500 sm:block"></svg>
+      </button>
+
+      @if (isMenuOpen()) {
+        <div
+          class="absolute top-full z-30 mt-2 w-64 rounded-card border border-ink-300/60 bg-surface py-2 shadow-card end-0"
+          role="menu"
+        >
+          <p class="px-4 py-2 text-sm">
+            <span class="block font-medium text-ink-900">{{ session.user()?.firstName }} {{ session.user()?.lastName }}</span>
+            <span class="block text-ink-500">{{ session.user()?.email }}</span>
+          </p>
+          <div class="my-1 border-t border-ink-300/60"></div>
+
+          <a routerLink="/app/profile" class="flex min-h-11 items-center gap-3 px-4 text-sm text-ink-700 hover:bg-surface-container-low" role="menuitem" (click)="closeMenu()">
+            <svg lucideUser [size]="16"></svg>
+            {{ 'header.menu.profile' | translate }}
+          </a>
+          <a routerLink="/app/support" class="flex min-h-11 items-center gap-3 px-4 text-sm text-ink-700 hover:bg-surface-container-low" role="menuitem" (click)="closeMenu()">
+            <svg lucideLifeBuoy [size]="16"></svg>
+            {{ 'header.menu.support' | translate }}
+          </a>
+          <a routerLink="/app/complaints" class="flex min-h-11 items-center gap-3 px-4 text-sm text-ink-700 hover:bg-surface-container-low" role="menuitem" (click)="closeMenu()">
+            <svg lucideFlag [size]="16"></svg>
+            {{ 'header.menu.reportTeam' | translate }}
+          </a>
+          <a routerLink="/app/privacy" class="flex min-h-11 items-center gap-3 px-4 text-sm text-ink-700 hover:bg-surface-container-low" role="menuitem" (click)="closeMenu()">
+            <svg lucideShieldCheck [size]="16"></svg>
+            {{ 'header.menu.privacy' | translate }}
+          </a>
+
+          <div class="my-1 border-t border-ink-300/60"></div>
+
+          <button
+            type="button"
+            class="flex min-h-11 w-full items-center gap-3 px-4 text-sm text-danger hover:bg-error-container/40"
+            role="menuitem"
+            (click)="signOut()"
+          >
+            <svg lucideLogOut [size]="16"></svg>
+            {{ 'common.signOut' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

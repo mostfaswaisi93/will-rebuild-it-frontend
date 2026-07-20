@@ -1,0 +1,25 @@
+<nav class="flex items-center justify-between gap-3" [attr.aria-label]="'shared.paginator.navigationLabel' | translate">
+  <button
+    type="button"
+    class="inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-card border border-ink-300 px-3 text-sm font-medium text-ink-700 hover:bg-surface-container-low disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
+    [disabled]="!hasPrevious()"
+    (click)="goPrevious()"
+  >
+    <svg lucideChevronLeft [size]="16" class="rtl:rotate-180"></svg>
+    <span class="hidden sm:inline">{{ 'common.previous' | translate }}</span>
+  </button>
+
+  <p class="text-sm text-ink-500">
+    {{ 'shared.paginator.pageOfTotal' | translate: { page: pageNo(), total: totalPages() } }}
+  </p>
+
+  <button
+    type="button"
+    class="inline-flex min-h-11 min-w-11 items-center justify-center gap-1 rounded-card border border-ink-300 px-3 text-sm font-medium text-ink-700 hover:bg-surface-container-low disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
+    [disabled]="!hasNext()"
+    (click)="goNext()"
+  >
+    <span class="hidden sm:inline">{{ 'common.next' | translate }}</span>
+    <svg lucideChevronRight [size]="16" class="rtl:rotate-180"></svg>
+  </button>
+</nav>

@@ -1,0 +1,302 @@
+@if (showToolbar()) {
+  <div class="mb-3 flex flex-wrap items-center gap-2">
+    @if (searchable()) {
+      <label class="relative min-w-0 flex-1 sm:max-w-xs">
+        <span class="sr-only">{{ 'common.search' | translate }}</span>
+        <lucide-search
+          class="pointer-events-none absolute inset-y-0 start-3 my-auto size-4 text-ink-500"
+          aria-hidden="true"
+        />
+        <input
+          type="search"
+          [value]="query()"
+          (input)="onSearch($any($event.target).value)"
+          [placeholder]="'common.search' | translate"
+          class="w-full rounded-input border border-ink-300 bg-surface py-2 pe-3 ps-9 text-sm text-ink-900 placeholder:text-ink-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+      </label>
+    }
+
+    <div class="ms-auto flex items-center gap-2">
+      @if (toolbarExtra(); as extra) {
+        <ng-container *ngTemplateOutlet="extra" />
+      }
+
+      @if (columnPicker()) {
+        <div class="relative">
+          <button
+            type="button"
+            (click)="columnsMenuOpen.set(!columnsMenuOpen())"
+            [attr.aria-expanded]="columnsMenuOpen()"
+            class="inline-flex items-center gap-1.5 rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          >
+            <lucide-settings-2 class="size-4" aria-hidden="true" />
+            <span class="hidden sm:inline">{{ 'table.columns' | translate }}</span>
+          </button>
+
+          @if (columnsMenuOpen()) {
+            <div
+              class="absolute end-0 z-20 mt-1 max-h-72 w-56 overflow-y-auto rounded-card border border-ink-300 bg-surface p-2 shadow-lg"
+            >
+              @for (column of columns(); track column.key) {
+                <label
+                  class="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-ink-700 hover:bg-surface-container-low"
+                >
+                  <input
+                    type="checkbox"
+                    [checked]="!isHidden(column.key)"
+                    (change)="toggleColumn(column.key)"
+                    class="size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+                  />
+                  <span class="truncate">{{ column.headerKey | translate }}</span>
+                </label>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      @if (exportable()) {
+        <button
+          type="button"
+          (click)="exportCsv()"
+          class="inline-flex items-center gap-1.5 rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          <lucide-download class="size-4" aria-hidden="true" />
+          <span class="hidden sm:inline">{{ 'table.export' | translate }}</span>
+        </button>
+      }
+    </div>
+  </div>
+}
+
+@if (selectable() && selectedCount() > 0) {
+  <div
+    class="mb-3 flex flex-wrap items-center gap-3 rounded-card border border-brand-300 bg-brand-50 px-4 py-2.5 text-sm text-brand-700"
+  >
+    <span class="font-medium">
+      {{ 'table.selectedCount' | translate: { count: selectedCount() } }}
+    </span>
+    <button
+      type="button"
+      (click)="clearSelection()"
+      class="ms-auto font-medium underline underline-offset-2 hover:text-brand-800"
+    >
+      {{ 'table.clearSelection' | translate }}
+    </button>
+  </div>
+}
+
+@if (loading()) {
+  <div class="hidden overflow-x-auto md:block">
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="border-b border-ink-300">
+          @for (column of visibleColumns(); track column.key) {
+            <th
+              class="px-4 py-3 text-sm font-medium text-ink-500"
+              [class]="alignClass(column.align)"
+            >
+              {{ column.headerKey | translate }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (i of skeletonRows; track i) {
+          <tr class="border-b border-ink-300/60 last:border-b-0">
+            @for (column of visibleColumns(); track column.key) {
+              <td class="px-4 py-3">
+                <div class="h-4 w-3/4 animate-pulse rounded bg-ink-300/40"></div>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid gap-3 md:hidden">
+    @for (i of skeletonRows; track i) {
+      <div class="rounded-card border border-ink-300 bg-surface p-4">
+        <div class="space-y-3">
+          @for (column of mobileColumns(); track column.key) {
+            <div class="h-4 w-2/3 animate-pulse rounded bg-ink-300/40"></div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+} @else if (displayRows().length === 0) {
+  <ng-content select="[dataTableEmpty]">
+    <div
+      class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500"
+    >
+      {{ 'common.noResults' | translate }}
+    </div>
+  </ng-content>
+} @else {
+  <div class="hidden overflow-x-auto md:block">
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="border-b border-ink-300">
+          @if (selectable()) {
+            <th class="w-10 px-4 py-3">
+              <input
+                type="checkbox"
+                [checked]="allOnPageSelected()"
+                (change)="toggleAllOnPage()"
+                [attr.aria-label]="'table.selectAll' | translate"
+                class="size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+              />
+            </th>
+          }
+
+          @for (column of visibleColumns(); track column.key) {
+            <th
+              class="px-4 py-3 text-sm font-medium text-ink-500"
+              [class]="alignClass(column.align) + ' ' + (column.widthClass ?? '')"
+              [attr.aria-sort]="
+                sortStateFor(column.key) === 'asc'
+                  ? 'ascending'
+                  : sortStateFor(column.key) === 'desc'
+                    ? 'descending'
+                    : column.sortable
+                      ? 'none'
+                      : null
+              "
+            >
+              @if (column.sortable) {
+                <button
+                  type="button"
+                  (click)="toggleSort(column)"
+                  class="inline-flex items-center gap-1 rounded hover:text-ink-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/30"
+                >
+                  <span>{{ column.headerKey | translate }}</span>
+                  @switch (sortStateFor(column.key)) {
+                    @case ('asc') {
+                      <lucide-chevron-up class="size-3.5 text-brand-500" aria-hidden="true" />
+                    }
+                    @case ('desc') {
+                      <lucide-chevron-down class="size-3.5 text-brand-500" aria-hidden="true" />
+                    }
+                    @default {
+                      <lucide-arrow-down-up class="size-3.5 opacity-40" aria-hidden="true" />
+                    }
+                  }
+                </button>
+              } @else {
+                {{ column.headerKey | translate }}
+              }
+            </th>
+          }
+
+          @if (rowActions()) {
+            <th class="w-px px-4 py-3">
+              <span class="sr-only">{{ 'table.actions' | translate }}</span>
+            </th>
+          }
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (row of displayRows(); track trackRow(row, $index)) {
+          <tr [class]="rowClasses(row)">
+            @if (selectable()) {
+              <td class="px-4 py-3">
+                <input
+                  type="checkbox"
+                  [checked]="isRowSelected(row, $index)"
+                  (change)="toggleRow(row, $index)"
+                  [attr.aria-label]="'table.selectRow' | translate"
+                  class="size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+                />
+              </td>
+            }
+
+            @for (column of visibleColumns(); track column.key) {
+              <td
+                class="px-4 py-3 text-ink-700"
+                [class]="alignClass(column.align)"
+                [routerLink]="linkFor(row)"
+                [attr.tabindex]="linkFor(row) ? 0 : null"
+              >
+                @if (templateFor(column.key); as cellTemplate) {
+                  <ng-container
+                    *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }"
+                  />
+                } @else {
+                  {{ column.cell(row) }}
+                }
+              </td>
+            }
+
+            @if (rowActions(); as actions) {
+              <td class="px-4 py-3 text-end">
+                <ng-container *ngTemplateOutlet="actions; context: { $implicit: row }" />
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid gap-3 md:hidden">
+    @for (row of displayRows(); track trackRow(row, $index)) {
+      <div [class]="cardClasses(row)">
+        <div class="flex items-start gap-3">
+          @if (selectable()) {
+            <input
+              type="checkbox"
+              [checked]="isRowSelected(row, $index)"
+              (change)="toggleRow(row, $index)"
+              [attr.aria-label]="'table.selectRow' | translate"
+              class="mt-1 size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+            />
+          }
+
+          <dl
+            class="min-w-0 flex-1 space-y-2"
+            [routerLink]="linkFor(row)"
+            [attr.tabindex]="linkFor(row) ? 0 : null"
+          >
+            @for (column of mobileColumns(); track column.key) {
+              <div class="flex items-baseline justify-between gap-3">
+                <dt class="text-xs font-medium text-ink-500">
+                  {{ column.headerKey | translate }}
+                </dt>
+                <dd class="min-w-0 text-end text-sm font-medium text-ink-900">
+                  @if (templateFor(column.key); as cellTemplate) {
+                    <ng-container
+                      *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }"
+                    />
+                  } @else {
+                    {{ column.cell(row) }}
+                  }
+                </dd>
+              </div>
+            }
+          </dl>
+        </div>
+
+        @if (rowActions(); as actions) {
+          <div class="mt-3 flex justify-end border-t border-ink-300/60 pt-3">
+            <ng-container *ngTemplateOutlet="actions; context: { $implicit: row }" />
+          </div>
+        }
+      </div>
+    }
+  </div>
+}
+
+@if (showPaginator()) {
+  <div class="mt-4">
+    <app-paginator
+      [pageNo]="page()"
+      [pageSize]="pageSize()"
+      [totalCount]="effectiveTotal()"
+      (pageChange)="onPageChange($event)"
+    />
+  </div>
+}
