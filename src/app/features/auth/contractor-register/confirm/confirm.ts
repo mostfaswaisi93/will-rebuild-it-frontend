@@ -34,6 +34,8 @@ export class OnboardingConfirm {
   protected readonly business = this.flow.business;
   protected readonly identity = this.flow.identity;
   protected readonly location = this.flow.location;
+  protected readonly capacity = this.flow.capacity;
+  protected readonly credentials = this.flow.credentials;
 
   protected readonly acceptedTerms = new FormControl(false, {
     nonNullable: true,
@@ -57,7 +59,9 @@ export class OnboardingConfirm {
     const business = this.business();
     const identity = this.identity();
     const location = this.location();
-    if (!business || !identity || !location) {
+    const capacity = this.capacity();
+    const credentials = this.credentials();
+    if (!business || !identity || !location || !capacity || !credentials) {
       // The guard should have prevented this; bail rather than post a partial
       // application.
       void this.router.navigate(['/auth/contractor-register']);
@@ -71,6 +75,8 @@ export class OnboardingConfirm {
         ...business,
         ...identity,
         ...location,
+        ...capacity,
+        ...credentials,
         acceptedTerms: true,
       })
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -90,7 +96,7 @@ export class OnboardingConfirm {
   }
 
   protected back(): void {
-    void this.router.navigate(['/auth/contractor-register/location']);
+    void this.router.navigate(['/auth/contractor-register/credentials']);
   }
 
   private routeAfterOnboarding(role: UserRole): void {

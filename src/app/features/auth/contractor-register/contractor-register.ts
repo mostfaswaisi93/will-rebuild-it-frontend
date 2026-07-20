@@ -19,9 +19,15 @@ import { OnboardingFlow } from './onboarding-flow.service';
 export class ContractorRegister {
   protected readonly flow = inject(OnboardingFlow);
 
-  protected readonly steps = [1, 2, 3, 4];
+  protected readonly steps = [1, 2, 3, 4, 5, 6];
 
   protected readonly currentStep = computed(() => {
+    if (this.flow.hasCredentials()) {
+      return 6;
+    }
+    if (this.flow.hasCapacity()) {
+      return 5;
+    }
     if (this.flow.hasLocation()) {
       return 4;
     }

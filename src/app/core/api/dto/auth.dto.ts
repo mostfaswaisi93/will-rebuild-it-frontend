@@ -62,6 +62,16 @@ export interface ContractorOnboardingDto {
   contactPhone: string;
   latitude: number | null;
   longitude: number | null;
+  employeeCount: number | null;
+  vehicleCount: number | null;
+  foundedYear: number | null;
+  summary: string;
+  licences: { name: string; number: string; expiresOn: string }[];
+  isInsured: boolean;
+  hasPerformanceBond: boolean;
+  offersWarranty: boolean;
+  freeEstimates: boolean;
+  acceptsBankTransfer: boolean;
   acceptedTerms: boolean;
 }
 

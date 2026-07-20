@@ -68,7 +68,7 @@ export class OnboardingLocation {
       longitude: this.existing?.longitude ?? null,
     });
 
-    void this.router.navigate(['/auth/contractor-register/confirm']);
+    void this.router.navigate(['/auth/contractor-register/capacity']);
   }
 
   protected back(): void {

@@ -327,6 +327,43 @@
         "submit": "Submit application",
         "success": "Your profile is complete. Welcome to the platform.",
         "failed": "Could not submit your details. Please try again."
+      },
+      "capacity": {
+        "title": "Company capacity",
+        "subtitle": "Your team, equipment and experience — used when assigning projects.",
+        "employees": "Number of employees",
+        "employeesInvalid": "Enter a valid employee count (1 or more)",
+        "vehicles": "Number of vehicles",
+        "vehiclesHint": "Trucks, excavators, mixers and machinery the company owns.",
+        "vehiclesInvalid": "Enter a valid vehicle count",
+        "founded": "Year founded",
+        "foundedInvalid": "Enter a year between 1900 and {{year}}",
+        "summary": "About the company",
+        "summaryHint": "A short description of your experience and notable projects (600 characters max).",
+        "summaryRequired": "Please write a short description"
+      },
+      "credentials": {
+        "title": "Licences and assurances",
+        "subtitle": "Your operating licences and what you guarantee — shown to beneficiaries and funders.",
+        "licences": "Operating licences",
+        "licenceN": "Licence {{index}}",
+        "licenceName": "Issuing body / licence name",
+        "licenceNameRequired": "Please enter the licence name",
+        "licenceNumber": "Licence number",
+        "licenceNumberRequired": "Please enter the licence number",
+        "licenceExpiry": "Expiry date",
+        "licenceExpiryRequired": "Please enter the expiry date",
+        "licenceExpiry_invalid": "That date is not valid",
+        "licenceExpiry_expired": "This licence has expired",
+        "addLicence": "Add another licence",
+        "removeLicence": "Remove licence",
+        "assurances": "Assurances",
+        "assurancesHint": "Select everything that applies to your company.",
+        "isInsured": "The company holds valid insurance",
+        "hasPerformanceBond": "I provide a performance bond",
+        "offersWarranty": "I warranty the work carried out",
+        "freeEstimates": "Cost estimates are free",
+        "acceptsBankTransfer": "I accept payment by bank transfer"
       }
     }
   },

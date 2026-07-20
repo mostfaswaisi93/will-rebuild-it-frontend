@@ -335,6 +335,43 @@
         "submit": "إرسال الطلب",
         "success": "اكتمل ملفك بنجاح. أهلًا بك في المنصة.",
         "failed": "تعذّر إرسال البيانات، يرجى المحاولة مرة أخرى."
+      },
+      "capacity": {
+        "title": "قدرات الشركة",
+        "subtitle": "حجم فريقك ومعدّاتك وخبرتك — هذه البيانات تُستخدم في إسناد المشاريع.",
+        "employees": "عدد العاملين",
+        "employeesInvalid": "أدخل عددًا صحيحًا للعاملين (١ فأكثر)",
+        "vehicles": "عدد الآليات",
+        "vehiclesHint": "الشاحنات والحفّارات والخلاطات والمعدّات المملوكة للشركة.",
+        "vehiclesInvalid": "أدخل عددًا صحيحًا للآليات",
+        "founded": "سنة التأسيس",
+        "foundedInvalid": "أدخل سنة بين ١٩٠٠ و{{year}}",
+        "summary": "نبذة عن الشركة",
+        "summaryHint": "وصف موجز لخبرتك وأبرز المشاريع المنفّذة (٦٠٠ حرف كحد أقصى).",
+        "summaryRequired": "يرجى كتابة نبذة عن الشركة"
+      },
+      "credentials": {
+        "title": "الرخص والضمانات",
+        "subtitle": "رخص المزاولة وما تقدّمه من ضمانات — تُعرض للمستفيدين والجهات المموّلة.",
+        "licences": "رخص المزاولة",
+        "licenceN": "رخصة {{index}}",
+        "licenceName": "جهة الإصدار / اسم الرخصة",
+        "licenceNameRequired": "يرجى إدخال اسم الرخصة",
+        "licenceNumber": "رقم الرخصة",
+        "licenceNumberRequired": "يرجى إدخال رقم الرخصة",
+        "licenceExpiry": "تاريخ انتهاء الرخصة",
+        "licenceExpiryRequired": "يرجى إدخال تاريخ الانتهاء",
+        "licenceExpiry_invalid": "تاريخ غير صالح",
+        "licenceExpiry_expired": "هذه الرخصة منتهية الصلاحية",
+        "addLicence": "إضافة رخصة أخرى",
+        "removeLicence": "حذف الرخصة",
+        "assurances": "الضمانات",
+        "assurancesHint": "اختر ما ينطبق على شركتك.",
+        "isInsured": "لدى الشركة تأمين ساري",
+        "hasPerformanceBond": "أقدّم كفالة حسن تنفيذ",
+        "offersWarranty": "أقدّم ضمانًا على الأعمال المنفّذة",
+        "freeEstimates": "تقدير الكلفة مجاني",
+        "acceptsBankTransfer": "أقبل الدفع بالتحويل البنكي"
       }
     }
   },

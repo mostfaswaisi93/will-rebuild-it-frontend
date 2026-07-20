@@ -1,0 +1,105 @@
+<h1 class="text-2xl font-bold text-ink-900">{{ 'auth.onboarding.capacity.title' | translate }}</h1>
+<p class="mt-1 text-sm text-ink-500">{{ 'auth.onboarding.capacity.subtitle' | translate }}</p>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mt-6 space-y-4" novalidate>
+  <div class="grid gap-4 sm:grid-cols-2">
+    <div>
+      <label for="employeeCount" class="block text-sm font-medium text-ink-700">
+        {{ 'auth.onboarding.capacity.employees' | translate }}
+      </label>
+      <input
+        id="employeeCount"
+        type="number"
+        inputmode="numeric"
+        min="1"
+        formControlName="employeeCount"
+        dir="ltr"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      @if (form.controls.employeeCount.touched && form.controls.employeeCount.invalid) {
+        <p class="mt-1 text-sm text-danger">
+          {{ 'auth.onboarding.capacity.employeesInvalid' | translate }}
+        </p>
+      }
+    </div>
+
+    <div>
+      <label for="vehicleCount" class="block text-sm font-medium text-ink-700">
+        {{ 'auth.onboarding.capacity.vehicles' | translate }}
+      </label>
+      <input
+        id="vehicleCount"
+        type="number"
+        inputmode="numeric"
+        min="0"
+        formControlName="vehicleCount"
+        dir="ltr"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      <p class="mt-1 text-xs text-ink-500">
+        {{ 'auth.onboarding.capacity.vehiclesHint' | translate }}
+      </p>
+      @if (form.controls.vehicleCount.touched && form.controls.vehicleCount.invalid) {
+        <p class="mt-1 text-sm text-danger">
+          {{ 'auth.onboarding.capacity.vehiclesInvalid' | translate }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <div>
+    <label for="foundedYear" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.capacity.founded' | translate }}
+    </label>
+    <input
+      id="foundedYear"
+      type="number"
+      inputmode="numeric"
+      [min]="earliestYear"
+      [max]="currentYear"
+      formControlName="foundedYear"
+      dir="ltr"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 sm:max-w-40"
+    />
+    @if (form.controls.foundedYear.touched && form.controls.foundedYear.invalid) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.capacity.foundedInvalid' | translate: { year: currentYear } }}
+      </p>
+    }
+  </div>
+
+  <div>
+    <label for="summary" class="block text-sm font-medium text-ink-700">
+      {{ 'auth.onboarding.capacity.summary' | translate }}
+    </label>
+    <textarea
+      id="summary"
+      rows="4"
+      maxlength="600"
+      formControlName="summary"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    ></textarea>
+    <p class="mt-1 text-xs text-ink-500">{{ 'auth.onboarding.capacity.summaryHint' | translate }}</p>
+    @if (form.controls.summary.touched && form.controls.summary.invalid) {
+      <p class="mt-1 text-sm text-danger">
+        {{ 'auth.onboarding.capacity.summaryRequired' | translate }}
+      </p>
+    }
+  </div>
+
+  <div class="flex items-center gap-3 pt-2">
+    <button
+      type="button"
+      (click)="back()"
+      class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'common.previous' | translate }}
+    </button>
+    <button
+      type="submit"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+    >
+      {{ 'common.next' | translate }}
+    </button>
+  </div>
+</form>

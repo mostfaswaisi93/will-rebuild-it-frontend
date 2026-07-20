@@ -26,6 +26,34 @@ export interface LocationDetails {
   longitude: number | null;
 }
 
+export interface TradeLicence {
+  /** Issuing body / licence name. */
+  name: string;
+  number: string;
+  /** ISO date; licences expire and an expired one must not read as valid. */
+  expiresOn: string;
+}
+
+export interface CapacityDetails {
+  employeeCount: number | null;
+  /** Trucks, excavators, mixers — the legacy `noOftrucks`. */
+  vehicleCount: number | null;
+  /** Year the business started operating. */
+  foundedYear: number | null;
+  summary: string;
+}
+
+export interface CredentialsDetails {
+  licences: TradeLicence[];
+  /** Legacy `isInsured` / `isBonded` / `isWarrantyOffered` / `isEstimatesFree`
+   * / `isCreditCardAccepted`, which were 'Yes'/'No' strings. */
+  isInsured: boolean;
+  hasPerformanceBond: boolean;
+  offersWarranty: boolean;
+  freeEstimates: boolean;
+  acceptsBankTransfer: boolean;
+}
+
 /**
  * State for the contractor onboarding wizard.
  *
@@ -42,10 +70,14 @@ export class OnboardingFlow {
   readonly business = signal<BusinessDetails | null>(null);
   readonly identity = signal<IdentityDetails | null>(null);
   readonly location = signal<LocationDetails | null>(null);
+  readonly capacity = signal<CapacityDetails | null>(null);
+  readonly credentials = signal<CredentialsDetails | null>(null);
 
   readonly hasBusiness = computed(() => this.business() !== null);
   readonly hasIdentity = computed(() => this.hasBusiness() && this.identity() !== null);
   readonly hasLocation = computed(() => this.hasIdentity() && this.location() !== null);
+  readonly hasCapacity = computed(() => this.hasLocation() && this.capacity() !== null);
+  readonly hasCredentials = computed(() => this.hasCapacity() && this.credentials() !== null);
 
   setBusiness(details: BusinessDetails): void {
     this.business.set(details);
@@ -59,9 +91,19 @@ export class OnboardingFlow {
     this.location.set(details);
   }
 
+  setCapacity(details: CapacityDetails): void {
+    this.capacity.set(details);
+  }
+
+  setCredentials(details: CredentialsDetails): void {
+    this.credentials.set(details);
+  }
+
   reset(): void {
     this.business.set(null);
     this.identity.set(null);
     this.location.set(null);
+    this.capacity.set(null);
+    this.credentials.set(null);
   }
 }

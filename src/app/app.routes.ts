@@ -110,6 +110,22 @@ export const routes: Routes = [
               ),
           },
           {
+            path: 'capacity',
+            canActivate: [onboardingStepGuard('capacity')],
+            loadComponent: () =>
+              import('./features/auth/contractor-register/capacity/capacity').then(
+                (m) => m.OnboardingCapacity,
+              ),
+          },
+          {
+            path: 'credentials',
+            canActivate: [onboardingStepGuard('credentials')],
+            loadComponent: () =>
+              import('./features/auth/contractor-register/credentials/credentials').then(
+                (m) => m.OnboardingCredentials,
+              ),
+          },
+          {
             path: 'confirm',
             canActivate: [onboardingStepGuard('confirm')],
             loadComponent: () =>

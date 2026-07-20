@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { OnboardingFlow } from './onboarding-flow.service';
 
-type Step = 'identity' | 'location' | 'confirm';
+type Step = 'identity' | 'location' | 'capacity' | 'credentials' | 'confirm';
 
 const BASE = '/auth/contractor-register';
 
@@ -21,12 +21,22 @@ export const onboardingStepGuard = (step: Step): CanActivateFn => {
         ? flow.hasBusiness()
         : step === 'location'
           ? flow.hasIdentity()
-          : flow.hasLocation();
+          : step === 'capacity'
+            ? flow.hasLocation()
+            : step === 'credentials'
+              ? flow.hasCapacity()
+              : flow.hasCredentials();
 
     if (satisfied) {
       return true;
     }
 
+    if (flow.hasCapacity()) {
+      return router.createUrlTree([BASE, 'credentials']);
+    }
+    if (flow.hasLocation()) {
+      return router.createUrlTree([BASE, 'capacity']);
+    }
     if (flow.hasIdentity()) {
       return router.createUrlTree([BASE, 'location']);
     }
