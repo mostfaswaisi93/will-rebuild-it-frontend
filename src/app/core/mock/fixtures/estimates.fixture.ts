@@ -28,6 +28,20 @@ const estimate2Items: BoqItem[] = [
   line('boq-2-5', 'custom', 'Municipal connection permit', 1, 'permit', 400),
 ];
 
+const estimate4Items: BoqItem[] = [
+  line('boq-4-1', 'materials', 'Roof timber and trusses', 6, 'm³', 320),
+  line('boq-4-2', 'materials', 'Corrugated roofing sheets', 90, 'm²', 22),
+  line('boq-4-3', 'materials', 'Insulation board', 90, 'm²', 9),
+  line('boq-4-4', 'labor', 'Roofing crew', 14, 'day', 45),
+  line('boq-4-5', 'equipment', 'Mobile crane (half-day)', 2, 'day', 140),
+];
+
+const estimate5Items: BoqItem[] = [
+  line('boq-5-1', 'materials', 'Cement (bagged)', 400, 'bag', 8),
+  line('boq-5-2', 'labor', 'General labour', 40, 'day', 35),
+  line('boq-5-3', 'equipment', 'Debris skip hire', 6, 'skip', 90),
+];
+
 function totals(items: BoqItem[], discounts: number): Pick<Estimate, 'subtotal' | 'discounts' | 'tax' | 'total' | 'fundingRequired'> {
   const subtotal = items.reduce((sum, item) => sum + item.totalCost, 0);
   const total = subtotal - discounts;
@@ -75,5 +89,32 @@ export const seedEstimates: Estimate[] = [
     ...totals(estimate1Items, 0),
     fundedAmount: 0,
     createdAt: '2026-04-10T09:00:00.000Z',
+  },
+  {
+    id: 'estimate-4',
+    estimateNumber: 'EST-2026-00104',
+    projectId: 'project-4',
+    projectTitle: 'Owda Home Roof Replacement',
+    teamId: 'team-4',
+    teamName: 'Rafah Rebuild Workshop',
+    status: 'pendingApproval',
+    items: estimate4Items,
+    ...totals(estimate4Items, 150),
+    fundedAmount: 0,
+    createdAt: '2026-07-16T09:00:00.000Z',
+  },
+  {
+    id: 'estimate-5',
+    estimateNumber: 'EST-2026-00097',
+    projectId: 'project-5',
+    projectTitle: 'Barghouth Home Debris Clearance',
+    teamId: 'team-2',
+    teamName: 'Gaza Restoration Guild',
+    status: 'rejected',
+    items: estimate5Items,
+    ...totals(estimate5Items, 0),
+    fundedAmount: 0,
+    rejectionReason: 'Labour day-rate is well above the approved reconstruction schedule; resubmit at the standard rate.',
+    createdAt: '2026-06-22T09:00:00.000Z',
   },
 ];

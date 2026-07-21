@@ -30,4 +30,6 @@ export interface Estimate {
   rejectionReason?: string;
   createdAt: string;
   approvedAt?: string;
+  /** Approver's captured signature (data URL) — the audit record of approval. */
+  approvalSignatureUrl?: string;
 }

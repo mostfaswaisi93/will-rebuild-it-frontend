@@ -222,6 +222,20 @@ export const routes: Routes = [
             (m) => m.WorkRequestDetail,
           ),
       },
+      {
+        path: 'estimates',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/estimates/estimate-list/estimate-list').then((m) => m.EstimateList),
+      },
+      {
+        path: 'estimates/:id',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/estimates/estimate-detail/estimate-detail').then(
+            (m) => m.EstimateDetail,
+          ),
+      },
     ],
   },
 

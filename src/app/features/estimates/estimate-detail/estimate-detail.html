@@ -1,0 +1,194 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-64 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !estimate()) {
+  <app-page-header [title]="'estimates.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'estimates.detail.notFound' | translate }}
+  </p>
+} @else if (estimate(); as est) {
+  <app-page-header [title]="est.estimateNumber" [subtitle]="est.projectTitle" [showBack]="true">
+    <app-status-pill pageHeaderActions context="estimate" [status]="est.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <!-- Bill of quantities -->
+    <div class="space-y-4 lg:col-span-2">
+      @for (group of groups(); track group.category) {
+        <section class="overflow-hidden rounded-card border border-ink-300 bg-surface">
+          <header class="flex items-center justify-between gap-3 border-b border-ink-300 px-4 py-2.5">
+            <h2 class="text-sm font-semibold text-ink-900">
+              {{ 'estimates.category.' + group.category | translate }}
+            </h2>
+            <span class="text-sm font-semibold tabular-nums text-ink-700">
+              {{ money(group.subtotal) }}
+            </span>
+          </header>
+
+          <div class="overflow-x-auto">
+            <table class="w-full border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-ink-300/60 text-xs text-ink-500">
+                  <th class="px-4 py-2 text-start font-medium">
+                    {{ 'estimates.boq.description' | translate }}
+                  </th>
+                  <th class="px-4 py-2 text-end font-medium">
+                    {{ 'estimates.boq.quantity' | translate }}
+                  </th>
+                  <th class="px-4 py-2 text-end font-medium">
+                    {{ 'estimates.boq.unitCost' | translate }}
+                  </th>
+                  <th class="px-4 py-2 text-end font-medium">
+                    {{ 'estimates.boq.total' | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of group.items; track item.id) {
+                  <tr class="border-b border-ink-300/40 last:border-b-0">
+                    <td class="px-4 py-2 text-ink-900">{{ item.description }}</td>
+                    <td class="whitespace-nowrap px-4 py-2 text-end text-ink-700" dir="ltr">
+                      {{ number(item.quantity) }} {{ item.unit }}
+                    </td>
+                    <td class="px-4 py-2 text-end text-ink-700">{{ money(item.unitCost) }}</td>
+                    <td class="px-4 py-2 text-end font-medium text-ink-900">
+                      {{ money(item.totalCost) }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      @if (est.rejectionReason) {
+        <section class="rounded-card border border-danger/30 bg-danger/5 p-4">
+          <h2 class="text-sm font-semibold text-danger">
+            {{ 'estimates.detail.rejectionReason' | translate }}
+          </h2>
+          <p class="mt-1 text-sm text-ink-700">{{ est.rejectionReason }}</p>
+        </section>
+      }
+    </div>
+
+    <!-- Totals + decision -->
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'estimates.detail.totals' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'estimates.totals.subtotal' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ money(est.subtotal) }}</dd>
+          </div>
+          @if (est.discounts > 0) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'estimates.totals.discounts' | translate }}</dt>
+              <dd class="font-medium text-ink-900">−{{ money(est.discounts) }}</dd>
+            </div>
+          }
+          @if (est.tax > 0) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'estimates.totals.tax' | translate }}</dt>
+              <dd class="font-medium text-ink-900">{{ money(est.tax) }}</dd>
+            </div>
+          }
+          <div class="flex justify-between gap-3 border-t border-ink-300/60 pt-2">
+            <dt class="font-semibold text-ink-900">{{ 'estimates.totals.total' | translate }}</dt>
+            <dd class="text-lg font-bold text-brand-600">{{ money(est.total) }}</dd>
+          </div>
+        </dl>
+
+        <dl class="mt-3 space-y-2 border-t border-ink-300/60 pt-3 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'estimates.detail.team' | translate }}</dt>
+            <dd class="text-end font-medium text-ink-900">{{ est.teamName }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'estimates.columns.created' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(est.createdAt) }}</dd>
+          </div>
+          @if (est.approvedAt) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'estimates.detail.approvedAt' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(est.approvedAt) }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <!-- Decision -->
+      @if (canDecide()) {
+        @if (!showReject()) {
+          <section class="rounded-card border border-ink-300 bg-surface p-4">
+            <h2 class="text-sm font-semibold text-ink-900">
+              {{ 'estimates.detail.approveTitle' | translate }}
+            </h2>
+            <p class="mt-1 text-xs text-ink-500">{{ 'estimates.detail.approveHint' | translate }}</p>
+
+            <div class="mt-3">
+              <app-signature-pad (signatureCaptured)="onSignature($event)" />
+            </div>
+
+            <button
+              type="button"
+              (click)="approve()"
+              [disabled]="!canApprove()"
+              class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {{ (submitting() ? 'common.loading' : 'estimates.detail.approveAction') | translate }}
+            </button>
+
+            <button
+              type="button"
+              (click)="openReject()"
+              class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-input border border-danger/40 px-4 py-2 text-sm font-medium text-danger hover:bg-danger/5"
+            >
+              {{ 'estimates.detail.rejectAction' | translate }}
+            </button>
+          </section>
+        } @else {
+          <section class="rounded-card border border-ink-300 bg-surface p-4">
+            <h2 class="text-sm font-semibold text-ink-900">
+              {{ 'estimates.detail.rejectTitle' | translate }}
+            </h2>
+            <label for="rejectReason" class="mt-2 block text-xs text-ink-500">
+              {{ 'estimates.detail.rejectReasonLabel' | translate }}
+            </label>
+            <textarea
+              id="rejectReason"
+              rows="3"
+              [formControl]="rejectReason"
+              class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+            ></textarea>
+            @if (rejectReason.touched && rejectReason.invalid) {
+              <p class="mt-1 text-sm text-danger">
+                {{ 'estimates.detail.rejectReasonRequired' | translate }}
+              </p>
+            }
+
+            <div class="mt-3 flex items-center gap-2">
+              <button
+                type="button"
+                (click)="cancelReject()"
+                class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+              >
+                {{ 'common.cancel' | translate }}
+              </button>
+              <button
+                type="button"
+                (click)="confirmReject()"
+                [disabled]="submitting()"
+                class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-danger px-4 py-2 text-sm font-semibold text-white hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-danger/40 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {{ 'estimates.detail.rejectConfirm' | translate }}
+              </button>
+            </div>
+          </section>
+        }
+      }
+    </div>
+  </div>
+}

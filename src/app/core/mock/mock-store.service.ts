@@ -15,12 +15,14 @@ import {
   TeamReview,
   User,
   UserRole,
+  WorkOrder,
 } from '@core/models';
 import { seedCredentials, seedUsers } from './fixtures/users.fixture';
 import { seedGeoAreas, seedGlobalSettings } from './fixtures/master.fixture';
 import { seedTeamReviews, seedTeams } from './fixtures/teams.fixture';
 import { seedRequests } from './fixtures/requests.fixture';
 import { seedProjects } from './fixtures/projects.fixture';
+import { seedWorkOrders } from './fixtures/work-orders.fixture';
 import { seedEstimates } from './fixtures/estimates.fixture';
 import { seedFunding } from './fixtures/funding.fixture';
 import { seedDonations } from './fixtures/donations.fixture';
@@ -50,6 +52,7 @@ export class MockStore {
   readonly teamReviews: TeamReview[] = structuredClone(seedTeamReviews);
   readonly requests: ReconstructionRequest[] = structuredClone(seedRequests);
   readonly projects: Project[] = structuredClone(seedProjects);
+  readonly workOrders: WorkOrder[] = structuredClone(seedWorkOrders);
   readonly estimates: Estimate[] = structuredClone(seedEstimates);
   readonly funding: Funding[] = structuredClone(seedFunding);
   readonly donations: Donation[] = structuredClone(seedDonations);

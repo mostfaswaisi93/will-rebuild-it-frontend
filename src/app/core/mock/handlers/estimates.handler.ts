@@ -41,8 +41,14 @@ export const handleEstimates: MockHandler = (ctx) => {
     if (!estimate) {
       return notFound(`Estimate ${ctx.segments[1]} not found.`);
     }
+    const body = (ctx.body ?? {}) as DecisionBody;
     estimate.status = 'approved';
     estimate.approvedAt = new Date().toISOString();
+    // Persist the signature — capturing it is pointless if it's discarded.
+    if (body.signatureImage) {
+      estimate.approvalSignatureUrl = body.signatureImage;
+    }
+    estimate.rejectionReason = undefined;
     return ok(estimate);
   }
 

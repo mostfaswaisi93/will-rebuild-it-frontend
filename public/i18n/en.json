@@ -1033,6 +1033,63 @@
       "title": "Reject this estimate?",
       "body": "The reconstruction team will be notified and may prepare a revised estimate. You can review any new estimate when it arrives.",
       "confirm": "Reject estimate"
+    },
+    "title": "Cost estimates",
+    "subtitle": "Review the bills of quantities submitted by teams, and approve or reject them.",
+    "searchPlaceholder": "Search by estimate number or project name",
+    "empty": "No matching estimates.",
+    "summary": {
+      "pending": "Awaiting approval",
+      "approved": "Approved",
+      "approvedValue": "Approved value"
+    },
+    "filters": {
+      "status": "Status",
+      "allStatuses": "All statuses"
+    },
+    "columns": {
+      "number": "Estimate no.",
+      "project": "Project",
+      "team": "Team",
+      "total": "Total",
+      "status": "Status",
+      "created": "Created"
+    },
+    "category": {
+      "materials": "Materials",
+      "labor": "Labour",
+      "equipment": "Equipment",
+      "custom": "Other items"
+    },
+    "boq": {
+      "description": "Item",
+      "quantity": "Quantity",
+      "unitCost": "Unit cost",
+      "total": "Total"
+    },
+    "totals": {
+      "subtotal": "Subtotal",
+      "discounts": "Discounts",
+      "tax": "Tax",
+      "total": "Total"
+    },
+    "detail": {
+      "title": "Estimate details",
+      "notFound": "This estimate could not be found.",
+      "totals": "Totals",
+      "team": "Submitted by",
+      "approvedAt": "Approved on",
+      "rejectionReason": "Rejection reason",
+      "approveTitle": "Approve estimate",
+      "approveHint": "Sign to approve — your signature is stored as the record of approval.",
+      "approveAction": "Approve",
+      "approved": "The estimate has been approved.",
+      "rejectAction": "Reject estimate",
+      "rejectTitle": "Reject estimate",
+      "rejectReasonLabel": "Reason for rejection (sent to the team)",
+      "rejectReasonRequired": "Please give a clear reason (at least 10 characters)",
+      "rejectConfirm": "Confirm rejection",
+      "rejected": "The estimate has been rejected."
     }
   },
   "funding": {

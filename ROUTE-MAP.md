@@ -173,11 +173,20 @@
 
 ## المرحلة 6 — دورة العمل
 
+> **قرار جوهري:** `estimate-details` القديمة كانت **≈16,000 سطر** — لأنها *بانٍ*
+> كامل لجدول الكميات (إضافة/حذف/تسعير البنود، حساب حيّ، تصدير PDF). مهمة المكتب
+> الخلفي أضيق: **قراءة الجدول المُقدَّم واتخاذ قرار**. فبنيتُ صفحة مراجعة —
+> جدول كميات مجمّع حسب الفئة، إجماليات، اعتماد بتوقيع (`signature-pad`) أو رفض
+> بسبب. بناء التقدير مهمة الفريق في مساحته، خارج نطاق هذه الصفحة.
+>
+> وأصلحت ثغرة: الـ handler كان يلتقط التوقيع ثم **يهمله**؛ الآن يُحفظ
+> (`approvalSignatureUrl`) كسجلّ موافقة — وهو الغرض من التقاطه.
+
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `estimate/estimateList` | `/app/estimates` | ⬜ |
-| `estimate/estimateDetails` | `/app/estimates/:id` | ⬜ |
-| `estimate/viewEstimate` | `/app/estimates/:id/view` | ⬜ |
+| `estimate/estimateList` | `/app/estimates` | ✅ |
+| `estimate/estimateDetails` | `/app/estimates/:id` (مراجعة، لا بناء) | ✅ |
+| `estimate/viewEstimate` | مدموج في `/app/estimates/:id` | ✅ |
 | `workorder/workorderlist` | `/app/work-orders` | ⬜ |
 | `workorder/workorderDetails` | `/app/work-orders/:id` | ⬜ |
 | `workorder/preworkinspection` | `/app/work-orders/:id/inspection/pre` | ⬜ |
