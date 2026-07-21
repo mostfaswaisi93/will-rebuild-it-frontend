@@ -1,0 +1,187 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-56 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !equipment()) {
+  <app-page-header [title]="'equipment.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'equipment.detail.notFound' | translate }}
+  </p>
+} @else if (equipment(); as eq) {
+  <app-page-header [title]="eq.code + ' · ' + eq.name" [showBack]="true">
+    <app-status-pill pageHeaderActions context="equipment" [status]="eq.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <!-- Bookings -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.detail.bookings' | translate }}</h2>
+        @if (eq.bookings.length === 0) {
+          <p class="mt-2 text-sm text-ink-500">{{ 'equipment.detail.noBookings' | translate }}</p>
+        } @else {
+          <ul class="mt-2 divide-y divide-ink-300/50">
+            @for (booking of eq.bookings; track booking.id) {
+              <li class="flex items-center justify-between gap-3 py-2.5">
+                <span class="min-w-0">
+                  <span class="block text-sm font-medium text-ink-900">{{ booking.projectTitle }}</span>
+                  <span class="block text-xs text-ink-500">{{ 'equipment.detail.bookedBy' | translate: { name: booking.bookedBy } }}</span>
+                </span>
+                <span class="shrink-0 text-end text-xs text-ink-700" dir="ltr">
+                  {{ formatDate(booking.from) }} → {{ formatDate(booking.to) }}
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <!-- Problems -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.detail.problems' | translate }}</h2>
+        @if (openProblems().length === 0 && resolvedProblems().length === 0) {
+          <p class="mt-2 text-sm text-ink-500">{{ 'equipment.detail.noProblems' | translate }}</p>
+        } @else {
+          <ul class="mt-2 space-y-2">
+            @for (problem of openProblems(); track problem.id) {
+              <li class="rounded-card border border-ink-300/60 p-3">
+                <div class="flex items-center justify-between gap-2">
+                  <app-status-pill context="equipmentProblem" [status]="problem.severity" />
+                  <button
+                    type="button"
+                    (click)="resolveProblem(problem)"
+                    class="text-xs font-medium text-brand-600 hover:underline"
+                  >
+                    {{ 'equipment.detail.markResolved' | translate }}
+                  </button>
+                </div>
+                <p class="mt-1.5 text-sm text-ink-700">{{ problem.description }}</p>
+                <p class="mt-1 text-xs text-ink-500" dir="ltr">
+                  {{ problem.reportedBy }} · {{ formatDate(problem.reportedAt) }}
+                </p>
+              </li>
+            }
+            @for (problem of resolvedProblems(); track problem.id) {
+              <li class="rounded-card border border-ink-300/40 bg-surface-container-low p-3 opacity-75">
+                <div class="flex items-center justify-between gap-2">
+                  <app-status-pill context="equipmentProblem" [status]="problem.severity" />
+                  <span class="text-xs text-brand-600">{{ 'equipment.detail.resolved' | translate }}</span>
+                </div>
+                <p class="mt-1.5 text-sm text-ink-700 line-through">{{ problem.description }}</p>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    </div>
+
+    <!-- Side: info + actions -->
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.detail.info' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'equipment.columns.category' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'equipment.category.' + eq.category | translate }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'equipment.columns.location' | translate }}</dt>
+            <dd class="text-end font-medium text-ink-900">{{ eq.location }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'equipment.columns.dailyRate' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ money(eq.dailyRate, eq.currency) }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      @if (panel() === 'none') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.detail.actions' | translate }}</h2>
+          @if (bookable()) {
+            <button
+              type="button"
+              (click)="openBook()"
+              class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+            >
+              {{ 'equipment.detail.book' | translate }}
+            </button>
+          } @else {
+            <p class="mt-2 text-sm text-ink-500">{{ 'equipment.detail.notBookable' | translate }}</p>
+          }
+          <button
+            type="button"
+            (click)="openProblem()"
+            class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-input border border-sand-500/40 px-4 py-2 text-sm font-medium text-sand-700 hover:bg-sand-100"
+          >
+            {{ 'equipment.detail.reportProblem' | translate }}
+          </button>
+        </section>
+      }
+
+      <!-- Book panel -->
+      @if (panel() === 'book') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.detail.book' | translate }}</h2>
+          <form [formGroup]="bookForm" (ngSubmit)="submitBooking()" class="mt-3 space-y-3" novalidate>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="bk-from" class="block text-xs text-ink-500">{{ 'equipment.detail.from' | translate }}</label>
+                <input id="bk-from" type="date" formControlName="from" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-2 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none" />
+              </div>
+              <div>
+                <label for="bk-to" class="block text-xs text-ink-500">{{ 'equipment.detail.to' | translate }}</label>
+                <input id="bk-to" type="date" formControlName="to" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-2 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none" />
+              </div>
+            </div>
+            <div>
+              <label for="bk-project" class="block text-xs text-ink-500">{{ 'equipment.detail.project' | translate }}</label>
+              <input id="bk-project" type="text" formControlName="projectTitle" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none" />
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="closePanel()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low">
+                {{ 'common.cancel' | translate }}
+              </button>
+              <button type="submit" [disabled]="submitting()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50">
+                {{ (submitting() ? 'common.loading' : 'equipment.detail.confirmBooking') | translate }}
+              </button>
+            </div>
+          </form>
+        </section>
+      }
+
+      <!-- Problem panel -->
+      @if (panel() === 'problem') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.detail.reportProblem' | translate }}</h2>
+          <form [formGroup]="problemForm" (ngSubmit)="submitProblem()" class="mt-3 space-y-3" novalidate>
+            <div>
+              <label for="pr-sev" class="block text-xs text-ink-500">{{ 'equipment.detail.severity' | translate }}</label>
+              <select id="pr-sev" formControlName="severity" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none">
+                @for (option of severities; track option) {
+                  <option [value]="option">{{ 'shared.statusPill.equipmentProblem.' + option | translate }}</option>
+                }
+              </select>
+            </div>
+            <div>
+              <label for="pr-desc" class="block text-xs text-ink-500">{{ 'equipment.detail.description' | translate }}</label>
+              <textarea id="pr-desc" rows="3" formControlName="description" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none"></textarea>
+              @if (problemForm.controls.description.touched && problemForm.controls.description.invalid) {
+                <p class="mt-1 text-xs text-danger">{{ 'equipment.detail.descriptionRequired' | translate }}</p>
+              }
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="closePanel()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low">
+                {{ 'common.cancel' | translate }}
+              </button>
+              <button type="submit" [disabled]="submitting()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-sand-700 px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50">
+                {{ (submitting() ? 'common.loading' : 'equipment.detail.submitProblem') | translate }}
+              </button>
+            </div>
+          </form>
+        </section>
+      }
+    </div>
+  </div>
+}

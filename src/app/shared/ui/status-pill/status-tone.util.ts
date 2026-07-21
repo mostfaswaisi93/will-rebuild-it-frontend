@@ -15,7 +15,9 @@ export type StatusPillContext =
   | 'beneficiary'
   | 'supplier'
   | 'purchaseOrder'
-  | 'stock';
+  | 'stock'
+  | 'equipment'
+  | 'equipmentProblem';
 
 export interface StatusToneResult {
   tone: StatusTone;
@@ -120,6 +122,18 @@ const CONTEXT_TONES: Record<StatusPillContext, ToneMap> = {
     outOfStock: 'danger',
     reserved: 'info',
     damaged: 'danger',
+  },
+  equipment: {
+    available: 'success',
+    booked: 'info',
+    inUse: 'brand',
+    maintenance: 'warning',
+    outOfService: 'danger',
+  },
+  equipmentProblem: {
+    minor: 'warning',
+    major: 'sandStrong',
+    critical: 'danger',
   },
 };
 

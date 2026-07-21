@@ -711,6 +711,18 @@
         "partiallyReceived": "مستلَم جزئيًا",
         "received": "مستلَم",
         "cancelled": "ملغى"
+      },
+      "equipment": {
+        "available": "متاح",
+        "booked": "محجوز",
+        "inUse": "قيد الاستخدام",
+        "maintenance": "صيانة",
+        "outOfService": "خارج الخدمة"
+      },
+      "equipmentProblem": {
+        "minor": "طفيف",
+        "major": "متوسط",
+        "critical": "حرج"
       }
     },
     "ratingStars": {
@@ -2019,6 +2031,78 @@
       "statusUpdated": "تم تحديث حالة الأمر.",
       "receivedToStock": "تم الاستلام وإضافة المواد للمخزون.",
       "receiveHint": "تأكيد الاستلام يضيف الكميات إلى مخزون المستودع."
+    }
+  },
+  "equipment": {
+    "title": "المعدّات الثقيلة",
+    "subtitle": "أسطول المعدّات وحجوزاته وحالته الفنية.",
+    "searchPlaceholder": "ابحث بالرمز أو الاسم",
+    "empty": "لا توجد معدّات مطابقة.",
+    "viewSchedule": "عرض الجدول",
+    "summary": {
+      "total": "إجمالي المعدّات",
+      "available": "متاحة",
+      "inUse": "مشغولة",
+      "unavailable": "غير متاحة"
+    },
+    "filters": {
+      "allCategories": "كل الفئات",
+      "allStatuses": "كل الحالات"
+    },
+    "category": {
+      "excavator": "حفّار",
+      "bulldozer": "جرّافة",
+      "loader": "لودر",
+      "crane": "رافعة",
+      "dumpTruck": "قلّاب",
+      "concreteMixer": "خلّاطة خرسانة",
+      "compactor": "مدكّة",
+      "generator": "مولّد",
+      "waterTanker": "صهريج مياه",
+      "scaffolding": "سقالات"
+    },
+    "columns": {
+      "code": "الرمز",
+      "name": "الاسم",
+      "category": "الفئة",
+      "location": "الموقع",
+      "dailyRate": "الأجرة اليومية",
+      "status": "الحالة"
+    },
+    "detail": {
+      "title": "تفاصيل المعدّة",
+      "notFound": "لم يُعثر على المعدّة.",
+      "info": "البيانات",
+      "bookings": "الحجوزات",
+      "noBookings": "لا توجد حجوزات.",
+      "bookedBy": "حجزها {{name}}",
+      "problems": "الأعطال",
+      "noProblems": "لا توجد أعطال مسجّلة.",
+      "markResolved": "تحديد كمُعالَج",
+      "resolved": "مُعالَج",
+      "actions": "الإجراءات",
+      "book": "حجز المعدّة",
+      "notBookable": "المعدّة غير متاحة للحجز حاليًا.",
+      "from": "من",
+      "to": "إلى",
+      "project": "المشروع",
+      "confirmBooking": "تأكيد الحجز",
+      "booked": "تم الحجز بنجاح.",
+      "bookClash": "المعدّة محجوزة في جزء من هذه الفترة.",
+      "bookDatesInvalid": "تاريخ البداية يجب أن يسبق تاريخ النهاية.",
+      "reportProblem": "الإبلاغ عن عطل",
+      "severity": "الخطورة",
+      "description": "الوصف",
+      "descriptionRequired": "يرجى كتابة وصف كافٍ (١٠ أحرف على الأقل)",
+      "submitProblem": "إرسال البلاغ",
+      "problemReported": "تم تسجيل العطل.",
+      "problemResolved": "تم إغلاق العطل."
+    },
+    "schedule": {
+      "title": "جدول المعدّات",
+      "subtitle": "حجوزات الأسطول عبر الأسابيع الثلاثة القادمة.",
+      "machine": "المعدّة",
+      "hint": "الحجز يتم من صفحة المعدّة، ويُرفض أي تعارض تلقائيًا."
     }
   }
 }

@@ -355,6 +355,29 @@ export const routes: Routes = [
             (m) => m.PurchaseOrderDetail,
           ),
       },
+      {
+        path: 'equipment',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/equipment/equipment-list/equipment-list').then((m) => m.EquipmentList),
+      },
+      {
+        // Must precede `equipment/:id`, or `:id` captures the literal "schedule".
+        path: 'equipment/schedule',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/equipment/equipment-schedule/equipment-schedule').then(
+            (m) => m.EquipmentSchedule,
+          ),
+      },
+      {
+        path: 'equipment/:id',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/equipment/equipment-detail/equipment-detail').then(
+            (m) => m.EquipmentDetail,
+          ),
+      },
     ],
   },
 

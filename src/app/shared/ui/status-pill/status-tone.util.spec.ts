@@ -8,6 +8,8 @@ import {
   REQUEST_STATUSES,
   BENEFICIARY_STATUSES,
   STATEMENT_STATUSES,
+  EQUIPMENT_PROBLEM_SEVERITIES,
+  EQUIPMENT_STATUSES,
   PURCHASE_ORDER_STATUSES,
   STOCK_STATUSES,
   SUPPLIER_STATUSES,
@@ -122,6 +124,18 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     reserved: 'info',
     damaged: 'danger',
   },
+  equipment: {
+    available: 'success',
+    booked: 'info',
+    inUse: 'brand',
+    maintenance: 'warning',
+    outOfService: 'danger',
+  },
+  equipmentProblem: {
+    minor: 'warning',
+    major: 'sandStrong',
+    critical: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -154,6 +168,8 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'supplier', statuses: SUPPLIER_STATUSES },
   { context: 'purchaseOrder', statuses: PURCHASE_ORDER_STATUSES },
   { context: 'stock', statuses: STOCK_STATUSES },
+  { context: 'equipment', statuses: EQUIPMENT_STATUSES },
+  { context: 'equipmentProblem', statuses: EQUIPMENT_PROBLEM_SEVERITIES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -221,6 +237,8 @@ describe('resolveStatusTone', () => {
         'supplier',
         'purchaseOrder',
         'stock',
+        'equipment',
+        'equipmentProblem',
       ]);
     });
   });

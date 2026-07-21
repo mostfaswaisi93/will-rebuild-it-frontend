@@ -683,6 +683,18 @@
         "partiallyReceived": "Partially received",
         "received": "Received",
         "cancelled": "Cancelled"
+      },
+      "equipment": {
+        "available": "Available",
+        "booked": "Booked",
+        "inUse": "In use",
+        "maintenance": "Maintenance",
+        "outOfService": "Out of service"
+      },
+      "equipmentProblem": {
+        "minor": "Minor",
+        "major": "Major",
+        "critical": "Critical"
       }
     },
     "ratingStars": {
@@ -1968,6 +1980,78 @@
       "statusUpdated": "Order status updated.",
       "receivedToStock": "Received — materials added to stock.",
       "receiveHint": "Confirming receipt adds the quantities into the warehouse stock."
+    }
+  },
+  "equipment": {
+    "title": "Heavy equipment",
+    "subtitle": "The equipment fleet, its bookings and its condition.",
+    "searchPlaceholder": "Search by code or name",
+    "empty": "No matching equipment.",
+    "viewSchedule": "View schedule",
+    "summary": {
+      "total": "Total machines",
+      "available": "Available",
+      "inUse": "Committed",
+      "unavailable": "Unavailable"
+    },
+    "filters": {
+      "allCategories": "All categories",
+      "allStatuses": "All statuses"
+    },
+    "category": {
+      "excavator": "Excavator",
+      "bulldozer": "Bulldozer",
+      "loader": "Loader",
+      "crane": "Crane",
+      "dumpTruck": "Dump truck",
+      "concreteMixer": "Concrete mixer",
+      "compactor": "Compactor",
+      "generator": "Generator",
+      "waterTanker": "Water tanker",
+      "scaffolding": "Scaffolding"
+    },
+    "columns": {
+      "code": "Code",
+      "name": "Name",
+      "category": "Category",
+      "location": "Location",
+      "dailyRate": "Daily rate",
+      "status": "Status"
+    },
+    "detail": {
+      "title": "Equipment details",
+      "notFound": "The equipment could not be found.",
+      "info": "Details",
+      "bookings": "Bookings",
+      "noBookings": "No bookings.",
+      "bookedBy": "Booked by {{name}}",
+      "problems": "Faults",
+      "noProblems": "No faults on record.",
+      "markResolved": "Mark resolved",
+      "resolved": "Resolved",
+      "actions": "Actions",
+      "book": "Book equipment",
+      "notBookable": "This machine is not available to book right now.",
+      "from": "From",
+      "to": "To",
+      "project": "Project",
+      "confirmBooking": "Confirm booking",
+      "booked": "Booked successfully.",
+      "bookClash": "The machine is booked for part of that period.",
+      "bookDatesInvalid": "The start date must be before the end date.",
+      "reportProblem": "Report a fault",
+      "severity": "Severity",
+      "description": "Description",
+      "descriptionRequired": "Please give a clear description (at least 10 characters)",
+      "submitProblem": "Submit report",
+      "problemReported": "Fault recorded.",
+      "problemResolved": "Fault closed."
+    },
+    "schedule": {
+      "title": "Equipment schedule",
+      "subtitle": "Fleet bookings across the next three weeks.",
+      "machine": "Machine",
+      "hint": "Booking is done from the equipment page; any clash is rejected automatically."
     }
   }
 }
