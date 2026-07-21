@@ -378,6 +378,41 @@ export const routes: Routes = [
             (m) => m.EquipmentDetail,
           ),
       },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import('./features/notifications/notification-list/notification-list').then(
+            (m) => m.NotificationList,
+          ),
+      },
+      {
+        path: 'support',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/support/support-list/support-list').then((m) => m.SupportList),
+      },
+      {
+        path: 'support/:id',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/support/support-detail/support-detail').then((m) => m.SupportDetail),
+      },
+      {
+        path: 'disbursements',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/disbursements/disbursement-list/disbursement-list').then(
+            (m) => m.DisbursementList,
+          ),
+      },
+      {
+        path: 'disbursements/:id',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/disbursements/disbursement-detail/disbursement-detail').then(
+            (m) => m.DisbursementDetail,
+          ),
+      },
     ],
   },
 

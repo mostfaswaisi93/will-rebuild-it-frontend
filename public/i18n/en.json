@@ -695,6 +695,13 @@
         "minor": "Minor",
         "major": "Major",
         "critical": "Critical"
+      },
+      "disbursement": {
+        "pending": "Pending",
+        "authorised": "Authorised",
+        "sent": "Sent",
+        "settled": "Settled",
+        "failed": "Failed"
       }
     },
     "ratingStars": {
@@ -2052,6 +2059,67 @@
       "subtitle": "Fleet bookings across the next three weeks.",
       "machine": "Machine",
       "hint": "Booking is done from the equipment page; any clash is rejected automatically."
+    }
+  },
+  "supportQueue": {
+    "title": "Support tickets",
+    "subtitle": "Incoming support tickets from beneficiaries, and replies.",
+    "searchPlaceholder": "Search by ticket number or subject",
+    "empty": "No matching tickets.",
+    "allStatuses": "All statuses",
+    "columns": {
+      "number": "Ticket no.",
+      "subject": "Subject",
+      "project": "Project",
+      "status": "Status",
+      "created": "Opened"
+    }
+  },
+  "disbursements": {
+    "title": "Disbursements",
+    "subtitle": "Payments made to teams against approved statements.",
+    "searchPlaceholder": "Search by disbursement number, team or statement",
+    "empty": "No matching disbursements.",
+    "summary": {
+      "inFlight": "In flight",
+      "inFlightAmount": "In-flight value",
+      "settled": "Total settled",
+      "failed": "Failed"
+    },
+    "filters": {
+      "allStatuses": "All statuses",
+      "allMethods": "All methods"
+    },
+    "method": {
+      "bankTransfer": "Bank transfer",
+      "cheque": "Cheque",
+      "cash": "Cash",
+      "mobileWallet": "Mobile wallet"
+    },
+    "columns": {
+      "number": "Disbursement no.",
+      "team": "Team",
+      "method": "Method",
+      "amount": "Amount",
+      "status": "Status",
+      "created": "Created"
+    },
+    "transition": {
+      "authorised": "Authorise",
+      "sent": "Confirm sent",
+      "settled": "Confirm settled",
+      "failed": "Mark failed"
+    },
+    "detail": {
+      "title": "Disbursement details",
+      "notFound": "The disbursement could not be found.",
+      "amount": "Amount",
+      "statement": "Statement",
+      "reference": "Reference",
+      "referenceLabel": "Transfer reference (optional)",
+      "settledOn": "Settled on",
+      "statusUpdated": "Disbursement status updated.",
+      "markedFailed": "Disbursement marked as failed."
     }
   }
 }

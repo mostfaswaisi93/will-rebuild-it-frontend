@@ -8,6 +8,7 @@ import {
   REQUEST_STATUSES,
   BENEFICIARY_STATUSES,
   STATEMENT_STATUSES,
+  DISBURSEMENT_STATUSES,
   EQUIPMENT_PROBLEM_SEVERITIES,
   EQUIPMENT_STATUSES,
   PURCHASE_ORDER_STATUSES,
@@ -136,6 +137,13 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     major: 'sandStrong',
     critical: 'danger',
   },
+  disbursement: {
+    pending: 'neutral',
+    authorised: 'info',
+    sent: 'brand',
+    settled: 'success',
+    failed: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -149,6 +157,7 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   statement: ['draft'],
   supplier: ['suspended'],
   purchaseOrder: ['draft', 'cancelled'],
+  disbursement: ['pending'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -170,6 +179,7 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'stock', statuses: STOCK_STATUSES },
   { context: 'equipment', statuses: EQUIPMENT_STATUSES },
   { context: 'equipmentProblem', statuses: EQUIPMENT_PROBLEM_SEVERITIES },
+  { context: 'disbursement', statuses: DISBURSEMENT_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -239,6 +249,7 @@ describe('resolveStatusTone', () => {
         'stock',
         'equipment',
         'equipmentProblem',
+        'disbursement',
       ]);
     });
   });

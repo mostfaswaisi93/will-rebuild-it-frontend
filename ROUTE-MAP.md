@@ -228,16 +228,16 @@
 ### المعدّات
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `equipment/alp-equipment` (+ `equipmentlist`) | `/app/equipment` | ⬜ |
+| `equipment/alp-equipment` (+ `equipmentlist`) | `/app/equipment` | ✅ |
 | `equipment/add-equipment` | `/app/equipment/new` | ⬜ |
 | `equipment/edit-equipment` | `/app/equipment/:id/edit` | ⬜ |
-| `equipment/equipment-details` | `/app/equipment/:id` | ⬜ |
+| `equipment/equipment-details` | `/app/equipment/:id` (حجز + أعطال) | ✅ |
 | `equipment/equipmentdetails` (القديم) | مدموج في السابق | ⬜ |
-| `equipment/equipment-book` | `/app/equipment/:id/book` | ⬜ |
+| `equipment/equipment-book` | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-history` | `/app/equipment/:id/history` | ⬜ |
-| `equipment/equipment-problems` | `/app/equipment/:id/problems` | ⬜ |
+| `equipment/equipment-problems` | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-reports` | `/app/equipment/reports` | ⬜ |
-| `equipment/equipment-schedule` (Syncfusion Schedule) | `/app/equipment/schedule` | ⬜ |
+| `equipment/equipment-schedule` (Syncfusion Schedule) | `/app/equipment/schedule` (Gantt للقراءة) | ✅ |
 | `equipment/equipment-schedule2` | مدموج في السابق | ⬜ |
 
 > ⚠️ `equipment/schedule` هي أثقل شاشة في المشروع (Syncfusion Schedule).
@@ -325,12 +325,12 @@
 | `promotions/promotiondetails` | `/app/campaigns/:id` | ⬜ |
 | `promotions/emailList` | `/app/campaigns/recipients` | ⬜ |
 | `promotions/budget` | `/app/campaigns/budget` | ⬜ |
-| `notifications/notificationsList` | `/app/notifications` | ⬜ |
+| `notifications/notificationsList` | `/app/notifications` | ✅ |
 | `notifications/push-notifications` | `/app/notifications/push` | ⬜ |
 | `social/yelp` | `/app/external-ratings/yelp` | ⬜ |
 | `social/google` | `/app/external-ratings/google` | ⬜ |
-| `support/customer-tickets` | `/app/support` | ⬜ |
-| `support/ticket/:ticketId` | `/app/support/:ticketId` | ⬜ |
+| `support/customer-tickets` | `/app/support` | ✅ |
+| `support/ticket/:ticketId` | `/app/support/:id` (محادثة + رد) | ✅ |
 | `scorecard/scorecardHome` | `/app/scorecards` | ⬜ |
 | `scorecard/scorecardGeneration` | `/app/scorecards/new` | ⬜ |
 | `logs/twilliosms` | `/app/logs/sms` | ⬜ |

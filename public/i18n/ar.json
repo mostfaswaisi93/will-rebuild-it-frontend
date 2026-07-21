@@ -723,6 +723,13 @@
         "minor": "طفيف",
         "major": "متوسط",
         "critical": "حرج"
+      },
+      "disbursement": {
+        "pending": "قيد الانتظار",
+        "authorised": "مُصرَّح",
+        "sent": "مُرسَل",
+        "settled": "مُسوّى",
+        "failed": "فاشل"
       }
     },
     "ratingStars": {
@@ -2103,6 +2110,67 @@
       "subtitle": "حجوزات الأسطول عبر الأسابيع الثلاثة القادمة.",
       "machine": "المعدّة",
       "hint": "الحجز يتم من صفحة المعدّة، ويُرفض أي تعارض تلقائيًا."
+    }
+  },
+  "supportQueue": {
+    "title": "طلبات الدعم",
+    "subtitle": "تذاكر الدعم الواردة من المستفيدين والرد عليها.",
+    "searchPlaceholder": "ابحث برقم التذكرة أو الموضوع",
+    "empty": "لا توجد تذاكر مطابقة.",
+    "allStatuses": "كل الحالات",
+    "columns": {
+      "number": "رقم التذكرة",
+      "subject": "الموضوع",
+      "project": "المشروع",
+      "status": "الحالة",
+      "created": "تاريخ الفتح"
+    }
+  },
+  "disbursements": {
+    "title": "الصرف والدفعات",
+    "subtitle": "المبالغ المصروفة لفرق التنفيذ مقابل المستخلصات المعتمدة.",
+    "searchPlaceholder": "ابحث برقم الصرف أو الفريق أو المستخلص",
+    "empty": "لا توجد عمليات صرف مطابقة.",
+    "summary": {
+      "inFlight": "قيد التنفيذ",
+      "inFlightAmount": "قيمة قيد التنفيذ",
+      "settled": "إجمالي المُسوّى",
+      "failed": "فاشلة"
+    },
+    "filters": {
+      "allStatuses": "كل الحالات",
+      "allMethods": "كل الطرق"
+    },
+    "method": {
+      "bankTransfer": "تحويل بنكي",
+      "cheque": "شيك",
+      "cash": "نقدًا",
+      "mobileWallet": "محفظة إلكترونية"
+    },
+    "columns": {
+      "number": "رقم الصرف",
+      "team": "الفريق",
+      "method": "الطريقة",
+      "amount": "المبلغ",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء"
+    },
+    "transition": {
+      "authorised": "التصريح بالصرف",
+      "sent": "تأكيد الإرسال",
+      "settled": "تأكيد التسوية",
+      "failed": "تعليم كفاشل"
+    },
+    "detail": {
+      "title": "تفاصيل الصرف",
+      "notFound": "لم يُعثر على عملية الصرف.",
+      "amount": "المبلغ",
+      "statement": "المستخلص",
+      "reference": "المرجع",
+      "referenceLabel": "مرجع التحويل (اختياري)",
+      "settledOn": "تاريخ التسوية",
+      "statusUpdated": "تم تحديث حالة الصرف.",
+      "markedFailed": "تم تعليم الصرف كفاشل."
     }
   }
 }

@@ -1,0 +1,71 @@
+<app-page-header
+  [title]="'notifications.list.title' | translate"
+  [subtitle]="'notifications.list.subtitle' | translate"
+>
+  @if (unreadCount() > 0) {
+    <button
+      pageHeaderActions
+      type="button"
+      (click)="markAllRead()"
+      class="inline-flex min-h-11 items-center gap-1.5 rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      <svg lucideCheckCheck [size]="16" aria-hidden="true"></svg>
+      {{ 'notifications.list.markAllRead' | translate }}
+    </button>
+  }
+</app-page-header>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="space-y-2">
+    @for (i of [0, 1, 2, 3]; track i) {
+      <div class="h-16 animate-pulse rounded-card bg-ink-300/20"></div>
+    }
+  </div>
+} @else if (notifications().length === 0) {
+  <div class="rounded-card border border-dashed border-ink-300 bg-surface p-10 text-center">
+    <svg lucideBell [size]="28" class="mx-auto text-ink-300" aria-hidden="true"></svg>
+    <p class="mt-2 text-sm text-ink-500">{{ 'notifications.list.empty' | translate }}</p>
+  </div>
+} @else {
+  <ul class="space-y-2">
+    @for (notification of notifications(); track notification.id) {
+      <li
+        class="flex items-start gap-3 rounded-card border p-4"
+        [class]="notification.isRead ? 'border-ink-300 bg-surface' : 'border-brand-300 bg-brand-50'"
+        (mouseenter)="markRead(notification)"
+      >
+        @if (!notification.isRead) {
+          <span class="mt-1.5 size-2 shrink-0 rounded-full bg-brand-500" aria-hidden="true"></span>
+        } @else {
+          <span class="mt-1.5 size-2 shrink-0" aria-hidden="true"></span>
+        }
+
+        <div class="min-w-0 flex-1">
+          <p class="text-sm font-medium text-ink-900">{{ notification.title }}</p>
+          <p class="mt-0.5 text-sm text-ink-600">{{ notification.body }}</p>
+          <div class="mt-1 flex items-center gap-3">
+            <span class="text-xs text-ink-500">{{ relativeTime(notification.createdAt) }}</span>
+            @if (notification.linkUrl) {
+              <a [routerLink]="notification.linkUrl" class="text-xs font-medium text-brand-600 hover:underline">
+                {{ 'common.viewDetails' | translate }}
+              </a>
+            }
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="remove(notification)"
+          [attr.aria-label]="'notifications.list.delete' | translate"
+          class="inline-flex size-9 shrink-0 items-center justify-center rounded-input text-ink-500 hover:bg-surface-container-low hover:text-danger"
+        >
+          <svg lucideTrash2 [size]="16" aria-hidden="true"></svg>
+        </button>
+      </li>
+    }
+  </ul>
+}

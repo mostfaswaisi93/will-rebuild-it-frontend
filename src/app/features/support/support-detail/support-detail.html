@@ -1,0 +1,87 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-64 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !ticket()) {
+  <app-page-header [title]="'support.view.notFound' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'support.view.notFoundHint' | translate }}
+  </p>
+} @else if (ticket(); as ticket) {
+  <app-page-header [title]="ticket.subject" [subtitle]="ticket.ticketNumber" [showBack]="true">
+    <app-status-pill pageHeaderActions context="support" [status]="ticket.status" />
+  </app-page-header>
+
+  <div class="mx-auto max-w-2xl space-y-4">
+    <!-- Original request -->
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'support.view.originalRequest' | translate }}</h2>
+      <p class="mt-2 whitespace-pre-line text-sm text-ink-700">{{ ticket.description }}</p>
+      @if (ticket.projectTitle) {
+        <p class="mt-2 text-xs text-ink-500">{{ ticket.projectTitle }}</p>
+      }
+    </section>
+
+    <!-- Conversation -->
+    <section>
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'support.view.conversation' | translate }}</h2>
+      @if (ticket.messages.length === 0) {
+        <p class="mt-2 text-sm text-ink-500">{{ 'support.view.noMessages' | translate }}</p>
+      } @else {
+        <ul class="mt-2 space-y-3">
+          @for (message of ticket.messages; track message.id) {
+            <li class="flex" [class.justify-end]="message.author === 'support'">
+              <div
+                class="max-w-[85%] rounded-card px-3 py-2"
+                [class]="
+                  message.author === 'support'
+                    ? 'bg-brand-500 text-white'
+                    : 'border border-ink-300 bg-surface text-ink-900'
+                "
+              >
+                <p class="text-xs font-medium" [class]="message.author === 'support' ? 'text-white/80' : 'text-ink-500'">
+                  {{ (message.author === 'support' ? 'support.view.supportTeam' : 'support.view.you') | translate }}
+                </p>
+                <p class="mt-0.5 whitespace-pre-line text-sm">{{ message.body }}</p>
+                <p class="mt-1 text-[11px]" [class]="message.author === 'support' ? 'text-white/70' : 'text-ink-500'" dir="ltr">
+                  {{ formatDateTime(message.createdAt) }}
+                </p>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <!-- Reply -->
+    @if (isClosed()) {
+      <p class="rounded-card border border-ink-300 bg-surface-container-low px-4 py-3 text-center text-sm text-ink-500">
+        {{ 'support.view.closedNotice' | translate }}
+      </p>
+    } @else {
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <label for="reply" class="block text-sm font-medium text-ink-700">
+          {{ 'support.view.replyLabel' | translate }}
+        </label>
+        <textarea
+          id="reply"
+          rows="3"
+          [formControl]="reply"
+          [placeholder]="'support.view.replyPlaceholder' | translate"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 placeholder:text-ink-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        ></textarea>
+        <div class="mt-2 flex justify-end">
+          <button
+            type="button"
+            (click)="send()"
+            [disabled]="sending()"
+            class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-5 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {{ (sending() ? 'common.loading' : 'support.view.send') | translate }}
+          </button>
+        </div>
+      </section>
+    }
+  </div>
+}
