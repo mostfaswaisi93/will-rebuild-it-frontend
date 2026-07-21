@@ -1,0 +1,73 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !card()) {
+  <app-page-header [title]="'scorecards.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'scorecards.detail.notFound' | translate }}
+  </p>
+} @else if (card(); as card) {
+  <app-page-header [title]="card.teamName" [subtitle]="'scorecards.detail.title' | translate" [showBack]="true">
+    <a
+      pageHeaderActions
+      [routerLink]="['/app/contractors', card.teamId]"
+      class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'scorecards.detail.viewProfile' | translate }}
+    </a>
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <!-- Overall score -->
+    <section class="rounded-card border border-ink-300 bg-surface p-4 text-center">
+      <p class="text-sm text-ink-500">{{ 'scorecards.detail.overall' | translate }}</p>
+      <p class="mt-1 text-5xl font-bold text-ink-900">{{ card.overallScore }}</p>
+      <div class="mx-auto mt-3 h-2 max-w-40 overflow-hidden rounded-full bg-surface-container">
+        <div class="h-full rounded-full" [class]="scoreClass(card.overallScore)" [style.width.%]="card.overallScore"></div>
+      </div>
+      <p class="mt-2 text-xs text-ink-500">{{ 'scorecards.detail.outOf' | translate }}</p>
+    </section>
+
+    <!-- Metric breakdown -->
+    <section class="rounded-card border border-ink-300 bg-surface p-4 lg:col-span-2">
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'scorecards.detail.breakdown' | translate }}</h2>
+      <ul class="mt-3 space-y-3">
+        @for (metric of metrics(); track metric.labelKey) {
+          <li>
+            <div class="flex items-center justify-between gap-3 text-sm">
+              <span class="text-ink-700">{{ metric.labelKey | translate }}</span>
+              <span class="font-medium text-ink-900">{{ metric.display }}</span>
+            </div>
+            <div class="mt-1 h-2 overflow-hidden rounded-full bg-surface-container">
+              <div class="h-full rounded-full bg-brand-500" [style.width.%]="metric.ratio * 100"></div>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+
+  <!-- Underlying counts -->
+  <section class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="rounded-card border border-ink-300 bg-surface p-4">
+      <p class="text-2xl font-bold text-ink-900">{{ count(card.completedProjects) }}</p>
+      <p class="mt-1 text-sm text-ink-500">{{ 'scorecards.detail.completedProjects' | translate }}</p>
+    </div>
+    <div class="rounded-card border border-ink-300 bg-surface p-4">
+      <p class="text-2xl font-bold text-ink-900">
+        {{ count(card.workOrdersCompleted) }}<span class="text-base text-ink-500">/{{ count(card.workOrdersTotal) }}</span>
+      </p>
+      <p class="mt-1 text-sm text-ink-500">{{ 'scorecards.detail.workOrders' | translate }}</p>
+    </div>
+    <div class="rounded-card border border-ink-300 bg-surface p-4">
+      <p class="text-2xl font-bold text-ink-900">{{ count(card.statementsApproved) }}</p>
+      <p class="mt-1 text-sm text-ink-500">{{ 'scorecards.detail.statementsApproved' | translate }}</p>
+    </div>
+    <div class="rounded-card border border-ink-300 bg-surface p-4">
+      <p class="text-2xl font-bold text-ink-900">{{ count(card.statementsRejected) }}</p>
+      <p class="mt-1 text-sm text-ink-500">{{ 'scorecards.detail.statementsRejected' | translate }}</p>
+    </div>
+  </section>
+}

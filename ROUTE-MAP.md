@@ -285,7 +285,7 @@
 | `accountSettings/:tab` و `:tab/:ctab` | `/app/account-settings/:tab` | ⬜ |
 | `groupprofile` | `/app/account-settings/organisation` | ⬜ |
 | `staffroledetails` | `/app/account-settings/roles/:id` | ⬜ |
-| `permissions` | `/app/permissions` | ⬜ |
+| `permissions` | `/app/permissions` (مصفوفة قراءة) | ✅ |
 | `pricebookpackagedetails` | `/app/account-settings/pricebook-packages/:id` | ⬜ |
 | `pricebookservicesubcategory` | `/app/account-settings/pricebook-subcategories/:id` | ⬜ |
 | `inventorysubcategory` | `/app/account-settings/material-subcategories/:id` | ⬜ |
@@ -303,7 +303,7 @@
 | `geofencingSetting` | `/app/global-settings/geofencing` | ⬜ |
 | `timeCardActivites` + `editTimeCardActivites` | `/app/global-settings/timecard-activities` (+ `/:id`) | ⬜ |
 | `paymentMethods` + `editPaymentMethods` | `/app/global-settings/payment-methods` (+ `/:id`) | ⬜ |
-| `termsAndConditions` + `editTermsAndConditions` | `/app/global-settings/terms` (+ `/:id`) | ⬜ |
+| `termsAndConditions` + `editTermsAndConditions` | `/app/global-settings/terms` (نافذة تحرير) | ✅ |
 | `vendorCategories` + `editVendorCategory` | `/app/global-settings/supplier-categories` (+ `/:id`) | ⬜ |
 | `salesAndMarketing` + `editSalesAndMarketing` | `/app/global-settings/outreach` (+ `/:id`) | ⬜ |
 
@@ -331,8 +331,8 @@
 | `social/google` | `/app/external-ratings/google` | ⬜ |
 | `support/customer-tickets` | `/app/support` | ✅ |
 | `support/ticket/:ticketId` | `/app/support/:id` (محادثة + رد) | ✅ |
-| `scorecard/scorecardHome` | `/app/scorecards` | ⬜ |
-| `scorecard/scorecardGeneration` | `/app/scorecards/new` | ⬜ |
+| `scorecard/scorecardHome` | `/app/scorecards` (ترتيب أداء محسوب) | ✅ |
+| `scorecard/scorecardGeneration` | `/app/scorecards/:id` (تفصيل محسوب) | ✅ |
 | `logs/twilliosms` | `/app/logs/sms` | ⬜ |
 | `logs/twilliosendgridMail` | `/app/logs/email` | ⬜ |
 | `not-found` | `**` | ✅ |

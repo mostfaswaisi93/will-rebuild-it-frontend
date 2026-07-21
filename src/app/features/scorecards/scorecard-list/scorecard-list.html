@@ -1,0 +1,59 @@
+<app-page-header
+  [title]="'scorecards.title' | translate"
+  [subtitle]="'scorecards.subtitle' | translate"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    @for (i of skeletons; track i) {
+      <div class="h-40 animate-pulse rounded-card border border-ink-300 bg-ink-300/20"></div>
+    }
+  </div>
+} @else {
+  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    @for (card of cards(); track card.teamId; let rank = $index) {
+      <a
+        [routerLink]="['/app/scorecards', card.teamId]"
+        class="flex flex-col rounded-card border border-ink-300 bg-surface p-4 transition-colors hover:border-brand-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/30"
+      >
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <span class="text-xs text-ink-500">#{{ rank + 1 }}</span>
+            <h2 class="truncate font-semibold text-ink-900">{{ card.teamName }}</h2>
+          </div>
+          <span class="shrink-0 text-2xl font-bold text-ink-900">{{ card.overallScore }}</span>
+        </div>
+
+        <div class="mt-2 h-2 overflow-hidden rounded-full bg-surface-container">
+          <div
+            class="h-full rounded-full"
+            [class]="scoreClass(card.overallScore)"
+            [style.width.%]="card.overallScore"
+          ></div>
+        </div>
+
+        <dl class="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+          <div>
+            <dt class="text-ink-500">{{ 'scorecards.rating' | translate }}</dt>
+            <dd class="mt-0.5 inline-flex items-center gap-0.5 font-semibold text-ink-900">
+              <svg lucideStar [size]="12" class="text-sand-700" aria-hidden="true"></svg>
+              {{ rating(card.averageRating) }}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-ink-500">{{ 'scorecards.completion' | translate }}</dt>
+            <dd class="mt-0.5 font-semibold text-ink-900">{{ percent(card.completionRate) }}</dd>
+          </div>
+          <div>
+            <dt class="text-ink-500">{{ 'scorecards.approval' | translate }}</dt>
+            <dd class="mt-0.5 font-semibold text-ink-900">{{ percent(card.approvalRate) }}</dd>
+          </div>
+        </dl>
+      </a>
+    }
+  </div>
+}

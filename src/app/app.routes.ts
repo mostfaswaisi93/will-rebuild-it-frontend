@@ -437,6 +437,20 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/settings/permissions/permissions').then((m) => m.Permissions),
       },
+      {
+        path: 'scorecards',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/scorecards/scorecard-list/scorecard-list').then((m) => m.ScorecardList),
+      },
+      {
+        path: 'scorecards/:id',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/scorecards/scorecard-detail/scorecard-detail').then(
+            (m) => m.ScorecardDetail,
+          ),
+      },
     ],
   },
 

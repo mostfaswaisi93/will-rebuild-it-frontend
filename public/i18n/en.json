@@ -2121,5 +2121,66 @@
       "statusUpdated": "Disbursement status updated.",
       "markedFailed": "Disbursement marked as failed."
     }
+  },
+  "settings": {
+    "hub": {
+      "title": "Global settings",
+      "subtitle": "Platform configuration and reference data.",
+      "terms": "Terms & Conditions",
+      "termsDesc": "Agreement and consent text shown to users.",
+      "pricebook": "Pricebook",
+      "pricebookDesc": "Standard rates for reconstruction items.",
+      "permissions": "Roles & permissions",
+      "permissionsDesc": "Which roles can reach which platform features."
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "subtitle": "Manage agreement text and versions per audience.",
+      "add": "Add document",
+      "addTitle": "Add a new document",
+      "editTitle": "Edit document",
+      "docTitle": "Title",
+      "titleRequired": "Please enter a title",
+      "audience": "Audience",
+      "version": "Version",
+      "versionRequired": "Please enter a version",
+      "body": "Body",
+      "bodyRequired": "Please enter enough text (at least 20 characters)",
+      "active": "Active",
+      "activate": "Activate",
+      "created": "Document added.",
+      "updated": "Document updated.",
+      "activated": "Document activated.",
+      "audienceValue": {
+        "general": "General",
+        "contractor": "Contractors",
+        "beneficiary": "Beneficiaries"
+      }
+    }
+  },
+  "permissions": {
+    "title": "Roles & permissions",
+    "subtitle": "Which back-office features each role can reach.",
+    "note": "Permissions are enforced in code via route guards; this page is a read-only mirror of them.",
+    "capability": "Capability"
+  },
+  "scorecards": {
+    "title": "Contractor scorecards",
+    "subtitle": "Teams ranked by rating, throughput and statement discipline.",
+    "rating": "Rating",
+    "completion": "Completion",
+    "approval": "Claim approval",
+    "detail": {
+      "title": "Scorecard",
+      "notFound": "The team could not be found.",
+      "viewProfile": "View profile",
+      "overall": "Overall score",
+      "outOf": "out of 100",
+      "breakdown": "Metric breakdown",
+      "completedProjects": "Projects completed",
+      "workOrders": "Work orders completed",
+      "statementsApproved": "Statements approved",
+      "statementsRejected": "Statements rejected"
+    }
   }
 }
