@@ -1,0 +1,146 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-64 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !team()) {
+  <app-page-header [title]="'contractors.profile.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'contractors.profile.notFound' | translate }}
+  </p>
+} @else if (team(); as team) {
+  <app-page-header [title]="team.name" [showBack]="true" />
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <!-- About -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <div class="flex flex-wrap gap-1">
+          @for (spec of team.specializations; track spec) {
+            <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-700">
+              {{ 'teams.specialization.' + specKey(spec) | translate }}
+            </span>
+          }
+        </div>
+        <p class="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-700">{{ team.bio }}</p>
+      </section>
+
+      <!-- Services -->
+      @if (team.services.length > 0) {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'contractors.profile.services' | translate }}</h2>
+          <ul class="mt-2 space-y-2">
+            @for (service of team.services; track service.id) {
+              <li class="border-b border-ink-300/50 pb-2 last:border-b-0 last:pb-0">
+                <p class="text-sm font-medium text-ink-900">{{ service.title }}</p>
+                <p class="text-sm text-ink-500">{{ service.description }}</p>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <!-- Reviews -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">
+          {{ 'contractors.profile.reviews' | translate: { count: count(reviews().length) } }}
+        </h2>
+        @if (reviews().length === 0) {
+          <p class="mt-2 text-sm text-ink-500">{{ 'contractors.profile.noReviews' | translate }}</p>
+        } @else {
+          <ul class="mt-2 space-y-3">
+            @for (review of reviews(); track review.id) {
+              <li class="rounded-card border border-ink-300/60 p-3">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-sm font-medium text-ink-900">{{ review.authorName }}</span>
+                  <span class="text-xs text-ink-500" dir="ltr">{{ formatDate(review.createdAt) }}</span>
+                </div>
+                <div class="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink-500">
+                  <span>{{ 'contractors.profile.workQuality' | translate }}: {{ rating(review.workQuality) }}</span>
+                  <span>{{ 'contractors.profile.timeliness' | translate }}: {{ rating(review.timeliness) }}</span>
+                  <span>{{ 'contractors.profile.professionalism' | translate }}: {{ rating(review.professionalism) }}</span>
+                </div>
+                @if (review.comments) {
+                  <p class="mt-2 text-sm text-ink-700">{{ review.comments }}</p>
+                }
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    </div>
+
+    <!-- Side: standing + coverage + contact -->
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <div class="flex items-baseline gap-2">
+          <span class="text-3xl font-bold text-ink-900">{{ rating(team.averageRating) }}</span>
+          <span class="text-sm text-ink-500">
+            {{ 'contractors.profile.fromReviews' | translate: { count: count(team.reviewsCount) } }}
+          </span>
+        </div>
+        <dl class="mt-3 space-y-2 border-t border-ink-300/60 pt-3 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'contractors.profile.completed' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ count(team.completedProjectsCount) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'contractors.profile.since' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ year(team.workingSince) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'contractors.licensed' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ (team.isLicensed ? 'common.yes' : 'common.no') | translate }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'contractors.insured' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ (team.isInsured ? 'common.yes' : 'common.no') | translate }}</dd>
+          </div>
+        </dl>
+        @if (team.licenseNumbers.length > 0) {
+          <div class="mt-3 border-t border-ink-300/60 pt-3">
+            <p class="text-xs text-ink-500">{{ 'contractors.profile.licenses' | translate }}</p>
+            <ul class="mt-1 space-y-0.5">
+              @for (licence of team.licenseNumbers; track licence) {
+                <li class="text-sm font-medium text-ink-900" dir="ltr">{{ licence }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </section>
+
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'contractors.profile.coverage' | translate }}</h2>
+        @if (coverageGovernorates().length === 0) {
+          <p class="mt-2 text-sm text-ink-500">{{ 'contractors.profile.noCoverage' | translate }}</p>
+        } @else {
+          <div class="mt-2 flex flex-wrap gap-1">
+            @for (gov of coverageGovernorates(); track gov) {
+              <span class="rounded-full bg-brand-50 px-2.5 py-0.5 text-xs font-medium text-brand-700">
+                {{ 'governorates.' + gov | translate }}
+              </span>
+            }
+          </div>
+        }
+      </section>
+
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'contractors.profile.contact' | translate }}</h2>
+        <dl class="mt-2 space-y-2 text-sm">
+          <div>
+            <dt class="text-ink-500">{{ 'workRequests.detail.phone' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">
+              <a class="text-brand-600 hover:underline" [href]="'tel:' + team.phone">{{ team.phone }}</a>
+            </dd>
+          </div>
+          <div>
+            <dt class="text-ink-500">{{ 'auth.signIn.email' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">
+              <a class="text-brand-600 hover:underline" [href]="'mailto:' + team.email">{{ team.email }}</a>
+            </dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  </div>
+}

@@ -1821,5 +1821,36 @@
       "unitRequired": "يرجى اختيار الوحدة",
       "rateRequired": "يرجى إدخال سعر صحيح (صفر فأكثر)"
     }
+  },
+  "contractors": {
+    "title": "المقاولون",
+    "subtitle": "دليل فرق التنفيذ المتاحة، بقدراتها وتقييماتها.",
+    "searchPlaceholder": "ابحث باسم الفريق",
+    "empty": "لا توجد فرق مطابقة.",
+    "licensed": "مرخّص",
+    "insured": "مؤمّن",
+    "completedProjects": "{{count}} مشروعًا منجزًا",
+    "filters": {
+      "specialization": "التخصص",
+      "allSpecializations": "كل التخصصات",
+      "governorate": "المحافظة"
+    },
+    "profile": {
+      "title": "ملف المقاول",
+      "notFound": "لم يُعثر على الفريق.",
+      "services": "الخدمات",
+      "reviews": "التقييمات ({{count}})",
+      "noReviews": "لا توجد تقييمات بعد.",
+      "workQuality": "جودة العمل",
+      "timeliness": "الالتزام بالمواعيد",
+      "professionalism": "الاحترافية",
+      "fromReviews": "من {{count}} تقييمًا",
+      "completed": "مشاريع منجزة",
+      "since": "يعمل منذ",
+      "licenses": "أرقام الترخيص",
+      "coverage": "مناطق التغطية",
+      "noCoverage": "لا توجد مناطق مسجّلة.",
+      "contact": "التواصل"
+    }
   }
 }

@@ -1770,5 +1770,36 @@
       "unitRequired": "Please select a unit",
       "rateRequired": "Please enter a valid rate (zero or more)"
     }
+  },
+  "contractors": {
+    "title": "Contractors",
+    "subtitle": "Directory of reconstruction teams, their capability and standing.",
+    "searchPlaceholder": "Search by team name",
+    "empty": "No matching teams.",
+    "licensed": "Licensed",
+    "insured": "Insured",
+    "completedProjects": "{{count}} projects done",
+    "filters": {
+      "specialization": "Specialization",
+      "allSpecializations": "All specializations",
+      "governorate": "Governorate"
+    },
+    "profile": {
+      "title": "Contractor profile",
+      "notFound": "The team could not be found.",
+      "services": "Services",
+      "reviews": "Reviews ({{count}})",
+      "noReviews": "No reviews yet.",
+      "workQuality": "Work quality",
+      "timeliness": "Timeliness",
+      "professionalism": "Professionalism",
+      "fromReviews": "from {{count}} reviews",
+      "completed": "Projects completed",
+      "since": "Working since",
+      "licenses": "Licence numbers",
+      "coverage": "Coverage areas",
+      "noCoverage": "No areas on record.",
+      "contact": "Contact"
+    }
   }
 }

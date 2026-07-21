@@ -281,6 +281,22 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/pricebook/pricebook-list/pricebook-list').then((m) => m.PricebookList),
       },
+      {
+        path: 'contractors',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/contractors/contractor-list/contractor-list').then(
+            (m) => m.ContractorList,
+          ),
+      },
+      {
+        path: 'contractors/:id',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/contractors/contractor-profile/contractor-profile').then(
+            (m) => m.ContractorProfile,
+          ),
+      },
     ],
   },
 

@@ -156,12 +156,17 @@
 
 ## المرحلة 5 — المستفيدون والمقاولون والموردون
 
+> **المقاولون = الفرق:** أعدت استخدام نموذج `Team` الغني الموجود (تخصصات، رخص،
+> تغطية، تقييمات، أعمال سابقة) وواجهته الجاهزة (`TeamsApi`: قائمة/ملف/تقييمات).
+> بطاقات لا جدول — المشغّل يمسح القدرة والمكانة بصريًا. جسر `contractor-spec`
+> يطبّع سلاسل التخصص (Title-Case) إلى مفاتيح `teams.specialization` الموجودة.
+
 | الأصل | الجديد | الحالة |
 |---|---|---|
 | `customer/customerlist` (+ `CustomerNewList`) | `/app/beneficiaries` | ⬜ |
 | `customer/customerDetails` (+ `CustomerDetailsNew`) | `/app/beneficiaries/:id` | ⬜ |
-| `pro/prolist` | `/app/contractors` | ⬜ |
-| `pro/promyprofile/:id/:loginId` | `/app/contractors/:id` | ⬜ |
+| `pro/prolist` | `/app/contractors` (بطاقات) | ✅ |
+| `pro/promyprofile/:id/:loginId` | `/app/contractors/:id` (ملف + تقييمات) | ✅ |
 | `pro/promyprofile/map/:loginId` | `/app/contractors/:id/service-area` | ⬜ |
 | `pro/propublic/:id` | `/pub/contractor/:id` | ⬜ |
 | `pro/report-pro-list` | `/app/contractors/reports` | ⬜ |
@@ -199,8 +204,8 @@
 | `workorder/postworkinspection` | `/app/work-orders/:id/inspection/postWork` (نفس المكوّن) | ✅ |
 | `invoice/invoice-list` | `/app/statements` (مستخلصات) | ✅ |
 | `invoice/invoice-details` | `/app/statements/:id` (مراجعة/اعتماد/صرف) | ✅ |
-| `pricebook/pricebooklist` | `/app/pricebook` | ⬜ |
-| `pricebook/pricebookdetails` | `/app/pricebook/:id` | ⬜ |
+| `pricebook/pricebooklist` | `/app/pricebook` | ✅ |
+| `pricebook/pricebookdetails` | مدموج في نافذة إضافة/تعديل | ✅ |
 
 ---
 
