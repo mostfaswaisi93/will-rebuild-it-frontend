@@ -8,7 +8,9 @@ export type StatusPillContext =
   | 'funding'
   | 'donation'
   | 'support'
-  | 'severity';
+  | 'severity'
+  | 'workOrder'
+  | 'workOrderPriority';
 
 export interface StatusToneResult {
   tone: StatusTone;
@@ -61,6 +63,23 @@ const CONTEXT_TONES: Record<StatusPillContext, ToneMap> = {
     partial: 'warning',
     severe: 'sandStrong',
     totalLoss: 'danger',
+  },
+  workOrder: {
+    draft: 'neutral',
+    scheduled: 'info',
+    dispatched: 'info',
+    inProgress: 'brand',
+    onHold: 'warning',
+    completed: 'success',
+    inspected: 'success',
+    closed: 'neutral',
+    cancelled: 'neutral',
+  },
+  workOrderPriority: {
+    low: 'neutral',
+    normal: 'info',
+    high: 'warning',
+    urgent: 'danger',
   },
 };
 

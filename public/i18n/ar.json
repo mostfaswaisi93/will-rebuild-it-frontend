@@ -28,7 +28,9 @@
     "requiredField": "هذا الحقل مطلوب",
     "optional": "اختياري",
     "signOut": "تسجيل الخروج",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "yes": "نعم",
+    "no": "لا"
   },
   "nav": {
     "dashboard": "لوحتي",
@@ -662,6 +664,17 @@
         "partial": "ضرر جزئي",
         "severe": "ضرر شديد",
         "totalLoss": "خسارة كاملة"
+      },
+      "workOrder": {
+        "draft": "مسودة",
+        "scheduled": "مجدول",
+        "dispatched": "موفَد",
+        "inProgress": "قيد التنفيذ",
+        "onHold": "معلّق",
+        "completed": "مكتمل",
+        "inspected": "تمت المعاينة",
+        "closed": "مغلق",
+        "cancelled": "ملغى"
       }
     },
     "ratingStars": {
@@ -1584,6 +1597,104 @@
     "origin": {
       "beneficiaryPortal": "بوابة المستفيدين",
       "directBooking": "تسجيل مباشر"
+    }
+  },
+  "workOrders": {
+    "title": "أوامر العمل",
+    "subtitle": "أوامر تنفيذ الإعمار الميدانية، حالتها ومعايناتها.",
+    "searchPlaceholder": "ابحث برقم الأمر أو العنوان أو المستفيد",
+    "empty": "لا توجد أوامر عمل مطابقة.",
+    "summary": {
+      "total": "إجمالي الأوامر",
+      "scheduled": "مجدولة",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة"
+    },
+    "filters": {
+      "status": "الحالة",
+      "allStatuses": "كل الحالات",
+      "priority": "الأولوية",
+      "allPriorities": "كل الأولويات"
+    },
+    "priority": {
+      "low": "منخفضة",
+      "normal": "عادية",
+      "high": "عالية",
+      "urgent": "عاجلة"
+    },
+    "columns": {
+      "number": "رقم الأمر",
+      "title": "العنوان",
+      "team": "الفريق",
+      "priority": "الأولوية",
+      "status": "الحالة",
+      "scheduled": "موعد التنفيذ"
+    },
+    "transition": {
+      "scheduled": "جدولة",
+      "dispatched": "إيفاد الفريق",
+      "inProgress": "بدء التنفيذ",
+      "onHold": "تعليق",
+      "completed": "إنهاء العمل",
+      "inspected": "اعتماد المعاينة",
+      "closed": "إغلاق الأمر",
+      "cancelled": "إلغاء"
+    },
+    "detail": {
+      "title": "تفاصيل أمر العمل",
+      "notFound": "لم يُعثر على أمر العمل.",
+      "overview": "نظرة عامة",
+      "project": "المشروع",
+      "team": "الفريق",
+      "primaryStaff": "المسؤول الميداني",
+      "viewRequest": "عرض طلب الإعمار",
+      "viewEstimate": "عرض التقدير",
+      "inspections": "المعاينات",
+      "preWork": "معاينة ما قبل العمل",
+      "postWork": "معاينة ما بعد العمل",
+      "inspectionDone": "مكتملة",
+      "inspectionPending": "بانتظار التنفيذ",
+      "fillInspection": "تعبئة المعاينة",
+      "viewInspection": "عرض المعاينة",
+      "actions": "الإجراءات",
+      "statusUpdated": "تم تحديث حالة أمر العمل.",
+      "needPreWork": "يجب إتمام معاينة ما قبل العمل أولًا.",
+      "needPostWork": "يجب إتمام معاينة ما بعد العمل أولًا."
+    },
+    "inspection": {
+      "subtitle": "أكمل قائمة الفحص ووقّع لاعتمادها.",
+      "readOnly": "هذه المعاينة مكتملة وتُعرض للقراءة فقط.",
+      "inspector": "اسم المعاين",
+      "signature": "توقيع المعاين",
+      "submit": "حفظ المعاينة",
+      "submitted": "تم حفظ المعاينة.",
+      "completedNote": "اكتملت هذه المعاينة وسُجّلت."
+    }
+  },
+  "inspection": {
+    "pre": {
+      "siteAccess": "هل الموقع آمن وقابل للوصول؟",
+      "utilitiesIsolated": "هل تم عزل الخدمات (كهرباء/مياه/غاز)؟",
+      "structuralHazard": "مستوى الخطر الإنشائي",
+      "debrisCleared": "هل أُزيل الركام المعيق للعمل؟",
+      "notes": "ملاحظات ما قبل العمل"
+    },
+    "post": {
+      "workComplete": "هل اكتملت الأعمال المطلوبة؟",
+      "matchesEstimate": "هل تطابق المنفَّذ مع التقدير؟",
+      "finishQuality": "جودة التشطيب",
+      "siteClean": "هل نُظّف الموقع وسُلّم؟",
+      "beneficiaryPresent": "هل كان المستفيد حاضرًا للتسليم؟",
+      "notes": "ملاحظات ما بعد العمل"
+    },
+    "option": {
+      "none": "لا يوجد",
+      "minor": "طفيف",
+      "severe": "شديد",
+      "poor": "ضعيفة",
+      "acceptable": "مقبولة",
+      "good": "جيدة",
+      "excellent": "ممتازة"
     }
   }
 }

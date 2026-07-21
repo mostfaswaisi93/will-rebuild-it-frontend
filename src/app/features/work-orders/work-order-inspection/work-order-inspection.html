@@ -1,0 +1,129 @@
+<app-page-header
+  [title]="'workOrders.detail.' + kind() | translate"
+  [subtitle]="'workOrders.inspection.subtitle' | translate"
+  [showBack]="true"
+/>
+
+@if (loading()) {
+  <div class="h-64 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+} @else if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'workOrders.detail.notFound' | translate }}
+  </p>
+} @else {
+  @if (readOnly()) {
+    <p class="mb-4 rounded-card border border-brand-300 bg-brand-50 px-4 py-2.5 text-sm text-brand-700">
+      {{ 'workOrders.inspection.readOnly' | translate }}
+    </p>
+  }
+
+  <div class="max-w-2xl space-y-3">
+    @for (item of items(); track item.id) {
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <p class="text-sm font-medium text-ink-900">{{ item.prompt | translate }}</p>
+
+        <div class="mt-2">
+          @switch (item.kind) {
+            @case ('boolean') {
+              <div class="flex gap-2">
+                <button
+                  type="button"
+                  [disabled]="readOnly()"
+                  (click)="setResponse(item.id, 'true')"
+                  [class]="
+                    item.response === 'true'
+                      ? 'border-brand-500 bg-brand-50 text-brand-700'
+                      : 'border-ink-300 text-ink-700 hover:border-brand-300'
+                  "
+                  class="min-h-11 flex-1 rounded-input border px-4 text-sm font-medium disabled:opacity-60"
+                >
+                  {{ 'common.yes' | translate }}
+                </button>
+                <button
+                  type="button"
+                  [disabled]="readOnly()"
+                  (click)="setResponse(item.id, 'false')"
+                  [class]="
+                    item.response === 'false'
+                      ? 'border-danger bg-danger/5 text-danger'
+                      : 'border-ink-300 text-ink-700 hover:border-brand-300'
+                  "
+                  class="min-h-11 flex-1 rounded-input border px-4 text-sm font-medium disabled:opacity-60"
+                >
+                  {{ 'common.no' | translate }}
+                </button>
+              </div>
+            }
+            @case ('choice') {
+              <div class="flex flex-wrap gap-2">
+                @for (option of item.options ?? []; track option) {
+                  <button
+                    type="button"
+                    [disabled]="readOnly()"
+                    (click)="setResponse(item.id, option)"
+                    [class]="
+                      item.response === option
+                        ? 'border-brand-500 bg-brand-50 text-brand-700'
+                        : 'border-ink-300 text-ink-700 hover:border-brand-300'
+                    "
+                    class="min-h-11 rounded-input border px-4 text-sm font-medium disabled:opacity-60"
+                  >
+                    {{ 'inspection.option.' + option | translate }}
+                  </button>
+                }
+              </div>
+            }
+            @default {
+              <textarea
+                rows="3"
+                [value]="item.response"
+                [disabled]="readOnly()"
+                (input)="setResponse(item.id, $any($event.target).value)"
+                class="w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 disabled:opacity-60"
+              ></textarea>
+            }
+          }
+        </div>
+      </section>
+    }
+
+    <!-- Inspector + signature -->
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <label for="inspectorName" class="block text-sm font-medium text-ink-900">
+        {{ 'workOrders.inspection.inspector' | translate }}
+      </label>
+      <input
+        id="inspectorName"
+        type="text"
+        [formControl]="inspectorName"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 disabled:opacity-60"
+      />
+
+      @if (readOnly()) {
+        @if (inspection()?.completedAt) {
+          <p class="mt-3 text-xs text-ink-500">
+            {{ 'workOrders.inspection.completedNote' | translate }}
+          </p>
+        }
+      } @else {
+        <div class="mt-4">
+          <p class="text-sm font-medium text-ink-900">
+            {{ 'workOrders.inspection.signature' | translate }}
+          </p>
+          <div class="mt-2">
+            <app-signature-pad (signatureCaptured)="onSignature($event)" />
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="submit()"
+          [disabled]="!canSubmit()"
+          class="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {{ (submitting() ? 'common.loading' : 'workOrders.inspection.submit') | translate }}
+        </button>
+      }
+    </section>
+  </div>
+}

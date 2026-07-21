@@ -236,6 +236,30 @@ export const routes: Routes = [
             (m) => m.EstimateDetail,
           ),
       },
+      {
+        path: 'work-orders',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/work-orders/work-order-list/work-order-list').then(
+            (m) => m.WorkOrderList,
+          ),
+      },
+      {
+        path: 'work-orders/:id/inspection/:kind',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/work-orders/work-order-inspection/work-order-inspection').then(
+            (m) => m.WorkOrderInspection,
+          ),
+      },
+      {
+        path: 'work-orders/:id',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/work-orders/work-order-detail/work-order-detail').then(
+            (m) => m.WorkOrderDetail,
+          ),
+      },
     ],
   },
 

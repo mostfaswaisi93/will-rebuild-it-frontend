@@ -7,6 +7,8 @@ import {
   ProjectPhase,
   REQUEST_STATUSES,
   SUPPORT_STATUSES,
+  WORK_ORDER_PRIORITIES,
+  WORK_ORDER_STATUSES,
 } from '@core/models';
 import { resolveStatusTone, StatusPillContext, StatusTone } from './status-tone.util';
 
@@ -63,6 +65,23 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     severe: 'sandStrong',
     totalLoss: 'danger',
   },
+  workOrder: {
+    draft: 'neutral',
+    scheduled: 'info',
+    dispatched: 'info',
+    inProgress: 'brand',
+    onHold: 'warning',
+    completed: 'success',
+    inspected: 'success',
+    closed: 'neutral',
+    cancelled: 'neutral',
+  },
+  workOrderPriority: {
+    low: 'neutral',
+    normal: 'info',
+    high: 'warning',
+    urgent: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -70,6 +89,9 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   project: ['cancelled'],
   projectPhase: ['pending'],
   support: ['closed'],
+  // Terminal or not-yet-started work-order states carry no urgency colour.
+  workOrder: ['draft', 'closed', 'cancelled'],
+  workOrderPriority: ['low'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -82,6 +104,8 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'donation', statuses: DONATION_STATUSES },
   { context: 'support', statuses: SUPPORT_STATUSES },
   { context: 'severity', statuses: DAMAGE_SEVERITIES },
+  { context: 'workOrder', statuses: WORK_ORDER_STATUSES },
+  { context: 'workOrderPriority', statuses: WORK_ORDER_PRIORITIES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -132,7 +156,7 @@ describe('resolveStatusTone', () => {
       });
     }
 
-    it('covers exactly the eight contexts the pill supports, so a new context cannot slip in untested', () => {
+    it('covers exactly the contexts the pill supports, so a new context cannot slip in untested', () => {
       expect(CONTEXT_DOMAINS.map((entry) => entry.context)).toEqual([
         'request',
         'project',
@@ -142,6 +166,8 @@ describe('resolveStatusTone', () => {
         'donation',
         'support',
         'severity',
+        'workOrder',
+        'workOrderPriority',
       ]);
     });
   });

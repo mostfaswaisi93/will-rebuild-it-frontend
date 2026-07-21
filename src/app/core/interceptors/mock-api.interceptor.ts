@@ -10,6 +10,7 @@ import { handleDashboard } from '../mock/handlers/dashboard.handler';
 import { handleMaster } from '../mock/handlers/master.handler';
 import { handleRequests } from '../mock/handlers/requests.handler';
 import { handleWorkRequests } from '../mock/handlers/work-requests.handler';
+import { handleWorkOrders } from '../mock/handlers/work-orders.handler';
 import { handleProjects } from '../mock/handlers/projects.handler';
 import { handleTeams } from '../mock/handlers/teams.handler';
 import { handleEstimates } from '../mock/handlers/estimates.handler';
@@ -28,6 +29,7 @@ const handlers = [
   handleMaster,
   handleRequests,
   handleWorkRequests,
+  handleWorkOrders,
   handleProjects,
   handleTeams,
   handleEstimates,

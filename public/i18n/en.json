@@ -28,7 +28,9 @@
     "requiredField": "This field is required",
     "optional": "Optional",
     "signOut": "Sign out",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "yes": "Yes",
+    "no": "No"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -634,6 +636,17 @@
         "partial": "Partial damage",
         "severe": "Severe damage",
         "totalLoss": "Total loss"
+      },
+      "workOrder": {
+        "draft": "Draft",
+        "scheduled": "Scheduled",
+        "dispatched": "Dispatched",
+        "inProgress": "In progress",
+        "onHold": "On hold",
+        "completed": "Completed",
+        "inspected": "Inspected",
+        "closed": "Closed",
+        "cancelled": "Cancelled"
       }
     },
     "ratingStars": {
@@ -1533,6 +1546,104 @@
     "origin": {
       "beneficiaryPortal": "Beneficiary portal",
       "directBooking": "Direct booking"
+    }
+  },
+  "workOrders": {
+    "title": "Work orders",
+    "subtitle": "Field reconstruction work orders, their status and inspections.",
+    "searchPlaceholder": "Search by order number, title or beneficiary",
+    "empty": "No matching work orders.",
+    "summary": {
+      "total": "Total orders",
+      "scheduled": "Scheduled",
+      "inProgress": "In progress",
+      "completed": "Completed"
+    },
+    "filters": {
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "priority": "Priority",
+      "allPriorities": "All priorities"
+    },
+    "priority": {
+      "low": "Low",
+      "normal": "Normal",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "columns": {
+      "number": "Order no.",
+      "title": "Title",
+      "team": "Team",
+      "priority": "Priority",
+      "status": "Status",
+      "scheduled": "Scheduled for"
+    },
+    "transition": {
+      "scheduled": "Schedule",
+      "dispatched": "Dispatch team",
+      "inProgress": "Start work",
+      "onHold": "Put on hold",
+      "completed": "Complete work",
+      "inspected": "Approve inspection",
+      "closed": "Close order",
+      "cancelled": "Cancel"
+    },
+    "detail": {
+      "title": "Work order details",
+      "notFound": "The work order could not be found.",
+      "overview": "Overview",
+      "project": "Project",
+      "team": "Team",
+      "primaryStaff": "Site lead",
+      "viewRequest": "View request",
+      "viewEstimate": "View estimate",
+      "inspections": "Inspections",
+      "preWork": "Pre-work inspection",
+      "postWork": "Post-work inspection",
+      "inspectionDone": "Completed",
+      "inspectionPending": "Pending",
+      "fillInspection": "Fill inspection",
+      "viewInspection": "View inspection",
+      "actions": "Actions",
+      "statusUpdated": "Work order status updated.",
+      "needPreWork": "The pre-work inspection must be completed first.",
+      "needPostWork": "The post-work inspection must be completed first."
+    },
+    "inspection": {
+      "subtitle": "Complete the checklist and sign to submit.",
+      "readOnly": "This inspection is complete and shown read-only.",
+      "inspector": "Inspector name",
+      "signature": "Inspector signature",
+      "submit": "Save inspection",
+      "submitted": "Inspection saved.",
+      "completedNote": "This inspection was completed and recorded."
+    }
+  },
+  "inspection": {
+    "pre": {
+      "siteAccess": "Is the site safe and accessible?",
+      "utilitiesIsolated": "Have utilities (power/water/gas) been isolated?",
+      "structuralHazard": "Structural hazard level",
+      "debrisCleared": "Has obstructing debris been cleared?",
+      "notes": "Pre-work notes"
+    },
+    "post": {
+      "workComplete": "Is the scoped work complete?",
+      "matchesEstimate": "Does the work match the estimate?",
+      "finishQuality": "Finish quality",
+      "siteClean": "Has the site been cleaned and handed over?",
+      "beneficiaryPresent": "Was the beneficiary present at handover?",
+      "notes": "Post-work notes"
+    },
+    "option": {
+      "none": "None",
+      "minor": "Minor",
+      "severe": "Severe",
+      "poor": "Poor",
+      "acceptable": "Acceptable",
+      "good": "Good",
+      "excellent": "Excellent"
     }
   }
 }

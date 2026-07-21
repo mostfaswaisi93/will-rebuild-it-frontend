@@ -187,10 +187,10 @@
 | `estimate/estimateList` | `/app/estimates` | ✅ |
 | `estimate/estimateDetails` | `/app/estimates/:id` (مراجعة، لا بناء) | ✅ |
 | `estimate/viewEstimate` | مدموج في `/app/estimates/:id` | ✅ |
-| `workorder/workorderlist` | `/app/work-orders` | ⬜ |
-| `workorder/workorderDetails` | `/app/work-orders/:id` | ⬜ |
-| `workorder/preworkinspection` | `/app/work-orders/:id/inspection/pre` | ⬜ |
-| `workorder/postworkinspection` | `/app/work-orders/:id/inspection/post` | ⬜ |
+| `workorder/workorderlist` | `/app/work-orders` | ✅ |
+| `workorder/workorderDetails` | `/app/work-orders/:id` (حالة + انتقالات) | ✅ |
+| `workorder/preworkinspection` | `/app/work-orders/:id/inspection/preWork` | ✅ |
+| `workorder/postworkinspection` | `/app/work-orders/:id/inspection/postWork` (نفس المكوّن) | ✅ |
 | `invoice/invoice-list` | `/app/statements` | ⬜ |
 | `invoice/invoice-details` | `/app/statements/:id` | ⬜ |
 | `pricebook/pricebooklist` | `/app/pricebook` | ⬜ |
