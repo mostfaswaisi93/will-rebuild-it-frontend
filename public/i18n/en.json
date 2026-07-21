@@ -1402,5 +1402,80 @@
     "deirAlBalah": "Deir al-Balah",
     "khanYounis": "Khan Younis",
     "rafah": "Rafah"
+  },
+  "workRequests": {
+    "title": "Reconstruction requests",
+    "subtitle": "Incoming reconstruction and damage-assessment requests, and their assignment to teams.",
+    "searchPlaceholder": "Search by request number, name or description",
+    "empty": "No requests match the selected filters.",
+    "summary": {
+      "total": "Total requests",
+      "unassigned": "Unassigned",
+      "matched": "Assigned to a team",
+      "accepted": "Accepted"
+    },
+    "filters": {
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "severity": "Damage severity",
+      "allSeverities": "All severities",
+      "governorate": "Governorate",
+      "allGovernorates": "All governorates",
+      "type": "Type",
+      "allTypes": "All types",
+      "origin": "Source",
+      "allOrigins": "All sources"
+    },
+    "type": {
+      "assessment": "Damage assessment",
+      "reconstruction": "Reconstruction"
+    },
+    "columns": {
+      "number": "Request no.",
+      "beneficiary": "Beneficiary",
+      "governorate": "Governorate",
+      "severity": "Damage severity",
+      "status": "Status",
+      "received": "Received"
+    },
+    "detail": {
+      "title": "Request details",
+      "notFound": "This request could not be found.",
+      "property": "Property details",
+      "type": "Request type",
+      "propertyType": "Property type",
+      "district": "District",
+      "street": "Location description",
+      "description": "Damage description",
+      "beneficiary": "Beneficiary details",
+      "phone": "Phone number",
+      "team": "Reconstruction team",
+      "assignedTeam": "Assigned team",
+      "noTeam": "No team assigned yet.",
+      "suggestedTeams": "Suggested teams",
+      "assignLabel": "Assign to a team",
+      "selectTeam": "Select a team",
+      "assignAction": "Assign team",
+      "assigned": "Team assigned successfully.",
+      "rejectAction": "Reject request",
+      "rejectTitle": "Reject request",
+      "rejectBody": "Are you sure you want to reject request {{number}}? This is not easily undone.",
+      "rejectConfirm": "Yes, reject it",
+      "rejected": "The request has been rejected."
+    },
+    "new": {
+      "title": "Log a new reconstruction request",
+      "action": "New request",
+      "aboutSection": "Request details",
+      "locationSection": "Location",
+      "nameRequired": "Please enter the beneficiary name",
+      "descriptionRequired": "Please describe the damage (at least 10 characters)",
+      "submit": "Log request",
+      "created": "Request {{number}} logged successfully."
+    },
+    "origin": {
+      "beneficiaryPortal": "Beneficiary portal",
+      "directBooking": "Direct booking"
+    }
   }
 }

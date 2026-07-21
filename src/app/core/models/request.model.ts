@@ -1,4 +1,4 @@
-import { DamageSeverity, PropertyType, RequestStatus, RequestType } from './domain.constants';
+import { DamageSeverity, PropertyType, RequestOrigin, RequestStatus, RequestType } from './domain.constants';
 import { Address, Attachment } from './shared.model';
 
 export interface AssessmentOption {
@@ -51,4 +51,11 @@ export interface ReconstructionRequest {
   assignedTeamId?: string;
   matchedTeams: MatchedTeam[];
   createdAt: string;
+  /**
+   * How the request entered the system. `beneficiaryPortal` is the self-service
+   * assessment funnel; `directBooking` is an operator logging it for a
+   * beneficiary who called or walked in (the legacy "direct booking lead").
+   * Absent on older records is treated as `beneficiaryPortal`.
+   */
+  origin?: RequestOrigin;
 }

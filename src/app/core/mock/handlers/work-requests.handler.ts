@@ -1,5 +1,23 @@
-import { ReconstructionRequest } from '@core/models';
-import { MockHandler, badRequest, notFound, ok } from '../mock-types';
+import {
+  DamageSeverity,
+  GazaGovernorate,
+  PropertyType,
+  ReconstructionRequest,
+  RequestType,
+} from '@core/models';
+import { MockHandler, badRequest, created, notFound, ok } from '../mock-types';
+
+interface CreateBody {
+  contactName?: string;
+  contactPhone?: string;
+  type?: RequestType;
+  propertyType?: PropertyType;
+  severity?: DamageSeverity;
+  governorate?: GazaGovernorate;
+  district?: string;
+  streetDescription?: string;
+  description?: string;
+}
 
 /** A request with no assigned team is an operator's to-do. */
 function isUnassigned(request: ReconstructionRequest): boolean {
@@ -18,6 +36,44 @@ function summarise(requests: ReconstructionRequest[]) {
 export const handleWorkRequests: MockHandler = (ctx) => {
   if (ctx.segments[0] !== 'work-requests') {
     return undefined;
+  }
+
+  // POST /work-requests — operator logs a direct-booking request.
+  if (ctx.method === 'POST' && ctx.segments.length === 1) {
+    const body = (ctx.body ?? {}) as CreateBody;
+    if (!body.contactName || !body.contactPhone || !body.description) {
+      return badRequest('Contact details and a description are required.');
+    }
+
+    // Continue the seeded numbering rather than restarting at 1.
+    const maxSeq = ctx.store.requests.reduce((max, request) => {
+      const parsed = Number(request.requestNumber.split('-').pop());
+      return Number.isFinite(parsed) && parsed > max ? parsed : max;
+    }, 0);
+
+    const request: ReconstructionRequest = {
+      id: `request-${Date.now()}`,
+      requestNumber: `REQ-2026-${String(maxSeq + 1).padStart(5, '0')}`,
+      type: body.type ?? 'assessment',
+      status: 'new',
+      propertyType: body.propertyType ?? 'residential',
+      severity: body.severity ?? 'partial',
+      description: body.description,
+      address: {
+        governorate: body.governorate ?? 'gazaCity',
+        district: body.district ?? '',
+        streetDescription: body.streetDescription || undefined,
+      },
+      attachments: [],
+      contactName: body.contactName,
+      contactPhone: body.contactPhone,
+      matchedTeams: [],
+      createdAt: new Date().toISOString(),
+      origin: 'directBooking',
+    };
+
+    ctx.store.requests.unshift(request);
+    return created(request);
   }
 
   // POST /work-requests/:id/assign — assign a team, move to `matched`.
@@ -88,6 +144,11 @@ export const handleWorkRequests: MockHandler = (ctx) => {
     const type = ctx.query.get('type');
     if (type) {
       items = items.filter((request) => request.type === type);
+    }
+    const origin = ctx.query.get('origin');
+    if (origin) {
+      // Absent origin means the older beneficiary-portal funnel.
+      items = items.filter((request) => (request.origin ?? 'beneficiaryPortal') === origin);
     }
     const searchKey = ctx.query.get('searchKey')?.trim().toLowerCase();
     if (searchKey) {

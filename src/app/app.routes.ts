@@ -197,6 +197,31 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/dashboard/staff-dashboard/staff-dashboard').then((m) => m.StaffDashboard),
       },
+      {
+        path: 'work-requests',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/work-requests/work-request-list/work-request-list').then(
+            (m) => m.WorkRequestList,
+          ),
+      },
+      {
+        // Must precede `work-requests/:id`, or `:id` captures the literal "new".
+        path: 'work-requests/new',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/work-requests/work-request-new/work-request-new').then(
+            (m) => m.WorkRequestNew,
+          ),
+      },
+      {
+        path: 'work-requests/:id',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/work-requests/work-request-detail/work-request-detail').then(
+            (m) => m.WorkRequestDetail,
+          ),
+      },
     ],
   },
 

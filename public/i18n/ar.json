@@ -1453,5 +1453,80 @@
     "deirAlBalah": "دير البلح",
     "khanYounis": "خان يونس",
     "rafah": "رفح"
+  },
+  "workRequests": {
+    "title": "طلبات الإعمار",
+    "subtitle": "قائمة طلبات إعادة الإعمار وتقييم الأضرار الواردة، مع إسنادها لفرق التنفيذ.",
+    "searchPlaceholder": "ابحث برقم الطلب أو الاسم أو الوصف",
+    "empty": "لا توجد طلبات مطابقة للفلاتر المحددة.",
+    "summary": {
+      "total": "إجمالي الطلبات",
+      "unassigned": "غير مُسندة",
+      "matched": "مُسندة لفريق",
+      "accepted": "مقبولة"
+    },
+    "filters": {
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات",
+      "severity": "درجة الضرر",
+      "allSeverities": "كل الدرجات",
+      "governorate": "المحافظة",
+      "allGovernorates": "كل المحافظات",
+      "type": "النوع",
+      "allTypes": "كل الأنواع",
+      "origin": "المصدر",
+      "allOrigins": "كل المصادر"
+    },
+    "type": {
+      "assessment": "تقييم أضرار",
+      "reconstruction": "إعادة إعمار"
+    },
+    "columns": {
+      "number": "رقم الطلب",
+      "beneficiary": "المستفيد",
+      "governorate": "المحافظة",
+      "severity": "درجة الضرر",
+      "status": "الحالة",
+      "received": "تاريخ الورود"
+    },
+    "detail": {
+      "title": "تفاصيل الطلب",
+      "notFound": "لم يُعثر على هذا الطلب.",
+      "property": "بيانات العقار",
+      "type": "نوع الطلب",
+      "propertyType": "نوع العقار",
+      "district": "الحي",
+      "street": "وصف الموقع",
+      "description": "وصف الأضرار",
+      "beneficiary": "بيانات المستفيد",
+      "phone": "رقم الهاتف",
+      "team": "فريق التنفيذ",
+      "assignedTeam": "الفريق المُسنَد",
+      "noTeam": "لم يُسنَد فريق بعد.",
+      "suggestedTeams": "فرق مقترحة",
+      "assignLabel": "إسناد إلى فريق",
+      "selectTeam": "اختر فريقًا",
+      "assignAction": "إسناد الفريق",
+      "assigned": "تم إسناد الفريق بنجاح.",
+      "rejectAction": "رفض الطلب",
+      "rejectTitle": "رفض الطلب",
+      "rejectBody": "هل أنت متأكد من رفض الطلب {{number}}؟ لا يمكن التراجع عن هذا الإجراء بسهولة.",
+      "rejectConfirm": "نعم، ارفض الطلب",
+      "rejected": "تم رفض الطلب."
+    },
+    "new": {
+      "title": "تسجيل طلب إعمار جديد",
+      "action": "طلب جديد",
+      "aboutSection": "تفاصيل الطلب",
+      "locationSection": "الموقع",
+      "nameRequired": "يرجى إدخال اسم المستفيد",
+      "descriptionRequired": "يرجى إدخال وصف كافٍ للأضرار (١٠ أحرف على الأقل)",
+      "submit": "تسجيل الطلب",
+      "created": "تم تسجيل الطلب {{number}} بنجاح."
+    },
+    "origin": {
+      "beneficiaryPortal": "بوابة المستفيدين",
+      "directBooking": "تسجيل مباشر"
+    }
   }
 }

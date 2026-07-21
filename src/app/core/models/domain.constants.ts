@@ -33,6 +33,9 @@ export type RequestType = (typeof REQUEST_TYPES)[number];
 export const REQUEST_STATUSES = ['new', 'underReview', 'matched', 'accepted', 'rejected'] as const;
 export type RequestStatus = (typeof REQUEST_STATUSES)[number];
 
+export const REQUEST_ORIGINS = ['beneficiaryPortal', 'directBooking'] as const;
+export type RequestOrigin = (typeof REQUEST_ORIGINS)[number];
+
 export const PROPERTY_TYPES = [
   'residential',
   'commercial',

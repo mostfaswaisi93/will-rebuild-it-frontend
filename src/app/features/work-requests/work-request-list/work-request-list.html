@@ -1,7 +1,18 @@
 <app-page-header
   [title]="'workRequests.title' | translate"
   [subtitle]="'workRequests.subtitle' | translate"
-/>
+>
+  @if (canCreate()) {
+    <a
+      pageHeaderActions
+      routerLink="/app/work-requests/new"
+      class="inline-flex min-h-11 items-center gap-1.5 rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+    >
+      <svg lucidePlus [size]="16" aria-hidden="true"></svg>
+      {{ 'workRequests.new.action' | translate }}
+    </a>
+  }
+</app-page-header>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -36,8 +47,7 @@
 
   <div class="mt-6">
     <app-filter-bar
-      [search]="search()"
-      (search)="search.set($event)"
+      [(search)]="search"
       searchPlaceholderKey="workRequests.searchPlaceholder"
       (clear)="clearFilters()"
     >
@@ -86,6 +96,18 @@
         <option value="">{{ 'workRequests.filters.allTypes' | translate }}</option>
         @for (option of types; track option) {
           <option [value]="option">{{ 'workRequests.type.' + option | translate }}</option>
+        }
+      </select>
+
+      <select
+        [value]="origin()"
+        (change)="origin.set($any($event.target).value)"
+        [attr.aria-label]="'workRequests.filters.origin' | translate"
+        class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'workRequests.filters.allOrigins' | translate }}</option>
+        @for (option of origins; track option) {
+          <option [value]="option">{{ 'workRequests.origin.' + option | translate }}</option>
         }
       </select>
     </app-filter-bar>

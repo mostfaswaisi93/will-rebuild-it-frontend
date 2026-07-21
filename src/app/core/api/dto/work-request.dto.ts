@@ -15,6 +15,7 @@ export interface WorkRequestFilters {
   severity?: string;
   governorate?: string;
   type?: string;
+  origin?: string;
 }
 
 /** Headline counts shown above the queue — the legacy `TotalValues` cards. */

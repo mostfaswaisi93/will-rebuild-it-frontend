@@ -2,7 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '@env/environment';
-import { PagedResult, ReconstructionRequest } from '@core/models';
+import {
+  DamageSeverity,
+  GazaGovernorate,
+  PagedResult,
+  PropertyType,
+  ReconstructionRequest,
+  RequestType,
+} from '@core/models';
 import {
   WorkRequestFilters,
   WorkRequestListDto,
@@ -11,6 +18,19 @@ import {
 } from './dto/work-request.dto';
 
 export type WorkRequestPage = PagedResult<ReconstructionRequest> & { summary: WorkRequestSummary };
+
+/** What an operator fills in to log a request on a beneficiary's behalf. */
+export interface CreateWorkRequestPayload {
+  contactName: string;
+  contactPhone: string;
+  type: RequestType;
+  propertyType: PropertyType;
+  severity: DamageSeverity;
+  governorate: GazaGovernorate;
+  district: string;
+  streetDescription: string;
+  description: string;
+}
 
 /**
  * Back-office view of reconstruction requests — the operator/contractor "leads"
@@ -30,7 +50,7 @@ export class WorkRequestsApi {
 
     // Only send filters that are actually set — an empty string would filter
     // the list down to nothing rather than being ignored.
-    for (const key of ['searchKey', 'status', 'severity', 'governorate', 'type'] as const) {
+    for (const key of ['searchKey', 'status', 'severity', 'governorate', 'type', 'origin'] as const) {
       const value = filters[key];
       if (value) {
         params = params.set(key, value);
@@ -44,6 +64,11 @@ export class WorkRequestsApi {
 
   getById(id: string): Observable<ReconstructionRequest> {
     return this.http.get<ReconstructionRequest>(`${this.base}/${id}`);
+  }
+
+  /** Logs a new direct-booking request. Returns the created record. */
+  create(payload: CreateWorkRequestPayload): Observable<ReconstructionRequest> {
+    return this.http.post<ReconstructionRequest>(this.base, payload);
   }
 
   /** Assigns a team and moves the request to `matched`. */

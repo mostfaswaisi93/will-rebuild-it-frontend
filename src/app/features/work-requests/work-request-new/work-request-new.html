@@ -1,0 +1,179 @@
+<app-page-header [title]="'workRequests.new.title' | translate" [showBack]="true" />
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="max-w-2xl space-y-6" novalidate>
+  <!-- Beneficiary -->
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'workRequests.detail.beneficiary' | translate }}
+    </h2>
+    <div class="mt-3 grid gap-4 sm:grid-cols-2">
+      <div>
+        <label for="contactName" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.columns.beneficiary' | translate }}
+        </label>
+        <input
+          id="contactName"
+          type="text"
+          formControlName="contactName"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+        @if (form.controls.contactName.touched && form.controls.contactName.invalid) {
+          <p class="mt-1 text-sm text-danger">{{ 'workRequests.new.nameRequired' | translate }}</p>
+        }
+      </div>
+
+      <div>
+        <app-phone-input formControlName="contactPhone" labelKey="workRequests.detail.phone" />
+        @if (form.controls.contactPhone.touched && form.controls.contactPhone.invalid) {
+          <p class="mt-1 text-sm text-danger">{{ 'auth.register.phoneInvalid' | translate }}</p>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- What -->
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'workRequests.new.aboutSection' | translate }}
+    </h2>
+    <div class="mt-3 grid gap-4 sm:grid-cols-3">
+      <div>
+        <label for="type" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.detail.type' | translate }}
+        </label>
+        <select
+          id="type"
+          formControlName="type"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          @for (option of types; track option) {
+            <option [value]="option">{{ 'workRequests.type.' + option | translate }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="propertyType" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.detail.propertyType' | translate }}
+        </label>
+        <select
+          id="propertyType"
+          formControlName="propertyType"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          @for (option of propertyTypes; track option) {
+            <option [value]="option">{{ 'master.propertyType.' + option | translate }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="severity" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.columns.severity' | translate }}
+        </label>
+        <select
+          id="severity"
+          formControlName="severity"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          @for (option of severities; track option) {
+            <option [value]="option">{{ 'master.severity.' + option | translate }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Where -->
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">
+      {{ 'workRequests.new.locationSection' | translate }}
+    </h2>
+    <div class="mt-3 grid gap-4 sm:grid-cols-2">
+      <div>
+        <label for="governorate" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.columns.governorate' | translate }}
+        </label>
+        <select
+          id="governorate"
+          formControlName="governorate"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          <option value="">{{ 'auth.onboarding.location.governoratePlaceholder' | translate }}</option>
+          @for (option of governorates; track option) {
+            <option [value]="option">{{ 'governorates.' + option | translate }}</option>
+          }
+        </select>
+        @if (form.controls.governorate.touched && form.controls.governorate.invalid) {
+          <p class="mt-1 text-sm text-danger">
+            {{ 'auth.onboarding.location.governorateRequired' | translate }}
+          </p>
+        }
+      </div>
+
+      <div>
+        <label for="district" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.detail.district' | translate }}
+        </label>
+        <input
+          id="district"
+          type="text"
+          formControlName="district"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+        @if (form.controls.district.touched && form.controls.district.invalid) {
+          <p class="mt-1 text-sm text-danger">
+            {{ 'auth.onboarding.location.areaRequired' | translate }}
+          </p>
+        }
+      </div>
+
+      <div class="sm:col-span-2">
+        <label for="street" class="block text-sm font-medium text-ink-700">
+          {{ 'workRequests.detail.street' | translate }}
+          <span class="text-ink-500">({{ 'common.optional' | translate }})</span>
+        </label>
+        <input
+          id="street"
+          type="text"
+          formControlName="streetDescription"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Description -->
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <label for="description" class="block text-sm font-semibold text-ink-900">
+      {{ 'workRequests.detail.description' | translate }}
+    </label>
+    <textarea
+      id="description"
+      rows="4"
+      maxlength="1000"
+      formControlName="description"
+      class="mt-2 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    ></textarea>
+    @if (form.controls.description.touched && form.controls.description.invalid) {
+      <p class="mt-1 text-sm text-danger">{{ 'workRequests.new.descriptionRequired' | translate }}</p>
+    }
+  </section>
+
+  <div class="flex items-center gap-3">
+    <button
+      type="button"
+      (click)="cancel()"
+      class="inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-5 py-2.5 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button
+      type="submit"
+      [disabled]="submitting()"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-8"
+    >
+      {{ (submitting() ? 'common.loading' : 'workRequests.new.submit') | translate }}
+    </button>
+  </div>
+</form>

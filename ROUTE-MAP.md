@@ -132,14 +132,25 @@
 
 ## المرحلة 4 — طلبات الإعمار
 
+> **قرار:** `lead-list` القديمة كانت موزّعًا حسب الدور (ADMIN→`admin-list`،
+> PRO→`pro-list`). دمجتُ الاثنين في `/app/work-requests` واحدة: القائمة نفسها،
+> والإجراءات (إسناد فريق، رفض) محصورة بالمدير عبر `canDecide`. حذفتُ حقول سوق
+> الـ«leads» — سعر الشراء، تاريخ الشراء، موعد الحجز — فطلب الإعمار يُسنَد لا يُشترى.
+> أضفت ٦ طلبات تجريبية تغطي كل الحالات والمحافظات ودرجات الضرر لتفعيل الفلاتر.
+>
+> **الحجز المباشر:** بدل تكرار قائمة رابعة، أضفت حقل `origin` للطلب
+> (`beneficiaryPortal` | `directBooking`) وفلتر «المصدر» في نفس القائمة. و`addNewJob`
+> — كان قمعًا من ٤ نماذج بتمرير jQuery لعميل قد لا يكون موجودًا — صار نموذجًا مسطّحًا
+> واحدًا يملؤه المشغّل والمستفيد على الهاتف، ينشئ طلبًا بـ `origin=directBooking`.
+
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `lead/leadlist` | `/app/work-requests` | ⬜ |
-| `lead/proLeadDetails` | `/app/work-requests/:id` (عرض المقاول) | ⬜ |
-| `lead/adminLeadDetails` | `/app/work-requests/:id/admin` | ⬜ |
-| `direct-booking-lead/direct-booking-leadlist` | `/app/work-requests/direct` | ⬜ |
-| `direct-booking-lead/leaddetails` | `/app/work-requests/direct/:id` | ⬜ |
-| `direct-booking-lead/addNewJob` | `/app/work-requests/new` | ⬜ |
+| `lead/leadlist` (فرع ADMIN: `admin-list`) | `/app/work-requests` | ✅ |
+| `lead/proLeadDetails` + `adminLeadDetails` | `/app/work-requests/:id` (موحّد، إجراءات حسب الدور) | ✅ |
+| `lead/leadlist` (فرع PRO: `pro-list`) | `/app/work-requests` (نفس القائمة، قراءة فقط) | ✅ |
+| `direct-booking-lead/direct-booking-leadlist` | مدموج في `/app/work-requests` (فلتر «المصدر») | ✅ |
+| `direct-booking-lead/leaddetails` | مدموج في `/app/work-requests/:id` | ✅ |
+| `direct-booking-lead/addNewJob` | `/app/work-requests/new` (نموذج تسجيل للمشغّل) | ✅ |
 
 ---
 

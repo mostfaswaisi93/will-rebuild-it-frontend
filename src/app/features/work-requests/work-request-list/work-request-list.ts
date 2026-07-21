@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { LucidePlus } from '@lucide/angular';
 import {
   GAZA_GOVERNORATES,
   DAMAGE_SEVERITIES,
+  REQUEST_ORIGINS,
   REQUEST_STATUSES,
   REQUEST_TYPES,
   ReconstructionRequest,
@@ -12,6 +14,7 @@ import {
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { WorkRequestsApi } from '@core/api/work-requests-api.service';
+import { SessionStore } from '@core/session/session-store.service';
 import { DataTable, DataTableColumn } from '@shared/ui/data-table/data-table';
 import { FilterBar } from '@shared/ui/filter-bar/filter-bar';
 import { PageHeader } from '@shared/ui/page-header/page-header';
@@ -36,6 +39,7 @@ const PAGE_SIZE = 10;
   selector: 'app-work-request-list',
   imports: [
     RouterLink,
+    LucidePlus,
     TranslatePipe,
     DataTable,
     FilterBar,
@@ -49,17 +53,23 @@ const PAGE_SIZE = 10;
 export class WorkRequestList {
   private readonly api = inject(WorkRequestsApi);
   private readonly translation = inject(TranslationService);
+  private readonly session = inject(SessionStore);
 
   protected readonly statuses = REQUEST_STATUSES;
   protected readonly severities = DAMAGE_SEVERITIES;
   protected readonly governorates = GAZA_GOVERNORATES;
   protected readonly types = REQUEST_TYPES;
+  protected readonly origins = REQUEST_ORIGINS;
+
+  /** Only an operator logs and decides on requests; a contractor just reads. */
+  protected readonly canCreate = computed(() => this.session.role() === 'admin');
 
   protected readonly search = signal('');
   protected readonly status = signal<RequestStatus | ''>('');
   protected readonly severity = signal('');
   protected readonly governorate = signal('');
   protected readonly type = signal('');
+  protected readonly origin = signal('');
   protected readonly pageNo = signal(1);
 
   private readonly query = computed(() => ({
@@ -70,6 +80,7 @@ export class WorkRequestList {
     severity: this.severity() || undefined,
     governorate: this.governorate() || undefined,
     type: this.type() || undefined,
+    origin: this.origin() || undefined,
   }));
 
   private readonly page = rxResource({
@@ -86,6 +97,7 @@ export class WorkRequestList {
       this.severity();
       this.governorate();
       this.type();
+      this.origin();
       this.pageNo.set(1);
     });
   }
@@ -144,6 +156,7 @@ export class WorkRequestList {
     this.severity.set('');
     this.governorate.set('');
     this.type.set('');
+    this.origin.set('');
     this.search.set('');
   }
 
