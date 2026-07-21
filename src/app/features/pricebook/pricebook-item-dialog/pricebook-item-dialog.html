@@ -1,0 +1,108 @@
+<app-dialog-shell [titleKey]="titleKey">
+  <form [formGroup]="form" (ngSubmit)="save()" class="space-y-4" novalidate>
+    <div>
+      <label for="pb-code" class="block text-sm font-medium text-ink-700">
+        {{ 'pricebook.columns.code' | translate }}
+      </label>
+      <input
+        id="pb-code"
+        type="text"
+        formControlName="code"
+        dir="ltr"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      @if (codeTaken()) {
+        <p class="mt-1 text-sm text-danger">{{ 'pricebook.dialog.codeTaken' | translate }}</p>
+      } @else if (form.controls.code.touched && form.controls.code.invalid) {
+        <p class="mt-1 text-sm text-danger">{{ 'pricebook.dialog.codeRequired' | translate }}</p>
+      }
+    </div>
+
+    <div>
+      <label for="pb-category" class="block text-sm font-medium text-ink-700">
+        {{ 'pricebook.columns.category' | translate }}
+      </label>
+      <select
+        id="pb-category"
+        formControlName="category"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        @for (option of categories; track option) {
+          <option [value]="option">{{ 'estimates.category.' + option | translate }}</option>
+        }
+      </select>
+    </div>
+
+    <div>
+      <label for="pb-description" class="block text-sm font-medium text-ink-700">
+        {{ 'pricebook.columns.description' | translate }}
+      </label>
+      <input
+        id="pb-description"
+        type="text"
+        formControlName="description"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      @if (form.controls.description.touched && form.controls.description.invalid) {
+        <p class="mt-1 text-sm text-danger">{{ 'pricebook.dialog.descriptionRequired' | translate }}</p>
+      }
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label for="pb-unit" class="block text-sm font-medium text-ink-700">
+          {{ 'pricebook.columns.unit' | translate }}
+        </label>
+        <select
+          id="pb-unit"
+          formControlName="unit"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          <option value="">{{ 'pricebook.dialog.selectUnit' | translate }}</option>
+          @for (option of units; track option) {
+            <option [value]="option">{{ 'units.' + option | translate }}</option>
+          }
+        </select>
+        @if (form.controls.unit.touched && form.controls.unit.invalid) {
+          <p class="mt-1 text-sm text-danger">{{ 'pricebook.dialog.unitRequired' | translate }}</p>
+        }
+      </div>
+
+      <div>
+        <label for="pb-rate" class="block text-sm font-medium text-ink-700">
+          {{ 'pricebook.columns.rate' | translate }}
+        </label>
+        <input
+          id="pb-rate"
+          type="number"
+          min="0"
+          step="0.01"
+          formControlName="unitRate"
+          dir="ltr"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+        @if (form.controls.unitRate.touched && form.controls.unitRate.invalid) {
+          <p class="mt-1 text-sm text-danger">{{ 'pricebook.dialog.rateRequired' | translate }}</p>
+        }
+      </div>
+    </div>
+  </form>
+
+  <div dialogShellFooter class="flex w-full gap-2">
+    <button
+      type="button"
+      (click)="cancel()"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low sm:flex-none sm:px-5"
+    >
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button
+      type="button"
+      (click)="save()"
+      [disabled]="submitting()"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-5"
+    >
+      {{ (submitting() ? 'common.loading' : 'common.save') | translate }}
+    </button>
+  </div>
+</app-dialog-shell>

@@ -30,7 +30,8 @@
     "signOut": "تسجيل الخروج",
     "signIn": "تسجيل الدخول",
     "yes": "نعم",
-    "no": "لا"
+    "no": "لا",
+    "edit": "تعديل"
   },
   "nav": {
     "dashboard": "لوحتي",
@@ -1761,6 +1762,64 @@
       "paymentInvalid": "أدخل مبلغًا صحيحًا لا يتجاوز المتبقّي",
       "paymentConfirm": "تأكيد الدفع",
       "paid": "تم تسجيل الدفعة."
+    }
+  },
+  "units": {
+    "piece": "قطعة",
+    "bag": "كيس",
+    "squareMetre": "م²",
+    "cubicMetre": "م³",
+    "linearMetre": "م.ط",
+    "tonne": "طن",
+    "kilogram": "كغم",
+    "litre": "لتر",
+    "roll": "لفة",
+    "bundle": "حزمة",
+    "m³": "م³",
+    "m²": "م²",
+    "m": "م",
+    "ton": "طن",
+    "day": "يوم",
+    "block": "بلوكة",
+    "lot": "مقطوعية",
+    "permit": "تصريح",
+    "skip": "حاوية"
+  },
+  "pricebook": {
+    "title": "دليل أسعار البنود",
+    "subtitle": "الأسعار المعيارية لبنود الإعمار — تُبنى عليها التقديرات وتُراجَع المستخلصات.",
+    "searchPlaceholder": "ابحث بالرمز أو الوصف",
+    "empty": "لا توجد بنود مطابقة.",
+    "addItem": "إضافة بند",
+    "active": "مُفعّل",
+    "inactive": "مُعطّل",
+    "activate": "تفعيل",
+    "deactivate": "تعطيل",
+    "created": "تمت إضافة البند.",
+    "updated": "تم تحديث البند.",
+    "activated": "تم تفعيل البند.",
+    "deactivated": "تم تعطيل البند.",
+    "filters": {
+      "allCategories": "كل الفئات",
+      "allStatuses": "كل الحالات"
+    },
+    "columns": {
+      "code": "الرمز",
+      "category": "الفئة",
+      "description": "الوصف",
+      "unit": "الوحدة",
+      "rate": "سعر الوحدة",
+      "status": "الحالة"
+    },
+    "dialog": {
+      "addTitle": "إضافة بند جديد",
+      "editTitle": "تعديل البند",
+      "codeRequired": "يرجى إدخال رمز البند",
+      "codeTaken": "يوجد بند بهذا الرمز بالفعل.",
+      "descriptionRequired": "يرجى إدخال الوصف",
+      "selectUnit": "اختر الوحدة",
+      "unitRequired": "يرجى اختيار الوحدة",
+      "rateRequired": "يرجى إدخال سعر صحيح (صفر فأكثر)"
     }
   }
 }

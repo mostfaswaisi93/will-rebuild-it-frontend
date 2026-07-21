@@ -6,6 +6,7 @@ export * from './request.model';
 export * from './project.model';
 export * from './work-order.model';
 export * from './statement.model';
+export * from './pricebook.model';
 export * from './estimate.model';
 export * from './funding.model';
 export * from './donation.model';

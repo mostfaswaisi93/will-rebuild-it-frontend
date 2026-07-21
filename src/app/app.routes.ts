@@ -274,6 +274,13 @@ export const routes: Routes = [
             (m) => m.StatementDetail,
           ),
       },
+      {
+        // Managing the rate catalogue is an operator responsibility.
+        path: 'pricebook',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/pricebook/pricebook-list/pricebook-list').then((m) => m.PricebookList),
+      },
     ],
   },
 

@@ -30,7 +30,8 @@
     "signOut": "Sign out",
     "signIn": "Sign in",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "edit": "Edit"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -1710,6 +1711,64 @@
       "paymentInvalid": "Enter a valid amount not exceeding the outstanding balance",
       "paymentConfirm": "Confirm payment",
       "paid": "Payment recorded."
+    }
+  },
+  "units": {
+    "piece": "piece",
+    "bag": "bag",
+    "squareMetre": "m²",
+    "cubicMetre": "m³",
+    "linearMetre": "lin.m",
+    "tonne": "tonne",
+    "kilogram": "kg",
+    "litre": "litre",
+    "roll": "roll",
+    "bundle": "bundle",
+    "m³": "m³",
+    "m²": "m²",
+    "m": "m",
+    "ton": "ton",
+    "day": "day",
+    "block": "block",
+    "lot": "lot",
+    "permit": "permit",
+    "skip": "skip"
+  },
+  "pricebook": {
+    "title": "Pricebook",
+    "subtitle": "Standard rates for reconstruction items — estimates build on them and claims are checked against them.",
+    "searchPlaceholder": "Search by code or description",
+    "empty": "No matching items.",
+    "addItem": "Add item",
+    "active": "Active",
+    "inactive": "Inactive",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "created": "Item added.",
+    "updated": "Item updated.",
+    "activated": "Item activated.",
+    "deactivated": "Item deactivated.",
+    "filters": {
+      "allCategories": "All categories",
+      "allStatuses": "All statuses"
+    },
+    "columns": {
+      "code": "Code",
+      "category": "Category",
+      "description": "Description",
+      "unit": "Unit",
+      "rate": "Unit rate",
+      "status": "Status"
+    },
+    "dialog": {
+      "addTitle": "Add a new item",
+      "editTitle": "Edit item",
+      "codeRequired": "Please enter an item code",
+      "codeTaken": "An item with this code already exists.",
+      "descriptionRequired": "Please enter a description",
+      "selectUnit": "Select a unit",
+      "unitRequired": "Please select a unit",
+      "rateRequired": "Please enter a valid rate (zero or more)"
     }
   }
 }
