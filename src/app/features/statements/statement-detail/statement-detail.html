@@ -1,0 +1,211 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-64 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !statement()) {
+  <app-page-header [title]="'statements.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'statements.detail.notFound' | translate }}
+  </p>
+} @else if (statement(); as stmt) {
+  <app-page-header [title]="stmt.statementNumber" [subtitle]="stmt.projectTitle" [showBack]="true">
+    <app-status-pill pageHeaderActions context="statement" [status]="stmt.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <!-- Claimed lines -->
+    <div class="space-y-4 lg:col-span-2">
+      <section class="overflow-hidden rounded-card border border-ink-300 bg-surface">
+        <header class="flex items-center justify-between gap-3 border-b border-ink-300 px-4 py-2.5">
+          <h2 class="text-sm font-semibold text-ink-900">
+            {{ 'statements.detail.claimedWork' | translate }}
+          </h2>
+          <span class="text-xs text-ink-500">
+            {{ 'statements.detail.sequence' | translate: { n: stmt.sequence } }}
+          </span>
+        </header>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-ink-300/60 text-xs text-ink-500">
+                <th class="px-4 py-2 text-start font-medium">{{ 'estimates.boq.description' | translate }}</th>
+                <th class="px-4 py-2 text-end font-medium">{{ 'estimates.boq.quantity' | translate }}</th>
+                <th class="px-4 py-2 text-end font-medium">{{ 'statements.detail.rate' | translate }}</th>
+                <th class="px-4 py-2 text-end font-medium">{{ 'estimates.boq.total' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (line of stmt.lines; track line.id) {
+                <tr class="border-b border-ink-300/40 last:border-b-0">
+                  <td class="px-4 py-2 text-ink-900">{{ line.description }}</td>
+                  <td class="whitespace-nowrap px-4 py-2 text-end text-ink-700" dir="ltr">
+                    {{ number(line.quantity) }} {{ line.unit }}
+                  </td>
+                  <td class="px-4 py-2 text-end text-ink-700">{{ money(line.unitRate) }}</td>
+                  <td class="px-4 py-2 text-end font-medium text-ink-900">{{ money(line.amount) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      @if (stmt.rejectionReason) {
+        <section class="rounded-card border border-danger/30 bg-danger/5 p-4">
+          <h2 class="text-sm font-semibold text-danger">{{ 'statements.detail.rejectionReason' | translate }}</h2>
+          <p class="mt-1 text-sm text-ink-700">{{ stmt.rejectionReason }}</p>
+        </section>
+      }
+    </div>
+
+    <!-- Amounts + actions -->
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'statements.detail.amounts' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'statements.totals.gross' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ money(stmt.grossAmount) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">
+              {{ 'statements.totals.retention' | translate: { percent: stmt.retentionPercent } }}
+            </dt>
+            <dd class="font-medium text-ink-900">−{{ money(stmt.retentionAmount) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3 border-t border-ink-300/60 pt-2">
+            <dt class="font-semibold text-ink-900">{{ 'statements.totals.net' | translate }}</dt>
+            <dd class="text-lg font-bold text-brand-600">{{ money(stmt.netAmount) }}</dd>
+          </div>
+          @if (stmt.approvedAmount > 0 || stmt.status === 'approved' || stmt.status === 'partiallyPaid' || stmt.status === 'paid') {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'statements.totals.approved' | translate }}</dt>
+              <dd class="font-medium text-ink-900">{{ money(stmt.approvedAmount) }}</dd>
+            </div>
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'statements.totals.paid' | translate }}</dt>
+              <dd class="font-medium text-ink-900">{{ money(stmt.paidAmount) }}</dd>
+            </div>
+          }
+        </dl>
+
+        <dl class="mt-3 space-y-2 border-t border-ink-300/60 pt-3 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'statements.detail.team' | translate }}</dt>
+            <dd class="text-end font-medium text-ink-900">{{ stmt.teamName }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'statements.detail.workOrder' | translate }}</dt>
+            <dd class="text-end">
+              <a
+                [routerLink]="['/app/work-orders', stmt.workOrderId]"
+                class="font-medium text-brand-600 hover:underline"
+                dir="ltr"
+              >
+                {{ stmt.workOrderNumber }}
+              </a>
+            </dd>
+          </div>
+          @if (stmt.submittedAt) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'statements.columns.submitted' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(stmt.submittedAt) }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      <!-- Review actions -->
+      @if (canReview() && panel() === 'none') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'statements.detail.review' | translate }}</h2>
+          <button
+            type="button"
+            (click)="approve()"
+            [disabled]="submitting()"
+            class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {{ (submitting() ? 'common.loading' : 'statements.detail.approveAction') | translate: { amount: money(stmt.netAmount) } }}
+          </button>
+          <button
+            type="button"
+            (click)="openReject()"
+            class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-input border border-danger/40 px-4 py-2 text-sm font-medium text-danger hover:bg-danger/5"
+          >
+            {{ 'statements.detail.rejectAction' | translate }}
+          </button>
+        </section>
+      }
+
+      <!-- Reject panel -->
+      @if (panel() === 'reject') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'statements.detail.rejectTitle' | translate }}</h2>
+          <textarea
+            rows="3"
+            [formControl]="rejectReason"
+            class="mt-2 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          ></textarea>
+          @if (rejectReason.touched && rejectReason.invalid) {
+            <p class="mt-1 text-sm text-danger">{{ 'statements.detail.rejectReasonRequired' | translate }}</p>
+          }
+          <div class="mt-3 flex items-center gap-2">
+            <button type="button" (click)="closePanel()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low">
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button type="button" (click)="confirmReject()" [disabled]="submitting()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-danger px-4 py-2 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50">
+              {{ 'statements.detail.rejectConfirm' | translate }}
+            </button>
+          </div>
+        </section>
+      }
+
+      <!-- Pay action / panel -->
+      @if (canPay() && panel() === 'none') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'statements.detail.payment' | translate }}</h2>
+          <p class="mt-1 text-sm text-ink-500">
+            {{ 'statements.detail.outstanding' | translate: { amount: money(outstanding()) } }}
+          </p>
+          <button
+            type="button"
+            (click)="openPay()"
+            class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+          >
+            {{ 'statements.detail.recordPayment' | translate }}
+          </button>
+        </section>
+      }
+
+      @if (panel() === 'pay') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'statements.detail.recordPayment' | translate }}</h2>
+          <label for="payAmount" class="mt-2 block text-xs text-ink-500">
+            {{ 'statements.detail.paymentAmount' | translate: { max: money(outstanding()) } }}
+          </label>
+          <input
+            id="payAmount"
+            type="number"
+            min="1"
+            [max]="outstanding()"
+            [formControl]="payAmount"
+            dir="ltr"
+            class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-start text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          />
+          @if (payAmount.touched && payAmount.invalid) {
+            <p class="mt-1 text-sm text-danger">{{ 'statements.detail.paymentInvalid' | translate }}</p>
+          }
+          <div class="mt-3 flex items-center gap-2">
+            <button type="button" (click)="closePanel()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low">
+              {{ 'common.cancel' | translate }}
+            </button>
+            <button type="button" (click)="confirmPay()" [disabled]="submitting()" class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50">
+              {{ 'statements.detail.paymentConfirm' | translate }}
+            </button>
+          </div>
+        </section>
+      }
+    </div>
+  </div>
+}

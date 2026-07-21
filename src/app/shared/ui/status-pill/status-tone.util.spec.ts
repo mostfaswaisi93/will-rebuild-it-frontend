@@ -6,6 +6,7 @@ import {
   PROJECT_STATUSES,
   ProjectPhase,
   REQUEST_STATUSES,
+  STATEMENT_STATUSES,
   SUPPORT_STATUSES,
   WORK_ORDER_PRIORITIES,
   WORK_ORDER_STATUSES,
@@ -82,6 +83,15 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     high: 'warning',
     urgent: 'danger',
   },
+  statement: {
+    draft: 'neutral',
+    submitted: 'info',
+    underReview: 'warning',
+    approved: 'success',
+    partiallyPaid: 'info',
+    paid: 'success',
+    rejected: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -92,6 +102,7 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   // Terminal or not-yet-started work-order states carry no urgency colour.
   workOrder: ['draft', 'closed', 'cancelled'],
   workOrderPriority: ['low'],
+  statement: ['draft'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -106,6 +117,7 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'severity', statuses: DAMAGE_SEVERITIES },
   { context: 'workOrder', statuses: WORK_ORDER_STATUSES },
   { context: 'workOrderPriority', statuses: WORK_ORDER_PRIORITIES },
+  { context: 'statement', statuses: STATEMENT_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -168,6 +180,7 @@ describe('resolveStatusTone', () => {
         'severity',
         'workOrder',
         'workOrderPriority',
+        'statement',
       ]);
     });
   });

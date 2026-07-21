@@ -647,6 +647,15 @@
         "inspected": "Inspected",
         "closed": "Closed",
         "cancelled": "Cancelled"
+      },
+      "statement": {
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "underReview": "Under review",
+        "approved": "Approved",
+        "partiallyPaid": "Partially paid",
+        "paid": "Paid",
+        "rejected": "Rejected"
       }
     },
     "ratingStars": {
@@ -1644,6 +1653,63 @@
       "acceptable": "Acceptable",
       "good": "Good",
       "excellent": "Excellent"
+    }
+  },
+  "statements": {
+    "title": "Progress claims",
+    "subtitle": "Interim payment claims submitted by teams — review, approve and pay.",
+    "searchPlaceholder": "Search by statement number, project or work order",
+    "empty": "No matching statements.",
+    "summary": {
+      "awaitingReview": "Awaiting review",
+      "approvedUnpaid": "Approved, unpaid",
+      "approvedUnpaidAmount": "Unpaid value",
+      "paidAmount": "Total paid"
+    },
+    "filters": {
+      "status": "Status",
+      "allStatuses": "All statuses"
+    },
+    "columns": {
+      "number": "Statement no.",
+      "project": "Project",
+      "team": "Team",
+      "net": "Net",
+      "status": "Status",
+      "submitted": "Submitted"
+    },
+    "totals": {
+      "gross": "Gross",
+      "retention": "Retention ({{percent}}%)",
+      "net": "Net payable",
+      "approved": "Approved",
+      "paid": "Paid"
+    },
+    "detail": {
+      "title": "Statement details",
+      "notFound": "The statement could not be found.",
+      "claimedWork": "Claimed work",
+      "sequence": "Claim #{{n}}",
+      "rate": "Unit rate",
+      "amounts": "Amounts",
+      "team": "Team",
+      "workOrder": "Work order",
+      "rejectionReason": "Rejection reason",
+      "review": "Review",
+      "approveAction": "Approve ({{amount}})",
+      "approved": "The statement has been approved.",
+      "rejectAction": "Reject statement",
+      "rejectTitle": "Reject statement",
+      "rejectReasonRequired": "Please give a clear reason (at least 10 characters)",
+      "rejectConfirm": "Confirm rejection",
+      "rejected": "The statement has been rejected.",
+      "payment": "Payment",
+      "outstanding": "Outstanding: {{amount}}",
+      "recordPayment": "Record payment",
+      "paymentAmount": "Amount (up to {{max}})",
+      "paymentInvalid": "Enter a valid amount not exceeding the outstanding balance",
+      "paymentConfirm": "Confirm payment",
+      "paid": "Payment recorded."
     }
   }
 }

@@ -1,0 +1,59 @@
+<app-page-header
+  [title]="'statements.title' | translate"
+  [subtitle]="'statements.subtitle' | translate"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <app-stat-card labelKey="statements.summary.awaitingReview" [value]="count(summary()?.awaitingReview ?? 0)" tone="sand" [loading]="loading()" />
+    <app-stat-card labelKey="statements.summary.approvedUnpaid" [value]="count(summary()?.approvedUnpaid ?? 0)" tone="brand" [loading]="loading()" />
+    <app-stat-card labelKey="statements.summary.approvedUnpaidAmount" [value]="money(summary()?.approvedUnpaidAmount ?? 0)" tone="brand" [loading]="loading()" />
+    <app-stat-card labelKey="statements.summary.paidAmount" [value]="money(summary()?.paidAmount ?? 0)" [loading]="loading()" />
+  </section>
+
+  <div class="mt-6">
+    <app-filter-bar
+      [(search)]="search"
+      searchPlaceholderKey="statements.searchPlaceholder"
+      (clear)="clearFilters()"
+    >
+      <select
+        [value]="status()"
+        (change)="status.set($any($event.target).value)"
+        [attr.aria-label]="'statements.filters.status' | translate"
+        class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'statements.filters.allStatuses' | translate }}</option>
+        @for (option of statuses; track option) {
+          <option [value]="option">{{ 'shared.statusPill.statement.' + option | translate }}</option>
+        }
+      </select>
+    </app-filter-bar>
+  </div>
+
+  <div class="mt-4">
+    <app-data-table
+      [columns]="columns"
+      [rows]="rows()"
+      [loading]="loading()"
+      [serverSide]="true"
+      [pageSize]="10"
+      [totalCount]="totalCount()"
+      [rowLink]="rowLink"
+      [rowId]="rowId"
+      (pageChange)="onPageChange($event)"
+    >
+      <ng-template appDataTableCell="status" let-row>
+        <app-status-pill context="statement" [status]="row.status" />
+      </ng-template>
+
+      <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'statements.empty' | translate }}
+      </div>
+    </app-data-table>
+  </div>
+}

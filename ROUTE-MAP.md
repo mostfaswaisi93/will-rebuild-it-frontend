@@ -173,6 +173,12 @@
 
 ## المرحلة 6 — دورة العمل
 
+> **الفاتورة → المستخلص:** الأصل كان `invoice` (فاتورة يصدرها المقاول للعميل).
+> في الإعمار الاتجاه معكوس: المقاول يقدّم **مستخلصًا** (مطالبة دفع مرحلية)
+> والمنصة تراجع وتصرف. أضفت **محتجزات الضمان** (retention) — نسبة تُحتجز كضمان
+> عيوب، معيارية في المقاولات ولم تكن في الأصل. الصرف يدعم الدفع الجزئي
+> (`partiallyPaid`) وكل الانتقالات محروسة على الخادم.
+
 > **قرار جوهري:** `estimate-details` القديمة كانت **≈16,000 سطر** — لأنها *بانٍ*
 > كامل لجدول الكميات (إضافة/حذف/تسعير البنود، حساب حيّ، تصدير PDF). مهمة المكتب
 > الخلفي أضيق: **قراءة الجدول المُقدَّم واتخاذ قرار**. فبنيتُ صفحة مراجعة —
@@ -191,8 +197,8 @@
 | `workorder/workorderDetails` | `/app/work-orders/:id` (حالة + انتقالات) | ✅ |
 | `workorder/preworkinspection` | `/app/work-orders/:id/inspection/preWork` | ✅ |
 | `workorder/postworkinspection` | `/app/work-orders/:id/inspection/postWork` (نفس المكوّن) | ✅ |
-| `invoice/invoice-list` | `/app/statements` | ⬜ |
-| `invoice/invoice-details` | `/app/statements/:id` | ⬜ |
+| `invoice/invoice-list` | `/app/statements` (مستخلصات) | ✅ |
+| `invoice/invoice-details` | `/app/statements/:id` (مراجعة/اعتماد/صرف) | ✅ |
 | `pricebook/pricebooklist` | `/app/pricebook` | ⬜ |
 | `pricebook/pricebookdetails` | `/app/pricebook/:id` | ⬜ |
 

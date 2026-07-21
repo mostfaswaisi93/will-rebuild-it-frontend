@@ -260,6 +260,20 @@ export const routes: Routes = [
             (m) => m.WorkOrderDetail,
           ),
       },
+      {
+        path: 'statements',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/statements/statement-list/statement-list').then((m) => m.StatementList),
+      },
+      {
+        path: 'statements/:id',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/statements/statement-detail/statement-detail').then(
+            (m) => m.StatementDetail,
+          ),
+      },
     ],
   },
 

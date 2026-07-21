@@ -675,6 +675,15 @@
         "inspected": "تمت المعاينة",
         "closed": "مغلق",
         "cancelled": "ملغى"
+      },
+      "statement": {
+        "draft": "مسودة",
+        "submitted": "مُقدَّم",
+        "underReview": "قيد المراجعة",
+        "approved": "معتمد",
+        "partiallyPaid": "مدفوع جزئيًا",
+        "paid": "مدفوع",
+        "rejected": "مرفوض"
       }
     },
     "ratingStars": {
@@ -1695,6 +1704,63 @@
       "acceptable": "مقبولة",
       "good": "جيدة",
       "excellent": "ممتازة"
+    }
+  },
+  "statements": {
+    "title": "المستخلصات",
+    "subtitle": "مطالبات الدفع المرحلية المقدَّمة من فرق التنفيذ — مراجعتها واعتمادها وصرفها.",
+    "searchPlaceholder": "ابحث برقم المستخلص أو المشروع أو أمر العمل",
+    "empty": "لا توجد مستخلصات مطابقة.",
+    "summary": {
+      "awaitingReview": "بانتظار المراجعة",
+      "approvedUnpaid": "معتمدة غير مصروفة",
+      "approvedUnpaidAmount": "قيمة غير مصروفة",
+      "paidAmount": "إجمالي المصروف"
+    },
+    "filters": {
+      "status": "الحالة",
+      "allStatuses": "كل الحالات"
+    },
+    "columns": {
+      "number": "رقم المستخلص",
+      "project": "المشروع",
+      "team": "الفريق",
+      "net": "الصافي",
+      "status": "الحالة",
+      "submitted": "تاريخ التقديم"
+    },
+    "totals": {
+      "gross": "الإجمالي",
+      "retention": "محتجزات الضمان ({{percent}}%)",
+      "net": "الصافي المستحق",
+      "approved": "المعتمَد",
+      "paid": "المصروف"
+    },
+    "detail": {
+      "title": "تفاصيل المستخلص",
+      "notFound": "لم يُعثر على المستخلص.",
+      "claimedWork": "الأعمال المطالَب بها",
+      "sequence": "الدفعة رقم {{n}}",
+      "rate": "سعر الوحدة",
+      "amounts": "المبالغ",
+      "team": "الفريق",
+      "workOrder": "أمر العمل",
+      "rejectionReason": "سبب الرفض",
+      "review": "المراجعة",
+      "approveAction": "اعتماد ({{amount}})",
+      "approved": "تم اعتماد المستخلص.",
+      "rejectAction": "رفض المستخلص",
+      "rejectTitle": "رفض المستخلص",
+      "rejectReasonRequired": "يرجى كتابة سبب واضح (١٠ أحرف على الأقل)",
+      "rejectConfirm": "تأكيد الرفض",
+      "rejected": "تم رفض المستخلص.",
+      "payment": "الصرف",
+      "outstanding": "المتبقّي للصرف: {{amount}}",
+      "recordPayment": "تسجيل دفعة",
+      "paymentAmount": "المبلغ (بحد أقصى {{max}})",
+      "paymentInvalid": "أدخل مبلغًا صحيحًا لا يتجاوز المتبقّي",
+      "paymentConfirm": "تأكيد الدفع",
+      "paid": "تم تسجيل الدفعة."
     }
   }
 }
