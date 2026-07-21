@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@core/guards/auth.guard';
+import { roleGuard } from '@core/guards/role.guard';
 import { OnboardingFlow } from './features/auth/contractor-register/onboarding-flow.service';
 import { onboardingStepGuard } from './features/auth/contractor-register/onboarding-step.guard';
 import { PasswordResetFlow } from './features/auth/password-reset/password-reset-flow.service';
@@ -167,7 +168,36 @@ export const routes: Routes = [
     path: 'app',
     loadComponent: () => import('./layout/app-shell/app-shell').then((m) => m.AppShell),
     canActivate: [authGuard],
-    children: [],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        // No single landing page suits every role, so bounce through the guard,
+        // which knows each role's home.
+        canActivate: [roleGuard([])],
+        children: [],
+      },
+      {
+        path: 'admin-dashboard',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/dashboard/admin-dashboard/admin-dashboard').then((m) => m.AdminDashboard),
+      },
+      {
+        path: 'contractor-dashboard',
+        canActivate: [roleGuard(['contractor'])],
+        loadComponent: () =>
+          import('./features/dashboard/contractor-dashboard/contractor-dashboard').then(
+            (m) => m.ContractorDashboard,
+          ),
+      },
+      {
+        path: 'staff-dashboard',
+        canActivate: [roleGuard(['staff'])],
+        loadComponent: () =>
+          import('./features/dashboard/staff-dashboard/staff-dashboard').then((m) => m.StaffDashboard),
+      },
+    ],
   },
 
   {

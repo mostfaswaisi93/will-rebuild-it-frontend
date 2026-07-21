@@ -876,7 +876,7 @@
     }
   },
   "dashboard": {
-    "greeting": "أهلاً بعودتك، {{name}}",
+    "greeting": "أهلًا {{name}}",
     "greetingGeneric": "أهلاً بعودتك",
     "subtitle": "نظرة عامة على رحلة إعادة الإعمار الخاصة بك",
     "stats": {
@@ -896,6 +896,44 @@
     "recentRequests": {
       "title": "أحدث الطلبات",
       "empty": "لا توجد طلبات بعد"
+    },
+    "projects": {
+      "number": "رقم المشروع",
+      "title": "المشروع",
+      "phase": "المرحلة الحالية",
+      "progress": "الإنجاز"
+    },
+    "admin": {
+      "title": "لوحة الإدارة",
+      "activeProjects": "مشاريع قيد التنفيذ",
+      "openRequests": "طلبات مفتوحة",
+      "contractors": "مقاولون مسجّلون",
+      "pendingContractors": "{{count}} بانتظار استكمال الملف",
+      "disbursed": "إجمالي المصروف",
+      "outstanding": "المستحق: {{amount}}",
+      "byPhase": "المشاريع حسب المرحلة",
+      "recentRequests": "أحدث طلبات الإعمار",
+      "table": {
+        "request": "رقم الطلب",
+        "governorate": "المحافظة",
+        "severity": "درجة الضرر",
+        "status": "الحالة",
+        "received": "تاريخ الورود"
+      }
+    },
+    "contractor": {
+      "title": "لوحة المقاول",
+      "assignedProjects": "مشاريع مُسندة",
+      "pendingEstimates": "تقديرات بانتظار الاعتماد",
+      "openRequests": "طلبات متاحة",
+      "outstanding": "مستحقات لم تُصرف",
+      "activeProjects": "مشاريعي قيد التنفيذ"
+    },
+    "staff": {
+      "title": "لوحة الكادر",
+      "assignedProjects": "مشاريع مُسندة",
+      "phasesInProgress": "مراحل قيد التنفيذ",
+      "onSite": "العمل الجاري في الموقع"
     }
   },
   "donations": {

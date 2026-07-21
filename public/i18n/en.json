@@ -844,7 +844,7 @@
     }
   },
   "dashboard": {
-    "greeting": "Welcome back, {{name}}",
+    "greeting": "Welcome, {{name}}",
     "greetingGeneric": "Welcome back",
     "subtitle": "An overview of your reconstruction journey",
     "stats": {
@@ -864,6 +864,44 @@
     "recentRequests": {
       "title": "Recent requests",
       "empty": "No requests yet"
+    },
+    "projects": {
+      "number": "Project no.",
+      "title": "Project",
+      "phase": "Current phase",
+      "progress": "Progress"
+    },
+    "admin": {
+      "title": "Admin dashboard",
+      "activeProjects": "Active projects",
+      "openRequests": "Open requests",
+      "contractors": "Registered contractors",
+      "pendingContractors": "{{count}} awaiting profile completion",
+      "disbursed": "Total disbursed",
+      "outstanding": "Outstanding: {{amount}}",
+      "byPhase": "Projects by phase",
+      "recentRequests": "Latest reconstruction requests",
+      "table": {
+        "request": "Request no.",
+        "governorate": "Governorate",
+        "severity": "Damage severity",
+        "status": "Status",
+        "received": "Received"
+      }
+    },
+    "contractor": {
+      "title": "Contractor dashboard",
+      "assignedProjects": "Assigned projects",
+      "pendingEstimates": "Estimates awaiting approval",
+      "openRequests": "Available requests",
+      "outstanding": "Outstanding payments",
+      "activeProjects": "My active projects"
+    },
+    "staff": {
+      "title": "Staff dashboard",
+      "assignedProjects": "Assigned projects",
+      "phasesInProgress": "Phases in progress",
+      "onSite": "Work in progress on site"
     }
   },
   "donations": {

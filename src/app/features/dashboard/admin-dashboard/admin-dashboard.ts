@@ -78,13 +78,13 @@ export class AdminDashboard {
     {
       key: 'severity',
       headerKey: 'dashboard.admin.table.severity',
-      cell: (row) => this.translate(`master.damageSeverity.${row.severity}`),
+      cell: (row) => this.translate(`master.severity.${row.severity}`),
       sortable: true,
     },
     {
       key: 'status',
       headerKey: 'dashboard.admin.table.status',
-      cell: (row) => this.translate(`requests.status.${row.status}`),
+      cell: (row) => this.translate(`shared.statusPill.request.${row.status}`),
       sortable: true,
     },
     {

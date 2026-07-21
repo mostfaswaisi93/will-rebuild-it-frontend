@@ -30,7 +30,8 @@
       tone="neutral"
       [hint]="
         (data()?.pendingContractors ?? 0) > 0
-          ? ('dashboard.admin.pendingContractors' | translate: { count: data()?.pendingContractors })
+          ? ('dashboard.admin.pendingContractors'
+            | translate: { count: data()?.pendingContractors ?? 0 })
           : undefined
       "
       [loading]="loading()"

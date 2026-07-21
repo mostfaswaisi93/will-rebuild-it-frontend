@@ -110,11 +110,18 @@
 
 ## المرحلة 3 — لوحات التحكم
 
+> ⚠️ **اللوحات الثلاث في الأصل كانت فارغة عمليًا** — لا تعرض سوى
+> «Hi {name} Welcome to X!». بطاقات الإحصاءات الأربع موجودة في الترميز لكنها
+> **معلّقة داخل تعليقات HTML**، وكذلك رابط «View More». نقلت التحية كما هي،
+> وأحييت تلك البطاقات على بيانات إعمار حقيقية: نسخ حرفي كان سينتج ثلاث صفحات
+> بيضاء لا تفيد مشغّلًا. لوحة المقاول كانت تحوي أيضًا نافذة jQuery لتفعيل
+> VANLYNK — تخصّ منتج الاشتراكات لا اللوحة، وأُجّلت مع قرار VANLYNK.
+
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `topproz/dashboard` | `/app/admin-dashboard` | ⬜ |
-| `pro/dashboard` | `/app/contractor-dashboard` | ⬜ |
-| `staff/dashboard` | `/app/staff-dashboard` | ⬜ |
+| `topproz/dashboard` | `/app/admin-dashboard` | ✅ |
+| `pro/dashboard` | `/app/contractor-dashboard` | ✅ |
+| `staff/dashboard` | `/app/staff-dashboard` | ✅ |
 | — (جديد للمورّدين) | `/app/supplier-dashboard` | ⬜ |
 | `direct-booking-lead/dashboard` | `/app/requests-dashboard` | ⬜ |
 | `pro/dispatchboard` (`AlpCpDispatchboard`) | `/app/dispatch` | ⬜ |
