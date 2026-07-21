@@ -6,7 +6,9 @@ import {
   PROJECT_STATUSES,
   ProjectPhase,
   REQUEST_STATUSES,
+  BENEFICIARY_STATUSES,
   STATEMENT_STATUSES,
+  SUPPLIER_STATUSES,
   SUPPORT_STATUSES,
   WORK_ORDER_PRIORITIES,
   WORK_ORDER_STATUSES,
@@ -92,6 +94,16 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     paid: 'success',
     rejected: 'danger',
   },
+  beneficiary: {
+    pending: 'warning',
+    verified: 'success',
+    rejected: 'danger',
+  },
+  supplier: {
+    pending: 'warning',
+    approved: 'success',
+    suspended: 'neutral',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -103,6 +115,7 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   workOrder: ['draft', 'closed', 'cancelled'],
   workOrderPriority: ['low'],
   statement: ['draft'],
+  supplier: ['suspended'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -118,6 +131,8 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'workOrder', statuses: WORK_ORDER_STATUSES },
   { context: 'workOrderPriority', statuses: WORK_ORDER_PRIORITIES },
   { context: 'statement', statuses: STATEMENT_STATUSES },
+  { context: 'beneficiary', statuses: BENEFICIARY_STATUSES },
+  { context: 'supplier', statuses: SUPPLIER_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -181,6 +196,8 @@ describe('resolveStatusTone', () => {
         'workOrder',
         'workOrderPriority',
         'statement',
+        'beneficiary',
+        'supplier',
       ]);
     });
   });

@@ -13,6 +13,8 @@ import { handleWorkRequests } from '../mock/handlers/work-requests.handler';
 import { handleWorkOrders } from '../mock/handlers/work-orders.handler';
 import { handleStatements } from '../mock/handlers/statements.handler';
 import { handlePricebook } from '../mock/handlers/pricebook.handler';
+import { handleBeneficiaries } from '../mock/handlers/beneficiaries.handler';
+import { handleSuppliers } from '../mock/handlers/suppliers.handler';
 import { handleProjects } from '../mock/handlers/projects.handler';
 import { handleTeams } from '../mock/handlers/teams.handler';
 import { handleEstimates } from '../mock/handlers/estimates.handler';
@@ -34,6 +36,8 @@ const handlers = [
   handleWorkOrders,
   handleStatements,
   handlePricebook,
+  handleBeneficiaries,
+  handleSuppliers,
   handleProjects,
   handleTeams,
   handleEstimates,

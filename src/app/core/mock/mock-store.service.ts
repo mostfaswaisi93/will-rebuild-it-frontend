@@ -15,7 +15,9 @@ import {
   TeamReview,
   User,
   UserRole,
+  Beneficiary,
   PricebookItem,
+  Supplier,
   Statement,
   WorkOrder,
 } from '@core/models';
@@ -27,6 +29,8 @@ import { seedProjects } from './fixtures/projects.fixture';
 import { seedWorkOrders } from './fixtures/work-orders.fixture';
 import { seedStatements } from './fixtures/statements.fixture';
 import { seedPricebook } from './fixtures/pricebook.fixture';
+import { seedBeneficiaries } from './fixtures/beneficiaries.fixture';
+import { seedSuppliers } from './fixtures/suppliers.fixture';
 import { seedEstimates } from './fixtures/estimates.fixture';
 import { seedFunding } from './fixtures/funding.fixture';
 import { seedDonations } from './fixtures/donations.fixture';
@@ -59,6 +63,8 @@ export class MockStore {
   readonly workOrders: WorkOrder[] = structuredClone(seedWorkOrders);
   readonly statements: Statement[] = structuredClone(seedStatements);
   readonly pricebook: PricebookItem[] = structuredClone(seedPricebook);
+  readonly beneficiaries: Beneficiary[] = structuredClone(seedBeneficiaries);
+  readonly suppliers: Supplier[] = structuredClone(seedSuppliers);
   readonly estimates: Estimate[] = structuredClone(seedEstimates);
   readonly funding: Funding[] = structuredClone(seedFunding);
   readonly donations: Donation[] = structuredClone(seedDonations);

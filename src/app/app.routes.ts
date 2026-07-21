@@ -297,6 +297,36 @@ export const routes: Routes = [
             (m) => m.ContractorProfile,
           ),
       },
+      {
+        path: 'beneficiaries',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/beneficiaries/beneficiary-list/beneficiary-list').then(
+            (m) => m.BeneficiaryList,
+          ),
+      },
+      {
+        path: 'beneficiaries/:id',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/beneficiaries/beneficiary-detail/beneficiary-detail').then(
+            (m) => m.BeneficiaryDetail,
+          ),
+      },
+      {
+        path: 'suppliers',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/suppliers/supplier-list/supplier-list').then((m) => m.SupplierList),
+      },
+      {
+        path: 'suppliers/:id',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/suppliers/supplier-profile/supplier-profile').then(
+            (m) => m.SupplierProfile,
+          ),
+      },
     ],
   },
 

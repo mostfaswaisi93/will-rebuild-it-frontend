@@ -1,0 +1,134 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-56 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !beneficiary()) {
+  <app-page-header [title]="'beneficiaries.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'beneficiaries.detail.notFound' | translate }}
+  </p>
+} @else if (beneficiary(); as ben) {
+  <app-page-header [title]="ben.name" [showBack]="true">
+    <app-status-pill pageHeaderActions context="beneficiary" [status]="ben.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <!-- Household -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'beneficiaries.detail.household' | translate }}</h2>
+        <dl class="mt-3 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'beneficiaries.detail.nationalId' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ ben.nationalId }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'beneficiaries.columns.familySize' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ count(ben.familySize) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'workRequests.columns.governorate' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'governorates.' + ben.address.governorate | translate }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'workRequests.detail.district' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ ben.address.district || '—' }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'beneficiaries.columns.registered' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(ben.registeredAt) }}</dd>
+          </div>
+        </dl>
+
+        @if (activeFlags().length > 0) {
+          <div class="mt-3 border-t border-ink-300/60 pt-3">
+            <p class="text-xs text-ink-500">{{ 'beneficiaries.detail.priorityFlags' | translate }}</p>
+            <div class="mt-1 flex flex-wrap gap-1">
+              @for (flag of activeFlags(); track flag) {
+                <span class="rounded-full bg-sand-100 px-2.5 py-0.5 text-xs font-medium text-sand-700">
+                  {{ flag | translate }}
+                </span>
+              }
+            </div>
+          </div>
+        }
+      </section>
+
+      <!-- Their requests -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">
+          {{ 'beneficiaries.detail.requests' | translate: { count: count(requests().length) } }}
+        </h2>
+        @if (requests().length === 0) {
+          <p class="mt-2 text-sm text-ink-500">{{ 'beneficiaries.detail.noRequests' | translate }}</p>
+        } @else {
+          <ul class="mt-2 divide-y divide-ink-300/50">
+            @for (request of requests(); track request.id) {
+              <li>
+                <a
+                  [routerLink]="['/app/work-requests', request.id]"
+                  class="flex items-center justify-between gap-3 py-2.5 hover:text-brand-600"
+                >
+                  <span class="min-w-0">
+                    <span class="block text-sm font-medium text-ink-900" dir="ltr">{{ request.requestNumber }}</span>
+                    <span class="block truncate text-xs text-ink-500">
+                      {{ 'master.severity.' + request.severity | translate }}
+                    </span>
+                  </span>
+                  <app-status-pill context="request" [status]="request.status" />
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    </div>
+
+    <!-- Side: contact + decision -->
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'contractors.profile.contact' | translate }}</h2>
+        <dl class="mt-2 space-y-2 text-sm">
+          <div>
+            <dt class="text-ink-500">{{ 'workRequests.detail.phone' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">
+              <a class="text-brand-600 hover:underline" [href]="'tel:' + ben.phone">{{ ben.phone }}</a>
+            </dd>
+          </div>
+          @if (ben.email) {
+            <div>
+              <dt class="text-ink-500">{{ 'auth.signIn.email' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">
+                <a class="text-brand-600 hover:underline" [href]="'mailto:' + ben.email">{{ ben.email }}</a>
+              </dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      @if (isAdmin() && ben.status === 'pending') {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'beneficiaries.detail.eligibility' | translate }}</h2>
+          <p class="mt-1 text-xs text-ink-500">{{ 'beneficiaries.detail.eligibilityHint' | translate }}</p>
+          <button
+            type="button"
+            (click)="setStatus('verified')"
+            [disabled]="updating()"
+            class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {{ (updating() ? 'common.loading' : 'beneficiaries.detail.verify') | translate }}
+          </button>
+          <button
+            type="button"
+            (click)="setStatus('rejected')"
+            [disabled]="updating()"
+            class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-input border border-danger/40 px-4 py-2 text-sm font-medium text-danger hover:bg-danger/5 disabled:opacity-50"
+          >
+            {{ 'beneficiaries.detail.reject' | translate }}
+          </button>
+        </section>
+      }
+    </div>
+  </div>
+}
