@@ -327,6 +327,34 @@ export const routes: Routes = [
             (m) => m.SupplierProfile,
           ),
       },
+      {
+        path: 'inventory',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/inventory/stock-list/stock-list').then((m) => m.StockList),
+      },
+      {
+        path: 'warehouses',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/inventory/warehouse-list/warehouse-list').then((m) => m.WarehouseList),
+      },
+      {
+        path: 'purchase-orders',
+        canActivate: [roleGuard(['admin', 'contractor', 'supplier'])],
+        loadComponent: () =>
+          import('./features/inventory/purchase-order-list/purchase-order-list').then(
+            (m) => m.PurchaseOrderList,
+          ),
+      },
+      {
+        path: 'purchase-orders/:id',
+        canActivate: [roleGuard(['admin', 'contractor', 'supplier'])],
+        loadComponent: () =>
+          import('./features/inventory/purchase-order-detail/purchase-order-detail').then(
+            (m) => m.PurchaseOrderDetail,
+          ),
+      },
     ],
   },
 

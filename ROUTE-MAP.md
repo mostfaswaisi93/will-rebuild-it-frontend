@@ -214,12 +214,12 @@
 ### المخزون
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `inventory/inventorylist` (+ GridView + NewList) | `/app/inventory` | ⬜ |
+| `inventory/inventorylist` (+ GridView + NewList) | `/app/inventory` | ✅ |
 | `inventory/inventorydetails` (+ NewDetails) | `/app/inventory/:id` | ⬜ |
-| `inventory/locationlist` (+ NewList) | `/app/warehouses` | ⬜ |
+| `inventory/locationlist` (+ NewList) | `/app/warehouses` | ✅ |
 | `inventory/locationdetails` (+ NewDetails) | `/app/warehouses/:id` | ⬜ |
-| `inventory/purchaseOrderList` | `/app/purchase-orders` | ⬜ |
-| `inventory/purchaseOrderDetails` | `/app/purchase-orders/:id` | ⬜ |
+| `inventory/purchaseOrderList` | `/app/purchase-orders` | ✅ |
+| `inventory/purchaseOrderDetails` | `/app/purchase-orders/:id` (بنود + انتقالات + استلام للمخزون) | ✅ |
 | `inventory/createPo` | `/app/purchase-orders/new` | ⬜ |
 | `inventory/truckOrderList` | `/app/shipments` | ⬜ |
 | `inventory/truckOrderDetails` | `/app/shipments/:id` | ⬜ |

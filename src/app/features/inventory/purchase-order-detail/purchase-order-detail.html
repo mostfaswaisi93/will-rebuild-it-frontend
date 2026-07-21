@@ -1,0 +1,115 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-56 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !order()) {
+  <app-page-header [title]="'purchaseOrders.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'purchaseOrders.detail.notFound' | translate }}
+  </p>
+} @else if (order(); as po) {
+  <app-page-header [title]="po.poNumber" [subtitle]="po.supplierName" [showBack]="true">
+    <app-status-pill pageHeaderActions context="purchaseOrder" [status]="po.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <section class="overflow-hidden rounded-card border border-ink-300 bg-surface">
+        <header class="flex items-center justify-between gap-3 border-b border-ink-300 px-4 py-2.5">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'purchaseOrders.detail.lines' | translate }}</h2>
+          <span class="text-sm font-semibold tabular-nums text-ink-700">{{ money(po.subtotal, po.currency) }}</span>
+        </header>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-sm">
+            <thead>
+              <tr class="border-b border-ink-300/60 text-xs text-ink-500">
+                <th class="px-4 py-2 text-start font-medium">{{ 'estimates.boq.description' | translate }}</th>
+                <th class="px-4 py-2 text-end font-medium">{{ 'estimates.boq.quantity' | translate }}</th>
+                <th class="px-4 py-2 text-end font-medium">{{ 'statements.detail.rate' | translate }}</th>
+                <th class="px-4 py-2 text-end font-medium">{{ 'estimates.boq.total' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (line of po.lines; track line.id) {
+                <tr class="border-b border-ink-300/40 last:border-b-0">
+                  <td class="px-4 py-2 text-ink-900">
+                    {{ line.description }}
+                    <span class="block text-xs text-ink-500">{{ 'materials.' + line.category | translate }}</span>
+                  </td>
+                  <td class="whitespace-nowrap px-4 py-2 text-end text-ink-700" dir="ltr">
+                    {{ number(line.quantity) }} {{ 'units.' + line.unit | translate }}
+                  </td>
+                  <td class="px-4 py-2 text-end text-ink-700">{{ money(line.unitRate, po.currency) }}</td>
+                  <td class="px-4 py-2 text-end font-medium text-ink-900">{{ money(line.amount, po.currency) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'purchaseOrders.detail.details' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'purchaseOrders.columns.supplier' | translate }}</dt>
+            <dd class="text-end">
+              <a [routerLink]="['/app/suppliers', po.supplierId]" class="font-medium text-brand-600 hover:underline">
+                {{ po.supplierName }}
+              </a>
+            </dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'purchaseOrders.columns.warehouse' | translate }}</dt>
+            <dd class="text-end font-medium text-ink-900">{{ po.warehouseName }}</dd>
+          </div>
+          @if (po.expectedDelivery) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'purchaseOrders.detail.expected' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(po.expectedDelivery) }}</dd>
+            </div>
+          }
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'purchaseOrders.columns.created' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(po.createdAt) }}</dd>
+          </div>
+          @if (po.receivedAt) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'purchaseOrders.detail.receivedOn' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(po.receivedAt) }}</dd>
+            </div>
+          }
+        </dl>
+      </section>
+
+      @if (nextStates().length > 0) {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'workOrders.detail.actions' | translate }}</h2>
+          <div class="mt-3 flex flex-col gap-2">
+            @for (target of nextStates(); track target) {
+              <button
+                type="button"
+                (click)="transition(target)"
+                [disabled]="transitioning()"
+                [class]="
+                  target === 'cancelled'
+                    ? 'border border-danger/40 text-danger hover:bg-danger/5'
+                    : 'bg-brand-500 text-white hover:bg-brand-600'
+                "
+                class="inline-flex min-h-11 items-center justify-center rounded-input px-4 py-2 text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {{ 'purchaseOrders.transition.' + target | translate }}
+              </button>
+            }
+          </div>
+          @if (nextStates().includes('received')) {
+            <p class="mt-2 text-xs text-ink-500">{{ 'purchaseOrders.detail.receiveHint' | translate }}</p>
+          }
+        </section>
+      }
+    </div>
+  </div>
+}

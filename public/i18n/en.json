@@ -667,6 +667,22 @@
         "pending": "Pending",
         "approved": "Approved",
         "suspended": "Suspended"
+      },
+      "stock": {
+        "inStock": "In stock",
+        "low": "Low",
+        "outOfStock": "Out of stock",
+        "reserved": "Reserved",
+        "damaged": "Damaged"
+      },
+      "purchaseOrder": {
+        "draft": "Draft",
+        "awaitingApproval": "Awaiting approval",
+        "approved": "Approved",
+        "ordered": "Ordered",
+        "partiallyReceived": "Partially received",
+        "received": "Received",
+        "cancelled": "Cancelled"
       }
     },
     "ratingStars": {
@@ -1889,6 +1905,69 @@
       "suspend": "Suspend supplier",
       "approved": "Supplier approved.",
       "suspended": "Supplier suspended."
+    }
+  },
+  "inventory": {
+    "title": "Material stock",
+    "subtitle": "Building-material balances across warehouses and what needs restocking.",
+    "searchPlaceholder": "Search by code or description",
+    "empty": "No matching items.",
+    "summary": {
+      "items": "Stock items",
+      "low": "Low",
+      "outOfStock": "Out of stock"
+    },
+    "filters": {
+      "allWarehouses": "All warehouses",
+      "allStatuses": "All statuses"
+    },
+    "columns": {
+      "code": "Code",
+      "description": "Item",
+      "warehouse": "Warehouse",
+      "quantity": "Quantity",
+      "status": "Status"
+    }
+  },
+  "warehouses": {
+    "title": "Warehouses",
+    "subtitle": "Where reconstruction materials are stored, and who runs each store.",
+    "manager": "Manager"
+  },
+  "purchaseOrders": {
+    "title": "Purchase orders",
+    "subtitle": "Orders for materials from suppliers into warehouses.",
+    "searchPlaceholder": "Search by order number or supplier",
+    "empty": "No matching orders.",
+    "filters": {
+      "allStatuses": "All statuses"
+    },
+    "columns": {
+      "number": "Order no.",
+      "supplier": "Supplier",
+      "warehouse": "Warehouse",
+      "total": "Total",
+      "status": "Status",
+      "created": "Created"
+    },
+    "transition": {
+      "awaitingApproval": "Submit for approval",
+      "approved": "Approve",
+      "ordered": "Send to supplier",
+      "partiallyReceived": "Partial receipt",
+      "received": "Confirm receipt",
+      "cancelled": "Cancel"
+    },
+    "detail": {
+      "title": "Purchase order details",
+      "notFound": "The purchase order could not be found.",
+      "lines": "Order lines",
+      "details": "Details",
+      "expected": "Expected delivery",
+      "receivedOn": "Received on",
+      "statusUpdated": "Order status updated.",
+      "receivedToStock": "Received — materials added to stock.",
+      "receiveHint": "Confirming receipt adds the quantities into the warehouse stock."
     }
   }
 }

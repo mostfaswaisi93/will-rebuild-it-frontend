@@ -695,6 +695,22 @@
         "pending": "قيد المراجعة",
         "approved": "معتمد",
         "suspended": "موقوف"
+      },
+      "stock": {
+        "inStock": "متوفّر",
+        "low": "منخفض",
+        "outOfStock": "نافد",
+        "reserved": "محجوز",
+        "damaged": "تالف"
+      },
+      "purchaseOrder": {
+        "draft": "مسودة",
+        "awaitingApproval": "بانتظار الاعتماد",
+        "approved": "معتمد",
+        "ordered": "مطلوب",
+        "partiallyReceived": "مستلَم جزئيًا",
+        "received": "مستلَم",
+        "cancelled": "ملغى"
       }
     },
     "ratingStars": {
@@ -1940,6 +1956,69 @@
       "suspend": "إيقاف المورّد",
       "approved": "تم اعتماد المورّد.",
       "suspended": "تم إيقاف المورّد."
+    }
+  },
+  "inventory": {
+    "title": "مخزون المواد",
+    "subtitle": "أرصدة مواد البناء في المستودعات وما يحتاج إعادة توريد.",
+    "searchPlaceholder": "ابحث بالرمز أو الوصف",
+    "empty": "لا توجد أصناف مطابقة.",
+    "summary": {
+      "items": "عدد الأصناف",
+      "low": "منخفضة",
+      "outOfStock": "نافدة"
+    },
+    "filters": {
+      "allWarehouses": "كل المستودعات",
+      "allStatuses": "كل الحالات"
+    },
+    "columns": {
+      "code": "الرمز",
+      "description": "الصنف",
+      "warehouse": "المستودع",
+      "quantity": "الكمية",
+      "status": "الحالة"
+    }
+  },
+  "warehouses": {
+    "title": "المستودعات",
+    "subtitle": "مواقع تخزين مواد الإعمار ومسؤولوها.",
+    "manager": "المسؤول"
+  },
+  "purchaseOrders": {
+    "title": "أوامر التوريد",
+    "subtitle": "أوامر توريد المواد من الموردين إلى المستودعات.",
+    "searchPlaceholder": "ابحث برقم الأمر أو المورّد",
+    "empty": "لا توجد أوامر مطابقة.",
+    "filters": {
+      "allStatuses": "كل الحالات"
+    },
+    "columns": {
+      "number": "رقم الأمر",
+      "supplier": "المورّد",
+      "warehouse": "المستودع",
+      "total": "الإجمالي",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء"
+    },
+    "transition": {
+      "awaitingApproval": "رفع للاعتماد",
+      "approved": "اعتماد",
+      "ordered": "إرسال للمورّد",
+      "partiallyReceived": "استلام جزئي",
+      "received": "تأكيد الاستلام",
+      "cancelled": "إلغاء"
+    },
+    "detail": {
+      "title": "تفاصيل أمر التوريد",
+      "notFound": "لم يُعثر على أمر التوريد.",
+      "lines": "بنود التوريد",
+      "details": "البيانات",
+      "expected": "موعد التسليم المتوقّع",
+      "receivedOn": "تاريخ الاستلام",
+      "statusUpdated": "تم تحديث حالة الأمر.",
+      "receivedToStock": "تم الاستلام وإضافة المواد للمخزون.",
+      "receiveHint": "تأكيد الاستلام يضيف الكميات إلى مخزون المستودع."
     }
   }
 }
