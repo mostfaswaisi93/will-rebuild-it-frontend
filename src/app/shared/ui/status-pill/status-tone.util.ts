@@ -13,7 +13,9 @@ export type StatusPillContext =
   | 'workOrderPriority'
   | 'statement'
   | 'beneficiary'
-  | 'supplier';
+  | 'supplier'
+  | 'purchaseOrder'
+  | 'stock';
 
 export interface StatusToneResult {
   tone: StatusTone;
@@ -102,6 +104,22 @@ const CONTEXT_TONES: Record<StatusPillContext, ToneMap> = {
     pending: 'warning',
     approved: 'success',
     suspended: 'neutral',
+  },
+  purchaseOrder: {
+    draft: 'neutral',
+    awaitingApproval: 'warning',
+    approved: 'info',
+    ordered: 'brand',
+    partiallyReceived: 'info',
+    received: 'success',
+    cancelled: 'neutral',
+  },
+  stock: {
+    inStock: 'success',
+    low: 'warning',
+    outOfStock: 'danger',
+    reserved: 'info',
+    damaged: 'danger',
   },
 };
 

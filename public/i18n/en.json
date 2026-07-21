@@ -657,6 +657,16 @@
         "partiallyPaid": "Partially paid",
         "paid": "Paid",
         "rejected": "Rejected"
+      },
+      "beneficiary": {
+        "pending": "Pending",
+        "verified": "Verified",
+        "rejected": "Rejected"
+      },
+      "supplier": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "suspended": "Suspended"
       }
     },
     "ratingStars": {
@@ -1800,6 +1810,85 @@
       "coverage": "Coverage areas",
       "noCoverage": "No areas on record.",
       "contact": "Contact"
+    }
+  },
+  "materials": {
+    "cement": "Cement",
+    "aggregate": "Aggregate",
+    "steel": "Steel",
+    "blocks": "Blocks",
+    "timber": "Timber",
+    "insulation": "Insulation",
+    "plumbing": "Plumbing",
+    "electrical": "Electrical",
+    "finishing": "Finishing",
+    "glazing": "Glazing",
+    "tools": "Tools",
+    "safety": "Safety"
+  },
+  "beneficiaries": {
+    "title": "Beneficiaries",
+    "subtitle": "Register of reconstruction households and their eligibility status.",
+    "searchPlaceholder": "Search by name, national ID or phone",
+    "empty": "No matching beneficiaries.",
+    "filters": {
+      "allStatuses": "All statuses"
+    },
+    "columns": {
+      "name": "Name",
+      "familySize": "Family size",
+      "status": "Status",
+      "registered": "Registered"
+    },
+    "flags": {
+      "displaced": "Displaced",
+      "femaleHeaded": "Female-headed",
+      "hasDisability": "Member with a disability",
+      "elderlyPresent": "Elderly present"
+    },
+    "detail": {
+      "title": "Beneficiary case file",
+      "notFound": "The beneficiary could not be found.",
+      "household": "Household",
+      "nationalId": "National ID",
+      "priorityFlags": "Priority flags",
+      "requests": "Reconstruction requests ({{count}})",
+      "noRequests": "No requests on record.",
+      "eligibility": "Eligibility",
+      "eligibilityHint": "Review the household details before verifying eligibility.",
+      "verify": "Verify eligibility",
+      "reject": "Reject",
+      "verified": "Beneficiary verified.",
+      "rejected": "Beneficiary rejected."
+    }
+  },
+  "suppliers": {
+    "title": "Material suppliers",
+    "subtitle": "Approved reconstruction-material suppliers, their categories and status.",
+    "searchPlaceholder": "Search by supplier or contact name",
+    "empty": "No matching suppliers.",
+    "filters": {
+      "allStatuses": "All statuses",
+      "allCategories": "All categories"
+    },
+    "columns": {
+      "name": "Supplier",
+      "contact": "Contact",
+      "categories": "Categories",
+      "status": "Status"
+    },
+    "detail": {
+      "title": "Supplier profile",
+      "notFound": "The supplier could not be found.",
+      "categories": "Material categories",
+      "details": "Details",
+      "registration": "Registration number",
+      "registered": "Registered",
+      "status": "Status",
+      "approve": "Approve supplier",
+      "suspend": "Suspend supplier",
+      "approved": "Supplier approved.",
+      "suspended": "Supplier suspended."
     }
   }
 }

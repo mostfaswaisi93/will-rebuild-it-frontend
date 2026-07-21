@@ -8,6 +8,8 @@ import {
   REQUEST_STATUSES,
   BENEFICIARY_STATUSES,
   STATEMENT_STATUSES,
+  PURCHASE_ORDER_STATUSES,
+  STOCK_STATUSES,
   SUPPLIER_STATUSES,
   SUPPORT_STATUSES,
   WORK_ORDER_PRIORITIES,
@@ -104,6 +106,22 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     approved: 'success',
     suspended: 'neutral',
   },
+  purchaseOrder: {
+    draft: 'neutral',
+    awaitingApproval: 'warning',
+    approved: 'info',
+    ordered: 'brand',
+    partiallyReceived: 'info',
+    received: 'success',
+    cancelled: 'neutral',
+  },
+  stock: {
+    inStock: 'success',
+    low: 'warning',
+    outOfStock: 'danger',
+    reserved: 'info',
+    damaged: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -116,6 +134,7 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   workOrderPriority: ['low'],
   statement: ['draft'],
   supplier: ['suspended'],
+  purchaseOrder: ['draft', 'cancelled'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -133,6 +152,8 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'statement', statuses: STATEMENT_STATUSES },
   { context: 'beneficiary', statuses: BENEFICIARY_STATUSES },
   { context: 'supplier', statuses: SUPPLIER_STATUSES },
+  { context: 'purchaseOrder', statuses: PURCHASE_ORDER_STATUSES },
+  { context: 'stock', statuses: STOCK_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -198,6 +219,8 @@ describe('resolveStatusTone', () => {
         'statement',
         'beneficiary',
         'supplier',
+        'purchaseOrder',
+        'stock',
       ]);
     });
   });

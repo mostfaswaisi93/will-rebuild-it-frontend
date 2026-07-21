@@ -685,6 +685,16 @@
         "partiallyPaid": "مدفوع جزئيًا",
         "paid": "مدفوع",
         "rejected": "مرفوض"
+      },
+      "beneficiary": {
+        "pending": "قيد التحقق",
+        "verified": "مُوثَّق",
+        "rejected": "مرفوض"
+      },
+      "supplier": {
+        "pending": "قيد المراجعة",
+        "approved": "معتمد",
+        "suspended": "موقوف"
       }
     },
     "ratingStars": {
@@ -1851,6 +1861,85 @@
       "coverage": "مناطق التغطية",
       "noCoverage": "لا توجد مناطق مسجّلة.",
       "contact": "التواصل"
+    }
+  },
+  "materials": {
+    "cement": "إسمنت",
+    "aggregate": "ركام",
+    "steel": "حديد",
+    "blocks": "بلوك",
+    "timber": "أخشاب",
+    "insulation": "عزل",
+    "plumbing": "سباكة",
+    "electrical": "كهرباء",
+    "finishing": "تشطيبات",
+    "glazing": "زجاج وألمنيوم",
+    "tools": "أدوات",
+    "safety": "سلامة"
+  },
+  "beneficiaries": {
+    "title": "المستفيدون",
+    "subtitle": "سجلّ الأسر المستفيدة من الإعمار وحالة التحقق من استحقاقها.",
+    "searchPlaceholder": "ابحث بالاسم أو رقم الهوية أو الهاتف",
+    "empty": "لا يوجد مستفيدون مطابقون.",
+    "filters": {
+      "allStatuses": "كل الحالات"
+    },
+    "columns": {
+      "name": "الاسم",
+      "familySize": "حجم الأسرة",
+      "status": "الحالة",
+      "registered": "تاريخ التسجيل"
+    },
+    "flags": {
+      "displaced": "نازحة",
+      "femaleHeaded": "ربّتها امرأة",
+      "hasDisability": "فرد من ذوي الإعاقة",
+      "elderlyPresent": "وجود مُسنّ"
+    },
+    "detail": {
+      "title": "ملف المستفيد",
+      "notFound": "لم يُعثر على المستفيد.",
+      "household": "بيانات الأسرة",
+      "nationalId": "رقم الهوية",
+      "priorityFlags": "عوامل الأولوية",
+      "requests": "طلبات الإعمار ({{count}})",
+      "noRequests": "لا توجد طلبات مسجّلة.",
+      "eligibility": "التحقق من الاستحقاق",
+      "eligibilityHint": "راجع بيانات الأسرة قبل توثيق استحقاقها.",
+      "verify": "توثيق الاستحقاق",
+      "reject": "رفض",
+      "verified": "تم توثيق المستفيد.",
+      "rejected": "تم رفض المستفيد."
+    }
+  },
+  "suppliers": {
+    "title": "موردو المواد",
+    "subtitle": "الموردون المعتمدون لمواد الإعمار وفئاتهم وحالتهم.",
+    "searchPlaceholder": "ابحث باسم المورّد أو المسؤول",
+    "empty": "لا يوجد موردون مطابقون.",
+    "filters": {
+      "allStatuses": "كل الحالات",
+      "allCategories": "كل الفئات"
+    },
+    "columns": {
+      "name": "اسم المورّد",
+      "contact": "المسؤول",
+      "categories": "الفئات",
+      "status": "الحالة"
+    },
+    "detail": {
+      "title": "ملف المورّد",
+      "notFound": "لم يُعثر على المورّد.",
+      "categories": "فئات المواد",
+      "details": "البيانات",
+      "registration": "رقم التسجيل",
+      "registered": "تاريخ التسجيل",
+      "status": "الحالة",
+      "approve": "اعتماد المورّد",
+      "suspend": "إيقاف المورّد",
+      "approved": "تم اعتماد المورّد.",
+      "suspended": "تم إيقاف المورّد."
     }
   }
 }

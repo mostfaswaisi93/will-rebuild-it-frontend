@@ -163,16 +163,16 @@
 
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `customer/customerlist` (+ `CustomerNewList`) | `/app/beneficiaries` | ⬜ |
-| `customer/customerDetails` (+ `CustomerDetailsNew`) | `/app/beneficiaries/:id` | ⬜ |
+| `customer/customerlist` (+ `CustomerNewList`) | `/app/beneficiaries` (سجلّ الأسر) | ✅ |
+| `customer/customerDetails` (+ `CustomerDetailsNew`) | `/app/beneficiaries/:id` (ملف + طلبات + توثيق) | ✅ |
 | `pro/prolist` | `/app/contractors` (بطاقات) | ✅ |
 | `pro/promyprofile/:id/:loginId` | `/app/contractors/:id` (ملف + تقييمات) | ✅ |
 | `pro/promyprofile/map/:loginId` | `/app/contractors/:id/service-area` | ⬜ |
 | `pro/propublic/:id` | `/pub/contractor/:id` | ⬜ |
 | `pro/report-pro-list` | `/app/contractors/reports` | ⬜ |
 | `pro/report-a-pro-view/:reportNumber` | `/app/contractors/reports/:reportNumber` | ⬜ |
-| `vendor/vendorlist` | `/app/suppliers` | ⬜ |
-| `vendor/vendorprofile` | `/app/suppliers/:id` | ⬜ |
+| `vendor/vendorlist` | `/app/suppliers` | ✅ |
+| `vendor/vendorprofile` | `/app/suppliers/:id` (ملف + اعتماد/إيقاف) | ✅ |
 
 ---
 

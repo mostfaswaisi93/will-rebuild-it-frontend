@@ -9,6 +9,7 @@ export * from './statement.model';
 export * from './pricebook.model';
 export * from './beneficiary.model';
 export * from './supplier.model';
+export * from './inventory.model';
 export * from './estimate.model';
 export * from './funding.model';
 export * from './donation.model';
