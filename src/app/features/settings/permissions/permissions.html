@@ -1,0 +1,42 @@
+<app-page-header
+  [title]="'permissions.title' | translate"
+  [subtitle]="'permissions.subtitle' | translate"
+  [showBack]="true"
+/>
+
+<p class="mb-4 rounded-card border border-sand-500/40 bg-sand-100 px-4 py-2.5 text-sm text-ink-700">
+  {{ 'permissions.note' | translate }}
+</p>
+
+<div class="overflow-x-auto rounded-card border border-ink-300 bg-surface">
+  <table class="w-full min-w-[560px] border-collapse text-sm">
+    <thead>
+      <tr class="border-b border-ink-300">
+        <th class="px-4 py-3 text-start font-medium text-ink-500">
+          {{ 'permissions.capability' | translate }}
+        </th>
+        @for (role of roles; track role) {
+          <th class="px-3 py-3 text-center font-medium text-ink-500">
+            {{ 'roles.' + role | translate }}
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (capability of capabilities; track capability.labelKey) {
+        <tr class="border-b border-ink-300/50 last:border-b-0">
+          <td class="px-4 py-2.5 text-ink-900">{{ capability.labelKey | translate }}</td>
+          @for (role of roles; track role) {
+            <td class="px-3 py-2.5 text-center">
+              @if (allowed(capability, role)) {
+                <span class="inline-block text-brand-600" [attr.aria-label]="'common.yes' | translate">✓</span>
+              } @else {
+                <span class="inline-block text-ink-300" aria-hidden="true">·</span>
+              }
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

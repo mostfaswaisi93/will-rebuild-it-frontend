@@ -18,6 +18,7 @@ import { handleSuppliers } from '../mock/handlers/suppliers.handler';
 import { handleInventory } from '../mock/handlers/inventory.handler';
 import { handleEquipment } from '../mock/handlers/equipment.handler';
 import { handleDisbursements } from '../mock/handlers/disbursements.handler';
+import { handleSettings } from '../mock/handlers/settings.handler';
 import { handleProjects } from '../mock/handlers/projects.handler';
 import { handleTeams } from '../mock/handlers/teams.handler';
 import { handleEstimates } from '../mock/handlers/estimates.handler';
@@ -44,6 +45,7 @@ const handlers = [
   handleInventory,
   handleEquipment,
   handleDisbursements,
+  handleSettings,
   handleProjects,
   handleTeams,
   handleEstimates,

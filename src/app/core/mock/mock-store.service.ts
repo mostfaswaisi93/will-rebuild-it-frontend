@@ -22,6 +22,7 @@ import {
   Supplier,
   Equipment,
   Payout,
+  TermsDocument,
   Warehouse,
   Statement,
   WorkOrder,
@@ -39,6 +40,7 @@ import { seedSuppliers } from './fixtures/suppliers.fixture';
 import { seedWarehouses, seedStock, seedPurchaseOrders } from './fixtures/inventory.fixture';
 import { seedEquipment } from './fixtures/equipment.fixture';
 import { seedPayouts } from './fixtures/payouts.fixture';
+import { seedTerms } from './fixtures/terms.fixture';
 import { seedEstimates } from './fixtures/estimates.fixture';
 import { seedFunding } from './fixtures/funding.fixture';
 import { seedDonations } from './fixtures/donations.fixture';
@@ -78,6 +80,7 @@ export class MockStore {
   readonly purchaseOrders: PurchaseOrder[] = structuredClone(seedPurchaseOrders);
   readonly equipment: Equipment[] = structuredClone(seedEquipment);
   readonly payouts: Payout[] = structuredClone(seedPayouts);
+  readonly terms: TermsDocument[] = structuredClone(seedTerms);
   readonly estimates: Estimate[] = structuredClone(seedEstimates);
   readonly funding: Funding[] = structuredClone(seedFunding);
   readonly donations: Donation[] = structuredClone(seedDonations);

@@ -249,8 +249,8 @@
 
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `payments/payment-list` | `/app/disbursements` | ⬜ |
-| `payments/payment-details` | `/app/disbursements/:id` | ⬜ |
+| `payments/payment-list` | `/app/disbursements` (سجلّ الصرف) | ✅ |
+| `payments/payment-details` | `/app/disbursements/:id` (دورة حياة التحويل) | ✅ |
 | `priceList/` (`ServicesPriceList`) | `/app/price-lists` | ⬜ |
 | `priceList/editPlanInfo/:planId` | `/app/price-lists/plans/:planId` | ⬜ |
 | `priceList/subCatPriceList/:catCode` | `/app/price-lists/categories/:catCode` | ⬜ |

@@ -1,0 +1,84 @@
+<app-dialog-shell [titleKey]="titleKey">
+  <form [formGroup]="form" (ngSubmit)="save()" class="space-y-4" novalidate>
+    <div>
+      <label for="tm-title" class="block text-sm font-medium text-ink-700">
+        {{ 'settings.terms.docTitle' | translate }}
+      </label>
+      <input
+        id="tm-title"
+        type="text"
+        formControlName="title"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      @if (form.controls.title.touched && form.controls.title.invalid) {
+        <p class="mt-1 text-sm text-danger">{{ 'settings.terms.titleRequired' | translate }}</p>
+      }
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label for="tm-audience" class="block text-sm font-medium text-ink-700">
+          {{ 'settings.terms.audience' | translate }}
+        </label>
+        <select
+          id="tm-audience"
+          formControlName="audience"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          @for (option of audiences; track option) {
+            <option [value]="option">{{ 'settings.terms.audienceValue.' + option | translate }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <label for="tm-version" class="block text-sm font-medium text-ink-700">
+          {{ 'settings.terms.version' | translate }}
+        </label>
+        <input
+          id="tm-version"
+          type="text"
+          formControlName="version"
+          dir="ltr"
+          placeholder="v1.0"
+          class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+        @if (form.controls.version.touched && form.controls.version.invalid) {
+          <p class="mt-1 text-sm text-danger">{{ 'settings.terms.versionRequired' | translate }}</p>
+        }
+      </div>
+    </div>
+
+    <div>
+      <label for="tm-body" class="block text-sm font-medium text-ink-700">
+        {{ 'settings.terms.body' | translate }}
+      </label>
+      <textarea
+        id="tm-body"
+        rows="6"
+        formControlName="body"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      ></textarea>
+      @if (form.controls.body.touched && form.controls.body.invalid) {
+        <p class="mt-1 text-sm text-danger">{{ 'settings.terms.bodyRequired' | translate }}</p>
+      }
+    </div>
+  </form>
+
+  <div dialogShellFooter class="flex w-full gap-2">
+    <button
+      type="button"
+      (click)="cancel()"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low sm:flex-none sm:px-5"
+    >
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button
+      type="button"
+      (click)="save()"
+      [disabled]="submitting()"
+      class="inline-flex min-h-11 flex-1 items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:px-5"
+    >
+      {{ (submitting() ? 'common.loading' : 'common.save') | translate }}
+    </button>
+  </div>
+</app-dialog-shell>

@@ -413,6 +413,30 @@ export const routes: Routes = [
             (m) => m.DisbursementDetail,
           ),
       },
+      {
+        path: 'global-settings',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/settings/settings-hub/settings-hub').then((m) => m.SettingsHub),
+      },
+      {
+        path: 'global-settings/terms',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/settings/terms-list/terms-list').then((m) => m.TermsList),
+      },
+      {
+        path: 'account-settings',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/settings/settings-hub/settings-hub').then((m) => m.SettingsHub),
+      },
+      {
+        path: 'permissions',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/settings/permissions/permissions').then((m) => m.Permissions),
+      },
     ],
   },
 
