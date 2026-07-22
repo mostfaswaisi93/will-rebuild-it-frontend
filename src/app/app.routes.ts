@@ -451,6 +451,24 @@ export const routes: Routes = [
             (m) => m.ScorecardDetail,
           ),
       },
+      {
+        path: 'questions',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/questions/question-bank/question-bank').then((m) => m.QuestionBank),
+      },
+      {
+        path: 'staff',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/staff/staff-list/staff-list').then((m) => m.StaffList),
+      },
+      {
+        path: 'staff/:id',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/staff/staff-profile/staff-profile').then((m) => m.StaffProfile),
+      },
     ],
   },
 

@@ -22,6 +22,8 @@ import {
   Supplier,
   Equipment,
   Payout,
+  Campaign,
+  StaffMember,
   TermsDocument,
   Warehouse,
   Statement,
@@ -41,6 +43,8 @@ import { seedWarehouses, seedStock, seedPurchaseOrders } from './fixtures/invent
 import { seedEquipment } from './fixtures/equipment.fixture';
 import { seedPayouts } from './fixtures/payouts.fixture';
 import { seedTerms } from './fixtures/terms.fixture';
+import { seedStaff } from './fixtures/staff.fixture';
+import { seedCampaigns } from './fixtures/campaigns.fixture';
 import { seedEstimates } from './fixtures/estimates.fixture';
 import { seedFunding } from './fixtures/funding.fixture';
 import { seedDonations } from './fixtures/donations.fixture';
@@ -81,6 +85,8 @@ export class MockStore {
   readonly equipment: Equipment[] = structuredClone(seedEquipment);
   readonly payouts: Payout[] = structuredClone(seedPayouts);
   readonly terms: TermsDocument[] = structuredClone(seedTerms);
+  readonly staff: StaffMember[] = structuredClone(seedStaff);
+  readonly campaigns: Campaign[] = structuredClone(seedCampaigns);
   readonly estimates: Estimate[] = structuredClone(seedEstimates);
   readonly funding: Funding[] = structuredClone(seedFunding);
   readonly donations: Donation[] = structuredClone(seedDonations);

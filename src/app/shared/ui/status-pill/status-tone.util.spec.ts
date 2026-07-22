@@ -9,6 +9,8 @@ import {
   BENEFICIARY_STATUSES,
   STATEMENT_STATUSES,
   DISBURSEMENT_STATUSES,
+  CAMPAIGN_STATUSES,
+  STAFF_STATUSES,
   EQUIPMENT_PROBLEM_SEVERITIES,
   EQUIPMENT_STATUSES,
   PURCHASE_ORDER_STATUSES,
@@ -144,6 +146,18 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     settled: 'success',
     failed: 'danger',
   },
+  staff: {
+    active: 'success',
+    onLeave: 'warning',
+    inactive: 'neutral',
+  },
+  campaign: {
+    draft: 'neutral',
+    scheduled: 'info',
+    active: 'brand',
+    completed: 'success',
+    cancelled: 'neutral',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -158,6 +172,8 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   supplier: ['suspended'],
   purchaseOrder: ['draft', 'cancelled'],
   disbursement: ['pending'],
+  staff: ['inactive'],
+  campaign: ['draft', 'cancelled'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -180,6 +196,8 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'equipment', statuses: EQUIPMENT_STATUSES },
   { context: 'equipmentProblem', statuses: EQUIPMENT_PROBLEM_SEVERITIES },
   { context: 'disbursement', statuses: DISBURSEMENT_STATUSES },
+  { context: 'staff', statuses: STAFF_STATUSES },
+  { context: 'campaign', statuses: CAMPAIGN_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -250,6 +268,8 @@ describe('resolveStatusTone', () => {
         'equipment',
         'equipmentProblem',
         'disbursement',
+        'staff',
+        'campaign',
       ]);
     });
   });

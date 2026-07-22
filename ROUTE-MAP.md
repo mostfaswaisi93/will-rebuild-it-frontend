@@ -317,7 +317,7 @@
 | `staff/staffprofile` (+ `StaffProfile`) | `/app/staff/:id` | ⬜ |
 | `staff/timecard` | `/app/staff/timecards` | ⬜ |
 | `staff/staff-timecard` | `/app/staff/:id/timecard` | ⬜ |
-| `questions/standard-questions-list` | `/app/questions` | ⬜ |
+| `questions/standard-questions-list` | `/app/questions` (عارض بنك الأسئلة) | ✅ |
 | `questions/categories-list` | `/app/questions/categories` | ⬜ |
 | `questions/subcategories-list` | `/app/questions/subcategories` | ⬜ |
 | `questions/category-question-form` | `/app/questions/form` | ⬜ |

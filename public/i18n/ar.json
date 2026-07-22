@@ -730,6 +730,11 @@
         "sent": "مُرسَل",
         "settled": "مُسوّى",
         "failed": "فاشل"
+      },
+      "staff": {
+        "active": "نشط",
+        "onLeave": "في إجازة",
+        "inactive": "غير نشط"
       }
     },
     "ratingStars": {
@@ -2232,6 +2237,43 @@
       "workOrders": "أوامر عمل مكتملة",
       "statementsApproved": "مستخلصات معتمدة",
       "statementsRejected": "مستخلصات مرفوضة"
+    }
+  },
+  "questions": {
+    "title": "بنك أسئلة التقييم",
+    "subtitle": "الأسئلة التي يجيب عنها المستفيد عند تقييم أضرار مسكنه، ومسار تفرّعها.",
+    "empty": "لا توجد أسئلة.",
+    "leadsTo": "يؤدّي إلى:",
+    "inputType": {
+      "radio": "اختيار واحد",
+      "checkbox": "اختيار متعدد",
+      "dropdown": "قائمة منسدلة",
+      "date": "تاريخ",
+      "number": "رقم",
+      "text": "نص"
+    }
+  },
+  "staff": {
+    "title": "الكادر",
+    "subtitle": "أفراد الكادر الميداني في فرق التنفيذ وسجلّ دوامهم.",
+    "searchPlaceholder": "ابحث بالاسم أو المسمّى الوظيفي",
+    "empty": "لا يوجد أفراد مطابقون.",
+    "allStatuses": "كل الحالات",
+    "columns": {
+      "name": "الاسم",
+      "jobTitle": "المسمّى",
+      "team": "الفريق",
+      "status": "الحالة"
+    },
+    "profile": {
+      "title": "ملف الموظف",
+      "notFound": "لم يُعثر على الموظف.",
+      "info": "البيانات",
+      "joined": "تاريخ الالتحاق",
+      "timecard": "سجلّ الدوام",
+      "totalHours": "الإجمالي: {{hours}} ساعة",
+      "hoursValue": "{{hours}} ساعة",
+      "noTimecard": "لا يوجد سجلّ دوام."
     }
   }
 }

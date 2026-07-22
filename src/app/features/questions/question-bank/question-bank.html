@@ -1,0 +1,56 @@
+<app-page-header
+  [title]="'questions.title' | translate"
+  [subtitle]="'questions.subtitle' | translate"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="space-y-2">
+    @for (i of skeletons; track i) {
+      <div class="h-24 animate-pulse rounded-card bg-ink-300/20"></div>
+    }
+  </div>
+} @else if (questions().length === 0) {
+  <div class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+    {{ 'questions.empty' | translate }}
+  </div>
+} @else {
+  <ol class="space-y-3">
+    @for (question of questions(); track question.id; let index = $index) {
+      <li class="rounded-card border border-ink-300 bg-surface p-4">
+        <div class="flex items-start gap-3">
+          <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-brand-50 text-sm font-semibold text-brand-600">
+            {{ index + 1 }}
+          </span>
+          <div class="min-w-0 flex-1">
+            <p class="font-medium text-ink-900">{{ question.prompt }}</p>
+            <p class="mt-0.5 text-xs text-ink-500">
+              {{ 'questions.inputType.' + question.inputType | translate }}
+            </p>
+
+            @if (question.options && question.options.length > 0) {
+              <ul class="mt-2 space-y-1">
+                @for (option of question.options; track option.id) {
+                  <li class="flex flex-wrap items-center gap-2 text-sm">
+                    <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-ink-700">
+                      {{ option.label }}
+                    </span>
+                    @if (promptFor(option.nextQuestionId); as nextPrompt) {
+                      <span class="text-xs text-ink-500">
+                        {{ 'questions.leadsTo' | translate }}
+                        <span class="text-ink-700">{{ nextPrompt }}</span>
+                      </span>
+                    }
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+        </div>
+      </li>
+    }
+  </ol>
+}

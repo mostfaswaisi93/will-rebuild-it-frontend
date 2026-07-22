@@ -702,6 +702,11 @@
         "sent": "Sent",
         "settled": "Settled",
         "failed": "Failed"
+      },
+      "staff": {
+        "active": "Active",
+        "onLeave": "On leave",
+        "inactive": "Inactive"
       }
     },
     "ratingStars": {
@@ -2181,6 +2186,43 @@
       "workOrders": "Work orders completed",
       "statementsApproved": "Statements approved",
       "statementsRejected": "Statements rejected"
+    }
+  },
+  "questions": {
+    "title": "Assessment question bank",
+    "subtitle": "The questions a beneficiary answers when assessing home damage, and how they branch.",
+    "empty": "No questions.",
+    "leadsTo": "leads to:",
+    "inputType": {
+      "radio": "Single choice",
+      "checkbox": "Multiple choice",
+      "dropdown": "Dropdown",
+      "date": "Date",
+      "number": "Number",
+      "text": "Text"
+    }
+  },
+  "staff": {
+    "title": "Staff",
+    "subtitle": "Field staff across the reconstruction teams and their timecards.",
+    "searchPlaceholder": "Search by name or job title",
+    "empty": "No matching staff.",
+    "allStatuses": "All statuses",
+    "columns": {
+      "name": "Name",
+      "jobTitle": "Job title",
+      "team": "Team",
+      "status": "Status"
+    },
+    "profile": {
+      "title": "Staff profile",
+      "notFound": "The staff member could not be found.",
+      "info": "Details",
+      "joined": "Joined",
+      "timecard": "Timecard",
+      "totalHours": "Total: {{hours}} h",
+      "hoursValue": "{{hours}} h",
+      "noTimecard": "No timecard entries."
     }
   }
 }
