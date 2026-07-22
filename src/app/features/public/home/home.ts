@@ -1,6 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideBuilding2, LucideHandHeart, LucideUsers } from '@lucide/angular';
+import {
+  LucideBuilding2,
+  LucideDynamicIcon,
+  LucideHandHeart,
+  LucideUsers,
+} from '@lucide/angular';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { BrandMark } from '@shared/ui/brand-mark/brand-mark';
@@ -13,7 +18,7 @@ import { BrandMark } from '@shared/ui/brand-mark/brand-mark';
  */
 @Component({
   selector: 'app-public-home',
-  imports: [RouterLink, LucideBuilding2, LucideHandHeart, LucideUsers, TranslatePipe, BrandMark],
+  imports: [RouterLink, LucideDynamicIcon, TranslatePipe, BrandMark],
   templateUrl: './home.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

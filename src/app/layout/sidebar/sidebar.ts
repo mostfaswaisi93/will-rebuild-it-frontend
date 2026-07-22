@@ -189,7 +189,6 @@ const CONTRACTOR_NAV: NavGroup[] = [
     items: [
       { labelKey: 'nav.statements', path: '/app/statements', icon: LucideReceipt },
       { labelKey: 'nav.pricebook', path: '/app/pricebook', icon: LucideTags },
-      { labelKey: 'nav.subscriptions', path: '/app/subscriptions', icon: LucideScrollText },
     ],
   },
 ];

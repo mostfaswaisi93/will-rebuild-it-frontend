@@ -125,11 +125,32 @@
   },
   "public": {
     "home": {
-      "missionBody": "We connect Gaza families whose homes were damaged with vetted reconstruction teams and verified donors — every step tracked and visible, from assessment to handover.",
-      "getStarted": "Get started",
-      "projectsUnderway": "Projects underway",
-      "projectsUnderwaySubtitle": "A glimpse of reconstruction work happening across Gaza right now.",
-      "percentComplete": "{{percent}}% complete"
+      "arabic": "العربية",
+      "english": "English",
+      "heroTitle": "Rebuilding what was destroyed, home by home",
+      "heroBody": "One platform connecting beneficiaries, reconstruction teams, suppliers and funders — with full transparency at every stage of rebuilding Gaza.",
+      "ctaContractor": "Register as a contractor",
+      "ctaSignIn": "Go to the dashboard",
+      "stat": {
+        "homes": "homes in reconstruction",
+        "teams": "reconstruction teams",
+        "governorates": "governorates covered"
+      },
+      "howTitle": "How it works",
+      "step": {
+        "register": {
+          "title": "Register & assess",
+          "body": "A beneficiary registers their home’s damage and eligibility is assessed."
+        },
+        "rebuild": {
+          "title": "Assign & rebuild",
+          "body": "The project is assigned to a qualified team and tracked stage by stage."
+        },
+        "fund": {
+          "title": "Fund & disburse",
+          "body": "Funders finance projects and payments are released against verified progress."
+        }
+      }
     },
     "projectPublic": {
       "notFound": "We couldn't find this project. It may have been moved or is no longer available.",
@@ -721,6 +742,13 @@
         "delivered": "Delivered",
         "failed": "Failed",
         "bounced": "Bounced"
+      },
+      "subscription": {
+        "trial": "Trial",
+        "active": "Active",
+        "pastDue": "Past due",
+        "cancelled": "Cancelled",
+        "expired": "Expired"
       }
     },
     "ratingStars": {
@@ -2312,6 +2340,53 @@
       "engineersSyndicate": "Engineers’ Syndicate",
       "donorAudit": "Donor audit",
       "localCouncil": "Local council"
+    }
+  },
+  "subscriptions": {
+    "title": "Contractor memberships",
+    "subtitle": "Contracting firms’ platform memberships — annual verification fees and renewals.",
+    "searchPlaceholder": "Search by team or membership number",
+    "empty": "No matching memberships.",
+    "allStatuses": "All statuses",
+    "allPlans": "All plans",
+    "summary": {
+      "active": "Active memberships",
+      "pastDue": "Overdue renewals",
+      "revenue": "Annual revenue"
+    },
+    "plan": {
+      "standard": "Standard plan",
+      "premium": "Premium plan"
+    },
+    "method": {
+      "bankTransfer": "Bank transfer",
+      "cheque": "Cheque",
+      "cash": "Cash",
+      "mobileWallet": "Mobile wallet"
+    },
+    "columns": {
+      "team": "Team",
+      "number": "Membership no.",
+      "plan": "Plan",
+      "renewsAt": "Renews",
+      "amount": "Fee",
+      "status": "Status"
+    },
+    "detail": {
+      "title": "Membership details",
+      "notFound": "Membership not found.",
+      "payments": "Payment history",
+      "noPayments": "No payments recorded yet.",
+      "refund": "Refund",
+      "refundedTag": "Refunded",
+      "refunded": "Payment refunded.",
+      "details": "Details",
+      "fee": "Annual fee",
+      "started": "Started",
+      "renew": "Renew membership",
+      "renewed": "Membership renewed for another year.",
+      "cancel": "Cancel membership",
+      "cancelled": "Membership cancelled."
     }
   }
 }

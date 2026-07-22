@@ -492,6 +492,22 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/monitoring/monitoring-list/monitoring-list').then((m) => m.MonitoringList),
       },
+      {
+        path: 'subscriptions',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/subscriptions/subscription-list/subscription-list').then(
+            (m) => m.SubscriptionList,
+          ),
+      },
+      {
+        path: 'subscriptions/:id',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/subscriptions/subscription-detail/subscription-detail').then(
+            (m) => m.SubscriptionDetail,
+          ),
+      },
     ],
   },
 

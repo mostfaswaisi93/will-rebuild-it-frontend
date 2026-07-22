@@ -1,0 +1,107 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !subscription()) {
+  <app-page-header [title]="'subscriptions.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'subscriptions.detail.notFound' | translate }}
+  </p>
+} @else if (subscription(); as subscription) {
+  <app-page-header [title]="subscription.teamName" [subtitle]="subscription.subscriptionNumber" [showBack]="true">
+    <app-status-pill pageHeaderActions context="subscription" [status]="subscription.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'subscriptions.detail.payments' | translate }}</h2>
+        @if (subscription.payments.length === 0) {
+          <p class="mt-3 rounded-card border border-dashed border-ink-300 bg-surface p-6 text-center text-sm text-ink-500">
+            {{ 'subscriptions.detail.noPayments' | translate }}
+          </p>
+        } @else {
+          <ul class="mt-3 divide-y divide-ink-300/60">
+            @for (payment of subscription.payments; track payment.id) {
+              <li class="flex items-center justify-between gap-3 py-3">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-ink-900">{{ money(payment.amount, payment.currency) }}</p>
+                  <p class="text-xs text-ink-500">
+                    <span dir="ltr">{{ formatDate(payment.paidAt) }}</span>
+                    <span class="mx-1">·</span>
+                    {{ 'subscriptions.method.' + payment.method | translate }}
+                  </p>
+                </div>
+                @if (payment.refunded) {
+                  <span class="shrink-0 rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-500">
+                    {{ 'subscriptions.detail.refundedTag' | translate }}
+                  </span>
+                } @else if (canCancel()) {
+                  <button
+                    type="button"
+                    (click)="refund(payment.id)"
+                    [disabled]="working()"
+                    class="shrink-0 rounded-input border border-danger/40 px-3 py-1.5 text-xs font-medium text-danger hover:bg-danger/5 disabled:opacity-50"
+                  >
+                    {{ 'subscriptions.detail.refund' | translate }}
+                  </button>
+                }
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    </div>
+
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'subscriptions.detail.details' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'subscriptions.columns.plan' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'subscriptions.plan.' + subscription.plan | translate }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'subscriptions.detail.fee' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ money(subscription.amount, subscription.currency) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'subscriptions.detail.started' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(subscription.startedAt) }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'subscriptions.columns.renewsAt' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(subscription.renewsAt) }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      @if (canRenew() || canCancel()) {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'workOrders.detail.actions' | translate }}</h2>
+          @if (canRenew()) {
+            <button
+              type="button"
+              (click)="renew()"
+              [disabled]="working()"
+              class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {{ (working() ? 'common.loading' : 'subscriptions.detail.renew') | translate }}
+            </button>
+          }
+          @if (canCancel()) {
+            <button
+              type="button"
+              (click)="cancel()"
+              [disabled]="working()"
+              class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-input border border-danger/40 px-4 py-2 text-sm font-medium text-danger hover:bg-danger/5 disabled:opacity-50"
+            >
+              {{ 'subscriptions.detail.cancel' | translate }}
+            </button>
+          }
+        </section>
+      }
+    </div>
+  </div>
+}

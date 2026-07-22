@@ -101,7 +101,7 @@
 
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `welcome/` (`WelcomeComponent`) | `/` | ⬜ |
+| `welcome/` (`WelcomeComponent`) | `/` (هبوط عام SSR) | ✅ |
 | `welcome/leadgen` | `/contractors` | ⬜ |
 | `welcome/vanlynk` | `/platform` | ⬜ |
 | `welcome/Pricing` | `/pricing` | ⬜ |
@@ -313,28 +313,28 @@
 
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `staff/stafflist` (+ `NewStaffList`) | `/app/staff` | ⬜ |
-| `staff/staffprofile` (+ `StaffProfile`) | `/app/staff/:id` | ⬜ |
-| `staff/timecard` | `/app/staff/timecards` | ⬜ |
-| `staff/staff-timecard` | `/app/staff/:id/timecard` | ⬜ |
+| `staff/stafflist` (+ `NewStaffList`) | `/app/staff` | ✅ |
+| `staff/staffprofile` (+ `StaffProfile`) | `/app/staff/:id` (+ سجلّ الدوام) | ✅ |
+| `staff/timecard` | مدموج في ملف الموظف | ✅ |
+| `staff/staff-timecard` | مدموج في ملف الموظف | ✅ |
 | `questions/standard-questions-list` | `/app/questions` (عارض بنك الأسئلة) | ✅ |
 | `questions/categories-list` | `/app/questions/categories` | ⬜ |
 | `questions/subcategories-list` | `/app/questions/subcategories` | ⬜ |
 | `questions/category-question-form` | `/app/questions/form` | ⬜ |
-| `promotions/promotionlist` | `/app/campaigns` | ⬜ |
-| `promotions/promotiondetails` | `/app/campaigns/:id` | ⬜ |
+| `promotions/promotionlist` | `/app/campaigns` | ✅ |
+| `promotions/promotiondetails` | `/app/campaigns/:id` (إرسال/إلغاء) | ✅ |
 | `promotions/emailList` | `/app/campaigns/recipients` | ⬜ |
 | `promotions/budget` | `/app/campaigns/budget` | ⬜ |
 | `notifications/notificationsList` | `/app/notifications` | ✅ |
 | `notifications/push-notifications` | `/app/notifications/push` | ⬜ |
-| `social/yelp` | `/app/external-ratings/yelp` | ⬜ |
-| `social/google` | `/app/external-ratings/google` | ⬜ |
+| `social/yelp` | `/app/external-ratings` (تقارير مراقبة مستقلّة) | ✅ |
+| `social/google` | مدموج — تقارير المراقبة | ✅ |
 | `support/customer-tickets` | `/app/support` | ✅ |
 | `support/ticket/:ticketId` | `/app/support/:id` (محادثة + رد) | ✅ |
 | `scorecard/scorecardHome` | `/app/scorecards` (ترتيب أداء محسوب) | ✅ |
 | `scorecard/scorecardGeneration` | `/app/scorecards/:id` (تفصيل محسوب) | ✅ |
-| `logs/twilliosms` | `/app/logs/sms` | ⬜ |
-| `logs/twilliosendgridMail` | `/app/logs/email` | ⬜ |
+| `logs/twilliosms` | `/app/logs` (سجلّ تسليم موحّد) | ✅ |
+| `logs/twilliosendgridMail` | مدموج — سجلّ التسليم | ✅ |
 | `not-found` | `**` | ✅ |
 
 ---

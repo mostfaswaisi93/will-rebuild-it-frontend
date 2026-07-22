@@ -26,6 +26,7 @@ import {
   DeliveryLog,
   MonitoringReport,
   StaffMember,
+  Subscription,
   TermsDocument,
   Warehouse,
   Statement,
@@ -49,6 +50,7 @@ import { seedStaff } from './fixtures/staff.fixture';
 import { seedCampaigns } from './fixtures/campaigns.fixture';
 import { seedDeliveryLogs } from './fixtures/delivery-logs.fixture';
 import { seedMonitoringReports } from './fixtures/monitoring.fixture';
+import { seedSubscriptions } from './fixtures/subscriptions.fixture';
 import { seedEstimates } from './fixtures/estimates.fixture';
 import { seedFunding } from './fixtures/funding.fixture';
 import { seedDonations } from './fixtures/donations.fixture';
@@ -93,6 +95,7 @@ export class MockStore {
   readonly campaigns: Campaign[] = structuredClone(seedCampaigns);
   readonly deliveryLogs: DeliveryLog[] = structuredClone(seedDeliveryLogs);
   readonly monitoringReports: MonitoringReport[] = structuredClone(seedMonitoringReports);
+  readonly subscriptions: Subscription[] = structuredClone(seedSubscriptions);
   readonly estimates: Estimate[] = structuredClone(seedEstimates);
   readonly funding: Funding[] = structuredClone(seedFunding);
   readonly donations: Donation[] = structuredClone(seedDonations);
