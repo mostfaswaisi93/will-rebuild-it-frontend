@@ -10,6 +10,7 @@ import {
   STATEMENT_STATUSES,
   DISBURSEMENT_STATUSES,
   CAMPAIGN_STATUSES,
+  LOG_STATUSES,
   STAFF_STATUSES,
   EQUIPMENT_PROBLEM_SEVERITIES,
   EQUIPMENT_STATUSES,
@@ -158,6 +159,13 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     completed: 'success',
     cancelled: 'neutral',
   },
+  deliveryLog: {
+    queued: 'neutral',
+    sent: 'info',
+    delivered: 'success',
+    failed: 'danger',
+    bounced: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -174,6 +182,7 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   disbursement: ['pending'],
   staff: ['inactive'],
   campaign: ['draft', 'cancelled'],
+  deliveryLog: ['queued'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -198,6 +207,7 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'disbursement', statuses: DISBURSEMENT_STATUSES },
   { context: 'staff', statuses: STAFF_STATUSES },
   { context: 'campaign', statuses: CAMPAIGN_STATUSES },
+  { context: 'deliveryLog', statuses: LOG_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -270,6 +280,7 @@ describe('resolveStatusTone', () => {
         'disbursement',
         'staff',
         'campaign',
+        'deliveryLog',
       ]);
     });
   });

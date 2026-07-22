@@ -1,0 +1,84 @@
+<app-page-header [title]="'monitoring.title' | translate" [subtitle]="'monitoring.subtitle' | translate" />
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2">
+    <app-stat-card labelKey="monitoring.summary.count" [value]="(summary()?.count ?? 0).toString()" [loading]="loading()" />
+    <app-stat-card labelKey="monitoring.summary.average" [value]="rating(summary()?.averageScore ?? 0)" tone="brand" [loading]="loading()" />
+  </section>
+
+  <div class="mt-6">
+    <app-filter-bar
+      [(search)]="search"
+      searchPlaceholderKey="monitoring.searchPlaceholder"
+      (clear)="clearFilters()"
+    >
+      <select
+        [value]="source()"
+        (change)="source.set($any($event.target).value)"
+        [attr.aria-label]="'monitoring.sourceLabel' | translate"
+        class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'monitoring.allSources' | translate }}</option>
+        @for (option of sources; track option) {
+          <option [value]="option">{{ 'monitoring.source.' + option | translate }}</option>
+        }
+      </select>
+    </app-filter-bar>
+  </div>
+
+  <div class="mt-4">
+    @if (loading()) {
+      <div class="space-y-2">
+        @for (i of skeletons; track i) {
+          <div class="h-24 animate-pulse rounded-card bg-ink-300/20"></div>
+        }
+      </div>
+    } @else if (reports().length === 0) {
+      <div class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'monitoring.empty' | translate }}
+      </div>
+    } @else {
+      <ul class="space-y-3">
+        @for (report of reports(); track report.id) {
+          <li class="rounded-card border border-ink-300 bg-surface p-4">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-700">
+                  {{ 'monitoring.source.' + report.source | translate }}
+                </span>
+                <a
+                  [routerLink]="['/app/work-requests', report.projectId]"
+                  class="mt-1.5 block font-medium text-ink-900 hover:text-brand-600"
+                >
+                  {{ report.projectTitle }}
+                </a>
+                <span class="text-xs text-ink-500">{{ report.teamName }}</span>
+              </div>
+              <span class="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-sand-700">
+                <svg lucideStar [size]="14" aria-hidden="true"></svg>
+                {{ rating(report.score) }}
+              </span>
+            </div>
+            <p class="mt-2 text-sm text-ink-700">{{ report.summary }}</p>
+            <p class="mt-1 text-xs text-ink-500" dir="ltr">{{ formatDate(report.reportedAt) }}</p>
+          </li>
+        }
+      </ul>
+
+      @if (totalCount() > pageSize) {
+        <div class="mt-4">
+          <app-paginator
+            [pageNo]="pageNo()"
+            [pageSize]="pageSize"
+            [totalCount]="totalCount()"
+            (pageChange)="onPageChange($event)"
+          />
+        </div>
+      }
+    }
+  </div>
+}

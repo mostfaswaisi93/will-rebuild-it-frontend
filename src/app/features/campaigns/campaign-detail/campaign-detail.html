@@ -1,0 +1,90 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !campaign()) {
+  <app-page-header [title]="'campaigns.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'campaigns.detail.notFound' | translate }}
+  </p>
+} @else if (campaign(); as campaign) {
+  <app-page-header [title]="campaign.name" [showBack]="true">
+    <app-status-pill pageHeaderActions context="campaign" [status]="campaign.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'campaigns.detail.message' | translate }}</h2>
+        <p class="mt-2 text-sm font-medium text-ink-900">{{ campaign.subject }}</p>
+        <p class="mt-1 whitespace-pre-line text-sm text-ink-700">{{ campaign.message }}</p>
+      </section>
+
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'campaigns.detail.reach' | translate }}</h2>
+          <span class="text-sm text-ink-500">
+            {{ count(campaign.sentCount) }} / {{ count(campaign.audienceSize) }}
+          </span>
+        </div>
+        <div class="mt-2 h-2 overflow-hidden rounded-full bg-surface-container">
+          <div class="h-full rounded-full bg-brand-500" [style.width.%]="progress() * 100"></div>
+        </div>
+        <p class="mt-1 text-xs text-ink-500">{{ 'campaigns.detail.delivered' | translate: { percent: percent(progress()) } }}</p>
+      </section>
+    </div>
+
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'campaigns.detail.details' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'campaigns.columns.audience' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'campaigns.audience.' + campaign.audience | translate }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'campaigns.columns.channel' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'campaigns.channel.' + campaign.channel | translate }}</dd>
+          </div>
+          @if (campaign.scheduledFor) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'campaigns.detail.scheduled' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(campaign.scheduledFor) }}</dd>
+            </div>
+          }
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'campaigns.detail.created' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(campaign.createdAt) }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      @if (canSend() || canCancel()) {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'workOrders.detail.actions' | translate }}</h2>
+          @if (canSend()) {
+            <button
+              type="button"
+              (click)="send()"
+              [disabled]="working()"
+              class="mt-3 inline-flex min-h-11 w-full items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {{ (working() ? 'common.loading' : 'campaigns.detail.sendNow') | translate }}
+            </button>
+          }
+          @if (canCancel()) {
+            <button
+              type="button"
+              (click)="cancel()"
+              [disabled]="working()"
+              class="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-input border border-danger/40 px-4 py-2 text-sm font-medium text-danger hover:bg-danger/5 disabled:opacity-50"
+            >
+              {{ 'campaigns.detail.cancelCampaign' | translate }}
+            </button>
+          }
+        </section>
+      }
+    </div>
+  </div>
+}

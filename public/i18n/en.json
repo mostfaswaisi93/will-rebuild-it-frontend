@@ -707,6 +707,20 @@
         "active": "Active",
         "onLeave": "On leave",
         "inactive": "Inactive"
+      },
+      "campaign": {
+        "draft": "Draft",
+        "scheduled": "Scheduled",
+        "active": "Active",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+      },
+      "deliveryLog": {
+        "queued": "Queued",
+        "sent": "Sent",
+        "delivered": "Delivered",
+        "failed": "Failed",
+        "bounced": "Bounced"
       }
     },
     "ratingStars": {
@@ -2223,6 +2237,81 @@
       "totalHours": "Total: {{hours}} h",
       "hoursValue": "{{hours}} h",
       "noTimecard": "No timecard entries."
+    }
+  },
+  "campaigns": {
+    "title": "Awareness campaigns",
+    "subtitle": "Awareness and fundraising outreach to donors, beneficiaries and contractors.",
+    "searchPlaceholder": "Search by campaign name or subject",
+    "empty": "No matching campaigns.",
+    "allStatuses": "All statuses",
+    "channel": {
+      "email": "Email",
+      "sms": "SMS",
+      "social": "Social"
+    },
+    "audience": {
+      "donors": "Donors",
+      "beneficiaries": "Beneficiaries",
+      "contractors": "Contractors"
+    },
+    "columns": {
+      "name": "Campaign",
+      "audience": "Audience",
+      "channel": "Channel",
+      "reach": "Reach",
+      "status": "Status"
+    },
+    "detail": {
+      "title": "Campaign details",
+      "notFound": "The campaign could not be found.",
+      "message": "Message",
+      "reach": "Reach",
+      "delivered": "Delivered to {{percent}}",
+      "details": "Details",
+      "scheduled": "Scheduled for",
+      "created": "Created",
+      "sendNow": "Send now",
+      "sent": "Campaign launched.",
+      "cancelCampaign": "Cancel campaign",
+      "cancelled": "Campaign cancelled."
+    }
+  },
+  "logs": {
+    "title": "System logs",
+    "subtitle": "SMS and email delivery log, for tracing what did not arrive.",
+    "searchPlaceholder": "Search by recipient or subject",
+    "empty": "No matching logs.",
+    "allChannels": "All channels",
+    "allStatuses": "All statuses",
+    "channel": {
+      "sms": "SMS",
+      "email": "Email"
+    },
+    "columns": {
+      "channel": "Channel",
+      "recipient": "Recipient",
+      "subject": "Subject",
+      "status": "Status",
+      "time": "Time"
+    }
+  },
+  "monitoring": {
+    "title": "External ratings",
+    "subtitle": "Independent bodies’ reports on the quality of delivered projects.",
+    "searchPlaceholder": "Search by project or team",
+    "empty": "No matching reports.",
+    "sourceLabel": "Source",
+    "allSources": "All sources",
+    "summary": {
+      "count": "Reports",
+      "average": "Average score"
+    },
+    "source": {
+      "unHabitat": "UN-Habitat",
+      "engineersSyndicate": "Engineers’ Syndicate",
+      "donorAudit": "Donor audit",
+      "localCouncil": "Local council"
     }
   }
 }

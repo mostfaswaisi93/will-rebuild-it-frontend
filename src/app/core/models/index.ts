@@ -15,6 +15,8 @@ export * from './payout.model';
 export * from './settings.model';
 export * from './staff.model';
 export * from './campaign.model';
+export * from './delivery-log.model';
+export * from './monitoring.model';
 export * from './estimate.model';
 export * from './funding.model';
 export * from './donation.model';

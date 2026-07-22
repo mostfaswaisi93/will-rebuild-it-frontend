@@ -56,7 +56,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'auth/sign-in',
+    loadComponent: () => import('./features/public/home/home').then((m) => m.PublicHome),
   },
 
   // ---- Public / unauthenticated ----
@@ -468,6 +468,29 @@ export const routes: Routes = [
         canActivate: [roleGuard(['admin', 'contractor'])],
         loadComponent: () =>
           import('./features/staff/staff-profile/staff-profile').then((m) => m.StaffProfile),
+      },
+      {
+        path: 'campaigns',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/campaigns/campaign-list/campaign-list').then((m) => m.CampaignList),
+      },
+      {
+        path: 'campaigns/:id',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/campaigns/campaign-detail/campaign-detail').then((m) => m.CampaignDetail),
+      },
+      {
+        path: 'logs',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () => import('./features/logs/log-list/log-list').then((m) => m.LogList),
+      },
+      {
+        path: 'external-ratings',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/monitoring/monitoring-list/monitoring-list').then((m) => m.MonitoringList),
       },
     ],
   },

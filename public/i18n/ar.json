@@ -735,6 +735,20 @@
         "active": "نشط",
         "onLeave": "في إجازة",
         "inactive": "غير نشط"
+      },
+      "campaign": {
+        "draft": "مسودة",
+        "scheduled": "مجدولة",
+        "active": "نشطة",
+        "completed": "مكتملة",
+        "cancelled": "ملغاة"
+      },
+      "deliveryLog": {
+        "queued": "في الطابور",
+        "sent": "مُرسَل",
+        "delivered": "تم التسليم",
+        "failed": "فشل",
+        "bounced": "مرتد"
       }
     },
     "ratingStars": {
@@ -2274,6 +2288,81 @@
       "totalHours": "الإجمالي: {{hours}} ساعة",
       "hoursValue": "{{hours}} ساعة",
       "noTimecard": "لا يوجد سجلّ دوام."
+    }
+  },
+  "campaigns": {
+    "title": "حملات التوعية",
+    "subtitle": "حملات التوعية وجمع التمويل الموجَّهة للمتبرعين والمستفيدين والمقاولين.",
+    "searchPlaceholder": "ابحث باسم الحملة أو الموضوع",
+    "empty": "لا توجد حملات مطابقة.",
+    "allStatuses": "كل الحالات",
+    "channel": {
+      "email": "بريد إلكتروني",
+      "sms": "رسائل نصية",
+      "social": "وسائل تواصل"
+    },
+    "audience": {
+      "donors": "المتبرعون",
+      "beneficiaries": "المستفيدون",
+      "contractors": "المقاولون"
+    },
+    "columns": {
+      "name": "الحملة",
+      "audience": "الجمهور",
+      "channel": "القناة",
+      "reach": "الوصول",
+      "status": "الحالة"
+    },
+    "detail": {
+      "title": "تفاصيل الحملة",
+      "notFound": "لم يُعثر على الحملة.",
+      "message": "الرسالة",
+      "reach": "الوصول",
+      "delivered": "تم التسليم إلى {{percent}}",
+      "details": "البيانات",
+      "scheduled": "موعد الإرسال",
+      "created": "تاريخ الإنشاء",
+      "sendNow": "إرسال الآن",
+      "sent": "تم إطلاق الحملة.",
+      "cancelCampaign": "إلغاء الحملة",
+      "cancelled": "تم إلغاء الحملة."
+    }
+  },
+  "logs": {
+    "title": "سجلّات النظام",
+    "subtitle": "سجلّ إرسال الرسائل النصية والبريد الإلكتروني، لتتبّع ما لم يصل.",
+    "searchPlaceholder": "ابحث بالمستلِم أو الموضوع",
+    "empty": "لا توجد سجلّات مطابقة.",
+    "allChannels": "كل القنوات",
+    "allStatuses": "كل الحالات",
+    "channel": {
+      "sms": "رسالة نصية",
+      "email": "بريد إلكتروني"
+    },
+    "columns": {
+      "channel": "القناة",
+      "recipient": "المستلِم",
+      "subject": "الموضوع",
+      "status": "الحالة",
+      "time": "الوقت"
+    }
+  },
+  "monitoring": {
+    "title": "التقييمات الخارجية",
+    "subtitle": "تقارير الجهات المستقلّة عن جودة المشاريع المنجزة.",
+    "searchPlaceholder": "ابحث بالمشروع أو الفريق",
+    "empty": "لا توجد تقارير مطابقة.",
+    "sourceLabel": "الجهة",
+    "allSources": "كل الجهات",
+    "summary": {
+      "count": "عدد التقارير",
+      "average": "متوسّط التقييم"
+    },
+    "source": {
+      "unHabitat": "الأمم المتحدة للموئل",
+      "engineersSyndicate": "نقابة المهندسين",
+      "donorAudit": "تدقيق الجهة المموّلة",
+      "localCouncil": "المجلس المحلي"
     }
   }
 }
