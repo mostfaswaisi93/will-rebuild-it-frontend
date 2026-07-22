@@ -18,6 +18,8 @@ export * from './campaign.model';
 export * from './delivery-log.model';
 export * from './monitoring.model';
 export * from './subscription.model';
+export * from './shipment.model';
+export * from './price-list.model';
 export * from './estimate.model';
 export * from './funding.model';
 export * from './donation.model';

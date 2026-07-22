@@ -1,0 +1,49 @@
+<app-page-header [title]="'inspections.title' | translate" [subtitle]="'inspections.subtitle' | translate" />
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <app-filter-bar
+    [(search)]="search"
+    searchPlaceholderKey="inspections.searchPlaceholder"
+    (clear)="clearFilters()"
+  />
+
+  <div class="mt-4">
+    <app-data-table
+      [columns]="columns"
+      [rows]="rows()"
+      [loading]="loading()"
+      [serverSide]="true"
+      [pageSize]="10"
+      [totalCount]="totalCount()"
+      [rowLink]="rowLink"
+      [rowId]="rowId"
+      (pageChange)="onPageChange($event)"
+    >
+      <ng-template appDataTableCell="preWork" let-row>
+        <span
+          class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium"
+          [class]="chipClass(stateOf(row.preWorkInspection))"
+        >
+          {{ 'inspections.state.' + stateOf(row.preWorkInspection) | translate }}
+        </span>
+      </ng-template>
+
+      <ng-template appDataTableCell="postWork" let-row>
+        <span
+          class="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium"
+          [class]="chipClass(stateOf(row.postWorkInspection))"
+        >
+          {{ 'inspections.state.' + stateOf(row.postWorkInspection) | translate }}
+        </span>
+      </ng-template>
+
+      <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'inspections.empty' | translate }}
+      </div>
+    </app-data-table>
+  </div>
+}

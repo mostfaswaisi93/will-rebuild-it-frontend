@@ -13,6 +13,7 @@ import {
   LOG_STATUSES,
   STAFF_STATUSES,
   SUBSCRIPTION_STATUSES,
+  SHIPMENT_STATUSES,
   EQUIPMENT_PROBLEM_SEVERITIES,
   EQUIPMENT_STATUSES,
   PURCHASE_ORDER_STATUSES,
@@ -174,6 +175,14 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     cancelled: 'neutral',
     expired: 'danger',
   },
+  shipment: {
+    planned: 'neutral',
+    awaitingClearance: 'warning',
+    atCrossing: 'info',
+    inTransit: 'brand',
+    delivered: 'success',
+    rejected: 'danger',
+  },
 };
 
 /** The status values whose real, intended tone happens to be `neutral`. */
@@ -192,6 +201,7 @@ const INTENTIONALLY_NEUTRAL: Readonly<Record<string, readonly string[]>> = {
   campaign: ['draft', 'cancelled'],
   deliveryLog: ['queued'],
   subscription: ['cancelled'],
+  shipment: ['planned'],
 };
 
 /** Pairs each context with the constant array that defines its full status domain. */
@@ -218,6 +228,7 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'campaign', statuses: CAMPAIGN_STATUSES },
   { context: 'deliveryLog', statuses: LOG_STATUSES },
   { context: 'subscription', statuses: SUBSCRIPTION_STATUSES },
+  { context: 'shipment', statuses: SHIPMENT_STATUSES },
 ];
 
 describe('resolveStatusTone', () => {
@@ -292,6 +303,7 @@ describe('resolveStatusTone', () => {
         'campaign',
         'deliveryLog',
         'subscription',
+        'shipment',
       ]);
     });
   });

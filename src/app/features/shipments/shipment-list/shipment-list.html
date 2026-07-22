@@ -1,0 +1,79 @@
+<app-page-header [title]="'shipments.title' | translate" [subtitle]="'shipments.subtitle' | translate" />
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-3">
+    <app-stat-card
+      labelKey="shipments.summary.atCrossing"
+      [value]="count(summary()?.atCrossing ?? 0)"
+      tone="sand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="shipments.summary.inTransit"
+      [value]="count(summary()?.inTransit ?? 0)"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="shipments.summary.delivered"
+      [value]="count(summary()?.delivered ?? 0)"
+      [loading]="loading()"
+    />
+  </section>
+
+  <div class="mt-6">
+    <app-filter-bar
+      [(search)]="search"
+      searchPlaceholderKey="shipments.searchPlaceholder"
+      (clear)="clearFilters()"
+    >
+      <select
+        [value]="status()"
+        (change)="status.set($any($event.target).value)"
+        [attr.aria-label]="'shipments.columns.status' | translate"
+        class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'shipments.allStatuses' | translate }}</option>
+        @for (option of statuses; track option) {
+          <option [value]="option">{{ 'shared.statusPill.shipment.' + option | translate }}</option>
+        }
+      </select>
+      <select
+        [value]="crossing()"
+        (change)="crossing.set($any($event.target).value)"
+        [attr.aria-label]="'shipments.columns.crossing' | translate"
+        class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'shipments.allCrossings' | translate }}</option>
+        @for (option of crossings; track option) {
+          <option [value]="option">{{ 'shipments.crossing.' + option | translate }}</option>
+        }
+      </select>
+    </app-filter-bar>
+  </div>
+
+  <div class="mt-4">
+    <app-data-table
+      [columns]="columns"
+      [rows]="rows()"
+      [loading]="loading()"
+      [serverSide]="true"
+      [pageSize]="10"
+      [totalCount]="totalCount()"
+      [rowId]="rowId"
+      (pageChange)="onPageChange($event)"
+    >
+      <ng-template appDataTableCell="status" let-row>
+        <app-status-pill context="shipment" [status]="row.status" />
+      </ng-template>
+
+      <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'shipments.empty' | translate }}
+      </div>
+    </app-data-table>
+  </div>
+}

@@ -1,0 +1,57 @@
+<app-page-header [title]="'dispatch.title' | translate" [subtitle]="'dispatch.subtitle' | translate" />
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="grid gap-3 md:grid-cols-3 xl:grid-cols-5">
+    @for (col of skeletons; track col) {
+      <div class="h-64 animate-pulse rounded-card bg-ink-300/20"></div>
+    }
+  </div>
+} @else {
+  <div class="grid gap-3 md:grid-cols-3 xl:grid-cols-5">
+    @for (column of columns(); track column.status) {
+      <section class="flex flex-col rounded-card border border-ink-300 bg-surface-container-low/40 p-3">
+        <header class="mb-2 flex items-center justify-between gap-2">
+          <h2 class="text-sm font-semibold text-ink-900">
+            {{ 'shared.statusPill.workOrder.' + column.status | translate }}
+          </h2>
+          <span class="rounded-full bg-surface px-2 py-0.5 text-xs font-medium text-ink-500">
+            {{ column.orders.length }}
+          </span>
+        </header>
+
+        @if (column.orders.length === 0) {
+          <p class="rounded-card border border-dashed border-ink-300 bg-surface/50 px-3 py-6 text-center text-xs text-ink-400">
+            {{ 'dispatch.emptyColumn' | translate }}
+          </p>
+        } @else {
+          <ul class="space-y-2">
+            @for (order of column.orders; track order.id) {
+              <li>
+                <a
+                  [href]="orderLink(order)"
+                  class="block rounded-card border border-ink-300 bg-surface p-3 transition hover:border-brand-400 hover:shadow-sm"
+                >
+                  <div class="flex items-center justify-between gap-2">
+                    <span class="text-xs font-medium text-ink-500">{{ order.workOrderNumber }}</span>
+                    <app-status-pill context="workOrderPriority" [status]="order.priority" />
+                  </div>
+                  <p class="mt-1 line-clamp-2 text-sm font-medium text-ink-900">{{ order.title }}</p>
+                  <div class="mt-2 flex items-center justify-between gap-2 text-xs text-ink-500">
+                    <span class="truncate">{{ order.teamName }}</span>
+                    @if (order.scheduledFor) {
+                      <span class="shrink-0" dir="ltr">{{ formatDate(order.scheduledFor) }}</span>
+                    }
+                  </div>
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+  </div>
+}
