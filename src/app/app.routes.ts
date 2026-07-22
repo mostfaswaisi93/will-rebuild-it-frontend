@@ -508,6 +508,82 @@ export const routes: Routes = [
             (m) => m.SubscriptionDetail,
           ),
       },
+
+      // --- Beneficiary experience (role home: /app/dashboard) ---------------
+      {
+        path: 'dashboard',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/dashboard/beneficiary-dashboard/beneficiary-dashboard').then(
+            (m) => m.BeneficiaryDashboard,
+          ),
+      },
+      {
+        path: 'requests',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/requests/request-list/request-list').then((m) => m.RequestList),
+      },
+      {
+        path: 'requests/:id',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/requests/request-detail/request-detail').then((m) => m.RequestDetail),
+      },
+      {
+        path: 'projects',
+        canActivate: [roleGuard(['beneficiary', 'admin', 'team'])],
+        loadComponent: () =>
+          import('./features/projects/project-list/project-list').then((m) => m.ProjectList),
+      },
+      {
+        path: 'projects/:id',
+        canActivate: [roleGuard(['beneficiary', 'admin', 'team'])],
+        loadComponent: () =>
+          import('./features/projects/project-detail/project-detail').then((m) => m.ProjectDetail),
+      },
+      {
+        path: 'teams',
+        canActivate: [roleGuard(['beneficiary', 'admin', 'team', 'contractor'])],
+        loadComponent: () =>
+          import('./features/teams/team-list/team-list').then((m) => m.TeamList),
+      },
+      {
+        path: 'teams/:id',
+        canActivate: [roleGuard(['beneficiary', 'admin', 'team', 'contractor'])],
+        loadComponent: () =>
+          import('./features/teams/team-detail/team-detail').then((m) => m.TeamDetail),
+      },
+      {
+        path: 'funding',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/funding/funding-list/funding-list').then((m) => m.FundingList),
+      },
+      {
+        path: 'reviews',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/reviews/review-list/review-list').then((m) => m.ReviewList),
+      },
+
+      // --- Donor experience (role home: /app/donations) --------------------
+      {
+        path: 'donations',
+        canActivate: [roleGuard(['donor'])],
+        loadComponent: () =>
+          import('./features/donations/donation-list/donation-list').then((m) => m.DonationList),
+      },
+
+      // --- Team workspace (role home: /app/team-dashboard) -----------------
+      {
+        path: 'team-dashboard',
+        canActivate: [roleGuard(['team'])],
+        loadComponent: () =>
+          import('./features/team-workspace/team-dashboard/team-dashboard').then(
+            (m) => m.TeamDashboard,
+          ),
+      },
     ],
   },
 

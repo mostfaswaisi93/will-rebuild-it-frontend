@@ -1,0 +1,41 @@
+<app-page-header [title]="'reviews.title' | translate" [subtitle]="'reviews.subtitle' | translate" />
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="space-y-2">
+    @for (i of skeletons; track i) {
+      <div class="h-24 animate-pulse rounded-card bg-ink-300/20"></div>
+    }
+  </div>
+} @else if (reviews().length === 0) {
+  <div class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+    {{ 'reviews.empty' | translate }}
+  </div>
+} @else {
+  <ul class="space-y-3">
+    @for (review of reviews(); track review.id) {
+      <li class="rounded-card border border-ink-300 bg-surface p-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <a
+              [href]="'/app/teams/' + review.teamId"
+              class="font-medium text-ink-900 hover:text-brand-600"
+            >
+              {{ review.teamName }}
+            </a>
+            <p class="text-xs text-ink-500">{{ review.projectTitle }}</p>
+          </div>
+          <span class="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-sand-700">
+            <svg lucideStar [size]="14" aria-hidden="true"></svg>
+            {{ average(review) }}
+          </span>
+        </div>
+        <p class="mt-2 text-sm text-ink-700">{{ review.comments }}</p>
+        <p class="mt-1 text-xs text-ink-500" dir="ltr">{{ formatDate(review.createdAt) }}</p>
+      </li>
+    }
+  </ul>
+}

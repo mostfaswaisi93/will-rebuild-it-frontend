@@ -260,20 +260,22 @@
 | `pro/cards/create` | `/app/account/payment-methods/new` | ⬜ |
 | `pro/cards/:userId/:stripeCustomerId/edit` | `/app/account/payment-methods/:id/edit` | ⬜ |
 | `pro/createcard` | مدموج في السابق | ⬜ |
-| `sub/enableVanlynk` | `/app/subscriptions/enable` | ⬜ |
-| `sub/subscriptionHistory` (+ `/pro/:loginId`) | `/app/subscriptions/history` | ⬜ |
-| `sub/vanlynkPaymentSubscriptionHistory` | `/app/subscriptions/platform/payments` | ⬜ |
-| `sub/vanlynkPaymentHistory` | `/app/subscriptions/platform/payment-history` | ⬜ |
-| `sub/vanlynkSubscriptionHistory` | `/app/subscriptions/platform/history` | ⬜ |
-| `sub/vanlynkSubscriptionDetails` (+ `/pro/:loginId`) | `/app/subscriptions/platform/:id` | ⬜ |
-| `sub/leadgenPaymentHistory` (+ `/pro/:loginId`) | `/app/subscriptions/leads/payments` | ⬜ |
-| `sub/leadgenRefundRequests` (+ `/pro/:loginId`) | `/app/subscriptions/leads/refunds` | ⬜ |
-| `sub/leadgenAccountHistory` (+ `/pro/:loginId`) | `/app/subscriptions/leads/history` | ⬜ |
-| `sub/leadgenSubscriptionDetails` (+ `/pro/:loginId`) | `/app/subscriptions/leads/:id` | ⬜ |
+| `sub/enableVanlynk` | `/app/subscriptions` (سجل العضويات) | ✅ |
+| `sub/subscriptionHistory` (+ `/pro/:loginId`) | `/app/subscriptions/:id` (سجل المدفوعات) | ✅ |
+| `sub/vanlynkPaymentSubscriptionHistory` | `/app/subscriptions/:id` | ✅ |
+| `sub/vanlynkPaymentHistory` | `/app/subscriptions/:id` | ✅ |
+| `sub/vanlynkSubscriptionHistory` | `/app/subscriptions/:id` | ✅ |
+| `sub/vanlynkSubscriptionDetails` (+ `/pro/:loginId`) | `/app/subscriptions/:id` | ✅ |
+| `sub/leadgenPaymentHistory` (+ `/pro/:loginId`) | `/app/subscriptions/:id` | ✅ |
+| `sub/leadgenRefundRequests` (+ `/pro/:loginId`) | `/app/subscriptions/:id` (زر الاسترداد) | ✅ |
+| `sub/leadgenAccountHistory` (+ `/pro/:loginId`) | `/app/subscriptions/:id` | ✅ |
+| `sub/leadgenSubscriptionDetails` (+ `/pro/:loginId`) | `/app/subscriptions/:id` | ✅ |
 
-> ❓ **قرار مطلوب:** منطق الاشتراكات (Vanlynk/Leadgen — 16 مسارًا) تجاري أمريكي بحت.
-> أُبقي بالكامل التزامًا بقاعدة «لا حذف». إن كان خارج نطاق الإعمار، حذف هذه المرحلة
-> يوفّر ~20% من العمل.
+> ✅ **حُلّ:** أُعيدت صياغة الاشتراكات إلى **عضوية المقاول** في المنصّة (رسم تحقّق
+> سنوي للأهلية للمناقصات) بدلًا من منطق شراء العملاء المحتملين الأمريكي. المسارات
+> الـ16 المكرّرة (Vanlynk مقابل Leadgen × الاشتراك/الدفع/الاسترداد) انطوت في مفهوم
+> واحد: `/app/subscriptions` (سجل العضويات مع مؤشّرات الإيراد) و`/app/subscriptions/:id`
+> (سجل المدفوعات + التجديد/الإلغاء/الاسترداد). حارس المسار: `admin` فقط.
 
 ---
 

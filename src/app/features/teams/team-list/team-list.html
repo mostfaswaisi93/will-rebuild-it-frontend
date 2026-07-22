@@ -1,0 +1,83 @@
+<app-page-header [title]="'teams.title' | translate" [subtitle]="'teams.subtitle' | translate" />
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <app-filter-bar
+    [(search)]="search"
+    searchPlaceholderKey="teams.searchPlaceholder"
+    (clear)="clearFilters()"
+  >
+    <select
+      [value]="governorate()"
+      (change)="governorate.set($any($event.target).value)"
+      [attr.aria-label]="'teams.governorateLabel' | translate"
+      class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    >
+      <option value="">{{ 'teams.allGovernorates' | translate }}</option>
+      @for (option of governorates; track option) {
+        <option [value]="option">{{ 'governorates.' + option | translate }}</option>
+      }
+    </select>
+  </app-filter-bar>
+
+  <div class="mt-4">
+    @if (loading()) {
+      <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        @for (i of skeletons; track i) {
+          <div class="h-40 animate-pulse rounded-card bg-ink-300/20"></div>
+        }
+      </div>
+    } @else if (teams().length === 0) {
+      <div class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'teams.empty' | translate }}
+      </div>
+    } @else {
+      <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        @for (team of teams(); track team.id) {
+          <li>
+            <a
+              [routerLink]="['/app/teams', team.id]"
+              class="flex h-full flex-col rounded-card border border-ink-300 bg-surface p-4 transition hover:border-brand-400 hover:shadow-sm"
+            >
+              <div class="flex items-start justify-between gap-2">
+                <h3 class="min-w-0 font-semibold text-ink-900">{{ team.name }}</h3>
+                <span class="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-sand-700">
+                  <svg lucideStar [size]="14" aria-hidden="true"></svg>
+                  {{ rating(team.averageRating) }}
+                </span>
+              </div>
+              <p class="mt-1 line-clamp-2 text-sm text-ink-500">{{ team.bio }}</p>
+              <div class="mt-3 flex flex-wrap gap-1.5">
+                @for (spec of team.specializations.slice(0, 3); track spec) {
+                  <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-700">
+                    {{ spec }}
+                  </span>
+                }
+              </div>
+              <div class="mt-3 flex items-center gap-3 text-xs text-ink-500">
+                <span>{{ 'teams.completed' | translate: { count: count(team.completedProjectsCount) } }}</span>
+                @if (team.isLicensed) {
+                  <span class="text-brand-600">{{ 'teams.licensed' | translate }}</span>
+                }
+              </div>
+            </a>
+          </li>
+        }
+      </ul>
+
+      @if (totalCount() > pageSize) {
+        <div class="mt-4">
+          <app-paginator
+            [pageNo]="pageNo()"
+            [pageSize]="pageSize"
+            [totalCount]="totalCount()"
+            (pageChange)="onPageChange($event)"
+          />
+        </div>
+      }
+    }
+  </div>
+}

@@ -1,0 +1,76 @@
+<app-page-header
+  [title]="'dashboard.team.title' | translate"
+  [subtitle]="'dashboard.greeting' | translate: { name: teamName() }"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <app-stat-card
+      labelKey="dashboard.team.activeProjects"
+      [value]="count(stats()?.activeProjects ?? 0)"
+      [icon]="icons.projects"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.team.pendingEstimates"
+      [value]="count(stats()?.pendingEstimates ?? 0)"
+      [icon]="icons.estimates"
+      tone="sand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.team.openRequests"
+      [value]="count(stats()?.openRequests ?? 0)"
+      [icon]="icons.requests"
+      tone="neutral"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="dashboard.team.rating"
+      [value]="rating(stats()?.averageRating ?? 0)"
+      [icon]="icons.delivered"
+      tone="brand"
+      [hint]="'dashboard.team.outstanding' | translate: { amount: money(stats()?.outstandingFunding ?? 0) }"
+      [loading]="loading()"
+    />
+  </section>
+
+  <section class="mt-6">
+    <h2 class="text-sm font-semibold text-ink-900">{{ 'dashboard.team.activeProjectsList' | translate }}</h2>
+    <div class="mt-2">
+      <app-data-table
+        [columns]="projectColumns"
+        [rows]="projects()"
+        [loading]="loading()"
+        [rowId]="trackProject"
+        [rowLink]="projectLink"
+      >
+        <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+          {{ 'projects.empty' | translate }}
+        </div>
+      </app-data-table>
+    </div>
+  </section>
+
+  @if (matchedRequests().length > 0) {
+    <section class="mt-6">
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'dashboard.team.matchedRequests' | translate }}</h2>
+      <ul class="mt-2 space-y-2">
+        @for (request of matchedRequests(); track request.id) {
+          <li class="flex items-center justify-between gap-3 rounded-card border border-ink-300 bg-surface px-4 py-3">
+            <div class="min-w-0">
+              <p class="truncate text-sm font-medium text-ink-900">{{ request.requestNumber }}</p>
+              <p class="truncate text-xs text-ink-500">{{ 'governorates.' + request.address.governorate | translate }}</p>
+            </div>
+            <app-status-pill context="request" [status]="request.status" />
+          </li>
+        }
+      </ul>
+    </section>
+  }
+}
