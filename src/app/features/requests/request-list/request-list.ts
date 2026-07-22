@@ -59,30 +59,30 @@ export class RequestList {
   protected readonly columns: DataTableColumn<ReconstructionRequest>[] = [
     {
       key: 'requestNumber',
-      headerKey: 'requests.columns.number',
+      headerKey: 'requests.list.columns.requestNumber',
       cell: (row) => row.requestNumber,
     },
     {
-      key: 'type',
-      headerKey: 'requests.columns.type',
-      cell: (row) => this.t(`requests.type.${row.type}`),
+      key: 'propertyType',
+      headerKey: 'requests.list.columns.propertyType',
+      cell: (row) => this.t(`master.propertyType.${row.propertyType}`),
       hideOnMobile: true,
     },
     {
-      key: 'severity',
-      headerKey: 'requests.columns.severity',
-      cell: (row) => this.t(`shared.statusPill.severity.${row.severity}`),
+      key: 'governorate',
+      headerKey: 'requests.list.columns.governorate',
+      cell: (row) => this.t(`governorates.${row.address.governorate}`),
       hideOnMobile: true,
     },
     {
-      key: 'created',
-      headerKey: 'requests.columns.created',
+      key: 'createdAt',
+      headerKey: 'requests.list.columns.createdAt',
       cell: (row) => this.formatDate(row.createdAt),
       hideOnMobile: true,
     },
     {
       key: 'status',
-      headerKey: 'requests.columns.status',
+      headerKey: 'requests.list.columns.status',
       cell: (row) => this.t(`shared.statusPill.request.${row.status}`),
     },
   ];

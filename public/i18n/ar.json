@@ -444,6 +444,8 @@
       },
       "propertyDetails": "تفاصيل العقار",
       "description": "الوصف",
+      "severity": "درجة الضرر",
+      "district": "الحي",
       "address": "العنوان",
       "attachments": "المرفقات",
       "noAttachments": "لم تتم إضافة صور إلى هذا الطلب بعد.",
@@ -463,11 +465,13 @@
       "subtitle": "تابع كل مشروع إعادة إعمار مرتبط بطلباتك.",
       "searchPlaceholder": "ابحث برقم المشروع أو العنوان",
       "allStatuses": "كل الحالات",
+      "empty": "لا توجد مشاريع مطابقة.",
       "column": {
         "projectNumber": "رقم المشروع",
         "title": "العنوان",
         "team": "الفريق",
         "phase": "المرحلة",
+        "progress": "الإنجاز",
         "status": "الحالة",
         "created": "تاريخ الإنشاء"
       }
@@ -478,6 +482,7 @@
         "team": "الفريق",
         "timeline": "الجدول الزمني"
       },
+      "phasesTitle": "مراحل الإعمار",
       "notFound": "تعذر العثور على هذا المشروع.",
       "details": {
         "overviewTitle": "نظرة عامة",
@@ -530,6 +535,7 @@
       "title": "فرق إعادة الإعمار",
       "subtitle": "تصفّح الفرق المرخّصة العاملة في مختلف أنحاء غزة، واختر الأنسب لإعادة بناء منزلك.",
       "searchPlaceholder": "ابحث عن فريق بالاسم",
+      "empty": "لا توجد فرق مطابقة.",
       "governorateFilter": "تصفية حسب المحافظة",
       "allGovernorates": "كل المحافظات",
       "specializationFilter": "تصفية حسب التخصص",
@@ -559,6 +565,10 @@
     "profile": {
       "title": "الملف التعريفي للفريق",
       "notFound": "تعذّر العثور على هذا الفريق. ربما تمت إزالته.",
+      "aboutTitle": "عن الفريق",
+      "completedLabel": "المشاريع المكتملة",
+      "phoneLabel": "الهاتف",
+      "emailLabel": "البريد الإلكتروني",
       "completedProjects": {
         "=0": "لا توجد مشاريع مكتملة",
         "zero": "لا توجد مشاريع مكتملة",
@@ -997,7 +1007,8 @@
     "stats": {
       "activeProjects": "المشاريع النشطة",
       "openRequests": "الطلبات المفتوحة",
-      "deliveredProjects": "المشاريع المُسلّمة"
+      "deliveredProjects": "المشاريع المُسلّمة",
+      "fundingRecords": "سجلّات التمويل"
     },
     "quickLinks": {
       "newRequest": "طلب جديد",
@@ -1249,11 +1260,13 @@
       "subtitle": "التمويل المُجمَّع لمشاريع إعادة إعمارك",
       "searchPlaceholder": "ابحث برقم التمويل أو المشروع",
       "allStatuses": "جميع الحالات",
+      "empty": "لا توجد سجلّات تمويل مطابقة.",
       "column": {
         "fundingNumber": "رقم التمويل",
         "project": "المشروع",
         "phase": "المرحلة",
         "fundedAmount": "المبلغ المُموَّل",
+        "outstanding": "المبلغ المتبقّي",
         "status": "الحالة",
         "created": "تاريخ الإنشاء"
       }

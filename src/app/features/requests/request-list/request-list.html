@@ -1,4 +1,7 @@
-<app-page-header [title]="'requests.title' | translate" [subtitle]="'requests.subtitle' | translate" />
+<app-page-header
+  [title]="'requests.list.title' | translate"
+  [subtitle]="'requests.list.subtitle' | translate: { count: totalCount() }"
+/>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -7,16 +10,16 @@
 } @else {
   <app-filter-bar
     [(search)]="search"
-    searchPlaceholderKey="requests.searchPlaceholder"
+    searchPlaceholderKey="requests.list.searchPlaceholder"
     (clear)="clearFilters()"
   >
     <select
       [value]="status()"
       (change)="status.set($any($event.target).value)"
-      [attr.aria-label]="'requests.columns.status' | translate"
+      [attr.aria-label]="'requests.list.statusFilter' | translate"
       class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     >
-      <option value="">{{ 'requests.allStatuses' | translate }}</option>
+      <option value="">{{ 'requests.list.allStatuses' | translate }}</option>
       @for (option of statuses; track option) {
         <option [value]="option">{{ 'shared.statusPill.request.' + option | translate }}</option>
       }
@@ -40,7 +43,7 @@
       </ng-template>
 
       <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-        {{ 'requests.empty' | translate }}
+        {{ 'requests.list.emptyHint' | translate }}
       </div>
     </app-data-table>
   </div>

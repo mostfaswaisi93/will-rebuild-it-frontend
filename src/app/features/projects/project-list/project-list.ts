@@ -53,17 +53,17 @@ export class ProjectList {
   protected readonly totalCount = computed(() => this.page.value()?.totalCount ?? 0);
 
   protected readonly columns: DataTableColumn<Project>[] = [
-    { key: 'projectNumber', headerKey: 'projects.columns.number', cell: (row) => row.projectNumber },
-    { key: 'title', headerKey: 'projects.columns.title', cell: (row) => row.title },
+    { key: 'projectNumber', headerKey: 'projects.list.column.projectNumber', cell: (row) => row.projectNumber },
+    { key: 'title', headerKey: 'projects.list.column.title', cell: (row) => row.title },
     {
       key: 'phase',
-      headerKey: 'projects.columns.phase',
+      headerKey: 'projects.list.column.phase',
       cell: (row) => this.t(`project.phase.${row.currentPhaseKey}`),
       hideOnMobile: true,
     },
     {
       key: 'progress',
-      headerKey: 'projects.columns.progress',
+      headerKey: 'projects.list.column.progress',
       cell: (row) => `${row.overallCompletionPercent}%`,
       sortValue: (row) => row.overallCompletionPercent,
       align: 'end',
@@ -71,7 +71,7 @@ export class ProjectList {
     },
     {
       key: 'status',
-      headerKey: 'projects.columns.status',
+      headerKey: 'projects.list.column.status',
       cell: (row) => this.t(`shared.statusPill.project.${row.status}`),
     },
   ];

@@ -1,4 +1,4 @@
-<app-page-header [title]="'donations.title' | translate" [subtitle]="'donations.subtitle' | translate" />
+<app-page-header [title]="'donations.list.title' | translate" [subtitle]="'donations.list.subtitle' | translate" />
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -9,10 +9,10 @@
     <select
       [value]="status()"
       (change)="status.set($any($event.target).value)"
-      [attr.aria-label]="'donations.columns.status' | translate"
+      [attr.aria-label]="'donations.detail.status' | translate"
       class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     >
-      <option value="">{{ 'donations.allStatuses' | translate }}</option>
+      <option value="">{{ 'donations.list.allStatuses' | translate }}</option>
       @for (option of statuses; track option) {
         <option [value]="option">{{ 'shared.statusPill.donation.' + option | translate }}</option>
       }
@@ -35,7 +35,7 @@
       </ng-template>
 
       <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-        {{ 'donations.empty' | translate }}
+        {{ 'donations.list.empty.title' | translate }}
       </div>
     </app-data-table>
   </div>

@@ -46,17 +46,17 @@ export class TeamDashboard {
   protected readonly teamName = computed(() => this.data()?.team.name ?? '');
 
   protected readonly projectColumns: DataTableColumn<Project>[] = [
-    { key: 'projectNumber', headerKey: 'projects.columns.number', cell: (row) => row.projectNumber },
-    { key: 'title', headerKey: 'projects.columns.title', cell: (row) => row.title },
+    { key: 'projectNumber', headerKey: 'dashboard.projects.number', cell: (row) => row.projectNumber },
+    { key: 'title', headerKey: 'dashboard.projects.title', cell: (row) => row.title },
     {
       key: 'phase',
-      headerKey: 'projects.columns.phase',
+      headerKey: 'dashboard.projects.phase',
       cell: (row) => this.translation.translate(`project.phase.${row.currentPhaseKey}`),
       hideOnMobile: true,
     },
     {
       key: 'progress',
-      headerKey: 'projects.columns.progress',
+      headerKey: 'dashboard.projects.progress',
       cell: (row) => `${row.overallCompletionPercent}%`,
       align: 'end',
     },
@@ -73,14 +73,6 @@ export class TeamDashboard {
     return new Intl.NumberFormat(this.translation.locale(), {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1,
-    }).format(value);
-  }
-
-  protected money(value: number): string {
-    return new Intl.NumberFormat(this.translation.locale(), {
-      style: 'currency',
-      currency: 'USD',
-      maximumFractionDigits: 0,
     }).format(value);
   }
 }

@@ -53,25 +53,25 @@ export class FundingList {
   protected readonly totalCount = computed(() => this.page.value()?.totalCount ?? 0);
 
   protected readonly columns: DataTableColumn<Funding>[] = [
-    { key: 'fundingNumber', headerKey: 'funding.columns.number', cell: (row) => row.fundingNumber },
-    { key: 'project', headerKey: 'funding.columns.project', cell: (row) => row.projectTitle },
+    { key: 'fundingNumber', headerKey: 'funding.list.column.fundingNumber', cell: (row) => row.fundingNumber },
+    { key: 'project', headerKey: 'funding.list.column.project', cell: (row) => row.projectTitle },
     {
       key: 'funded',
-      headerKey: 'funding.columns.funded',
+      headerKey: 'funding.list.column.fundedAmount',
       cell: (row) => this.money(row.fundedAmount),
       align: 'end',
       hideOnMobile: true,
     },
     {
       key: 'outstanding',
-      headerKey: 'funding.columns.outstanding',
+      headerKey: 'funding.list.column.outstanding',
       cell: (row) => this.money(row.outstandingAmount),
       align: 'end',
       hideOnMobile: true,
     },
     {
       key: 'status',
-      headerKey: 'funding.columns.status',
+      headerKey: 'funding.list.column.status',
       cell: (row) => this.t(`shared.statusPill.funding.${row.status}`),
     },
   ];

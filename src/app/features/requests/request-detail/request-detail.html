@@ -4,37 +4,41 @@
     <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
   </div>
 } @else if (failed() || !request()) {
-  <app-page-header [title]="'requests.detail.title' | translate" [showBack]="true" />
+  <app-page-header [title]="'requests.list.title' | translate" [showBack]="true" />
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
-    {{ 'requests.detail.notFound' | translate }}
+    {{ 'requests.view.loadError' | translate }}
   </p>
 } @else if (request(); as request) {
-  <app-page-header [title]="request.requestNumber" [subtitle]="'requests.type.' + request.type | translate" [showBack]="true">
+  <app-page-header
+    [title]="request.requestNumber"
+    [subtitle]="'master.propertyType.' + request.propertyType | translate"
+    [showBack]="true"
+  >
     <app-status-pill pageHeaderActions context="request" [status]="request.status" />
   </app-page-header>
 
   <div class="grid gap-4 lg:grid-cols-3">
     <div class="space-y-4 lg:col-span-2">
       <section class="rounded-card border border-ink-300 bg-surface p-4">
-        <h2 class="text-sm font-semibold text-ink-900">{{ 'requests.detail.damage' | translate }}</h2>
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'requests.view.tabs.damage' | translate }}</h2>
         <p class="mt-2 whitespace-pre-line text-sm text-ink-700">{{ request.description }}</p>
         <dl class="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
           <div>
-            <dt class="text-ink-500">{{ 'requests.columns.property' | translate }}</dt>
-            <dd class="font-medium text-ink-900">{{ 'requests.property.' + request.propertyType | translate }}</dd>
+            <dt class="text-ink-500">{{ 'requests.list.columns.propertyType' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'master.propertyType.' + request.propertyType | translate }}</dd>
           </div>
           <div>
-            <dt class="text-ink-500">{{ 'requests.columns.severity' | translate }}</dt>
-            <dd class="font-medium text-ink-900">{{ 'shared.statusPill.severity.' + request.severity | translate }}</dd>
+            <dt class="text-ink-500">{{ 'requests.view.severity' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'master.severity.' + request.severity | translate }}</dd>
           </div>
         </dl>
       </section>
 
       <section class="rounded-card border border-ink-300 bg-surface p-4">
-        <h2 class="text-sm font-semibold text-ink-900">{{ 'requests.detail.matchedTeams' | translate }}</h2>
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'requests.view.tabs.teams' | translate }}</h2>
         @if (request.matchedTeams.length === 0) {
           <p class="mt-3 rounded-card border border-dashed border-ink-300 bg-surface p-6 text-center text-sm text-ink-500">
-            {{ 'requests.detail.noMatches' | translate }}
+            {{ 'requests.view.noMatchedTeams' | translate }}
           </p>
         } @else {
           <ul class="mt-3 divide-y divide-ink-300/60">
@@ -46,7 +50,7 @@
                 <span class="flex items-center gap-2">
                   <span class="text-xs text-ink-500">{{ matchScore(team.matchScore) }}</span>
                   <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-700">
-                    {{ 'requests.match.' + team.status | translate }}
+                    {{ 'requests.view.teamStatus.' + team.status | translate }}
                   </span>
                 </span>
               </li>
@@ -58,26 +62,26 @@
 
     <div class="space-y-4">
       <section class="rounded-card border border-ink-300 bg-surface p-4">
-        <h2 class="text-sm font-semibold text-ink-900">{{ 'requests.detail.details' | translate }}</h2>
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'requests.view.tabs.contact' | translate }}</h2>
         <dl class="mt-3 space-y-2 text-sm">
           <div class="flex justify-between gap-3">
-            <dt class="text-ink-500">{{ 'requests.detail.governorate' | translate }}</dt>
+            <dt class="text-ink-500">{{ 'requests.list.columns.governorate' | translate }}</dt>
             <dd class="font-medium text-ink-900">{{ 'governorates.' + request.address.governorate | translate }}</dd>
           </div>
           <div class="flex justify-between gap-3">
-            <dt class="text-ink-500">{{ 'requests.detail.district' | translate }}</dt>
+            <dt class="text-ink-500">{{ 'requests.view.district' | translate }}</dt>
             <dd class="font-medium text-ink-900">{{ request.address.district }}</dd>
           </div>
           <div class="flex justify-between gap-3">
-            <dt class="text-ink-500">{{ 'requests.detail.contact' | translate }}</dt>
+            <dt class="text-ink-500">{{ 'requests.view.contactName' | translate }}</dt>
             <dd class="font-medium text-ink-900">{{ request.contactName }}</dd>
           </div>
           <div class="flex justify-between gap-3">
-            <dt class="text-ink-500">{{ 'requests.detail.phone' | translate }}</dt>
+            <dt class="text-ink-500">{{ 'requests.view.contactPhone' | translate }}</dt>
             <dd class="font-medium text-ink-900" dir="ltr">{{ request.contactPhone }}</dd>
           </div>
           <div class="flex justify-between gap-3">
-            <dt class="text-ink-500">{{ 'requests.detail.created' | translate }}</dt>
+            <dt class="text-ink-500">{{ 'requests.list.columns.createdAt' | translate }}</dt>
             <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(request.createdAt) }}</dd>
           </div>
         </dl>

@@ -1,4 +1,7 @@
-<app-page-header [title]="'reviews.title' | translate" [subtitle]="'reviews.subtitle' | translate" />
+<app-page-header
+  [title]="'reviews.title' | translate"
+  [subtitle]="'reviews.subtitle' | translate: { count: reviews().length }"
+/>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -12,7 +15,7 @@
   </div>
 } @else if (reviews().length === 0) {
   <div class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-    {{ 'reviews.empty' | translate }}
+    {{ 'reviews.emptyHint' | translate }}
   </div>
 } @else {
   <ul class="space-y-3">

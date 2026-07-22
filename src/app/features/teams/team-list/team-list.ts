@@ -70,8 +70,4 @@ export class TeamList {
       maximumFractionDigits: 1,
     }).format(value);
   }
-
-  protected count(value: number): string {
-    return new Intl.NumberFormat(this.translation.locale()).format(value);
-  }
 }

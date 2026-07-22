@@ -66,7 +66,7 @@ export class TeamDetail {
         next: (state) => {
           this.working.set(false);
           this.following.set(state);
-          this.toast.success(state ? 'teams.detail.followed' : 'teams.detail.unfollowed');
+          this.toast.success(state ? 'teams.list.followSuccess' : 'teams.list.unfollowSuccess');
         },
         error: () => {
           this.working.set(false);

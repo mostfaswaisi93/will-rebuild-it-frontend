@@ -1,4 +1,4 @@
-<app-page-header [title]="'projects.title' | translate" [subtitle]="'projects.subtitle' | translate" />
+<app-page-header [title]="'projects.list.title' | translate" [subtitle]="'projects.list.subtitle' | translate" />
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -7,16 +7,16 @@
 } @else {
   <app-filter-bar
     [(search)]="search"
-    searchPlaceholderKey="projects.searchPlaceholder"
+    searchPlaceholderKey="projects.list.searchPlaceholder"
     (clear)="clearFilters()"
   >
     <select
       [value]="status()"
       (change)="status.set($any($event.target).value)"
-      [attr.aria-label]="'projects.columns.status' | translate"
+      [attr.aria-label]="'projects.list.column.status' | translate"
       class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     >
-      <option value="">{{ 'projects.allStatuses' | translate }}</option>
+      <option value="">{{ 'projects.list.allStatuses' | translate }}</option>
       @for (option of statuses; track option) {
         <option [value]="option">{{ 'shared.statusPill.project.' + option | translate }}</option>
       }
@@ -40,7 +40,7 @@
       </ng-template>
 
       <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-        {{ 'projects.empty' | translate }}
+        {{ 'projects.list.empty' | translate }}
       </div>
     </app-data-table>
   </div>

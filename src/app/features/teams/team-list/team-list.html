@@ -1,4 +1,4 @@
-<app-page-header [title]="'teams.title' | translate" [subtitle]="'teams.subtitle' | translate" />
+<app-page-header [title]="'teams.list.title' | translate" [subtitle]="'teams.list.subtitle' | translate" />
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -7,16 +7,16 @@
 } @else {
   <app-filter-bar
     [(search)]="search"
-    searchPlaceholderKey="teams.searchPlaceholder"
+    searchPlaceholderKey="teams.list.searchPlaceholder"
     (clear)="clearFilters()"
   >
     <select
       [value]="governorate()"
       (change)="governorate.set($any($event.target).value)"
-      [attr.aria-label]="'teams.governorateLabel' | translate"
+      [attr.aria-label]="'teams.list.governorateFilter' | translate"
       class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     >
-      <option value="">{{ 'teams.allGovernorates' | translate }}</option>
+      <option value="">{{ 'teams.list.allGovernorates' | translate }}</option>
       @for (option of governorates; track option) {
         <option [value]="option">{{ 'governorates.' + option | translate }}</option>
       }
@@ -32,7 +32,7 @@
       </div>
     } @else if (teams().length === 0) {
       <div class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-        {{ 'teams.empty' | translate }}
+        {{ 'teams.list.empty' | translate }}
       </div>
     } @else {
       <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -58,9 +58,9 @@
                 }
               </div>
               <div class="mt-3 flex items-center gap-3 text-xs text-ink-500">
-                <span>{{ 'teams.completed' | translate: { count: count(team.completedProjectsCount) } }}</span>
+                <span>{{ 'teams.list.completedProjects' | translate: { count: team.completedProjectsCount } }}</span>
                 @if (team.isLicensed) {
-                  <span class="text-brand-600">{{ 'teams.licensed' | translate }}</span>
+                  <span class="text-brand-600">{{ 'teams.profile.badges.licensed' | translate }}</span>
                 }
               </div>
             </a>

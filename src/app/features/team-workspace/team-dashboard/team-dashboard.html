@@ -1,6 +1,6 @@
 <app-page-header
-  [title]="'dashboard.team.title' | translate"
-  [subtitle]="'dashboard.greeting' | translate: { name: teamName() }"
+  [title]="'teamWorkspace.subtitle' | translate"
+  [subtitle]="'teamWorkspace.greeting' | translate: { name: teamName() }"
 />
 
 @if (failed()) {
@@ -10,38 +10,38 @@
 } @else {
   <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
     <app-stat-card
-      labelKey="dashboard.team.activeProjects"
+      labelKey="teamWorkspace.stats.activeProjects"
       [value]="count(stats()?.activeProjects ?? 0)"
       [icon]="icons.projects"
       tone="brand"
       [loading]="loading()"
     />
     <app-stat-card
-      labelKey="dashboard.team.pendingEstimates"
+      labelKey="teamWorkspace.stats.pendingEstimates"
       [value]="count(stats()?.pendingEstimates ?? 0)"
       [icon]="icons.estimates"
       tone="sand"
       [loading]="loading()"
     />
     <app-stat-card
-      labelKey="dashboard.team.openRequests"
+      labelKey="teamWorkspace.stats.openRequests"
       [value]="count(stats()?.openRequests ?? 0)"
       [icon]="icons.requests"
       tone="neutral"
       [loading]="loading()"
     />
     <app-stat-card
-      labelKey="dashboard.team.rating"
+      labelKey="teamWorkspace.stats.averageRating"
       [value]="rating(stats()?.averageRating ?? 0)"
       [icon]="icons.delivered"
       tone="brand"
-      [hint]="'dashboard.team.outstanding' | translate: { amount: money(stats()?.outstandingFunding ?? 0) }"
+      [hint]="'teamWorkspace.stats.outstandingFunding' | translate"
       [loading]="loading()"
     />
   </section>
 
   <section class="mt-6">
-    <h2 class="text-sm font-semibold text-ink-900">{{ 'dashboard.team.activeProjectsList' | translate }}</h2>
+    <h2 class="text-sm font-semibold text-ink-900">{{ 'teamWorkspace.projects.title' | translate }}</h2>
     <div class="mt-2">
       <app-data-table
         [columns]="projectColumns"
@@ -51,7 +51,7 @@
         [rowLink]="projectLink"
       >
         <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-          {{ 'projects.empty' | translate }}
+          {{ 'teamWorkspace.projects.empty' | translate }}
         </div>
       </app-data-table>
     </div>
@@ -59,7 +59,7 @@
 
   @if (matchedRequests().length > 0) {
     <section class="mt-6">
-      <h2 class="text-sm font-semibold text-ink-900">{{ 'dashboard.team.matchedRequests' | translate }}</h2>
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'teamWorkspace.requests.title' | translate }}</h2>
       <ul class="mt-2 space-y-2">
         @for (request of matchedRequests(); track request.id) {
           <li class="flex items-center justify-between gap-3 rounded-card border border-ink-300 bg-surface px-4 py-3">

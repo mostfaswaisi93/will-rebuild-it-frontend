@@ -1,6 +1,6 @@
 <app-page-header
-  [title]="'dashboard.beneficiary.title' | translate"
-  [subtitle]="'dashboard.greeting' | translate: { name: greeting() }"
+  [title]="'dashboard.greetingGeneric' | translate"
+  [subtitle]="'dashboard.subtitle' | translate"
 />
 
 @if (failed()) {
@@ -10,21 +10,21 @@
 } @else {
   <section class="grid gap-3 sm:grid-cols-3">
     <app-stat-card
-      labelKey="dashboard.beneficiary.projects"
+      labelKey="dashboard.stats.activeProjects"
       [value]="count(projectCount())"
       [icon]="icons.projects"
       tone="brand"
       [loading]="loading()"
     />
     <app-stat-card
-      labelKey="dashboard.beneficiary.requests"
+      labelKey="dashboard.stats.openRequests"
       [value]="count(requestCount())"
       [icon]="icons.requests"
       tone="sand"
       [loading]="loading()"
     />
     <app-stat-card
-      labelKey="dashboard.beneficiary.funding"
+      labelKey="dashboard.stats.fundingRecords"
       [value]="count(fundingCount())"
       [icon]="icons.funding"
       tone="neutral"
@@ -33,7 +33,7 @@
   </section>
 
   <section class="mt-6">
-    <h2 class="text-sm font-semibold text-ink-900">{{ 'dashboard.beneficiary.recentProjects' | translate }}</h2>
+    <h2 class="text-sm font-semibold text-ink-900">{{ 'dashboard.recentProjects.title' | translate }}</h2>
     <div class="mt-2">
       <app-data-table
         [columns]="projectColumns"
@@ -43,7 +43,7 @@
         [rowLink]="projectLink"
       >
         <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
-          {{ 'projects.empty' | translate }}
+          {{ 'dashboard.recentProjects.empty' | translate }}
         </div>
       </app-data-table>
     </div>

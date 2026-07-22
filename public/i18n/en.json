@@ -432,6 +432,8 @@
       },
       "propertyDetails": "Property details",
       "description": "Description",
+      "severity": "Damage severity",
+      "district": "District",
       "address": "Address",
       "attachments": "Attachments",
       "noAttachments": "No photos have been attached to this request yet.",
@@ -451,11 +453,13 @@
       "subtitle": "Track every reconstruction project tied to your requests.",
       "searchPlaceholder": "Search by project number or title",
       "allStatuses": "All statuses",
+      "empty": "No matching projects.",
       "column": {
         "projectNumber": "Project #",
         "title": "Title",
         "team": "Team",
         "phase": "Phase",
+        "progress": "Progress",
         "status": "Status",
         "created": "Created"
       }
@@ -466,6 +470,7 @@
         "team": "Team",
         "timeline": "Timeline"
       },
+      "phasesTitle": "Reconstruction phases",
       "notFound": "We couldn't find this project.",
       "details": {
         "overviewTitle": "Overview",
@@ -514,6 +519,7 @@
       "title": "Reconstruction teams",
       "subtitle": "Browse licensed teams working across Gaza and find the right fit for your rebuild.",
       "searchPlaceholder": "Search teams by name",
+      "empty": "No matching teams.",
       "governorateFilter": "Filter by governorate",
       "allGovernorates": "All governorates",
       "specializationFilter": "Filter by specialization",
@@ -539,6 +545,10 @@
     "profile": {
       "title": "Team profile",
       "notFound": "We couldn't find this team. It may have been removed.",
+      "aboutTitle": "About the team",
+      "completedLabel": "Completed projects",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
       "completedProjects": {
         "=0": "No completed projects",
         "one": "{{count}} completed project",
@@ -965,7 +975,8 @@
     "stats": {
       "activeProjects": "Active projects",
       "openRequests": "Open requests",
-      "deliveredProjects": "Projects delivered"
+      "deliveredProjects": "Projects delivered",
+      "fundingRecords": "Funding records"
     },
     "quickLinks": {
       "newRequest": "New request",
@@ -1213,11 +1224,13 @@
       "subtitle": "Funding raised for your reconstruction projects",
       "searchPlaceholder": "Search by funding number or project",
       "allStatuses": "All statuses",
+      "empty": "No matching funding records.",
       "column": {
         "fundingNumber": "Funding #",
         "project": "Project",
         "phase": "Phase",
         "fundedAmount": "Funded amount",
+        "outstanding": "Outstanding",
         "status": "Status",
         "created": "Created"
       }

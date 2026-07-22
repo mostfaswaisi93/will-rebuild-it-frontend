@@ -51,30 +51,30 @@ export class DonationList {
   protected readonly columns: DataTableColumn<Donation>[] = [
     {
       key: 'amount',
-      headerKey: 'donations.columns.amount',
+      headerKey: 'donations.detail.amount',
       cell: (row) => this.money(row.amount, row.currency),
     },
     {
       key: 'project',
-      headerKey: 'donations.columns.project',
-      cell: (row) => row.projectTitle || this.t('donations.generalFund'),
+      headerKey: 'donations.detail.project',
+      cell: (row) => row.projectTitle || this.t('donations.general.fund'),
       hideOnMobile: true,
     },
     {
       key: 'frequency',
-      headerKey: 'donations.columns.frequency',
+      headerKey: 'donations.detail.frequency',
       cell: (row) => this.t(`donations.frequency.${row.frequency}`),
       hideOnMobile: true,
     },
     {
       key: 'created',
-      headerKey: 'donations.columns.date',
+      headerKey: 'donations.detail.date',
       cell: (row) => this.formatDate(row.createdAt),
       hideOnMobile: true,
     },
     {
       key: 'status',
-      headerKey: 'donations.columns.status',
+      headerKey: 'donations.detail.status',
       cell: (row) => this.t(`shared.statusPill.donation.${row.status}`),
     },
   ];
