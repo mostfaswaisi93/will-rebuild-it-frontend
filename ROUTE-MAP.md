@@ -304,30 +304,49 @@
 ### إعدادات الحساب (`account_setting/`)
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `accountSettings/:tab` و `:tab/:ctab` | `/app/account-settings/:tab` | ⬜ |
-| `groupprofile` | `/app/account-settings/organisation` | ⬜ |
-| `staffroledetails` | `/app/account-settings/roles/:id` | ⬜ |
+| `accountSettings/:tab` و `:tab/:ctab` | `/app/account-settings` (تبويبان داخل الصفحة) | ✅ |
+| `groupprofile` | `/app/profile` + `/app/contractors/:id` للمنشأة | ✅ |
+| `staffroledetails` | `/app/permissions` (مصفوفة الأدوار) | ✅ |
 | `permissions` | `/app/permissions` (مصفوفة قراءة) | ✅ |
-| `pricebookpackagedetails` | `/app/account-settings/pricebook-packages/:id` | ⬜ |
-| `pricebookservicesubcategory` | `/app/account-settings/pricebook-subcategories/:id` | ⬜ |
-| `inventorysubcategory` | `/app/account-settings/material-subcategories/:id` | ⬜ |
-| `equipmentsubcategorydetails` | `/app/account-settings/equipment-subcategories/:id` | ⬜ |
-| `equipmentstatus` | `/app/account-settings/equipment-statuses/:id` | ⬜ |
-| `equipmentagreementdetails` | `/app/account-settings/equipment-agreement` | ⬜ |
-| `loginagreementdetails` | `/app/account-settings/login-agreement` | ⬜ |
-| `marketingmediadetails` | `/app/account-settings/marketing-media/:id` | ⬜ |
-| `vendorcategorydetails` | `/app/account-settings/supplier-categories/:id` | ⬜ |
+| `pricebookpackagedetails` | `/app/pricebook` | ✅ |
+| `pricebookservicesubcategory` | `/app/global-settings/reference` (التخصّصات) | ✅ |
+| `inventorysubcategory` | `/app/global-settings/reference` (أصناف المواد) | ✅ |
+| `equipmentsubcategorydetails` | `/app/global-settings/reference` (أصناف المعدّات) | ✅ |
+| `equipmentstatus` | `/app/global-settings/reference` (حالات المعدّات) | ✅ |
+| `equipmentagreementdetails` | `/app/global-settings/terms` (مستند لكل فئة) | ✅ |
+| `loginagreementdetails` | `/app/global-settings/terms` (شروط الاستخدام) | ✅ |
+| `marketingmediadetails` | `/app/global-settings/reference` (قنوات التواصل) | ✅ |
+| `vendorcategorydetails` | `/app/global-settings/reference` (أصناف المواد) | ✅ |
+
+> **`accountSettings` كان حاوية تبويبات فوق محرّرات بحث.** تلك القوائم أنواع ثابتة
+> هنا (انظر `/app/global-settings/reference`)، والاتفاقيات مستندات في
+> `/app/global-settings/terms`، والأدوار في `/app/permissions`. فما تبقّى فعليًا هو
+> ما كانت التبويبات موجودة لأجله: **كيف تُستخدم بيانات المستخدم، وأي إشعارات
+> يتلقّاها** — وهو ما بُنيت الصفحة عليه (تبويبا «البيانات والمشاركة» و«الإشعارات»
+> + منطقة إيقاف الحساب). وقد فعّلت أخيرًا نقطتَي
+> `getNotificationPreferences`/`updateNotificationPreferences` اللتين لم تكن أي
+> صفحة تستدعيهما. المسار بلا حارس دور — فلكل دور حساب يديره.
 
 ### الإعدادات العامة (`global-settings/`)
 | الأصل | الجديد | الحالة |
 |---|---|---|
-| `unitOfMeasurements` + `editUnitOfMeasurements` | `/app/global-settings/units` (+ `/:id`) | ⬜ |
-| `geofencingSetting` | `/app/global-settings/geofencing` | ⬜ |
-| `timeCardActivites` + `editTimeCardActivites` | `/app/global-settings/timecard-activities` (+ `/:id`) | ⬜ |
-| `paymentMethods` + `editPaymentMethods` | `/app/global-settings/payment-methods` (+ `/:id`) | ⬜ |
+| `unitOfMeasurements` + `editUnitOfMeasurements` | `/app/global-settings/reference` (قسم الوحدات) | ✅ |
+| `geofencingSetting` | `/app/global-settings/geofencing` (خريطة + محافظات/أحياء) | ✅ |
+| `timeCardActivites` + `editTimeCardActivites` | `/app/global-settings/reference` (قسم أنشطة الدوام) | ✅ |
+| `paymentMethods` + `editPaymentMethods` | `/app/global-settings/reference` (قسم طرق الصرف) | ✅ |
 | `termsAndConditions` + `editTermsAndConditions` | `/app/global-settings/terms` (نافذة تحرير) | ✅ |
-| `vendorCategories` + `editVendorCategory` | `/app/global-settings/supplier-categories` (+ `/:id`) | ⬜ |
-| `salesAndMarketing` + `editSalesAndMarketing` | `/app/global-settings/outreach` (+ `/:id`) | ⬜ |
+| `vendorCategories` + `editVendorCategory` | `/app/global-settings/reference` (قسم أصناف المواد) | ✅ |
+| `salesAndMarketing` + `editSalesAndMarketing` | `/app/global-settings/reference` (قسم قنوات التواصل) | ✅ |
+
+> **لماذا «بيانات مرجعية» بدل ستّة محرّرات؟** في البرنامج القديم كانت هذه جداول
+> بحث قابلة للتحرير في قاعدة البيانات. هنا كلٌّ منها **نوع اتحادي ثابت** في
+> `domain.constants.ts` تُشتقّ منه أنواع التطبيق وسياقات `status-pill` ومفاتيح
+> الترجمة. تحريرها وقت التشغيل لا يمكن أن يغيّر تلك الأنواع، فمحرِّرها سيكون
+> صوريًّا. لذلك جُمعت في صفحة واحدة تعرض القيم الحيّة للاطّلاع — وهو ما يحتاجه
+> المشغّل فعليًا — مع توثيق السبب داخل الصفحة نفسها.
+> أما `geofencingSetting` فبيانات حقيقية (`GeoArea` عبر `MasterApi`)، فبُنيت صفحة
+> كاملة لها بالخريطة. ونطاق التغطية يُسجَّل بالمحافظة/الحي لا بنطاق دائري حول
+> عنوان — حفاظًا على خصوصية مواقع المستفيدين.
 
 ---
 

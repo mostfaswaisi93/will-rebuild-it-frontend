@@ -405,6 +405,27 @@ export const routes: Routes = [
           ),
       },
       {
+        // Literal segments must precede `equipment/:id`, or `:id` captures them.
+        path: 'equipment/new',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/equipment/equipment-form/equipment-form').then((m) => m.EquipmentForm),
+      },
+      {
+        path: 'equipment/reports',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/equipment/equipment-reports/equipment-reports').then(
+            (m) => m.EquipmentReports,
+          ),
+      },
+      {
+        path: 'equipment/:id/edit',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/equipment/equipment-form/equipment-form').then((m) => m.EquipmentForm),
+      },
+      {
         path: 'equipment/:id',
         canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
         loadComponent: () =>
@@ -460,10 +481,25 @@ export const routes: Routes = [
           import('./features/settings/terms-list/terms-list').then((m) => m.TermsList),
       },
       {
-        path: 'account-settings',
+        path: 'global-settings/geofencing',
         canActivate: [roleGuard(['admin'])],
         loadComponent: () =>
-          import('./features/settings/settings-hub/settings-hub').then((m) => m.SettingsHub),
+          import('./features/settings/geofencing/geofencing').then((m) => m.Geofencing),
+      },
+      {
+        path: 'global-settings/reference',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/settings/reference-data/reference-data').then((m) => m.ReferenceData),
+      },
+      {
+        // Personal settings (data use + notification preferences), so no role
+        // guard — every signed-in role has an account to manage.
+        path: 'account-settings',
+        loadComponent: () =>
+          import('./features/settings/account-settings/account-settings').then(
+            (m) => m.AccountSettings,
+          ),
       },
       {
         path: 'permissions',

@@ -41,6 +41,17 @@ export interface ReportProblemPayload {
   reportedBy: string;
 }
 
+/** Fields of a machine that are edited directly; bookings and problems are
+ * managed through their own endpoints. */
+export interface EquipmentInput {
+  code: string;
+  name: string;
+  category: EquipmentCategory;
+  location: string;
+  dailyRate: number;
+  currency?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class EquipmentApi {
   private readonly http = inject(HttpClient);
@@ -60,6 +71,14 @@ export class EquipmentApi {
   /** Full fleet with bookings — for the schedule timeline. */
   schedule(): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(`${this.base}/schedule`);
+  }
+
+  create(input: EquipmentInput): Observable<Equipment> {
+    return this.http.post<Equipment>(this.base, input);
+  }
+
+  update(id: string, input: EquipmentInput): Observable<Equipment> {
+    return this.http.put<Equipment>(`${this.base}/${id}`, input);
   }
 
   getById(id: string): Observable<Equipment> {

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import {
   LucideDynamicIcon,
   LucideFileText,
+  LucideMapPin,
   LucideShieldCheck,
   LucideTags,
   type LucideIcon,
@@ -50,6 +51,18 @@ export class SettingsHub {
       descriptionKey: 'settings.hub.permissionsDesc',
       icon: LucideShieldCheck,
       path: '/app/permissions',
+    },
+    {
+      titleKey: 'settings.hub.geofencing',
+      descriptionKey: 'settings.hub.geofencingDesc',
+      icon: LucideMapPin,
+      path: '/app/global-settings/geofencing',
+    },
+    {
+      titleKey: 'settings.hub.reference',
+      descriptionKey: 'settings.hub.referenceDesc',
+      icon: LucideTags,
+      path: '/app/global-settings/reference',
     },
   ];
 }

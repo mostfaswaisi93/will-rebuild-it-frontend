@@ -1,0 +1,97 @@
+<app-page-header
+  [title]="'equipment.reports.title' | translate"
+  [subtitle]="'equipment.reports.subtitle' | translate"
+  [showBack]="true"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <section class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+    <app-stat-card
+      labelKey="equipment.reports.fleetSize"
+      [value]="count(total())"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="equipment.reports.serviceable"
+      [value]="percent(serviceableRate())"
+      tone="brand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="equipment.reports.withBookings"
+      [value]="count(bookedCount())"
+      tone="sand"
+      [loading]="loading()"
+    />
+    <app-stat-card
+      labelKey="equipment.reports.openProblems"
+      [value]="count(openProblemCount())"
+      [tone]="openProblemCount() > 0 ? 'danger' : 'neutral'"
+      [loading]="loading()"
+    />
+  </section>
+
+  <div class="mt-6 grid gap-4 lg:grid-cols-2">
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.reports.byStatus' | translate }}</h2>
+      <ul class="mt-3 space-y-3">
+        @for (row of byStatus(); track row.key) {
+          <li>
+            <div class="flex items-center justify-between gap-3">
+              <app-status-pill context="equipment" [status]="row.key" />
+              <span class="text-sm font-medium tabular-nums text-ink-900">
+                {{ count(row.count) }}
+                <span class="text-xs text-ink-500">({{ percent(row.share) }})</span>
+              </span>
+            </div>
+            <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-container">
+              <div class="h-full rounded-full bg-brand-500" [style.width.%]="row.share * 100"></div>
+            </div>
+          </li>
+        }
+      </ul>
+    </section>
+
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.reports.byCategory' | translate }}</h2>
+      @if (byCategory().length === 0) {
+        <p class="mt-3 text-sm text-ink-500">{{ 'equipment.empty' | translate }}</p>
+      } @else {
+        <ul class="mt-3 space-y-3">
+          @for (row of byCategory(); track row.key) {
+            <li>
+              <div class="flex items-center justify-between gap-3">
+                <span class="text-sm text-ink-700">{{ 'equipment.category.' + row.key | translate }}</span>
+                <span class="text-sm font-medium tabular-nums text-ink-900">{{ count(row.count) }}</span>
+              </div>
+              <div class="mt-1.5 h-1.5 overflow-hidden rounded-full bg-surface-container">
+                <div class="h-full rounded-full bg-sand-500" [style.width.%]="row.share * 100"></div>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+
+  <section class="mt-4 rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">{{ 'equipment.reports.openBySeverity' | translate }}</h2>
+    @if (bySeverity().length === 0) {
+      <p class="mt-3 text-sm text-ink-500">{{ 'equipment.reports.noOpenProblems' | translate }}</p>
+    } @else {
+      <ul class="mt-3 flex flex-wrap gap-3">
+        @for (row of bySeverity(); track row.key) {
+          <li class="flex items-center gap-2 rounded-card border border-ink-300 px-3 py-2">
+            <app-status-pill context="equipmentProblem" [status]="row.key" />
+            <span class="text-sm font-medium tabular-nums text-ink-900">{{ count(row.count) }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+}

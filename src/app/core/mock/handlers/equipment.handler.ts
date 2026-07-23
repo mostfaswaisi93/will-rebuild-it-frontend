@@ -4,7 +4,7 @@ import {
   EquipmentProblemSeverity,
   EquipmentStatus,
 } from '@core/models';
-import { MockHandler, badRequest, notFound, ok } from '../mock-types';
+import { MockHandler, badRequest, conflict, created, notFound, ok } from '../mock-types';
 
 /** Statuses that make a machine unavailable to book. */
 const UNAVAILABLE: EquipmentStatus[] = ['maintenance', 'outOfService'];
@@ -37,6 +37,17 @@ interface ProblemBody {
   reportedBy?: string;
 }
 
+/** Create/update payload — bookings and problems are never set this way. */
+interface EquipmentBody {
+  code?: string;
+  name?: string;
+  category?: Equipment['category'];
+  status?: EquipmentStatus;
+  location?: string;
+  dailyRate?: number;
+  currency?: string;
+}
+
 export const handleEquipment: MockHandler = (ctx) => {
   if (ctx.segments[0] !== 'equipment') {
     return undefined;
@@ -47,9 +58,65 @@ export const handleEquipment: MockHandler = (ctx) => {
     return ok(ctx.store.equipment);
   }
 
+  // POST /equipment — register a new machine
+  if (ctx.method === 'POST' && ctx.segments.length === 1) {
+    const body = (ctx.body ?? {}) as EquipmentBody;
+    const name = body.name?.trim();
+    const code = body.code?.trim();
+    if (!name || !code) {
+      return badRequest('Equipment code and name are required.');
+    }
+    if (ctx.store.equipment.some((e) => e.code.toLowerCase() === code.toLowerCase())) {
+      return conflict(`Equipment code ${code} is already in use.`);
+    }
+    const machine: Equipment = {
+      id: `eq-${Date.now()}`,
+      code,
+      name,
+      category: body.category ?? 'excavator',
+      status: body.status ?? 'available',
+      location: body.location?.trim() ?? '',
+      dailyRate: Number(body.dailyRate) || 0,
+      currency: body.currency ?? 'USD',
+      bookings: [],
+      problems: [],
+      createdAt: new Date().toISOString(),
+    };
+    ctx.store.equipment.push(machine);
+    return created(machine);
+  }
+
   const item = ctx.segments[1]
     ? ctx.store.equipment.find((candidate) => candidate.id === ctx.segments[1])
     : undefined;
+
+  // PUT /equipment/:id — edit the machine's own fields
+  if (ctx.method === 'PUT' && ctx.segments.length === 2) {
+    if (!item) {
+      return notFound(`Equipment ${ctx.segments[1]} not found.`);
+    }
+    const body = (ctx.body ?? {}) as EquipmentBody;
+    const code = body.code?.trim();
+    if (code && ctx.store.equipment.some((e) => e.id !== item.id && e.code.toLowerCase() === code.toLowerCase())) {
+      return conflict(`Equipment code ${code} is already in use.`);
+    }
+    if (code) {
+      item.code = code;
+    }
+    if (body.name?.trim()) {
+      item.name = body.name.trim();
+    }
+    if (body.category) {
+      item.category = body.category;
+    }
+    if (body.location !== undefined) {
+      item.location = body.location.trim();
+    }
+    if (body.dailyRate !== undefined) {
+      item.dailyRate = Number(body.dailyRate) || 0;
+    }
+    return ok(item);
+  }
 
   // POST /equipment/:id/bookings
   if (ctx.method === 'POST' && ctx.segments.length === 3 && ctx.segments[2] === 'bookings') {

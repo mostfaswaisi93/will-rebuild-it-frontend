@@ -1,0 +1,100 @@
+<app-page-header
+  [title]="(isEdit() ? 'equipment.form.editTitle' : 'equipment.form.newTitle') | translate"
+  [showBack]="true"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'equipment.detail.notFound' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="h-64 w-full max-w-2xl animate-pulse rounded-card bg-ink-300/20"></div>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="max-w-2xl space-y-4">
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="block text-sm font-medium text-ink-900" for="code">
+            {{ 'equipment.columns.code' | translate }}
+          </label>
+          <input
+            id="code"
+            type="text"
+            formControlName="code"
+            class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          />
+          @if (form.controls.code.touched && form.controls.code.invalid) {
+            <p class="mt-1 text-xs text-danger">{{ 'equipment.form.codeRequired' | translate }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-ink-900" for="name">
+            {{ 'equipment.columns.name' | translate }}
+          </label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          />
+          @if (form.controls.name.touched && form.controls.name.invalid) {
+            <p class="mt-1 text-xs text-danger">{{ 'equipment.form.nameRequired' | translate }}</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-ink-900" for="category">
+            {{ 'equipment.columns.category' | translate }}
+          </label>
+          <select
+            id="category"
+            formControlName="category"
+            class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          >
+            @for (option of categories; track option) {
+              <option [value]="option">{{ 'equipment.category.' + option | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-ink-900" for="location">
+            {{ 'equipment.columns.location' | translate }}
+          </label>
+          <input
+            id="location"
+            type="text"
+            formControlName="location"
+            class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-ink-900" for="dailyRate">
+            {{ 'equipment.columns.dailyRate' | translate }}
+          </label>
+          <input
+            id="dailyRate"
+            type="number"
+            min="0"
+            formControlName="dailyRate"
+            dir="ltr"
+            class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          />
+          @if (form.controls.dailyRate.touched && form.controls.dailyRate.invalid) {
+            <p class="mt-1 text-xs text-danger">{{ 'equipment.form.rateInvalid' | translate }}</p>
+          }
+        </div>
+      </div>
+    </section>
+
+    <button
+      type="submit"
+      [disabled]="saving()"
+      class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+    >
+      {{ (saving() ? 'common.loading' : 'common.save') | translate }}
+    </button>
+  </form>
+}

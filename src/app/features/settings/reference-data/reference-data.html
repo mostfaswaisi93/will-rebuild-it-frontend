@@ -1,0 +1,25 @@
+<app-page-header
+  [title]="'settings.reference.title' | translate"
+  [subtitle]="'settings.reference.subtitle' | translate"
+  [showBack]="true"
+/>
+
+<p class="rounded-card border border-ink-300 bg-surface-container-low/40 px-4 py-3 text-sm text-ink-600">
+  {{ 'settings.reference.readOnlyNote' | translate }}
+</p>
+
+<div class="mt-4 grid gap-3 sm:grid-cols-2">
+  @for (section of sections; track section.prefix) {
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <h2 class="font-semibold text-ink-900">{{ section.titleKey | translate }}</h2>
+      <p class="mt-0.5 text-sm text-ink-500">{{ section.descriptionKey | translate }}</p>
+      <div class="mt-3 flex flex-wrap gap-1.5">
+        @for (value of section.values; track value) {
+          <span class="rounded-full bg-surface-container px-2.5 py-1 text-xs font-medium text-ink-700">
+            {{ section.prefix + value | translate }}
+          </span>
+        }
+      </div>
+    </section>
+  }
+</div>

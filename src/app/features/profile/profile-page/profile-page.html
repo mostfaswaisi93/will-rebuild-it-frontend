@@ -1,4 +1,12 @@
-<app-page-header [title]="'profile.title' | translate" [subtitle]="'profile.subtitle' | translate" />
+<app-page-header [title]="'profile.title' | translate" [subtitle]="'profile.subtitle' | translate">
+  <a
+    pageHeaderActions
+    routerLink="/app/account-settings"
+    class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+  >
+    {{ 'account.title' | translate }}
+  </a>
+</app-page-header>
 
 <div class="grid gap-4 lg:grid-cols-3">
   <section class="rounded-card border border-ink-300 bg-surface p-4 lg:col-span-2">

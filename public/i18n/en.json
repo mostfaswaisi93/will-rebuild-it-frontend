@@ -1923,6 +1923,11 @@
       "paid": "Payment recorded."
     }
   },
+  "timecardActivities": {
+    "clockedIn": "Clocked in",
+    "onBreak": "On break",
+    "clockedOut": "Clocked out"
+  },
   "units": {
     "piece": "piece",
     "bag": "bag",
@@ -2296,7 +2301,37 @@
       "pricebook": "Pricebook",
       "pricebookDesc": "Standard rates for reconstruction items.",
       "permissions": "Roles & permissions",
-      "permissionsDesc": "Which roles can reach which platform features."
+      "permissionsDesc": "Which roles can reach which platform features.",
+      "geofencing": "Coverage areas",
+      "geofencingDesc": "The governorates and districts the platform operates in.",
+      "reference": "Reference data",
+      "referenceDesc": "Controlled vocabularies: units, materials, trades and payment methods."
+    },
+    "geofencing": {
+      "title": "Coverage areas",
+      "subtitle": "Governorates and districts covered by reconstruction services.",
+      "note": "Coverage is recorded per governorate and district — never as a radius around an address — so beneficiary locations stay private."
+    },
+    "reference": {
+      "title": "Reference data",
+      "subtitle": "The controlled vocabularies the platform's data is built on.",
+      "readOnlyNote": "These lists are defined as typed constants in code, and the app's types and translation keys are derived from them. They are shown read-only: editing them at runtime could not change those types.",
+      "units": "Units of measure",
+      "unitsDesc": "Metric units used for quantities and rates.",
+      "materials": "Material categories",
+      "materialsDesc": "How building materials are classified in stock and purchase orders.",
+      "trades": "Trades",
+      "tradesDesc": "Contracting firm specialisations and price-list lines.",
+      "paymentMethods": "Payment methods",
+      "paymentMethodsDesc": "Channels used to disburse funds to contractors and suppliers.",
+      "timecard": "Timecard activities",
+      "timecardDesc": "Field staff clock-in states.",
+      "outreach": "Outreach channels",
+      "outreachDesc": "Channels available to awareness campaigns.",
+      "equipmentCategories": "Equipment categories",
+      "equipmentCategoriesDesc": "How heavy equipment is classified in the fleet register.",
+      "equipmentStatuses": "Equipment statuses",
+      "equipmentStatusesDesc": "Availability and readiness states for a machine."
     },
     "terms": {
       "title": "Terms & Conditions",

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { BeneficiaryProfile } from '@core/models';
 import { ProfileApi } from '@core/api/profile-api.service';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
@@ -24,7 +25,7 @@ import { PasswordField } from '@shared/ui/password-field/password-field';
  */
 @Component({
   selector: 'app-profile-page',
-  imports: [ReactiveFormsModule, TranslatePipe, PageHeader, PasswordField],
+  imports: [RouterLink, ReactiveFormsModule, TranslatePipe, PageHeader, PasswordField],
   templateUrl: './profile-page.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
