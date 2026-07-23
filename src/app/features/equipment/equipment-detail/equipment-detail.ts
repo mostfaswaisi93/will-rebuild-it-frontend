@@ -18,6 +18,7 @@ import {
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { EquipmentApi } from '@core/api/equipment-api.service';
+import { RouterLink } from '@angular/router';
 import { SessionStore } from '@core/session/session-store.service';
 import { ToastService } from '@core/toast/toast.service';
 import { PageHeader } from '@shared/ui/page-header/page-header';
@@ -27,7 +28,7 @@ type Panel = 'none' | 'book' | 'problem';
 
 @Component({
   selector: 'app-equipment-detail',
-  imports: [ReactiveFormsModule, TranslatePipe, PageHeader, StatusPill],
+  imports: [RouterLink, ReactiveFormsModule, TranslatePipe, PageHeader, StatusPill],
   templateUrl: './equipment-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -41,6 +42,12 @@ export class EquipmentDetail {
   private readonly destroyRef = inject(DestroyRef);
 
   protected readonly severities = EQUIPMENT_PROBLEM_SEVERITIES;
+
+  /** Staff can work a machine but not edit its record — mirrors the route guard. */
+  protected readonly canManage = computed(() => {
+    const role = this.session.role();
+    return role === 'admin' || role === 'contractor';
+  });
 
   private readonly resource = rxResource({
     params: () => ({ id: this.id() }),

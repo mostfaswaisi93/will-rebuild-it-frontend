@@ -368,10 +368,24 @@ export const routes: Routes = [
           import('./features/inventory/stock-list/stock-list').then((m) => m.StockList),
       },
       {
+        path: 'inventory/:id',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/inventory/stock-detail/stock-detail').then((m) => m.StockDetail),
+      },
+      {
         path: 'warehouses',
         canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
         loadComponent: () =>
           import('./features/inventory/warehouse-list/warehouse-list').then((m) => m.WarehouseList),
+      },
+      {
+        path: 'warehouses/:id',
+        canActivate: [roleGuard(['admin', 'contractor', 'staff'])],
+        loadComponent: () =>
+          import('./features/inventory/warehouse-detail/warehouse-detail').then(
+            (m) => m.WarehouseDetail,
+          ),
       },
       {
         path: 'purchase-orders',
@@ -379,6 +393,15 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/inventory/purchase-order-list/purchase-order-list').then(
             (m) => m.PurchaseOrderList,
+          ),
+      },
+      {
+        // Must precede `purchase-orders/:id`, or `:id` captures the literal "new".
+        path: 'purchase-orders/new',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/inventory/purchase-order-new/purchase-order-new').then(
+            (m) => m.PurchaseOrderNew,
           ),
       },
       {

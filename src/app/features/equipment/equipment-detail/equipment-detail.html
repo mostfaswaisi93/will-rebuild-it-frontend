@@ -11,6 +11,15 @@
 } @else if (equipment(); as eq) {
   <app-page-header [title]="eq.code + ' · ' + eq.name" [showBack]="true">
     <app-status-pill pageHeaderActions context="equipment" [status]="eq.status" />
+    @if (canManage()) {
+      <a
+        pageHeaderActions
+        [routerLink]="['/app/equipment', eq.id, 'edit']"
+        class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+      >
+        {{ 'common.edit' | translate }}
+      </a>
+    }
   </app-page-header>
 
   <div class="grid gap-4 lg:grid-cols-3">

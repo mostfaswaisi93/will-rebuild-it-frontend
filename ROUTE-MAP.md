@@ -244,14 +244,20 @@
 | الأصل | الجديد | الحالة |
 |---|---|---|
 | `equipment/alp-equipment` (+ `equipmentlist`) | `/app/equipment` | ✅ |
-| `equipment/add-equipment` | `/app/equipment/new` | ⬜ |
-| `equipment/edit-equipment` | `/app/equipment/:id/edit` | ⬜ |
+| `equipment/add-equipment` | `/app/equipment/new` (نفس مكوّن النموذج) | ✅ |
+| `equipment/edit-equipment` | `/app/equipment/:id/edit` (نفس مكوّن النموذج) | ✅ |
 | `equipment/equipment-details` | `/app/equipment/:id` (حجز + أعطال) | ✅ |
 | `equipment/equipmentdetails` (القديم) | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-book` | مدموج في `/app/equipment/:id` | ✅ |
-| `equipment/equipment-history` | `/app/equipment/:id/history` | ⬜ |
+| `equipment/equipment-history` | مدموج في `/app/equipment/:id` (الحجوزات والأعطال) | ✅ |
 | `equipment/equipment-problems` | مدموج في `/app/equipment/:id` | ✅ |
-| `equipment/equipment-reports` | `/app/equipment/reports` | ⬜ |
+| `equipment/equipment-reports` | `/app/equipment/reports` (محسوبة من سجلّ الأسطول) | ✅ |
+
+> **إضافة على الـ mock:** لم يكن للمعدّات نقطتا إنشاء/تعديل، فأُضيفت
+> `POST /equipment` و`PUT /equipment/:id` مع التحقّق من تفرّد الرمز (409)، ولا
+> تمسّان الحجوزات ولا الأعطال — لكلٍّ منهما نقطته الخاصة. أما تقارير الأسطول
+> فمشتقّة بالكامل من قائمة المعدّات (الحالة والصنف والحجوزات والأعطال كلّها على
+> السجلّ)، فلم تلزمها نقطة تقارير.
 | `equipment/equipment-schedule` (Syncfusion Schedule) | `/app/equipment/schedule` (Gantt للقراءة) | ✅ |
 | `equipment/equipment-schedule2` | مدموج في `/app/equipment/schedule` | ✅ |
 

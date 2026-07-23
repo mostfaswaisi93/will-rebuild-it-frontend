@@ -10,6 +10,22 @@
     <svg lucideCalendarRange [size]="16" aria-hidden="true"></svg>
     {{ 'equipment.viewSchedule' | translate }}
   </a>
+  <a
+    pageHeaderActions
+    routerLink="/app/equipment/reports"
+    class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+  >
+    {{ 'equipment.reports.title' | translate }}
+  </a>
+  @if (canManage()) {
+    <a
+      pageHeaderActions
+      routerLink="/app/equipment/new"
+      class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+    >
+      {{ 'equipment.form.newTitle' | translate }}
+    </a>
+  }
 </app-page-header>
 
 @if (failed()) {

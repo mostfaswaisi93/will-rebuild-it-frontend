@@ -12,6 +12,7 @@ import {
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { EquipmentApi } from '@core/api/equipment-api.service';
+import { SessionStore } from '@core/session/session-store.service';
 import { DataTable, DataTableColumn } from '@shared/ui/data-table/data-table';
 import { FilterBar } from '@shared/ui/filter-bar/filter-bar';
 import { PageHeader } from '@shared/ui/page-header/page-header';
@@ -42,6 +43,13 @@ const PAGE_SIZE = 12;
 })
 export class EquipmentList {
   private readonly api = inject(EquipmentApi);
+  private readonly session = inject(SessionStore);
+
+  /** Staff can view the fleet but not register machines — mirrors the route guard. */
+  protected readonly canManage = computed(() => {
+    const role = this.session.role();
+    return role === 'admin' || role === 'contractor';
+  });
   private readonly translation = inject(TranslationService);
 
   protected readonly statuses = EQUIPMENT_STATUSES;

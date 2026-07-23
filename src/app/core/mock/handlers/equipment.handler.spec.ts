@@ -132,4 +132,87 @@ describe('equipment handler', () => {
       expect(updated.problems.find((p) => p.id === openProblem.id)?.resolvedAt).toBeTruthy();
     });
   });
+
+  describe('create and edit', () => {
+    const body = {
+      code: 'EXC-99',
+      name: 'New excavator',
+      category: 'excavator',
+      location: 'North Gaza Store',
+      dailyRate: 250,
+    };
+
+    it('registers a machine with empty bookings and problems', () => {
+      const before = store.equipment.length;
+      const result = expectHandled(
+        handleEquipment(makeContext(store, { method: 'POST', path: 'equipment', body })),
+      );
+
+      expect(result.status).toBe(201);
+      const created = result.body as Equipment;
+      expect(created.code).toBe('EXC-99');
+      expect(created.bookings).toEqual([]);
+      expect(created.problems).toEqual([]);
+      expect(created.status).toBe('available');
+      expect(store.equipment.length).toBe(before + 1);
+    });
+
+    it('rejects a machine with no code or name', () => {
+      expect(
+        expectHandled(
+          handleEquipment(makeContext(store, { method: 'POST', path: 'equipment', body: { name: 'x' } })),
+        ).status,
+      ).toBe(400);
+    });
+
+    it('rejects a duplicate code on create', () => {
+      const existing = store.equipment[0].code;
+      expect(
+        expectHandled(
+          handleEquipment(
+            makeContext(store, { method: 'POST', path: 'equipment', body: { ...body, code: existing } }),
+          ),
+        ).status,
+      ).toBe(409);
+    });
+
+    it('edits a machine without touching its bookings or problems', () => {
+      const target = store.equipment.find((e) => e.bookings.length > 0)!;
+      const bookingCount = target.bookings.length;
+
+      const result = expectHandled(
+        handleEquipment(
+          makeContext(store, {
+            method: 'PUT',
+            path: `equipment/${target.id}`,
+            body: { name: 'Renamed', dailyRate: 999 },
+          }),
+        ),
+      );
+
+      const updated = result.body as Equipment;
+      expect(updated.name).toBe('Renamed');
+      expect(updated.dailyRate).toBe(999);
+      expect(updated.bookings.length).toBe(bookingCount);
+    });
+
+    it('rejects an edit that would duplicate another machine code', () => {
+      const [first, second] = store.equipment;
+      expect(
+        expectHandled(
+          handleEquipment(
+            makeContext(store, { method: 'PUT', path: `equipment/${second.id}`, body: { code: first.code } }),
+          ),
+        ).status,
+      ).toBe(409);
+    });
+
+    it('404s when editing a machine that does not exist', () => {
+      expect(
+        expectHandled(
+          handleEquipment(makeContext(store, { method: 'PUT', path: 'equipment/nope', body })),
+        ).status,
+      ).toBe(404);
+    });
+  });
 });

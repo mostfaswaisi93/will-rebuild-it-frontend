@@ -2121,7 +2121,15 @@
   "warehouses": {
     "title": "Warehouses",
     "subtitle": "Where reconstruction materials are stored, and who runs each store.",
-    "manager": "Manager"
+    "manager": "Manager",
+    "detail": {
+      "notFound": "We couldn't find this warehouse.",
+      "category": "Category",
+      "location": "Location",
+      "heldStock": "Stock held here",
+      "noStock": "No stock is held in this warehouse.",
+      "lineCount": "Stock lines"
+    }
   },
   "purchaseOrders": {
     "title": "Purchase orders",
@@ -2165,6 +2173,28 @@
     "searchPlaceholder": "Search by code or name",
     "empty": "No matching equipment.",
     "viewSchedule": "View schedule",
+    "form": {
+      "newTitle": "Register equipment",
+      "editTitle": "Edit equipment",
+      "codeRequired": "An equipment code is required.",
+      "nameRequired": "An equipment name is required.",
+      "rateInvalid": "Enter a valid daily rate.",
+      "created": "Equipment registered.",
+      "updated": "Equipment updated.",
+      "saveFailed": "Couldn't save — the code may already be in use."
+    },
+    "reports": {
+      "title": "Fleet reports",
+      "subtitle": "Equipment distribution, readiness and open faults.",
+      "fleetSize": "Fleet size",
+      "serviceable": "Serviceable",
+      "withBookings": "With bookings",
+      "openProblems": "Open faults",
+      "byStatus": "By status",
+      "byCategory": "By category",
+      "openBySeverity": "Open faults by severity",
+      "noOpenProblems": "No open faults."
+    },
     "summary": {
       "total": "Total machines",
       "available": "Available",

@@ -37,6 +37,24 @@ export interface StockSummary {
 
 export type StockPage = PagedResult<StockItem> & { summary: StockSummary };
 
+/** A warehouse together with everything currently held in it. */
+export type WarehouseDetail = Warehouse & { stock: StockItem[]; summary: StockSummary };
+
+export interface PurchaseOrderLineInput {
+  description: string;
+  category: MaterialCategory;
+  quantity: number;
+  unit: string;
+  unitRate: number;
+}
+
+export interface CreatePurchaseOrderPayload {
+  supplierId: string;
+  warehouseId: string;
+  expectedDelivery?: string;
+  lines: PurchaseOrderLineInput[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class InventoryApi {
   private readonly http = inject(HttpClient);
@@ -45,6 +63,14 @@ export class InventoryApi {
   // --- Warehouses ---
   getWarehouses(): Observable<Warehouse[]> {
     return this.http.get<Warehouse[]>(`${this.base}/warehouses`);
+  }
+
+  getWarehouse(id: string): Observable<WarehouseDetail> {
+    return this.http.get<WarehouseDetail>(`${this.base}/warehouses/${id}`);
+  }
+
+  getStockItem(id: string): Observable<StockItem> {
+    return this.http.get<StockItem>(`${this.base}/stock/${id}`);
   }
 
   // --- Stock ---
@@ -69,6 +95,10 @@ export class InventoryApi {
       }
     }
     return this.http.get<PagedResult<PurchaseOrder>>(`${this.base}/purchase-orders`, { params });
+  }
+
+  createPurchaseOrder(payload: CreatePurchaseOrderPayload): Observable<PurchaseOrder> {
+    return this.http.post<PurchaseOrder>(`${this.base}/purchase-orders`, payload);
   }
 
   getPurchaseOrder(id: string): Observable<PurchaseOrder> {

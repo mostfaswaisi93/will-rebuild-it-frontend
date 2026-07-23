@@ -1,0 +1,59 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !warehouse()) {
+  <app-page-header [title]="'warehouses.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'warehouses.detail.notFound' | translate }}
+  </p>
+} @else if (warehouse(); as warehouse) {
+  <app-page-header [title]="warehouse.name" [showBack]="true">
+    <span pageHeaderActions class="text-sm text-ink-500">
+      {{ 'warehouses.manager' | translate }}: {{ warehouse.managerName }}
+    </span>
+  </app-page-header>
+
+  <section class="grid gap-3 sm:grid-cols-3">
+    <app-stat-card
+      labelKey="warehouses.detail.lineCount"
+      [value]="count(warehouse.summary.total)"
+      tone="brand"
+    />
+    <app-stat-card labelKey="inventory.summary.low" [value]="count(warehouse.summary.low)" tone="sand" />
+    <app-stat-card
+      labelKey="inventory.summary.outOfStock"
+      [value]="count(warehouse.summary.outOfStock)"
+      [tone]="warehouse.summary.outOfStock > 0 ? 'danger' : 'neutral'"
+    />
+  </section>
+
+  <section class="mt-4 rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-semibold text-ink-900">{{ 'warehouses.detail.location' | translate }}</h2>
+    <p class="mt-1 text-sm text-ink-700">
+      {{ 'governorates.' + warehouse.governorate | translate }}
+      <span class="text-ink-500">· {{ warehouse.district }}</span>
+    </p>
+  </section>
+
+  <section class="mt-4">
+    <h2 class="text-sm font-semibold text-ink-900">{{ 'warehouses.detail.heldStock' | translate }}</h2>
+    <div class="mt-2">
+      <app-data-table
+        [columns]="columns"
+        [rows]="stock()"
+        [rowLink]="rowLink"
+        [rowId]="rowId"
+      >
+        <ng-template appDataTableCell="status" let-row>
+          <app-status-pill context="stock" [status]="row.status" />
+        </ng-template>
+
+        <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+          {{ 'warehouses.detail.noStock' | translate }}
+        </div>
+      </app-data-table>
+    </div>
+  </section>
+}
