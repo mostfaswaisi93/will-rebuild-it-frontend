@@ -39,12 +39,9 @@ export const handleRequests: MockHandler = (ctx) => {
     return undefined;
   }
 
-  if (ctx.method === 'POST' && ctx.segments.length === 1) {
-    const request = buildRequest(ctx, (ctx.body ?? {}) as CreateRequestBody);
-    ctx.store.requests.unshift(request);
-    return created(request);
-  }
-
+  // POST /requests/damage-report — the beneficiary files a report. There was a
+  // second, byte-identical `POST /requests` branch; one create path is enough,
+  // and "damage report" is what the domain (and the form) actually calls it.
   if (ctx.method === 'POST' && ctx.segments.length === 2 && ctx.segments[1] === 'damage-report') {
     const request = buildRequest(ctx, (ctx.body ?? {}) as CreateRequestBody);
     ctx.store.requests.unshift(request);

@@ -409,6 +409,23 @@
     }
   },
   "requests": {
+    "type": {
+      "assessment": "Damage assessment",
+      "reconstruction": "Reconstruction"
+    },
+    "new": {
+      "title": "Report damage",
+      "subtitle": "Describe the damage to your property and our team will review your report.",
+      "typeLabel": "Request type",
+      "typeHint": "Start with a damage assessment if your property hasn't been surveyed yet; choose reconstruction once it has.",
+      "addressRequired": "Please choose a governorate and district.",
+      "descriptionLabel": "Describe the damage",
+      "descriptionPlaceholder": "In your own words, describe what was damaged and how badly",
+      "descriptionRequired": "Please describe the damage in at least 20 characters.",
+      "contactRequired": "Please give a contact name and phone number.",
+      "submit": "Submit report",
+      "submitted": "Your report has been received and will be reviewed shortly."
+    },
     "list": {
       "title": "My requests",
       "subtitle": {
@@ -1613,6 +1630,7 @@
     }
   },
   "shipments": {
+    "advanced": "Shipment status updated.",
     "title": "Shipments & transport",
     "subtitle": "Convoy movements of reconstruction materials through crossings into warehouses.",
     "searchPlaceholder": "Search by shipment number, supplier or warehouse",
@@ -1943,7 +1961,9 @@
       "paymentAmount": "Amount (up to {{max}})",
       "paymentInvalid": "Enter a valid amount not exceeding the outstanding balance",
       "paymentConfirm": "Confirm payment",
-      "paid": "Payment recorded."
+      "paid": "Payment recorded.",
+      "startReview": "Start review",
+      "reviewStarted": "Statement moved into review."
     }
   },
   "timecardActivities": {

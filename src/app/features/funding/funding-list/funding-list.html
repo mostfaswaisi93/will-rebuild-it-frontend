@@ -32,6 +32,7 @@
       [pageSize]="10"
       [totalCount]="totalCount()"
       [rowId]="rowId"
+      [rowLink]="rowLink"
       (pageChange)="onPageChange($event)"
     >
       <ng-template appDataTableCell="status" let-row>

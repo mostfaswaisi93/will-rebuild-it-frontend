@@ -45,10 +45,8 @@ export class RequestsApi {
     return this.http.get<ReconstructionRequestDto>(`${this.base}/${id}`).pipe(map(mapRequestFromDto));
   }
 
-  createRequest(payload: CreateRequestPayload): Observable<ReconstructionRequest> {
-    return this.http.post<ReconstructionRequestDto>(this.base, payload).pipe(map(mapRequestFromDto));
-  }
-
+  /** Files a beneficiary's damage report. The only create path — a second,
+   * identical `POST /requests` method existed and was never called. */
   submitDamageReport(payload: CreateRequestPayload): Observable<ReconstructionRequest> {
     return this.http
       .post<ReconstructionRequestDto>(`${this.base}/damage-report`, payload)

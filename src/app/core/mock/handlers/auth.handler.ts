@@ -1,10 +1,6 @@
 import { User, UserRole } from '@core/models';
 import { MockHandler, badRequest, conflict, created, ok, unauthorized } from '../mock-types';
 
-interface CheckEmailBody {
-  email?: string;
-}
-
 interface LookupBody {
   email?: string;
 }
@@ -83,14 +79,9 @@ export const handleAuth: MockHandler = (ctx) => {
     return undefined;
   }
 
-  if (ctx.method === 'POST' && ctx.segments[1] === 'check-email') {
-    const { email } = (ctx.body ?? {}) as CheckEmailBody;
-    if (!email) {
-      return badRequest('Email is required.');
-    }
-    const exists = email.toLowerCase() in ctx.store.credentials;
-    return ok({ exists });
-  }
+  // `POST /auth/check-email` was removed: it answered a bare "does this address
+  // exist?", which `lookup` below already answers more usefully by returning the
+  // role accounts behind the address. Sign-in only ever used `lookup`.
 
   /**
    * One email can front several role accounts, so this resolves against the

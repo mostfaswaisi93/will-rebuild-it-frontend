@@ -16,11 +16,6 @@ export class AuthApi {
   private readonly http = inject(HttpClient);
   private readonly base = `${environment.apiUrl}/auth`;
 
-  checkEmail(email: string): Observable<boolean> {
-    return this.http
-      .post<{ exists: boolean }>(`${this.base}/check-email`, { email })
-      .pipe(map((response) => response.exists));
-  }
 
   /**
    * Resolves an email to the role accounts behind it. Sign-in calls this before

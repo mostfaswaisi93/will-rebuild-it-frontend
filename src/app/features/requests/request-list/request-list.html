@@ -1,7 +1,15 @@
 <app-page-header
   [title]="'requests.list.title' | translate"
   [subtitle]="'requests.list.subtitle' | translate: { count: totalCount() }"
-/>
+>
+  <a
+    pageHeaderActions
+    routerLink="/app/requests/new"
+    class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 text-sm font-semibold text-white hover:bg-brand-600"
+  >
+    {{ 'requests.new.title' | translate }}
+  </a>
+</app-page-header>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">

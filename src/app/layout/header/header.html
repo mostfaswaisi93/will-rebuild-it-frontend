@@ -70,7 +70,7 @@
             <svg lucideUser [size]="16"></svg>
             {{ 'header.menu.profile' | translate }}
           </a>
-          <a routerLink="/app/support" class="flex min-h-11 items-center gap-3 px-4 text-sm text-ink-700 hover:bg-surface-container-low" role="menuitem" (click)="closeMenu()">
+          <a [routerLink]="supportLink()" class="flex min-h-11 items-center gap-3 px-4 text-sm text-ink-700 hover:bg-surface-container-low" role="menuitem" (click)="closeMenu()">
             <svg lucideLifeBuoy [size]="16"></svg>
             {{ 'header.menu.support' | translate }}
           </a>

@@ -55,6 +55,10 @@ export class StatementDetail {
     const status = this.statement()?.status;
     return this.isAdmin() && (status === 'submitted' || status === 'underReview');
   });
+  /** Only a submitted statement can be claimed for review. */
+  protected readonly canStartReview = computed(
+    () => this.isAdmin() && this.statement()?.status === 'submitted',
+  );
   protected readonly canPay = computed(() => {
     const s = this.statement();
     return (
@@ -79,6 +83,20 @@ export class StatementDetail {
   protected readonly payAmount = new FormControl<number | null>(null, {
     validators: [Validators.required, Validators.min(1)],
   });
+
+  /**
+   * Claims the statement for review, signalling to the contractor that it is
+   * being looked at before a decision lands. Optional — approving straight from
+   * `submitted` is allowed — but without this the `underReview` state is
+   * unreachable from the UI.
+   */
+  protected startReview(): void {
+    const statement = this.statement();
+    if (!statement || this.submitting()) {
+      return;
+    }
+    this.run(this.api.startReview(statement.id), 'statements.detail.reviewStarted');
+  }
 
   protected approve(): void {
     const statement = this.statement();

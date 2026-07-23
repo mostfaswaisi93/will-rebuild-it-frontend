@@ -490,6 +490,12 @@ export const routes: Routes = [
           import('./features/support/support-list/support-list').then((m) => m.SupportList),
       },
       {
+        // Must precede `support/:id`, or `:id` captures the literal "new".
+        path: 'support/new',
+        loadComponent: () =>
+          import('./features/support/support-new/support-new').then((m) => m.SupportNew),
+      },
+      {
         path: 'support/:id',
         canActivate: [roleGuard(['admin', 'staff'])],
         loadComponent: () =>
@@ -638,6 +644,13 @@ export const routes: Routes = [
           import('./features/requests/request-list/request-list').then((m) => m.RequestList),
       },
       {
+        // Must precede `requests/:id`, or `:id` captures the literal "new".
+        path: 'requests/new',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/requests/request-new/request-new').then((m) => m.RequestNew),
+      },
+      {
         path: 'requests/:id',
         canActivate: [roleGuard(['beneficiary'])],
         loadComponent: () =>
@@ -672,6 +685,12 @@ export const routes: Routes = [
         canActivate: [roleGuard(['beneficiary'])],
         loadComponent: () =>
           import('./features/funding/funding-list/funding-list').then((m) => m.FundingList),
+      },
+      {
+        path: 'funding/:id',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/funding/funding-detail/funding-detail').then((m) => m.FundingDetail),
       },
       {
         path: 'reviews',

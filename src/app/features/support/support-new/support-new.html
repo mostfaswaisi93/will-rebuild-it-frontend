@@ -1,0 +1,67 @@
+<app-page-header
+  [title]="'support.form.title' | translate"
+  [subtitle]="'support.form.subtitle' | translate"
+  [showBack]="true"
+/>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="max-w-2xl space-y-4">
+  <section class="rounded-card border border-ink-300 bg-surface p-4 space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="project">
+        {{ 'support.form.project' | translate }}
+      </label>
+      @if (projectsFailed()) {
+        <p class="mt-1 text-xs text-ink-500">{{ 'support.form.loadProjectsError' | translate }}</p>
+      } @else {
+        <select
+          id="project"
+          formControlName="projectId"
+          class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          <option value="">{{ 'support.form.projectPlaceholder' | translate }}</option>
+          @for (project of projects(); track project.id) {
+            <option [value]="project.id">{{ project.title }}</option>
+          }
+        </select>
+        @if (projects().length === 0) {
+          <p class="mt-1 text-xs text-ink-500">{{ 'support.form.noProjects' | translate }}</p>
+        }
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="subject">
+        {{ 'support.form.subject' | translate }}
+      </label>
+      <input
+        id="subject"
+        type="text"
+        maxlength="120"
+        formControlName="subject"
+        [placeholder]="'support.form.subjectPlaceholder' | translate"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="description">
+        {{ 'support.form.description' | translate }}
+      </label>
+      <textarea
+        id="description"
+        rows="5"
+        formControlName="description"
+        [placeholder]="'support.form.descriptionPlaceholder' | translate"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      ></textarea>
+    </div>
+  </section>
+
+  <button
+    type="submit"
+    [disabled]="saving() || form.invalid"
+    class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    {{ (saving() ? 'common.loading' : 'support.form.submit') | translate }}
+  </button>
+</form>

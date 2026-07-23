@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { REQUEST_STATUSES, ReconstructionRequest, RequestStatus } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -19,7 +20,7 @@ const PAGE_SIZE = 10;
  */
 @Component({
   selector: 'app-request-list',
-  imports: [TranslatePipe, DataTable, FilterBar, PageHeader, StatusPill],
+  imports: [RouterLink, TranslatePipe, DataTable, FilterBar, PageHeader, StatusPill],
   templateUrl: './request-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

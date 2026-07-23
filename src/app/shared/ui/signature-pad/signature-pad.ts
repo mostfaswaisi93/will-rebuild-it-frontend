@@ -37,6 +37,14 @@ export class SignaturePad implements AfterViewInit {
 
   readonly signatureCaptured = output<string>();
 
+  /**
+   * Emitted alongside `signatureCaptured`: how the signature was produced.
+   * Both modes yield a PNG, so callers that only store the image can ignore
+   * this — it exists for flows that record *how* someone signed as part of the
+   * audit trail (e.g. confirming receipt of funds).
+   */
+  readonly signatureMeta = output<{ type: 'draw' | 'type'; text?: string }>();
+
   protected readonly mode = signal<'draw' | 'type'>('draw');
   protected readonly isEmpty = signal(true);
   protected readonly typedName = signal('');
@@ -116,12 +124,15 @@ export class SignaturePad implements AfterViewInit {
     if (this.mode() === 'draw') {
       const dataUrl = this.pad?.toDataURL('image/png');
       if (dataUrl) {
+        this.signatureMeta.emit({ type: 'draw' });
         this.signatureCaptured.emit(dataUrl);
       }
       return;
     }
-    const dataUrl = this.renderTypedSignatureToDataUrl(this.typedName());
+    const typed = this.typedName().trim();
+    const dataUrl = this.renderTypedSignatureToDataUrl(typed);
     if (dataUrl) {
+      this.signatureMeta.emit({ type: 'type', text: typed });
       this.signatureCaptured.emit(dataUrl);
     }
   }

@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   SHIPMENT_CROSSINGS,
   SHIPMENT_STATUSES,
@@ -10,6 +18,8 @@ import {
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { ShipmentsApi } from '@core/api/shipments-api.service';
+import { SessionStore } from '@core/session/session-store.service';
+import { ToastService } from '@core/toast/toast.service';
 import { DataTable, DataTableColumn } from '@shared/ui/data-table/data-table';
 import { FilterBar } from '@shared/ui/filter-bar/filter-bar';
 import { PageHeader } from '@shared/ui/page-header/page-header';
@@ -17,6 +27,17 @@ import { StatCard } from '@shared/ui/stat-card/stat-card';
 import { StatusPill } from '@shared/ui/status-pill/status-pill';
 
 const PAGE_SIZE = 10;
+
+/**
+ * The next state a shipment moves to, in convoy order. Terminal states
+ * (`delivered`, `rejected`) have no successor — the handler rejects moving them.
+ */
+const NEXT_STATUS: Partial<Record<ShipmentStatus, ShipmentStatus>> = {
+  planned: 'awaitingClearance',
+  awaitingClearance: 'atCrossing',
+  atCrossing: 'inTransit',
+  inTransit: 'delivered',
+};
 
 /** Materials transport register — port of the legacy `inventory/truckOrderList`,
  * reframed around crossing clearance. Reads `ShipmentsApi.list`. */
@@ -29,6 +50,9 @@ const PAGE_SIZE = 10;
 export class ShipmentList {
   private readonly api = inject(ShipmentsApi);
   private readonly translation = inject(TranslationService);
+  private readonly session = inject(SessionStore);
+  private readonly toast = inject(ToastService);
+  private readonly destroyRef = inject(DestroyRef);
 
   protected readonly statuses = SHIPMENT_STATUSES;
   protected readonly crossings = SHIPMENT_CROSSINGS;
@@ -94,6 +118,36 @@ export class ShipmentList {
   ];
 
   protected readonly rowId = (row: Shipment): string => row.id;
+
+  /** Only an operator moves a convoy along; suppliers watch their own shipments. */
+  protected readonly canAdvance = computed(() => this.session.role() === 'admin');
+  protected readonly advancing = signal<string | null>(null);
+
+  protected nextStatus(row: Shipment): ShipmentStatus | undefined {
+    return NEXT_STATUS[row.status];
+  }
+
+  protected advance(row: Shipment): void {
+    const next = this.nextStatus(row);
+    if (!next || this.advancing()) {
+      return;
+    }
+    this.advancing.set(row.id);
+    this.api
+      .advance(row.id, next)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: () => {
+          this.advancing.set(null);
+          this.toast.success('shipments.advanced');
+          this.page.reload();
+        },
+        error: () => {
+          this.advancing.set(null);
+          this.toast.danger('common.errorGeneric');
+        },
+      });
+  }
 
   protected onPageChange(page: number): void {
     this.pageNo.set(page);

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import {
   LucideBell,
@@ -42,6 +50,16 @@ export class Header {
   protected readonly sidebarState = inject(SidebarStateService);
   protected readonly session = inject(SessionStore);
   protected readonly i18n = inject(TranslationService);
+
+  /**
+   * "Support" means different things by role: operators work the incoming
+   * queue, everyone else raises a ticket. `/app/support` is operator-only, so
+   * linking every role at it would bounce five of the seven.
+   */
+  protected readonly supportLink = computed(() => {
+    const role = this.session.role();
+    return role === 'admin' || role === 'staff' ? '/app/support' : '/app/support/new';
+  });
 
   private readonly router = inject(Router);
   private readonly dialogService = inject(DialogService);

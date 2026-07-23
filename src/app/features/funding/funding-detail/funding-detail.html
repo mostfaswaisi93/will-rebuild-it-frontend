@@ -1,0 +1,151 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !funding()) {
+  <app-page-header [title]="'funding.list.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'funding.details.loadError' | translate }}
+  </p>
+} @else if (funding(); as funding) {
+  <app-page-header [title]="funding.fundingNumber" [subtitle]="funding.projectTitle" [showBack]="true">
+    <app-status-pill pageHeaderActions context="funding" [status]="funding.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'funding.details.summary' | translate }}</h2>
+        <dl class="mt-3 grid gap-3 sm:grid-cols-3 text-sm">
+          <div>
+            <dt class="text-ink-500">{{ 'funding.details.amounts.funded' | translate }}</dt>
+            <dd class="text-lg font-bold text-brand-600" dir="ltr">{{ money(funding.fundedAmount) }}</dd>
+          </div>
+          <div>
+            <dt class="text-ink-500">{{ 'funding.details.amounts.outstanding' | translate }}</dt>
+            <dd class="text-lg font-bold text-ink-900" dir="ltr">{{ money(funding.outstandingAmount) }}</dd>
+          </div>
+          <div>
+            <dt class="text-ink-500">{{ 'funding.details.amounts.refunded' | translate }}</dt>
+            <dd class="text-lg font-bold text-ink-900" dir="ltr">{{ money(funding.refundedAmount) }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">
+          {{ 'funding.details.disbursements.title' | translate }}
+        </h2>
+        @if (disbursements().length === 0) {
+          <p class="mt-3 rounded-card border border-dashed border-ink-300 bg-surface p-6 text-center text-sm text-ink-500">
+            {{ 'funding.details.disbursements.empty' | translate }}
+          </p>
+        } @else {
+          <ul class="mt-3 divide-y divide-ink-300/60">
+            @for (item of disbursements(); track item.id) {
+              <li class="flex items-center justify-between gap-3 py-3">
+                <div class="min-w-0">
+                  <p class="text-sm font-medium text-ink-900" dir="ltr">{{ money(item.amount) }}</p>
+                  <p class="text-xs text-ink-500">
+                    {{ item.funderName }}
+                    <span class="mx-1">·</span>
+                    <span dir="ltr">{{ formatDate(item.disbursedAt) }}</span>
+                  </p>
+                </div>
+                <div class="flex shrink-0 items-center gap-1.5">
+                  @if (item.isVoided) {
+                    <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-500">
+                      {{ 'funding.details.disbursements.badge.voided' | translate }}
+                    </span>
+                  }
+                  @if (item.isRefunded) {
+                    <span class="rounded-full bg-surface-container px-2.5 py-0.5 text-xs font-medium text-ink-500">
+                      {{ 'funding.details.disbursements.badge.refunded' | translate }}
+                    </span>
+                  }
+                </div>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+
+      <!-- The point of the page: acknowledging the money actually arrived. -->
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">
+          {{ 'funding.details.confirmReceipt.title' | translate }}
+        </h2>
+
+        @if (confirmed()) {
+          <p class="mt-2 rounded-card border border-brand-200 bg-brand-50/40 px-4 py-3 text-sm text-ink-700">
+            {{ 'funding.details.confirmReceipt.confirmedOn' | translate: { date: formatDate(funding.receiptConfirmedAt!) } }}
+          </p>
+        } @else {
+          <p class="mt-1 text-sm text-ink-600">
+            {{ 'funding.details.confirmReceipt.description' | translate }}
+          </p>
+
+          @if (!signing()) {
+            <button
+              type="button"
+              (click)="openSigning()"
+              class="mt-3 inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+            >
+              {{ 'funding.details.confirmReceipt.button' | translate }}
+            </button>
+          } @else {
+            <div class="mt-3 space-y-3">
+              <p class="text-sm text-ink-700">{{ 'funding.signature.instructions' | translate }}</p>
+
+              <label class="flex items-start gap-2 text-sm text-ink-700">
+                <input
+                  type="checkbox"
+                  [checked]="termsAccepted()"
+                  (change)="toggleTerms($any($event.target).checked)"
+                  class="mt-0.5 size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+                />
+                {{ 'funding.details.confirmReceipt.termsLabel' | translate }}
+              </label>
+
+              <div [class.pointer-events-none]="submitting()" [class.opacity-50]="submitting()">
+                <app-signature-pad
+                  (signatureMeta)="onMeta($event)"
+                  (signatureCaptured)="onSignature($event)"
+                />
+              </div>
+            </div>
+          }
+        }
+      </section>
+    </div>
+
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'funding.details.teamProject' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'funding.details.project' | translate }}</dt>
+            <dd class="font-medium text-ink-900">
+              <a [routerLink]="['/app/projects', funding.projectId]" class="hover:text-brand-600">
+                {{ funding.projectTitle }}
+              </a>
+            </dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'funding.details.phase' | translate }}</dt>
+            <dd class="font-medium text-ink-900">{{ 'project.phase.' + funding.phaseKey | translate }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'funding.details.fundingNumber' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ funding.fundingNumber }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'funding.details.created' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(funding.createdAt) }}</dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+  </div>
+}

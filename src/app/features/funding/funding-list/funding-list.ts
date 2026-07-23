@@ -77,6 +77,7 @@ export class FundingList {
   ];
 
   protected readonly rowId = (row: Funding): string => row.id;
+  protected readonly rowLink = (row: Funding): string => `/app/funding/${row.id}`;
 
   protected onPageChange(page: number): void {
     this.pageNo.set(page);

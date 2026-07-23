@@ -68,7 +68,19 @@
       (pageChange)="onPageChange($event)"
     >
       <ng-template appDataTableCell="status" let-row>
-        <app-status-pill context="shipment" [status]="row.status" />
+        <div class="flex items-center gap-2">
+          <app-status-pill context="shipment" [status]="row.status" />
+          @if (canAdvance() && nextStatus(row); as next) {
+            <button
+              type="button"
+              (click)="advance(row)"
+              [disabled]="advancing() === row.id"
+              class="rounded-input border border-ink-300 px-2 py-1 text-xs font-medium text-ink-700 hover:bg-surface-container-low disabled:opacity-50"
+            >
+              → {{ 'shared.statusPill.shipment.' + next | translate }}
+            </button>
+          }
+        </div>
       </ng-template>
 
       <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
