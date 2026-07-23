@@ -1,0 +1,65 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-40 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !txn()) {
+  <app-page-header [title]="'funding.txn.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'funding.txn.notFound' | translate }}
+  </p>
+} @else if (txn(); as txn) {
+  <app-page-header [title]="'funding.txn.title' | translate" [showBack]="true">
+    <span
+      pageHeaderActions
+      class="rounded-full px-2.5 py-0.5 text-xs font-medium"
+      [class]="
+        mode() === 'normal'
+          ? 'bg-brand-50 text-brand-700'
+          : mode() === 'refunded'
+            ? 'bg-sand-100 text-sand-700'
+            : 'bg-surface-container text-ink-500'
+      "
+    >
+      {{ 'funding.txn.mode.' + mode() | translate }}
+    </span>
+  </app-page-header>
+
+  <section class="max-w-2xl rounded-card border border-ink-300 bg-surface p-5">
+    <p class="text-3xl font-bold text-ink-900" dir="ltr">{{ money(txn.amount) }}</p>
+
+    <dl class="mt-4 space-y-2 border-t border-ink-300/60 pt-4 text-sm">
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'funding.txn.details.funder' | translate }}</dt>
+        <dd class="font-medium text-ink-900">{{ txn.funderName }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'funding.txn.details.date' | translate }}</dt>
+        <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(txn.disbursedAt) }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'funding.txn.details.receipt' | translate }}</dt>
+        <dd class="font-medium text-ink-900">
+          @if (txn.receiptUrl) {
+            <a
+              [href]="txn.receiptUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-brand-600 hover:underline"
+            >
+              {{ 'funding.txn.viewReceipt' | translate }}
+            </a>
+          } @else {
+            <span class="text-ink-500">—</span>
+          }
+        </dd>
+      </div>
+    </dl>
+
+    <!-- A voided or refunded payment needs explaining, not just flagging. -->
+    <div class="mt-4 rounded-card border border-ink-300 bg-surface-container-low/40 px-4 py-3">
+      <h2 class="text-sm font-semibold text-ink-900">{{ 'funding.txn.notes.title' | translate }}</h2>
+      <p class="mt-1 text-sm text-ink-700">{{ 'funding.txn.notes.' + mode() | translate }}</p>
+    </div>
+  </section>
+}

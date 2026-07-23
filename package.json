@@ -9,7 +9,9 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=ChromeHeadless",
     "serve:ssr:will-rebuild-it-frontend": "node dist/will-rebuild-it-frontend/server/server.mjs",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "audit": "node tools/audit.mjs",
+    "verify": "npm run lint && npm run audit && npm run test:ci"
   },
   "prettier": {
     "printWidth": 100,

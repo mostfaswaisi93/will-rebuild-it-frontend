@@ -1,0 +1,120 @@
+<div class="min-h-screen bg-canvas">
+  <header class="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
+    <a routerLink="/" class="flex items-center gap-2">
+      <app-brand-mark [size]="32" emerald="var(--color-brand-500)" sand="var(--color-sand-500)" />
+      <span class="leading-tight">
+        <span class="block text-sm font-semibold text-ink-900">{{ 'brand.nameAr' | translate }}</span>
+        <span class="block text-xs text-ink-500">{{ 'brand.nameEn' | translate }}</span>
+      </span>
+    </a>
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        (click)="toggleLocale()"
+        class="inline-flex min-h-11 items-center rounded-input px-3 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+      >
+        {{ (isRtl() ? 'public.home.english' : 'public.home.arabic') | translate }}
+      </button>
+      <a
+        routerLink="/auth/sign-in"
+        class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 text-sm font-semibold text-white hover:bg-brand-600"
+      >
+        {{ 'common.signIn' | translate }}
+      </a>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-4xl px-4 pb-12 sm:px-6">
+    @if (loading()) {
+      <div class="space-y-3">
+        <div class="h-10 w-64 animate-pulse rounded bg-ink-300/40"></div>
+        <div class="h-48 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+      </div>
+    } @else if (failed() || !project()) {
+      <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+        {{ 'public.projectPublic.notFound' | translate }}
+      </p>
+    } @else if (project(); as project) {
+      <section class="rounded-card border border-ink-300 bg-surface p-5">
+        <h1 class="text-2xl font-bold text-ink-900">{{ project.title }}</h1>
+        <p class="mt-1 text-sm text-ink-500" dir="ltr">{{ project.projectNumber }}</p>
+
+        <div class="mt-4">
+          <div class="flex items-baseline justify-between gap-3">
+            <h2 class="text-sm font-semibold text-ink-900">
+              {{ 'public.projectPublic.progressTitle' | translate }}
+            </h2>
+            <span class="text-sm font-semibold text-brand-600">
+              {{ project.overallCompletionPercent }}%
+            </span>
+          </div>
+          <div class="mt-2 h-2 overflow-hidden rounded-full bg-surface-container">
+            <div
+              class="h-full rounded-full bg-brand-500"
+              [style.width.%]="project.overallCompletionPercent"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-4 rounded-card border border-ink-300 bg-surface p-5">
+        <h2 class="mb-4 text-sm font-semibold text-ink-900">
+          {{ 'projects.view.phasesTitle' | translate }}
+        </h2>
+        <app-phase-stepper [phases]="project.phases" />
+      </section>
+
+      @if (photos().length > 0) {
+        <section class="mt-4 rounded-card border border-ink-300 bg-surface p-5">
+          <h2 class="text-sm font-semibold text-ink-900">
+            {{ 'public.projectPublic.photosTitle' | translate }}
+          </h2>
+          <ul class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            @for (photo of photos(); track photo.id) {
+              <li>
+                <img
+                  [src]="photo.url"
+                  [alt]="photo.fileName"
+                  loading="lazy"
+                  class="aspect-square w-full rounded-card object-cover"
+                />
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <section class="rounded-card border border-ink-300 bg-surface p-5">
+          <h2 class="text-sm font-semibold text-ink-900">
+            {{ 'public.projectPublic.teamTitle' | translate }}
+          </h2>
+          <a
+            [routerLink]="['/pub/contractor', project.teamId]"
+            class="mt-2 block font-medium text-ink-900 hover:text-brand-600"
+          >
+            {{ project.teamName }}
+          </a>
+        </section>
+
+        <section class="rounded-card border border-ink-300 bg-surface p-5">
+          <h2 class="text-sm font-semibold text-ink-900">
+            {{ 'public.projectPublic.locationTitle' | translate }}
+          </h2>
+          <!-- Governorate only: the exact address is never published. -->
+          <p class="mt-2 font-medium text-ink-900">
+            {{ 'governorates.' + project.address.governorate | translate }}
+          </p>
+        </section>
+      </div>
+
+      <section class="mt-4 overflow-hidden rounded-card border border-ink-300">
+        <app-map [markers]="marker()" [zoom]="10" heightClass="h-56" />
+      </section>
+    }
+  </main>
+
+  <footer class="border-t border-ink-300/60 px-4 py-6 text-center text-xs text-ink-500 sm:px-6">
+    {{ 'footer.copyright' | translate: { year: currentYear } }}
+  </footer>
+</div>

@@ -51,6 +51,72 @@ export class ProfilePage {
   protected readonly changingPassword = signal(false);
   protected readonly saving = signal(false);
 
+  // --- Editing -------------------------------------------------------------
+
+  /**
+   * Only a beneficiary can edit here: `/profile` is a beneficiary household
+   * record, so the other six roles would be patching someone else's. Their
+   * identity comes from the session and is changed by an operator.
+   */
+  protected readonly canEdit = this.isBeneficiary;
+  protected readonly editing = signal(false);
+  protected readonly savingProfile = signal(false);
+
+  /** Phone and email are deliberately absent — see `profile.contactLocked`;
+   * the phone is a support-desk change, and the email is the login identity. */
+  protected readonly editForm = this.fb.nonNullable.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    familySize: [1, [Validators.required, Validators.min(1)]],
+  });
+
+  protected startEditing(): void {
+    const profile = this.details();
+    const user = this.user();
+    this.editForm.setValue({
+      firstName: profile?.firstName ?? user?.firstName ?? '',
+      lastName: profile?.lastName ?? user?.lastName ?? '',
+      familySize: profile?.familySize ?? 1,
+    });
+    this.editing.set(true);
+  }
+
+  protected cancelEditing(): void {
+    this.editing.set(false);
+  }
+
+  protected saveProfile(): void {
+    if (this.savingProfile()) {
+      return;
+    }
+    this.editForm.markAllAsTouched();
+    if (this.editForm.invalid) {
+      return;
+    }
+
+    const value = this.editForm.getRawValue();
+    this.savingProfile.set(true);
+    this.api
+      .updateProfile({
+        firstName: value.firstName.trim(),
+        lastName: value.lastName.trim(),
+        familySize: Number(value.familySize),
+      })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (updated) => {
+          this.savingProfile.set(false);
+          this.editing.set(false);
+          this.profile.set(updated);
+          this.toast.success('profile.saved');
+        },
+        error: () => {
+          this.savingProfile.set(false);
+          this.toast.danger('common.errorGeneric');
+        },
+      });
+  }
+
   protected readonly form = this.fb.nonNullable.group({
     currentPassword: ['', Validators.required],
     newPassword: ['', [Validators.required, Validators.minLength(8)]],

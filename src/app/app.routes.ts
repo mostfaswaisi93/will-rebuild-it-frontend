@@ -64,6 +64,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/public/contractor-public/contractor-public').then((m) => m.ContractorPublic),
   },
+  {
+    path: 'pub/project/:id',
+    loadComponent: () =>
+      import('./features/public/project-public/project-public').then((m) => m.ProjectPublic),
+  },
 
   // ---- Public / unauthenticated ----
   {
@@ -691,6 +696,15 @@ export const routes: Routes = [
         canActivate: [roleGuard(['beneficiary'])],
         loadComponent: () =>
           import('./features/funding/funding-detail/funding-detail').then((m) => m.FundingDetail),
+      },
+      {
+        // Both params bind as component inputs via `withComponentInputBinding`.
+        path: 'funding/:fundingId/disbursements/:id',
+        canActivate: [roleGuard(['beneficiary'])],
+        loadComponent: () =>
+          import('./features/funding/disbursement-detail/disbursement-detail').then(
+            (m) => m.DisbursementDetail,
+          ),
       },
       {
         path: 'reviews',
