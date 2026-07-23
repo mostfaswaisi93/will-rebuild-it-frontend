@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { ReconstructionRequest } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -11,7 +12,7 @@ import { StatusPill } from '@shared/ui/status-pill/status-pill';
  * where it stands, and which teams have been matched or assigned. */
 @Component({
   selector: 'app-request-detail',
-  imports: [TranslatePipe, PageHeader, StatusPill],
+  imports: [RouterLink, TranslatePipe, PageHeader, StatusPill],
   templateUrl: './request-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

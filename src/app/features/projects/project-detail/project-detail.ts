@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { Project } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -12,7 +13,7 @@ import { StatusPill } from '@shared/ui/status-pill/status-pill';
  * concrete proof a home is being rebuilt. Reuses the shared `PhaseStepper`. */
 @Component({
   selector: 'app-project-detail',
-  imports: [TranslatePipe, PageHeader, PhaseStepper, StatusPill],
+  imports: [RouterLink, TranslatePipe, PageHeader, PhaseStepper, StatusPill],
   templateUrl: './project-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

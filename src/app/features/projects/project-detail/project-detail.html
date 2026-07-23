@@ -54,7 +54,7 @@
         <div class="flex justify-between gap-3">
           <dt class="text-ink-500">{{ 'projects.view.tabs.team' | translate }}</dt>
           <dd class="font-medium text-ink-900">
-            <a [href]="'/app/teams/' + project.teamId" class="hover:text-brand-600">{{ project.teamName }}</a>
+            <a [routerLink]="['/app/teams', project.teamId]" class="hover:text-brand-600">{{ project.teamName }}</a>
           </dd>
         </div>
         <div class="flex justify-between gap-3">

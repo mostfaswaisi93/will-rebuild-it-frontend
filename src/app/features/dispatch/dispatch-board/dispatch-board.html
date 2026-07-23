@@ -32,7 +32,7 @@
             @for (order of column.orders; track order.id) {
               <li>
                 <a
-                  [href]="orderLink(order)"
+                  [routerLink]="orderLink(order)"
                   class="block rounded-card border border-ink-300 bg-surface p-3 transition hover:border-brand-400 hover:shadow-sm"
                 >
                   <div class="flex items-center justify-between gap-2">

@@ -708,6 +708,12 @@
         "closed": "مغلق",
         "cancelled": "ملغى"
       },
+      "workOrderPriority": {
+        "low": "منخفضة",
+        "normal": "عادية",
+        "high": "عالية",
+        "urgent": "عاجلة"
+      },
       "statement": {
         "draft": "مسودة",
         "submitted": "مُقدَّم",
@@ -787,6 +793,18 @@
         "pastDue": "متأخّرة",
         "cancelled": "ملغاة",
         "expired": "منتهية"
+      },
+      "shipment": {
+        "planned": "مخطّطة",
+        "awaitingClearance": "بانتظار التخليص",
+        "atCrossing": "على المعبر",
+        "inTransit": "قيد النقل",
+        "delivered": "تم التسليم",
+        "rejected": "مرفوضة"
+      },
+      "complaint": {
+        "open": "مفتوحة",
+        "closed": "مغلقة"
       }
     },
     "ratingStars": {
@@ -957,7 +975,13 @@
       },
       "statusFilter": "التصفية حسب الحالة",
       "allStatuses": "كل الحالات",
-      "emptyHint": "لم تقدّم أي شكاوى حتى الآن."
+      "emptyHint": "لم تقدّم أي شكاوى حتى الآن.",
+      "column": {
+        "number": "رقم الشكوى",
+        "team": "الفريق",
+        "createdAt": "تاريخ التقديم",
+        "status": "الحالة"
+      }
     },
     "reason": {
       "delay": "تأخير في التنفيذ",
@@ -1570,6 +1594,87 @@
     "reviews": {
       "title": "أحدث التقييمات",
       "empty": "لا توجد تقييمات بعد"
+    }
+  },
+  "supplierDashboard": {
+    "title": "لوحة المورّد",
+    "subtitle": "أوامر الشراء الموجَّهة إليك وحالة توريدها.",
+    "recentOrders": "أحدث أوامر الشراء",
+    "empty": "لا توجد أوامر شراء.",
+    "stats": {
+      "total": "إجمالي الأوامر",
+      "awaiting": "بانتظار الاعتماد",
+      "ordered": "قيد التوريد",
+      "received": "تم الاستلام"
+    },
+    "columns": {
+      "number": "رقم الأمر",
+      "warehouse": "المستودع",
+      "total": "الإجمالي",
+      "status": "الحالة"
+    }
+  },
+  "dispatch": {
+    "title": "لوحة التوزيع",
+    "subtitle": "أوامر العمل الجارية مرتّبة حسب الحالة، لمتابعة خطّ العمل الميداني.",
+    "emptyColumn": "لا شيء هنا"
+  },
+  "inspections": {
+    "title": "المعاينات",
+    "subtitle": "معاينات ما قبل العمل وما بعده لأوامر العمل الميدانية.",
+    "searchPlaceholder": "ابحث برقم الأمر أو العنوان",
+    "empty": "لا توجد أوامر عمل مطابقة.",
+    "columns": {
+      "workOrder": "رقم الأمر",
+      "title": "العنوان",
+      "team": "الفريق",
+      "preWork": "معاينة ما قبل العمل",
+      "postWork": "معاينة ما بعد العمل"
+    },
+    "state": {
+      "done": "مكتملة",
+      "inProgress": "قيد التنفيذ",
+      "pending": "بانتظار التنفيذ"
+    }
+  },
+  "shipments": {
+    "title": "الشحنات والنقل",
+    "subtitle": "حركة قوافل مواد الإعمار عبر المعابر إلى المستودعات.",
+    "searchPlaceholder": "ابحث برقم الشحنة أو المورّد أو المستودع",
+    "empty": "لا توجد شحنات مطابقة.",
+    "allStatuses": "كل الحالات",
+    "allCrossings": "كل المعابر",
+    "summary": {
+      "atCrossing": "على المعابر",
+      "inTransit": "قيد النقل",
+      "delivered": "تم التسليم"
+    },
+    "columns": {
+      "number": "رقم الشحنة",
+      "supplier": "المورّد",
+      "destination": "المستودع",
+      "crossing": "المعبر",
+      "trucks": "الشاحنات",
+      "status": "الحالة"
+    },
+    "crossing": {
+      "keremShalom": "كرم أبو سالم",
+      "rafah": "رفح",
+      "erez": "بيت حانون (إيرز)"
+    }
+  },
+  "priceList": {
+    "title": "قوائم أسعار المنصة",
+    "subtitle": "الأسعار المرجعية المعتمدة لخدمات الإعمار حسب التخصّص.",
+    "searchPlaceholder": "ابحث بالرمز أو اسم الخدمة",
+    "empty": "لا توجد بنود مطابقة.",
+    "allTrades": "كل التخصّصات",
+    "columns": {
+      "code": "الرمز",
+      "service": "الخدمة",
+      "trade": "التخصّص",
+      "unit": "الوحدة",
+      "rate": "السعر"
     }
   },
   "table": {

@@ -1,0 +1,103 @@
+<app-page-header [title]="'complaints.form.title' | translate" [showBack]="true" />
+
+@if (loadFailed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'complaints.form.loadError' | translate }}
+  </p>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="submit()" class="max-w-2xl space-y-4">
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <label class="block text-sm font-medium text-ink-900" for="team">
+        {{ 'complaints.form.teamLabel' | translate }}
+      </label>
+      <select
+        id="team"
+        formControlName="teamId"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">—</option>
+        @for (team of teams(); track team.id) {
+          <option [value]="team.id">{{ team.name }}</option>
+        }
+      </select>
+
+      <label class="mt-4 block text-sm font-medium text-ink-900" for="project">
+        {{ 'complaints.form.projectLabel' | translate }}
+      </label>
+      <select
+        id="project"
+        formControlName="projectId"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        <option value="">{{ 'complaints.form.projectNone' | translate }}</option>
+        @for (project of projects(); track project.id) {
+          <option [value]="project.id">{{ project.title }}</option>
+        }
+      </select>
+    </section>
+
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <h2 class="text-sm font-medium text-ink-900">{{ 'complaints.form.reasonsLabel' | translate }}</h2>
+      <p class="mt-0.5 text-xs text-ink-500">{{ 'complaints.form.reasonsHint' | translate }}</p>
+
+      <div class="mt-3 space-y-2">
+        @for (key of reasonKeys; track key) {
+          <label class="flex min-h-11 items-center gap-2 text-sm text-ink-700">
+            <input
+              type="checkbox"
+              [formControlName]="key"
+              class="size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+            />
+            {{ 'complaints.reason.' + key | translate }}
+          </label>
+        }
+      </div>
+
+      @if (submitted() && noReasonPicked()) {
+        <p class="mt-2 text-xs text-danger">{{ 'complaints.form.reasonsRequired' | translate }}</p>
+      }
+
+      @if (reasonControl('otherReason').value) {
+        <div class="mt-3">
+          <label class="block text-sm font-medium text-ink-900" for="otherDetail">
+            {{ 'complaints.form.otherDetailLabel' | translate }}
+          </label>
+          <input
+            id="otherDetail"
+            type="text"
+            formControlName="otherReasonDetail"
+            [placeholder]="'complaints.form.otherDetailPlaceholder' | translate"
+            class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+          />
+          @if (submitted() && otherDetailMissing()) {
+            <p class="mt-1 text-xs text-danger">{{ 'complaints.form.otherDetailRequired' | translate }}</p>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="rounded-card border border-ink-300 bg-surface p-4">
+      <label class="block text-sm font-medium text-ink-900" for="description">
+        {{ 'complaints.form.descriptionLabel' | translate }}
+      </label>
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="5"
+        [placeholder]="'complaints.form.descriptionPlaceholder' | translate"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      ></textarea>
+      @if (submitted() && form.controls.description.invalid) {
+        <p class="mt-1 text-xs text-danger">{{ 'complaints.form.descriptionRequired' | translate }}</p>
+      }
+    </section>
+
+    <button
+      type="submit"
+      [disabled]="saving()"
+      class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+    >
+      {{ (saving() ? 'common.loading' : 'complaints.form.submit') | translate }}
+    </button>
+  </form>
+}

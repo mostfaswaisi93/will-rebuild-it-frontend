@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { LucideStar } from '@lucide/angular';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -10,7 +11,7 @@ import { PageHeader } from '@shared/ui/page-header/page-header';
  * "my reviews" list. Reads `ReviewsApi.getMyReviews`. */
 @Component({
   selector: 'app-review-list',
-  imports: [LucideStar, TranslatePipe, PageHeader],
+  imports: [RouterLink, LucideStar, TranslatePipe, PageHeader],
   templateUrl: './review-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

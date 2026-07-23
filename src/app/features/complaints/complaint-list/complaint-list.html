@@ -1,0 +1,53 @@
+<app-page-header
+  [title]="'complaints.list.title' | translate"
+  [subtitle]="'complaints.list.subtitle' | translate: { count: totalCount() }"
+>
+  <a
+    pageHeaderActions
+    routerLink="/app/complaints/new"
+    class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 text-sm font-semibold text-white hover:bg-brand-600"
+  >
+    {{ 'complaints.form.title' | translate }}
+  </a>
+</app-page-header>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else {
+  <div class="flex flex-wrap items-center gap-2">
+    <select
+      [value]="status()"
+      (change)="status.set($any($event.target).value)"
+      [attr.aria-label]="'complaints.list.statusFilter' | translate"
+      class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    >
+      <option value="">{{ 'complaints.list.allStatuses' | translate }}</option>
+      @for (option of statuses; track option) {
+        <option [value]="option">{{ 'shared.statusPill.complaint.' + option | translate }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="mt-4">
+    <app-data-table
+      [columns]="columns"
+      [rows]="rows()"
+      [loading]="loading()"
+      [serverSide]="true"
+      [pageSize]="10"
+      [totalCount]="totalCount()"
+      [rowId]="rowId"
+      (pageChange)="onPageChange($event)"
+    >
+      <ng-template appDataTableCell="status" let-row>
+        <app-status-pill context="complaint" [status]="row.status" />
+      </ng-template>
+
+      <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'complaints.list.emptyHint' | translate }}
+      </div>
+    </app-data-table>
+  </div>
+}

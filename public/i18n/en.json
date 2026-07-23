@@ -680,6 +680,12 @@
         "closed": "Closed",
         "cancelled": "Cancelled"
       },
+      "workOrderPriority": {
+        "low": "Low",
+        "normal": "Normal",
+        "high": "High",
+        "urgent": "Urgent"
+      },
       "statement": {
         "draft": "Draft",
         "submitted": "Submitted",
@@ -759,6 +765,18 @@
         "pastDue": "Past due",
         "cancelled": "Cancelled",
         "expired": "Expired"
+      },
+      "shipment": {
+        "planned": "Planned",
+        "awaitingClearance": "Awaiting clearance",
+        "atCrossing": "At crossing",
+        "inTransit": "In transit",
+        "delivered": "Delivered",
+        "rejected": "Rejected"
+      },
+      "complaint": {
+        "open": "Open",
+        "closed": "Closed"
       }
     },
     "ratingStars": {
@@ -925,7 +943,13 @@
       },
       "statusFilter": "Filter by status",
       "allStatuses": "All statuses",
-      "emptyHint": "You haven't filed any complaints yet."
+      "emptyHint": "You haven't filed any complaints yet.",
+      "column": {
+        "number": "Complaint #",
+        "team": "Team",
+        "createdAt": "Filed on",
+        "status": "Status"
+      }
     },
     "reason": {
       "delay": "Delays",
@@ -1522,6 +1546,87 @@
     "reviews": {
       "title": "Recent reviews",
       "empty": "No reviews yet"
+    }
+  },
+  "supplierDashboard": {
+    "title": "Supplier dashboard",
+    "subtitle": "Purchase orders addressed to you and their supply status.",
+    "recentOrders": "Recent purchase orders",
+    "empty": "No purchase orders.",
+    "stats": {
+      "total": "Total orders",
+      "awaiting": "Awaiting approval",
+      "ordered": "In supply",
+      "received": "Received"
+    },
+    "columns": {
+      "number": "PO #",
+      "warehouse": "Warehouse",
+      "total": "Total",
+      "status": "Status"
+    }
+  },
+  "dispatch": {
+    "title": "Dispatch board",
+    "subtitle": "In-flight work orders grouped by status — the field pipeline at a glance.",
+    "emptyColumn": "Nothing here"
+  },
+  "inspections": {
+    "title": "Inspections",
+    "subtitle": "Pre-work and post-work inspections for field work orders.",
+    "searchPlaceholder": "Search by work order number or title",
+    "empty": "No matching work orders.",
+    "columns": {
+      "workOrder": "Work order #",
+      "title": "Title",
+      "team": "Team",
+      "preWork": "Pre-work inspection",
+      "postWork": "Post-work inspection"
+    },
+    "state": {
+      "done": "Completed",
+      "inProgress": "In progress",
+      "pending": "Pending"
+    }
+  },
+  "shipments": {
+    "title": "Shipments & transport",
+    "subtitle": "Convoy movements of reconstruction materials through crossings into warehouses.",
+    "searchPlaceholder": "Search by shipment number, supplier or warehouse",
+    "empty": "No matching shipments.",
+    "allStatuses": "All statuses",
+    "allCrossings": "All crossings",
+    "summary": {
+      "atCrossing": "At crossings",
+      "inTransit": "In transit",
+      "delivered": "Delivered"
+    },
+    "columns": {
+      "number": "Shipment #",
+      "supplier": "Supplier",
+      "destination": "Warehouse",
+      "crossing": "Crossing",
+      "trucks": "Trucks",
+      "status": "Status"
+    },
+    "crossing": {
+      "keremShalom": "Kerem Shalom",
+      "rafah": "Rafah",
+      "erez": "Beit Hanoun (Erez)"
+    }
+  },
+  "priceList": {
+    "title": "Platform price list",
+    "subtitle": "Agreed reference rates for reconstruction services, by trade.",
+    "searchPlaceholder": "Search by code or service name",
+    "empty": "No matching items.",
+    "allTrades": "All trades",
+    "columns": {
+      "code": "Code",
+      "service": "Service",
+      "trade": "Trade",
+      "unit": "Unit",
+      "rate": "Rate"
     }
   },
   "table": {

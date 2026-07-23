@@ -44,7 +44,7 @@
           <ul class="mt-3 divide-y divide-ink-300/60">
             @for (team of request.matchedTeams; track team.teamId) {
               <li class="flex items-center justify-between gap-3 py-3">
-                <a [href]="'/app/teams/' + team.teamId" class="text-sm font-medium text-ink-900 hover:text-brand-600">
+                <a [routerLink]="['/app/teams', team.teamId]" class="text-sm font-medium text-ink-900 hover:text-brand-600">
                   {{ team.teamName }}
                 </a>
                 <span class="flex items-center gap-2">

@@ -11,6 +11,7 @@
 | ✅ | مُنجز بالكامل ومُتحقَّق منه (build + lint + test) |
 | 🚧 | قيد التنفيذ |
 | ⬜ | لم يبدأ |
+| ⛔ | مستبعَد عن قصد (لا يقابله شيء في نطاق الإعمار) — السبب موثّق عند كل مجموعة |
 
 ---
 
@@ -122,11 +123,24 @@
 | `topproz/dashboard` | `/app/admin-dashboard` | ✅ |
 | `pro/dashboard` | `/app/contractor-dashboard` | ✅ |
 | `staff/dashboard` | `/app/staff-dashboard` | ✅ |
-| — (جديد للمورّدين) | `/app/supplier-dashboard` | ⬜ |
+| — (جديد للمورّدين) | `/app/supplier-dashboard` (منزل دور المورّد — بطاقات + أحدث أوامر الشراء) | ✅ |
 | `direct-booking-lead/dashboard` | `/app/requests-dashboard` | ⬜ |
-| `pro/dispatchboard` (`AlpCpDispatchboard`) | `/app/dispatch` | ⬜ |
-| `pro/alp-dispatchboard` (`AlpNewDispatchboard`) | `/app/dispatch` (النسخة الحديثة) | ⬜ |
-| `topproz/myprofile/:id` | `/app/account/profile` | ⬜ |
+| `pro/dispatchboard` (`AlpCpDispatchboard`) | `/app/dispatch` (لوحة كانبان حسب الحالة) | ✅ |
+| `pro/alp-dispatchboard` (`AlpNewDispatchboard`) | مدموج في `/app/dispatch` | ✅ |
+| `topproz/myprofile/:id` | `/app/profile` (هوية من الجلسة + تغيير كلمة المرور) | ✅ |
+
+### قائمة المستخدم في الترويسة (متاحة لكل الأدوار)
+
+> كانت الروابط الثلاثة في قائمة الترويسة تشير إلى مسارات غير موجودة — أي أن كل دور
+> كان يصطدم بصفحة «غير موجودة» عند فتحها. طبقة البيانات (`ProfileApi` /
+> `ComplaintsApi` / `MasterApi`) ومفاتيح الترجمة كانت جاهزة مسبقًا.
+
+| الأصل | الجديد | الحالة |
+|---|---|---|
+| `topproz/myprofile` | `/app/profile` | ✅ |
+| `pro/report-a-pro` (جانب المستخدم) | `/app/complaints` (سجل شكاواي) | ✅ |
+| `pro/report-a-pro` (النموذج) | `/app/complaints/new` (فريق + أسباب + وصف) | ✅ |
+| `topproz/privacy` | `/app/privacy` (من الإعدادات العامة) | ✅ |
 
 ---
 
@@ -202,6 +216,7 @@
 | `workorder/workorderDetails` | `/app/work-orders/:id` (حالة + انتقالات) | ✅ |
 | `workorder/preworkinspection` | `/app/work-orders/:id/inspection/preWork` | ✅ |
 | `workorder/postworkinspection` | `/app/work-orders/:id/inspection/postWork` (نفس المكوّن) | ✅ |
+| (قائمة معاينات مجمّعة) | `/app/inspections` (حالة معاينتَي كل أمر عمل) | ✅ |
 | `invoice/invoice-list` | `/app/statements` (مستخلصات) | ✅ |
 | `invoice/invoice-details` | `/app/statements/:id` (مراجعة/اعتماد/صرف) | ✅ |
 | `pricebook/pricebooklist` | `/app/pricebook` | ✅ |
@@ -221,8 +236,8 @@
 | `inventory/purchaseOrderList` | `/app/purchase-orders` | ✅ |
 | `inventory/purchaseOrderDetails` | `/app/purchase-orders/:id` (بنود + انتقالات + استلام للمخزون) | ✅ |
 | `inventory/createPo` | `/app/purchase-orders/new` | ⬜ |
-| `inventory/truckOrderList` | `/app/shipments` | ⬜ |
-| `inventory/truckOrderDetails` | `/app/shipments/:id` | ⬜ |
+| `inventory/truckOrderList` | `/app/shipments` (تتبّع عبر المعابر + ملخّص) | ✅ |
+| `inventory/truckOrderDetails` | مدموج في قائمة الشحنات (بطاقات الحالة والحمولة) | ✅ |
 | `inventory/approveInventory` | `/app/inventory/approvals` | ⬜ |
 
 ### المعدّات
@@ -232,13 +247,13 @@
 | `equipment/add-equipment` | `/app/equipment/new` | ⬜ |
 | `equipment/edit-equipment` | `/app/equipment/:id/edit` | ⬜ |
 | `equipment/equipment-details` | `/app/equipment/:id` (حجز + أعطال) | ✅ |
-| `equipment/equipmentdetails` (القديم) | مدموج في السابق | ⬜ |
+| `equipment/equipmentdetails` (القديم) | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-book` | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-history` | `/app/equipment/:id/history` | ⬜ |
 | `equipment/equipment-problems` | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-reports` | `/app/equipment/reports` | ⬜ |
 | `equipment/equipment-schedule` (Syncfusion Schedule) | `/app/equipment/schedule` (Gantt للقراءة) | ✅ |
-| `equipment/equipment-schedule2` | مدموج في السابق | ⬜ |
+| `equipment/equipment-schedule2` | مدموج في `/app/equipment/schedule` | ✅ |
 
 > ⚠️ `equipment/schedule` هي أثقل شاشة في المشروع (Syncfusion Schedule).
 > تحتاج إعادة بناء بـ CDK drag-drop + شبكة زمنية مخصّصة — خصّص لها جلسة كاملة.
@@ -251,15 +266,20 @@
 |---|---|---|
 | `payments/payment-list` | `/app/disbursements` (سجلّ الصرف) | ✅ |
 | `payments/payment-details` | `/app/disbursements/:id` (دورة حياة التحويل) | ✅ |
-| `priceList/` (`ServicesPriceList`) | `/app/price-lists` | ⬜ |
-| `priceList/editPlanInfo/:planId` | `/app/price-lists/plans/:planId` | ⬜ |
-| `priceList/subCatPriceList/:catCode` | `/app/price-lists/categories/:catCode` | ⬜ |
-| `priceList/editSubCatPriceList/:catId` | `/app/price-lists/categories/:catId/edit` | ⬜ |
-| `pro/cards` (+ `ProCardsNew`) | `/app/account/payment-methods` | ⬜ |
-| `pro/cards/:userId/:stripeCustomerId/view` | `/app/account/payment-methods/:id` | ⬜ |
-| `pro/cards/create` | `/app/account/payment-methods/new` | ⬜ |
-| `pro/cards/:userId/:stripeCustomerId/edit` | `/app/account/payment-methods/:id/edit` | ⬜ |
-| `pro/createcard` | مدموج في السابق | ⬜ |
+| `priceList/` (`ServicesPriceList`) | `/app/price-lists` (أسعار مرجعية حسب التخصّص) | ✅ |
+| `priceList/editPlanInfo/:planId` | مدموج — عرض للقراءة (لا تحرير) | ✅ |
+| `priceList/subCatPriceList/:catCode` | مدموج — فلتر التخصّص في نفس القائمة | ✅ |
+| `priceList/editSubCatPriceList/:catId` | مدموج — عرض للقراءة | ✅ |
+| `pro/cards` (+ `ProCardsNew`) | مستبعَد — انظر الملاحظة | ⛔ |
+| `pro/cards/:userId/:stripeCustomerId/view` | مستبعَد | ⛔ |
+| `pro/cards/create` | مستبعَد | ⛔ |
+| `pro/cards/:userId/:stripeCustomerId/edit` | مستبعَد | ⛔ |
+| `pro/createcard` | مستبعَد | ⛔ |
+
+> ⛔ **استبعاد مقصود — بطاقات الدفع (Stripe).** لا يوجد في نطاق الإعمار ما يقابلها:
+> الأموال تصل من المموّلين وتُصرف للمقاولين عبر **الحوالات البنكية والمستخلصات**
+> (`/app/disbursements` و`/app/statements`)، ورسوم العضوية تُسجَّل في
+> `/app/subscriptions`. لا حاجة لتخزين بيانات بطاقات في المنصّة أصلًا.
 | `sub/enableVanlynk` | `/app/subscriptions` (سجل العضويات) | ✅ |
 | `sub/subscriptionHistory` (+ `/pro/:loginId`) | `/app/subscriptions/:id` (سجل المدفوعات) | ✅ |
 | `sub/vanlynkPaymentSubscriptionHistory` | `/app/subscriptions/:id` | ✅ |

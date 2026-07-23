@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { WorkOrder, WorkOrderStatus } from '@core/models';
 import { WorkOrdersApi } from '@core/api/work-orders-api.service';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
@@ -31,7 +32,7 @@ interface BoardColumn {
  */
 @Component({
   selector: 'app-dispatch-board',
-  imports: [TranslatePipe, PageHeader, StatusPill],
+  imports: [RouterLink, TranslatePipe, PageHeader, StatusPill],
   templateUrl: './dispatch-board.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

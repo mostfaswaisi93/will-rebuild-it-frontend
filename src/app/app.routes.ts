@@ -198,6 +198,40 @@ export const routes: Routes = [
           import('./features/dashboard/staff-dashboard/staff-dashboard').then((m) => m.StaffDashboard),
       },
       {
+        path: 'supplier-dashboard',
+        canActivate: [roleGuard(['supplier'])],
+        loadComponent: () =>
+          import('./features/suppliers/supplier-dashboard/supplier-dashboard').then(
+            (m) => m.SupplierDashboard,
+          ),
+      },
+      {
+        path: 'dispatch',
+        canActivate: [roleGuard(['admin', 'contractor'])],
+        loadComponent: () =>
+          import('./features/dispatch/dispatch-board/dispatch-board').then((m) => m.DispatchBoard),
+      },
+      {
+        path: 'inspections',
+        canActivate: [roleGuard(['admin', 'staff'])],
+        loadComponent: () =>
+          import('./features/inspections/inspection-list/inspection-list').then(
+            (m) => m.InspectionList,
+          ),
+      },
+      {
+        path: 'shipments',
+        canActivate: [roleGuard(['admin', 'supplier'])],
+        loadComponent: () =>
+          import('./features/shipments/shipment-list/shipment-list').then((m) => m.ShipmentList),
+      },
+      {
+        path: 'price-lists',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/price-list/price-list/price-list').then((m) => m.PriceList),
+      },
+      {
         path: 'work-requests',
         canActivate: [roleGuard(['admin', 'contractor'])],
         loadComponent: () =>
@@ -583,6 +617,29 @@ export const routes: Routes = [
           import('./features/team-workspace/team-dashboard/team-dashboard').then(
             (m) => m.TeamDashboard,
           ),
+      },
+
+      // --- Header user menu, reachable from every role ---------------------
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile-page/profile-page').then((m) => m.ProfilePage),
+      },
+      {
+        // Must precede `complaints/:id` if a detail is ever added.
+        path: 'complaints/new',
+        loadComponent: () =>
+          import('./features/complaints/complaint-form/complaint-form').then((m) => m.ComplaintForm),
+      },
+      {
+        path: 'complaints',
+        loadComponent: () =>
+          import('./features/complaints/complaint-list/complaint-list').then((m) => m.ComplaintList),
+      },
+      {
+        path: 'privacy',
+        loadComponent: () =>
+          import('./features/content/privacy-page/privacy-page').then((m) => m.PrivacyPage),
       },
     ],
   },
