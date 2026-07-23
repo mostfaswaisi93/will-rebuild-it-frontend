@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { PURCHASE_ORDER_STATUSES, PurchaseOrder, PurchaseOrderStatus } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { InventoryApi } from '@core/api/inventory-api.service';
+import { SessionStore } from '@core/session/session-store.service';
 import { DataTable, DataTableColumn } from '@shared/ui/data-table/data-table';
 import { FilterBar } from '@shared/ui/filter-bar/filter-bar';
 import { PageHeader } from '@shared/ui/page-header/page-header';
@@ -14,12 +16,19 @@ const PAGE_SIZE = 10;
 /** Purchase-order register — port of the legacy `purchaseOrderList`. */
 @Component({
   selector: 'app-purchase-order-list',
-  imports: [TranslatePipe, DataTable, FilterBar, PageHeader, StatusPill],
+  imports: [RouterLink, TranslatePipe, DataTable, FilterBar, PageHeader, StatusPill],
   templateUrl: './purchase-order-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PurchaseOrderList {
   private readonly api = inject(InventoryApi);
+  private readonly session = inject(SessionStore);
+
+  /** Suppliers see their orders but do not raise them — mirrors the route guard. */
+  protected readonly canCreate = computed(() => {
+    const role = this.session.role();
+    return role === 'admin' || role === 'contractor';
+  });
   private readonly translation = inject(TranslationService);
 
   protected readonly statuses = PURCHASE_ORDER_STATUSES;

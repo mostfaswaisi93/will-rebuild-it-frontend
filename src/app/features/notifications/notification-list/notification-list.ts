@@ -6,6 +6,7 @@ import { AppNotification } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { NotificationsApi } from '@core/api/notifications-api.service';
+import { SessionStore } from '@core/session/session-store.service';
 import { ToastService } from '@core/toast/toast.service';
 import { PageHeader } from '@shared/ui/page-header/page-header';
 
@@ -22,6 +23,11 @@ import { PageHeader } from '@shared/ui/page-header/page-header';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationList {
+  private readonly session = inject(SessionStore);
+
+  /** Only platform operators can broadcast — mirrors the route guard. */
+  protected readonly canBroadcast = computed(() => this.session.role() === 'admin');
+
   private readonly api = inject(NotificationsApi);
   private readonly toast = inject(ToastService);
   private readonly translation = inject(TranslationService);

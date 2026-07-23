@@ -57,6 +57,26 @@ export class CampaignDetail {
     return c && c.audienceSize > 0 ? c.sentCount / c.audienceSize : 0;
   });
 
+  /** Spend against budget, clamped to 1 so the bar never overflows its track. */
+  protected readonly spendRatio = computed(() => {
+    const c = this.campaign();
+    if (!c?.budget) {
+      return 0;
+    }
+    return Math.min(1, (c.spent ?? 0) / c.budget);
+  });
+
+  protected readonly overBudget = computed(() => {
+    const c = this.campaign();
+    return !!c?.budget && (c.spent ?? 0) > c.budget;
+  });
+
+  /** Never negative — an overspend is surfaced by `overBudget` instead. */
+  protected readonly remaining = computed(() => {
+    const c = this.campaign();
+    return Math.max(0, (c?.budget ?? 0) - (c?.spent ?? 0));
+  });
+
   protected send(): void {
     this.run((id) => this.api.send(id), 'campaigns.detail.sent');
   }
@@ -92,6 +112,14 @@ export class CampaignDetail {
 
   protected count(value: number): string {
     return new Intl.NumberFormat(this.translation.locale()).format(value);
+  }
+
+  protected money(value: number, currency: string): string {
+    return new Intl.NumberFormat(this.translation.locale(), {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 0,
+    }).format(value);
   }
 
   protected percent(value: number): string {

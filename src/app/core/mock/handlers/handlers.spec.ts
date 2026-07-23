@@ -435,6 +435,38 @@ describe('mock backend handlers', () => {
       expect(result.status).toBe(404);
       expect(store.notifications.length).toBe(before);
     });
+
+    it('broadcasts an announcement to the top of the list, unread', () => {
+      const before = store.notifications.length;
+
+      const result = expectHandled(
+        handleNotifications(
+          makeContext(store, {
+            method: 'POST',
+            path: '/notifications',
+            body: { title: 'Crossing closed', body: 'Kerem Shalom is closed until Sunday.' },
+          }),
+        ),
+      );
+
+      expect(result.status).toBe(201);
+      const announcement = result.body as AppNotification;
+      expect(announcement.title).toBe('Crossing closed');
+      expect(announcement.isRead).toBe(false);
+      expect(store.notifications.length).toBe(before + 1);
+      // Newest first, so it leads the list.
+      expect(store.notifications[0].id).toBe(announcement.id);
+    });
+
+    it('rejects a broadcast with no title or body', () => {
+      const result = expectHandled(
+        handleNotifications(
+          makeContext(store, { method: 'POST', path: '/notifications', body: { title: '  ' } }),
+        ),
+      );
+
+      expect(result.status).toBe(400);
+    });
   });
 
   describe('fall-through: a handler returns undefined for paths it does not own', () => {

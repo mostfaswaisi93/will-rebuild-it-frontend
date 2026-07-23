@@ -16,7 +16,10 @@
 } @else {
   <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
     @for (wh of warehouses(); track wh.id) {
-      <div class="rounded-card border border-ink-300 bg-surface p-4">
+      <a
+        [routerLink]="['/app/warehouses', wh.id]"
+        class="block rounded-card border border-ink-300 bg-surface p-4 transition hover:border-brand-400 hover:shadow-sm"
+      >
         <div class="flex items-start gap-3">
           <span class="flex size-10 shrink-0 items-center justify-center rounded-card bg-brand-50 text-brand-600">
             <svg lucideWarehouse [size]="20" aria-hidden="true"></svg>
@@ -34,7 +37,7 @@
             <dd class="font-medium text-ink-900">{{ wh.managerName }}</dd>
           </div>
         </dl>
-      </div>
+      </a>
     }
   </div>
 }

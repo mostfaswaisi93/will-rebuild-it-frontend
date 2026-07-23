@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { LucideWarehouse } from '@lucide/angular';
 import { Warehouse } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
@@ -13,7 +14,7 @@ import { PageHeader } from '@shared/ui/page-header/page-header';
  */
 @Component({
   selector: 'app-warehouse-list',
-  imports: [LucideWarehouse, TranslatePipe, PageHeader],
+  imports: [RouterLink, LucideWarehouse, TranslatePipe, PageHeader],
   templateUrl: './warehouse-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

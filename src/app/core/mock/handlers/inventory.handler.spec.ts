@@ -107,4 +107,92 @@ describe('inventory handler', () => {
       expect(after.status).toBe('inStock');
     });
   });
+
+  describe('detail lookups', () => {
+    it('returns a warehouse with only its own stock and a matching summary', () => {
+      const warehouse = store.warehouses[0];
+      const result = expectHandled(
+        handleInventory(makeContext(store, { path: `warehouses/${warehouse.id}` })),
+      );
+
+      const body = result.body as Warehouse & { stock: StockItem[]; summary: StockSummary };
+      expect(body.id).toBe(warehouse.id);
+      expect(body.stock.every((item) => item.warehouseId === warehouse.id)).toBeTrue();
+      expect(body.summary.total).toBe(body.stock.length);
+    });
+
+    it('404s for an unknown warehouse', () => {
+      expect(
+        expectHandled(handleInventory(makeContext(store, { path: 'warehouses/nope' }))).status,
+      ).toBe(404);
+    });
+
+    it('returns a single stock item', () => {
+      const item = store.stock[0];
+      const result = expectHandled(
+        handleInventory(makeContext(store, { path: `stock/${item.id}` })),
+      );
+      expect((result.body as StockItem).id).toBe(item.id);
+    });
+
+    it('404s for an unknown stock item', () => {
+      expect(expectHandled(handleInventory(makeContext(store, { path: 'stock/nope' }))).status).toBe(
+        404,
+      );
+    });
+  });
+
+  describe('raising a purchase order', () => {
+    function body(overrides: Record<string, unknown> = {}) {
+      return {
+        supplierId: store.suppliers[0].id,
+        warehouseId: store.warehouses[0].id,
+        lines: [
+          { description: 'Cement', category: 'cement', quantity: 10, unit: 'bag', unitRate: 8 },
+          { description: 'Steel', category: 'steel', quantity: 2, unit: 'tonne', unitRate: 700 },
+        ],
+        ...overrides,
+      };
+    }
+
+    it('creates a draft order and computes line amounts and subtotal', () => {
+      const before = store.purchaseOrders.length;
+      const result = expectHandled(
+        handleInventory(makeContext(store, { method: 'POST', path: 'purchase-orders', body: body() })),
+      );
+
+      expect(result.status).toBe(201);
+      const order = result.body as PurchaseOrder;
+      expect(order.status).toBe('draft');
+      expect(order.supplierName).toBe(store.suppliers[0].name);
+      expect(order.lines[0].amount).toBe(80);
+      expect(order.lines[1].amount).toBe(1400);
+      expect(order.subtotal).toBe(1480);
+      expect(store.purchaseOrders.length).toBe(before + 1);
+    });
+
+    it('rejects an unknown supplier or warehouse', () => {
+      expect(
+        expectHandled(
+          handleInventory(
+            makeContext(store, { method: 'POST', path: 'purchase-orders', body: body({ supplierId: 'nope' }) }),
+          ),
+        ).status,
+      ).toBe(400);
+    });
+
+    it('rejects an order with no usable lines', () => {
+      expect(
+        expectHandled(
+          handleInventory(
+            makeContext(store, {
+              method: 'POST',
+              path: 'purchase-orders',
+              body: body({ lines: [{ description: '   ', quantity: 0 }] }),
+            }),
+          ),
+        ).status,
+      ).toBe(400);
+    });
+  });
 });

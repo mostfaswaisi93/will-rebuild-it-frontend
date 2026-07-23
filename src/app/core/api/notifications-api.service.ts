@@ -9,6 +9,11 @@ export class NotificationsApi {
   private readonly http = inject(HttpClient);
   private readonly base = `${environment.apiUrl}/notifications`;
 
+  /** Broadcasts an announcement to platform users. */
+  broadcast(payload: { title: string; body: string; linkUrl?: string }): Observable<AppNotification> {
+    return this.http.post<AppNotification>(this.base, payload);
+  }
+
   getNotifications(): Observable<AppNotification[]> {
     return this.http.get<AppNotification[]>(this.base);
   }

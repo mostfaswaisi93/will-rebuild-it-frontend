@@ -2,6 +2,15 @@
   [title]="'notifications.list.title' | translate"
   [subtitle]="'notifications.list.subtitle' | translate"
 >
+  @if (canBroadcast()) {
+    <a
+      pageHeaderActions
+      routerLink="/app/notifications/push"
+      class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600"
+    >
+      {{ 'notifications.broadcast.title' | translate }}
+    </a>
+  }
   @if (unreadCount() > 0) {
     <button
       pageHeaderActions

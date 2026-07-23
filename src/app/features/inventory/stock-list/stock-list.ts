@@ -90,6 +90,7 @@ export class StockList {
   ];
 
   protected readonly rowId = (row: StockItem): string => row.id;
+  protected readonly rowLink = (row: StockItem): string => `/app/inventory/${row.id}`;
 
   protected onPageChange(page: number): void {
     this.pageNo.set(page);

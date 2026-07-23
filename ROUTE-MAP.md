@@ -230,15 +230,22 @@
 | الأصل | الجديد | الحالة |
 |---|---|---|
 | `inventory/inventorylist` (+ GridView + NewList) | `/app/inventory` | ✅ |
-| `inventory/inventorydetails` (+ NewDetails) | `/app/inventory/:id` | ⬜ |
+| `inventory/inventorydetails` (+ NewDetails) | `/app/inventory/:id` (الرصيد وحدّ إعادة الطلب) | ✅ |
 | `inventory/locationlist` (+ NewList) | `/app/warehouses` | ✅ |
-| `inventory/locationdetails` (+ NewDetails) | `/app/warehouses/:id` | ⬜ |
+| `inventory/locationdetails` (+ NewDetails) | `/app/warehouses/:id` (المستودع ومخزونه) | ✅ |
 | `inventory/purchaseOrderList` | `/app/purchase-orders` | ✅ |
 | `inventory/purchaseOrderDetails` | `/app/purchase-orders/:id` (بنود + انتقالات + استلام للمخزون) | ✅ |
-| `inventory/createPo` | `/app/purchase-orders/new` | ⬜ |
+| `inventory/createPo` | `/app/purchase-orders/new` (بنود ديناميكية + إجمالي محسوب) | ✅ |
 | `inventory/truckOrderList` | `/app/shipments` (تتبّع عبر المعابر + ملخّص) | ✅ |
 | `inventory/truckOrderDetails` | مدموج في قائمة الشحنات (بطاقات الحالة والحمولة) | ✅ |
-| `inventory/approveInventory` | `/app/inventory/approvals` | ⬜ |
+| `inventory/approveInventory` | `/app/purchase-orders` بفلتر «بانتظار الاعتماد» + إجراء الاعتماد في التفاصيل | ✅ |
+
+> **إضافة على الـ mock:** أُضيفت `GET /warehouses/:id` (المستودع + مخزونه + ملخّصه)
+> و`GET /stock/:id` و`POST /purchase-orders`. أمر الشراء يُنشأ **مسودة** دائمًا،
+> ويحسب الخادم مبلغ كل بند والإجمالي بدل الوثوق بما يرسله النموذج؛ والاعتماد
+> والاستلام يبقيان في مسار الانتقالات القائم — فالاستلام هو ما يُدخل المواد
+> للمخزون. لذلك «اعتماد المخزون» لم يكن يحتاج صفحة جديدة: فلتر الحالة في القائمة
+> مع زر الاعتماد في التفاصيل يؤدّيان الدور نفسه.
 
 ### المعدّات
 | الأصل | الجديد | الحالة |
@@ -365,15 +372,32 @@
 | `staff/timecard` | مدموج في ملف الموظف | ✅ |
 | `staff/staff-timecard` | مدموج في ملف الموظف | ✅ |
 | `questions/standard-questions-list` | `/app/questions` (عارض بنك الأسئلة) | ✅ |
-| `questions/categories-list` | `/app/questions/categories` | ⬜ |
-| `questions/subcategories-list` | `/app/questions/subcategories` | ⬜ |
-| `questions/category-question-form` | `/app/questions/form` | ⬜ |
+| `questions/categories-list` | مستبعَد — انظر الملاحظة | ⛔ |
+| `questions/subcategories-list` | مستبعَد — انظر الملاحظة | ⛔ |
+| `questions/category-question-form` | مستبعَد — انظر الملاحظة | ⛔ |
+
+> ⛔ **شجرة تصنيف الأسئلة لا يقابلها شيء هنا.** في البرنامج القديم كان بنك الأسئلة
+> جدولًا مصنَّفًا (فئة ← فئة فرعية ← سؤال) قابلًا للتحرير. في هذا البناء استمارة
+> تقييم الأضرار **تدفّق متفرّع مُنسَّق** (`nextQuestionId`) بنصوص عربية/إنجليزية
+> مُراجَعة، لا شجرة فئات: فالسؤال التالي تحدّده الإجابة لا التصنيف. محرّر فئات فوق
+> هذا البناء سيكسر سلامة التفرّع ومراجعة النصّين معًا، لذلك يبقى `/app/questions`
+> عارضًا للقراءة يُظهر النصّ ونوع الإدخال والخيارات ووجهة كل خيار.
 | `promotions/promotionlist` | `/app/campaigns` | ✅ |
 | `promotions/promotiondetails` | `/app/campaigns/:id` (إرسال/إلغاء) | ✅ |
-| `promotions/emailList` | `/app/campaigns/recipients` | ⬜ |
-| `promotions/budget` | `/app/campaigns/budget` | ⬜ |
+| `promotions/emailList` | مدموج في `/app/campaigns/:id` (الجمهور والوصول) | ✅ |
+| `promotions/budget` | مدموج في `/app/campaigns/:id` (الميزانية والمنصرف) | ✅ |
 | `notifications/notificationsList` | `/app/notifications` | ✅ |
-| `notifications/push-notifications` | `/app/notifications/push` | ⬜ |
+| `notifications/push-notifications` | `/app/notifications/push` (إرسال إعلان) | ✅ |
+
+> **الحملات:** «قائمة المستلمين» و«الميزانية» لم تكونا تستحقّان صفحتين مستقلّتين —
+> كلتاهما بلا معنى بعيدًا عن حملتها. الجمهور وحجمه ونسبة التسليم كانت معروضة أصلًا
+> في تفاصيل الحملة، وأُضيف إليها شريط **الميزانية والمنصرف** (مع حقلي `budget`
+> و`spent` على النموذج) لأن تمويل التوعية يأتي من مال المتبرّعين نفسه.
+>
+> **الإعلانات:** أُضيفت `POST /notifications`. الشاشة القديمة كانت تربط مزوّد
+> إشعارات جوال؛ هنا يصل الإعلان إلى مركز الإشعارات داخل التطبيق — وهي قناة التسليم
+> التي يملكها هذا البناء فعلًا. أما مخاطبة من هم **خارج** التطبيق (بريد/رسائل) فهي
+> حملة لا إشعار.
 | `social/yelp` | `/app/external-ratings` (تقارير مراقبة مستقلّة) | ✅ |
 | `social/google` | مدموج — تقارير المراقبة | ✅ |
 | `support/customer-tickets` | `/app/support` | ✅ |

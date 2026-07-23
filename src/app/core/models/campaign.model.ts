@@ -23,6 +23,15 @@ export interface Campaign {
   message: string;
   audienceSize: number;
   sentCount: number;
+  /**
+   * Outreach is funded from the same donor money as the work, so a campaign
+   * carries a budget and what it has actually spent. Ports the legacy
+   * `promotions/budget` screen onto the campaign itself rather than a separate
+   * page — the figure is meaningless away from the campaign it belongs to.
+   */
+  budget?: number;
+  spent?: number;
+  currency?: string;
   scheduledFor?: string;
   createdAt: string;
 }

@@ -1,0 +1,64 @@
+<app-page-header
+  [title]="'notifications.broadcast.title' | translate"
+  [subtitle]="'notifications.broadcast.subtitle' | translate"
+  [showBack]="true"
+/>
+
+<form [formGroup]="form" (ngSubmit)="send()" class="max-w-2xl space-y-4">
+  <section class="rounded-card border border-ink-300 bg-surface p-4 space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="title">
+        {{ 'notifications.broadcast.titleLabel' | translate }}
+      </label>
+      <input
+        id="title"
+        type="text"
+        maxlength="80"
+        formControlName="title"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      @if (form.controls.title.touched && form.controls.title.invalid) {
+        <p class="mt-1 text-xs text-danger">{{ 'notifications.broadcast.titleRequired' | translate }}</p>
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="body">
+        {{ 'notifications.broadcast.bodyLabel' | translate }}
+      </label>
+      <textarea
+        id="body"
+        rows="5"
+        formControlName="body"
+        [placeholder]="'notifications.broadcast.bodyPlaceholder' | translate"
+        class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      ></textarea>
+      @if (form.controls.body.touched && form.controls.body.invalid) {
+        <p class="mt-1 text-xs text-danger">{{ 'notifications.broadcast.bodyRequired' | translate }}</p>
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="link">
+        {{ 'notifications.broadcast.linkLabel' | translate }}
+      </label>
+      <input
+        id="link"
+        type="text"
+        formControlName="linkUrl"
+        dir="ltr"
+        placeholder="/app/projects"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      <p class="mt-1 text-xs text-ink-500">{{ 'notifications.broadcast.linkHint' | translate }}</p>
+    </div>
+  </section>
+
+  <button
+    type="submit"
+    [disabled]="sending()"
+    class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+  >
+    {{ (sending() ? 'common.loading' : 'notifications.broadcast.send') | translate }}
+  </button>
+</form>

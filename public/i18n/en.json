@@ -9,6 +9,7 @@
     "retry": "Retry",
     "save": "Save",
     "cancel": "Cancel",
+    "remove": "Remove",
     "confirm": "Confirm",
     "back": "Back",
     "next": "Next",
@@ -1327,6 +1328,19 @@
     }
   },
   "notifications": {
+    "broadcast": {
+      "title": "Send announcement",
+      "subtitle": "An announcement shown in users' in-app notification centre.",
+      "titleLabel": "Announcement title",
+      "titleRequired": "Enter a title (80 characters maximum).",
+      "bodyLabel": "Announcement body",
+      "bodyPlaceholder": "Write what you want users to know",
+      "bodyRequired": "Write at least 10 characters.",
+      "linkLabel": "Internal link (optional)",
+      "linkHint": "A path inside the platform, opened when the notification is tapped.",
+      "send": "Send announcement",
+      "sent": "Announcement sent."
+    },
     "list": {
       "title": "Notifications",
       "subtitle": "Updates on your projects, funding, and requests",
@@ -2116,6 +2130,14 @@
       "warehouse": "Warehouse",
       "quantity": "Quantity",
       "status": "Status"
+    },
+    "detail": {
+      "notFound": "We couldn't find this stock item.",
+      "onHand": "On hand",
+      "reorderLevel": "Reorder level",
+      "belowReorder": "At or below reorder level",
+      "details": "Details",
+      "unit": "Unit of measure"
     }
   },
   "warehouses": {
@@ -2165,6 +2187,14 @@
       "statusUpdated": "Order status updated.",
       "receivedToStock": "Received — materials added to stock.",
       "receiveHint": "Confirming receipt adds the quantities into the warehouse stock."
+    },
+    "form": {
+      "title": "New purchase order",
+      "created": "Purchase order created as a draft.",
+      "addLine": "Add line",
+      "submit": "Create purchase order",
+      "supplierRequired": "Please choose a supplier.",
+      "warehouseRequired": "Please choose a warehouse."
     }
   },
   "equipment": {
@@ -2485,7 +2515,9 @@
       "sendNow": "Send now",
       "sent": "Campaign launched.",
       "cancelCampaign": "Cancel campaign",
-      "cancelled": "Campaign cancelled."
+      "cancelled": "Campaign cancelled.",
+      "budget": "Budget",
+      "remaining": "{{amount}} remaining"
     }
   },
   "logs": {

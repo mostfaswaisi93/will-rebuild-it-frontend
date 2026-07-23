@@ -457,6 +457,16 @@ export const routes: Routes = [
           ),
       },
       {
+        // Must precede `notifications` is unnecessary (distinct segments), but
+        // keep the compose route beside its list for readability.
+        path: 'notifications/push',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/notifications/notification-broadcast/notification-broadcast').then(
+            (m) => m.NotificationBroadcast,
+          ),
+      },
+      {
         path: 'notifications',
         loadComponent: () =>
           import('./features/notifications/notification-list/notification-list').then(

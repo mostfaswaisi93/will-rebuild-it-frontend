@@ -1,7 +1,17 @@
 <app-page-header
   [title]="'purchaseOrders.title' | translate"
   [subtitle]="'purchaseOrders.subtitle' | translate"
-/>
+>
+  @if (canCreate()) {
+    <a
+      pageHeaderActions
+      routerLink="/app/purchase-orders/new"
+      class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 text-sm font-semibold text-white hover:bg-brand-600"
+    >
+      {{ 'purchaseOrders.form.title' | translate }}
+    </a>
+  }
+</app-page-header>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
