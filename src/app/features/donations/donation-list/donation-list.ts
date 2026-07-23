@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { DONATION_STATUSES, Donation, DonationStatus } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -14,7 +15,7 @@ const PAGE_SIZE = 10;
  * Reads `DonationsApi.getMyDonations`. */
 @Component({
   selector: 'app-donation-list',
-  imports: [TranslatePipe, DataTable, PageHeader, StatusPill],
+  imports: [RouterLink, TranslatePipe, DataTable, PageHeader, StatusPill],
   templateUrl: './donation-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -80,6 +81,7 @@ export class DonationList {
   ];
 
   protected readonly rowId = (row: Donation): string => row.id;
+  protected readonly rowLink = (row: Donation): string => `/app/donations/${row.id}`;
 
   protected onPageChange(page: number): void {
     this.pageNo.set(page);

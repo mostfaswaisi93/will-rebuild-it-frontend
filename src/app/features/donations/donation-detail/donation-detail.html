@@ -1,0 +1,61 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-40 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !donation()) {
+  <app-page-header [title]="'donations.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'donations.detail.loadError' | translate }}
+  </p>
+} @else if (donation(); as donation) {
+  <app-page-header [title]="'donations.detail.title' | translate" [showBack]="true">
+    <app-status-pill pageHeaderActions context="donation" [status]="donation.status" />
+  </app-page-header>
+
+  <section class="max-w-2xl rounded-card border border-ink-300 bg-surface p-5">
+    <p class="text-3xl font-bold text-brand-600" dir="ltr">
+      {{ money(donation.amount, donation.currency) }}
+    </p>
+    <p class="mt-1 text-sm text-ink-500">
+      {{ 'donations.frequency.' + donation.frequency | translate }}
+    </p>
+
+    <dl class="mt-4 space-y-2 border-t border-ink-300/60 pt-4 text-sm">
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'donations.detail.donor' | translate }}</dt>
+        <dd class="font-medium text-ink-900">
+          {{ donation.isAnonymous ? ('donations.detail.anonymous' | translate) : donation.donorName }}
+        </dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'donations.detail.project' | translate }}</dt>
+        <dd class="font-medium text-ink-900">
+          @if (donation.projectId) {
+            <a [routerLink]="['/app/projects', donation.projectId]" class="hover:text-brand-600">
+              {{ donation.projectTitle }}
+            </a>
+          } @else {
+            {{ 'donations.general.fund' | translate }}
+          }
+        </dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'donations.detail.date' | translate }}</dt>
+        <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(donation.createdAt) }}</dd>
+      </div>
+      <div class="flex justify-between gap-3">
+        <dt class="text-ink-500">{{ 'donations.detail.reference' | translate }}</dt>
+        <dd class="font-medium text-ink-900" dir="ltr">{{ donation.id }}</dd>
+      </div>
+    </dl>
+
+    <button
+      type="button"
+      (click)="downloadReceipt()"
+      class="mt-4 inline-flex min-h-11 items-center justify-center rounded-input border border-ink-300 px-4 py-2 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'donations.detail.downloadReceipt' | translate }}
+    </button>
+  </section>
+}

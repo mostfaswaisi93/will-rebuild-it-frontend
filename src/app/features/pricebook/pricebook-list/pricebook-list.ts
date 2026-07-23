@@ -13,6 +13,7 @@ import { BoqCategory, PricebookItem } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { PricebookApi } from '@core/api/pricebook-api.service';
+import { SessionStore } from '@core/session/session-store.service';
 import { ToastService } from '@core/toast/toast.service';
 import { DialogService } from '@shared/ui/dialog/dialog.service';
 import { DataTable, DataTableColumn } from '@shared/ui/data-table/data-table';
@@ -42,6 +43,15 @@ const CATEGORIES: BoqCategory[] = ['materials', 'labor', 'equipment', 'custom'];
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricebookList {
+  private readonly session = inject(SessionStore);
+
+  /**
+   * Contractors read the rate book — their estimates are built on it — but only
+   * an operator may change it. A contractor editing the rates their own
+   * statements are reviewed against would undermine the review.
+   */
+  protected readonly canManage = computed(() => this.session.role() === 'admin');
+
   private readonly api = inject(PricebookApi);
   private readonly dialog = inject(DialogService);
   private readonly toast = inject(ToastService);

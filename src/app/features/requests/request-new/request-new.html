@@ -1,0 +1,123 @@
+<app-page-header
+  [title]="'requests.new.title' | translate"
+  [subtitle]="'requests.new.subtitle' | translate"
+  [showBack]="true"
+/>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="max-w-2xl space-y-4">
+  <section class="rounded-card border border-ink-300 bg-surface p-4 space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="type">
+        {{ 'requests.new.typeLabel' | translate }}
+      </label>
+      <select
+        id="type"
+        formControlName="type"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      >
+        @for (option of types; track option) {
+          <option [value]="option">{{ 'requests.type.' + option | translate }}</option>
+        }
+      </select>
+      <p class="mt-1 text-xs text-ink-500">{{ 'requests.new.typeHint' | translate }}</p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2">
+      <div>
+        <label class="block text-sm font-medium text-ink-900" for="propertyType">
+          {{ 'requests.list.columns.propertyType' | translate }}
+        </label>
+        <select
+          id="propertyType"
+          formControlName="propertyType"
+          class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          @for (option of propertyTypes; track option) {
+            <option [value]="option">{{ 'master.propertyType.' + option | translate }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-ink-900" for="severity">
+          {{ 'requests.view.severity' | translate }}
+        </label>
+        <select
+          id="severity"
+          formControlName="severity"
+          class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        >
+          @for (option of severities; track option) {
+            <option [value]="option">{{ 'master.severity.' + option | translate }}</option>
+          }
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-medium text-ink-900">{{ 'requests.view.address' | translate }}</h2>
+    <div class="mt-2">
+      <app-address-picker formControlName="address" />
+    </div>
+    @if (addressMissing()) {
+      <p class="mt-1 text-xs text-danger">{{ 'requests.new.addressRequired' | translate }}</p>
+    }
+  </section>
+
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <label class="block text-sm font-medium text-ink-900" for="description">
+      {{ 'requests.new.descriptionLabel' | translate }}
+    </label>
+    <textarea
+      id="description"
+      rows="5"
+      formControlName="description"
+      [placeholder]="'requests.new.descriptionPlaceholder' | translate"
+      class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    ></textarea>
+    @if (submitted() && form.controls.description.invalid) {
+      <p class="mt-1 text-xs text-danger">{{ 'requests.new.descriptionRequired' | translate }}</p>
+    }
+  </section>
+
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-medium text-ink-900">{{ 'requests.view.tabs.contact' | translate }}</h2>
+    <div class="mt-2 grid gap-4 sm:grid-cols-2">
+      <div>
+        <label class="block text-sm text-ink-500" for="contactName">
+          {{ 'requests.view.contactName' | translate }}
+        </label>
+        <input
+          id="contactName"
+          type="text"
+          formControlName="contactName"
+          class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+      </div>
+      <div>
+        <label class="block text-sm text-ink-500" for="contactPhone">
+          {{ 'requests.view.contactPhone' | translate }}
+        </label>
+        <input
+          id="contactPhone"
+          type="tel"
+          formControlName="contactPhone"
+          dir="ltr"
+          class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+        />
+      </div>
+    </div>
+    @if (submitted() && (form.controls.contactName.invalid || form.controls.contactPhone.invalid)) {
+      <p class="mt-1 text-xs text-danger">{{ 'requests.new.contactRequired' | translate }}</p>
+    }
+  </section>
+
+  <button
+    type="submit"
+    [disabled]="saving()"
+    class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+  >
+    {{ (saving() ? 'common.loading' : 'requests.new.submit') | translate }}
+  </button>
+</form>

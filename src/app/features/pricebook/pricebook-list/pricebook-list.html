@@ -2,15 +2,17 @@
   [title]="'pricebook.title' | translate"
   [subtitle]="'pricebook.subtitle' | translate"
 >
-  <button
-    pageHeaderActions
-    type="button"
-    (click)="add()"
-    class="inline-flex min-h-11 items-center gap-1.5 rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
-  >
-    <svg lucidePlus [size]="16" aria-hidden="true"></svg>
-    {{ 'pricebook.addItem' | translate }}
-  </button>
+  @if (canManage()) {
+    <button
+      pageHeaderActions
+      type="button"
+      (click)="add()"
+      class="inline-flex min-h-11 items-center gap-1.5 rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+    >
+      <svg lucidePlus [size]="16" aria-hidden="true"></svg>
+      {{ 'pricebook.addItem' | translate }}
+    </button>
+  }
 </app-page-header>
 
 @if (failed()) {
@@ -68,25 +70,27 @@
       </ng-template>
 
       <ng-template #rowActions let-row>
-        <div class="flex items-center justify-end gap-1">
-          <button
-            type="button"
-            (click)="edit(row)"
-            [attr.aria-label]="'common.edit' | translate"
-            class="inline-flex size-9 items-center justify-center rounded-input text-ink-500 hover:bg-surface-container-low hover:text-ink-900"
-          >
-            <svg lucidePencil [size]="16" aria-hidden="true"></svg>
-          </button>
-          <button
-            type="button"
-            (click)="toggleActive(row)"
-            [attr.aria-label]="(row.active ? 'pricebook.deactivate' : 'pricebook.activate') | translate"
-            [class]="row.active ? 'text-danger hover:bg-danger/5' : 'text-brand-600 hover:bg-brand-50'"
-            class="inline-flex size-9 items-center justify-center rounded-input"
-          >
-            <svg lucidePower [size]="16" aria-hidden="true"></svg>
-          </button>
-        </div>
+        @if (canManage()) {
+          <div class="flex items-center justify-end gap-1">
+            <button
+              type="button"
+              (click)="edit(row)"
+              [attr.aria-label]="'common.edit' | translate"
+              class="inline-flex size-9 items-center justify-center rounded-input text-ink-500 hover:bg-surface-container-low hover:text-ink-900"
+            >
+              <svg lucidePencil [size]="16" aria-hidden="true"></svg>
+            </button>
+            <button
+              type="button"
+              (click)="toggleActive(row)"
+              [attr.aria-label]="(row.active ? 'pricebook.deactivate' : 'pricebook.activate') | translate"
+              [class]="row.active ? 'text-danger hover:bg-danger/5' : 'text-brand-600 hover:bg-brand-50'"
+              class="inline-flex size-9 items-center justify-center rounded-input"
+            >
+              <svg lucidePower [size]="16" aria-hidden="true"></svg>
+            </button>
+          </div>
+        }
       </ng-template>
 
       <div dataTableEmpty class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">

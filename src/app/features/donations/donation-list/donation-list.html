@@ -1,4 +1,12 @@
-<app-page-header [title]="'donations.list.title' | translate" [subtitle]="'donations.list.subtitle' | translate" />
+<app-page-header [title]="'donations.list.title' | translate" [subtitle]="'donations.list.subtitle' | translate">
+  <a
+    pageHeaderActions
+    routerLink="/app/donations/new"
+    class="inline-flex min-h-11 items-center rounded-input bg-brand-500 px-4 text-sm font-semibold text-white hover:bg-brand-600"
+  >
+    {{ 'donations.list.newDonation' | translate }}
+  </a>
+</app-page-header>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
@@ -28,6 +36,7 @@
       [pageSize]="10"
       [totalCount]="totalCount()"
       [rowId]="rowId"
+      [rowLink]="rowLink"
       (pageChange)="onPageChange($event)"
     >
       <ng-template appDataTableCell="status" let-row>

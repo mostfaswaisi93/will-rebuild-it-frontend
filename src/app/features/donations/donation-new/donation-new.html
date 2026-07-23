@@ -1,0 +1,117 @@
+<app-page-header
+  [title]="'donations.donate.title' | translate"
+  [subtitle]="'donations.donate.subtitle' | translate"
+  [showBack]="true"
+/>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="max-w-2xl space-y-4">
+  <section class="rounded-card border border-ink-300 bg-surface p-4">
+    <h2 class="text-sm font-medium text-ink-900">{{ 'donations.donate.amountLabel' | translate }}</h2>
+    <div class="mt-2 flex flex-wrap gap-2">
+      @for (preset of presets; track preset) {
+        <button
+          type="button"
+          (click)="selectPreset(preset)"
+          class="min-h-11 rounded-input border px-4 text-sm font-semibold transition-colors"
+          [class]="isSelected(preset) ? 'border-brand-500 bg-brand-50 text-brand-700' : 'border-ink-300 text-ink-700 hover:bg-surface-container-low'"
+        >
+          {{ money(preset) }}
+        </button>
+      }
+    </div>
+
+    <label class="mt-4 block text-sm font-medium text-ink-900" for="amount">
+      {{ 'donations.donate.customAmountLabel' | translate }}
+    </label>
+    <input
+      id="amount"
+      type="number"
+      min="1"
+      step="any"
+      formControlName="amount"
+      dir="ltr"
+      class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    />
+    @if (submitted() && form.controls.amount.invalid) {
+      <p class="mt-1 text-xs text-danger">{{ 'donations.donate.amountError' | translate }}</p>
+    }
+
+    <label class="mt-4 block text-sm font-medium text-ink-900" for="frequency">
+      {{ 'donations.donate.frequencyLabel' | translate }}
+    </label>
+    <select
+      id="frequency"
+      formControlName="frequency"
+      class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    >
+      @for (option of frequencies; track option) {
+        <option [value]="option">{{ 'donations.frequency.' + option | translate }}</option>
+      }
+    </select>
+
+    <label class="mt-4 block text-sm font-medium text-ink-900" for="project">
+      {{ 'donations.detail.project' | translate }}
+    </label>
+    <select
+      id="project"
+      formControlName="projectId"
+      class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+    >
+      <option value="">{{ 'donations.general.fund' | translate }}</option>
+      @for (project of projects(); track project.id) {
+        <option [value]="project.id">{{ project.title }}</option>
+      }
+    </select>
+  </section>
+
+  <section class="rounded-card border border-ink-300 bg-surface p-4 space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="donorName">
+        {{ 'donations.donate.nameLabel' | translate }}
+      </label>
+      <input
+        id="donorName"
+        type="text"
+        formControlName="donorName"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-ink-900" for="email">
+        {{ 'donations.donate.emailLabel' | translate }}
+      </label>
+      <input
+        id="email"
+        type="email"
+        formControlName="email"
+        dir="ltr"
+        class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+      />
+      @if (submitted() && form.controls.email.invalid) {
+        <p class="mt-1 text-xs text-danger">{{ 'donations.donate.emailError' | translate }}</p>
+      }
+    </div>
+
+    <label class="flex min-h-11 items-center gap-2 text-sm text-ink-700">
+      <input
+        type="checkbox"
+        formControlName="isAnonymous"
+        class="size-4 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
+      />
+      {{ 'donations.donate.anonymousLabel' | translate }}
+    </label>
+  </section>
+
+  <p class="rounded-card border border-ink-300 bg-surface-container-low/40 px-4 py-3 text-sm text-ink-600">
+    {{ 'donations.donate.paymentNote' | translate }}
+  </p>
+
+  <button
+    type="submit"
+    [disabled]="saving()"
+    class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-6 py-2 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+  >
+    {{ (saving() ? 'common.loading' : 'donations.donate.submit') | translate }}
+  </button>
+</form>

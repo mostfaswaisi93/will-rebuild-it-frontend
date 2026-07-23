@@ -264,13 +264,15 @@ export const routes: Routes = [
       },
       {
         path: 'estimates',
-        canActivate: [roleGuard(['admin', 'contractor'])],
+        // A beneficiary sees what their rebuild is costed at, and a team sees
+        // its own estimates; deciding stays with the operator (`canDecide`).
+        canActivate: [roleGuard(['admin', 'contractor', 'beneficiary', 'team'])],
         loadComponent: () =>
           import('./features/estimates/estimate-list/estimate-list').then((m) => m.EstimateList),
       },
       {
         path: 'estimates/:id',
-        canActivate: [roleGuard(['admin', 'contractor'])],
+        canActivate: [roleGuard(['admin', 'contractor', 'beneficiary', 'team'])],
         loadComponent: () =>
           import('./features/estimates/estimate-detail/estimate-detail').then(
             (m) => m.EstimateDetail,
@@ -317,7 +319,9 @@ export const routes: Routes = [
       {
         // Managing the rate catalogue is an operator responsibility.
         path: 'pricebook',
-        canActivate: [roleGuard(['admin'])],
+        // Contractors read the rates their estimates are built on; only an
+        // operator may edit them (gated in the page by `canManage`).
+        canActivate: [roleGuard(['admin', 'contractor'])],
         loadComponent: () =>
           import('./features/pricebook/pricebook-list/pricebook-list').then((m) => m.PricebookList),
       },
@@ -682,6 +686,21 @@ export const routes: Routes = [
         canActivate: [roleGuard(['donor'])],
         loadComponent: () =>
           import('./features/donations/donation-list/donation-list').then((m) => m.DonationList),
+      },
+      {
+        // Must precede `donations/:id`, or `:id` captures the literal "new".
+        path: 'donations/new',
+        canActivate: [roleGuard(['donor'])],
+        loadComponent: () =>
+          import('./features/donations/donation-new/donation-new').then((m) => m.DonationNew),
+      },
+      {
+        path: 'donations/:id',
+        canActivate: [roleGuard(['donor'])],
+        loadComponent: () =>
+          import('./features/donations/donation-detail/donation-detail').then(
+            (m) => m.DonationDetail,
+          ),
       },
 
       // --- Team workspace (role home: /app/team-dashboard) -----------------
