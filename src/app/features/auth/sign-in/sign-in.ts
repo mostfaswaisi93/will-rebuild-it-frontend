@@ -70,7 +70,10 @@ export class SignIn {
   private readonly destroyRef = inject(DestroyRef);
 
   /** Registration hands the new address over so it isn't retyped here. */
-  private readonly prefilledEmail = inject(ActivatedRoute).snapshot.queryParamMap.get('email') ?? '';
+  private readonly queryParams = inject(ActivatedRoute).snapshot.queryParamMap;
+  private readonly prefilledEmail = this.queryParams.get('email') ?? '';
+  /** Where `authGuard` bounced the visitor from, so sign-in can hand them back. */
+  private readonly returnUrl = this.queryParams.get('returnUrl');
 
   protected readonly form = new FormGroup({
     email: new FormControl(this.prefilledEmail.trim(), {
@@ -230,6 +233,13 @@ export class SignIn {
   private routeAfterLogin(role: UserRole): void {
     if (role === 'beneficiary' || role === 'donor') {
       window.location.href = environment.customerPortalUrl;
+      return;
+    }
+    // Hand the visitor back to whatever `authGuard` bounced them from. Only
+    // in-app paths are honoured, so a crafted `returnUrl` cannot bounce someone
+    // to another origin after they authenticate.
+    if (this.returnUrl?.startsWith('/app/')) {
+      void this.router.navigateByUrl(this.returnUrl);
       return;
     }
     void this.router.navigate(['/app', homeRouteForRole(role)]);

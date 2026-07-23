@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { Team, TeamReview } from '@core/models';
+import { GOVERNORATE_CENTROIDS, Team, TeamReview } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { TeamsApi } from '@core/api/teams-api.service';
+import { MapMarker, MapView } from '@shared/ui/map/map';
 import { PageHeader } from '@shared/ui/page-header/page-header';
 import { specializationKey } from '../contractor-spec';
 
@@ -15,7 +16,7 @@ import { specializationKey } from '../contractor-spec';
  */
 @Component({
   selector: 'app-contractor-profile',
-  imports: [TranslatePipe, PageHeader],
+  imports: [TranslatePipe, MapView, PageHeader],
   templateUrl: './contractor-profile.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -45,6 +46,20 @@ export class ContractorProfile {
     const areas = this.team()?.coverageAreas ?? [];
     return [...new Set(areas.map((area) => area.governorate))];
   });
+
+  /**
+   * One marker per covered governorate, at its centroid — the service-area view
+   * of the legacy `promyprofile/map`. Coverage is recorded per governorate, so
+   * a centroid pin is the honest resolution; it is not a precise address.
+   */
+  protected readonly coverageMarkers = computed<MapMarker[]>(() =>
+    this.coverageGovernorates().map((governorate) => ({
+      id: governorate,
+      lat: GOVERNORATE_CENTROIDS[governorate].lat,
+      lng: GOVERNORATE_CENTROIDS[governorate].lng,
+      label: this.translation.translate(`governorates.${governorate}`),
+    })),
+  );
 
   protected specKey(value: string): string {
     return specializationKey(value);

@@ -121,6 +121,9 @@
               </span>
             }
           </div>
+          <div class="mt-3 overflow-hidden rounded-card border border-ink-300">
+            <app-map [markers]="coverageMarkers()" [zoom]="10" heightClass="h-48" />
+          </div>
         }
       </section>
 

@@ -35,6 +35,13 @@ export class ComplaintsApi {
     return this.http.get<ComplaintDto>(`${this.base}/${id}`).pipe(map(mapComplaintFromDto));
   }
 
+  /** Operator reply — answering a complaint closes it. */
+  respond(id: string, responseBody: string): Observable<Complaint> {
+    return this.http
+      .post<ComplaintDto>(`${this.base}/${id}/respond`, { responseBody })
+      .pipe(map(mapComplaintFromDto));
+  }
+
   createComplaint(payload: CreateComplaintPayload): Observable<Complaint> {
     return this.http.post<ComplaintDto>(this.base, payload).pipe(map(mapComplaintFromDto));
   }

@@ -58,6 +58,12 @@ export const routes: Routes = [
     pathMatch: 'full',
     loadComponent: () => import('./features/public/home/home').then((m) => m.PublicHome),
   },
+  {
+    // Public, shareable team profile — server-rendered via the `**` rule.
+    path: 'pub/contractor/:id',
+    loadComponent: () =>
+      import('./features/public/contractor-public/contractor-public').then((m) => m.ContractorPublic),
+  },
 
   // ---- Public / unauthenticated ----
   {
@@ -704,6 +710,13 @@ export const routes: Routes = [
         path: 'complaints',
         loadComponent: () =>
           import('./features/complaints/complaint-list/complaint-list').then((m) => m.ComplaintList),
+      },
+      {
+        path: 'complaints/:id',
+        loadComponent: () =>
+          import('./features/complaints/complaint-detail/complaint-detail').then(
+            (m) => m.ComplaintDetail,
+          ),
       },
       {
         path: 'privacy',

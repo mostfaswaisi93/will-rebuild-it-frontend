@@ -69,6 +69,7 @@ export class ComplaintList {
   ];
 
   protected readonly rowId = (row: Complaint): string => row.id;
+  protected readonly rowLink = (row: Complaint): string => `/app/complaints/${row.id}`;
 
   protected onPageChange(page: number): void {
     this.pageNo.set(page);

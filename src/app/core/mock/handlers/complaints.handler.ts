@@ -1,5 +1,5 @@
 import { Complaint, ComplaintReasons } from '@core/models';
-import { MockHandler, created, notFound, ok, paginate } from '../mock-types';
+import { MockHandler, badRequest, created, notFound, ok, paginate } from '../mock-types';
 
 interface CreateComplaintBody {
   teamId?: string;
@@ -47,6 +47,24 @@ export const handleComplaints: MockHandler = (ctx) => {
     };
     ctx.store.complaints.unshift(complaint);
     return created(complaint);
+  }
+
+  // POST /complaints/:id/respond — the operator's reply closes the complaint
+  if (ctx.method === 'POST' && ctx.segments.length === 3 && ctx.segments[2] === 'respond') {
+    const complaint = ctx.store.complaints.find((candidate) => candidate.id === ctx.segments[1]);
+    if (!complaint) {
+      return notFound(`Complaint ${ctx.segments[1]} not found.`);
+    }
+    if (complaint.status === 'closed') {
+      return badRequest('This complaint has already been answered.');
+    }
+    const responseBody = (ctx.body as { responseBody?: string } | null)?.responseBody?.trim();
+    if (!responseBody) {
+      return badRequest('A response is required.');
+    }
+    complaint.responseBody = responseBody;
+    complaint.status = 'closed';
+    return ok(complaint);
   }
 
   if (ctx.method === 'GET' && ctx.segments.length === 2) {

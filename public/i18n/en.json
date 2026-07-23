@@ -153,6 +153,9 @@
         }
       }
     },
+    "contractor": {
+      "reviewsPrivate": "The average rating and review count are shown here, but not the reviews themselves: reviews carry the names of beneficiaries whose homes this team rebuilt, and they did not consent to that association being published openly. Signed-in users see the full reviews."
+    },
     "projectPublic": {
       "notFound": "We couldn't find this project. It may have been moved or is no longer available.",
       "progressTitle": "Reconstruction progress",
@@ -985,6 +988,12 @@
       "response": {
         "title": "Response"
       },
+      "respondTitle": "Respond to this complaint",
+      "respondHint": "Sending a response closes the complaint.",
+      "respondPlaceholder": "Write your reply to the person who filed this",
+      "respondRequired": "Write a response of at least 10 characters.",
+      "respondSubmit": "Send response and close",
+      "responded": "Response sent — the complaint is now closed.",
       "loadError": "We couldn't load this complaint.",
       "notFound": "This complaint could not be found."
     },

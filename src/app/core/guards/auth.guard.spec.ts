@@ -51,14 +51,14 @@ describe('authGuard', () => {
     expect(result).toBeTrue();
   });
 
-  it('redirects an unauthenticated visitor to the email-check page', () => {
+  it('redirects an unauthenticated visitor to sign-in', () => {
     const result = TestBed.runInInjectionContext(() =>
       authGuard(emptyRoute, stateFor('/app/dashboard')),
     );
 
     expect(result).toBeInstanceOf(UrlTree);
     expect(router.serializeUrl(result as UrlTree)).toBe(
-      '/pub/email-check/request?returnUrl=%2Fapp%2Fdashboard',
+      '/auth/sign-in?returnUrl=%2Fapp%2Fdashboard',
     );
   });
 
@@ -68,7 +68,7 @@ describe('authGuard', () => {
     );
 
     expect(router.serializeUrl(result as UrlTree)).toBe(
-      '/pub/email-check/request?returnUrl=%2Fapp%2Frequests%2Freq-9%2Festimate',
+      '/auth/sign-in?returnUrl=%2Fapp%2Frequests%2Freq-9%2Festimate',
     );
   });
 
@@ -81,7 +81,7 @@ describe('authGuard', () => {
     );
 
     expect(router.serializeUrl(result as UrlTree)).toBe(
-      '/pub/email-check/request?returnUrl=%2Fapp%2Fprofile',
+      '/auth/sign-in?returnUrl=%2Fapp%2Fprofile',
     );
   });
 });

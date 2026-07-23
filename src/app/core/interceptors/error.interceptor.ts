@@ -16,7 +16,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error instanceof HttpErrorResponse && req.url.startsWith(environment.apiUrl)) {
         if (error.status === 401) {
           session.clearSession();
-          void router.navigate(['/pub/email-check/request']);
+          void router.navigate(['/auth/sign-in']);
         } else if (error.status === 0) {
           toast.danger('common.errorGeneric');
         } else if (error.status >= 500) {
