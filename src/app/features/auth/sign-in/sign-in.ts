@@ -27,7 +27,6 @@ import { UserRole } from '@core/models';
 import { homeRouteForRole } from '@core/session/role-home';
 import { SessionStore } from '@core/session/session-store.service';
 import { ToastService } from '@core/toast/toast.service';
-import { environment } from '@env/environment';
 
 /** Mirrors the legacy `^[^\s@]+@[^\s@]+\.[^\s@]{2,}$` sign-in pattern. */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -226,15 +225,14 @@ export class SignIn {
   }
 
   /**
-   * Beneficiaries and donors belong to the separate customer web app, so they
-   * leave this origin entirely — the legacy portal did the same for its `CUST`
-   * and `VANCUST` roles.
+   * All seven roles are served by this app, so every role lands in the shell at
+   * its own home (`homeRouteForRole`). Beneficiaries and donors used to be
+   * ejected to a separate customer origin; that predates their in-app
+   * experience (dashboard, requests, projects, teams, funding, reviews,
+   * donations) and contradicted `homeRouteForRole`, `roleGuard` and the
+   * sidebar, which all route them here.
    */
   private routeAfterLogin(role: UserRole): void {
-    if (role === 'beneficiary' || role === 'donor') {
-      window.location.href = environment.customerPortalUrl;
-      return;
-    }
     // Hand the visitor back to whatever `authGuard` bounced them from. Only
     // in-app paths are honoured, so a crafted `returnUrl` cannot bounce someone
     // to another origin after they authenticate.

@@ -45,12 +45,12 @@
 | 7 | `auth/sign-up` | `/auth/register` | ✅ |
 | 8 | `auth/forgot-password` (القديم غير المستخدم) | مدموج في 2–5 | ✅ |
 | 9 | `registrations/proregistration` | `/auth/contractor-register/*` (خطوات ١–٤) | ✅ |
-| 10 | `registrations/proregistration2/...` (مسار VANLYNK) | مؤجّل — انظر أدناه | ⬜ |
+| 10 | `registrations/proregistration2/...` (مسار VANLYNK) | مستبعَد — قمع تسويقي أمريكي | ⛔ |
 | 11 | `registrations/proregistrationlead/...` (`lead-registration2`) | `/auth/contractor-register/*` (خطوتا ٥–٦) | ✅ |
-| 12 | `registrations/leadgeneration` | ليس تسجيلًا — انظر أدناه (المرحلة ٤) | ⬜ |
+| 12 | `registrations/leadgeneration` | مستبعَد — شراء عملاء محتملين | ⛔ |
 | 13 | `registrations/map/:loginId` (`map1`) | مدموج في خطوة الموقع — «مناطق العمل» | ✅ |
 | 14 | `registrations/topprozConfirmation/...` | `/auth/registered` | ✅ |
-| 15 | `registrations/pro-registration3` | مدموج في 10 | ⬜ |
+| 15 | `registrations/pro-registration3` | مستبعَد — تابع للمسار 10 | ⛔ |
 
 > **بنية تدفّق الاستعادة/التفعيل:** المساران `/auth/forgot-password` و`/auth/activate`
 > يشتركان في نفس الخطوات الأربع ولا يختلفان إلا في `data.intent` والخطوة الأخيرة.
@@ -103,9 +103,9 @@
 | الأصل | الجديد | الحالة |
 |---|---|---|
 | `welcome/` (`WelcomeComponent`) | `/` (هبوط عام SSR) | ✅ |
-| `welcome/leadgen` | `/contractors` | ⬜ |
-| `welcome/vanlynk` | `/platform` | ⬜ |
-| `welcome/Pricing` | `/pricing` | ⬜ |
+| `welcome/leadgen` | مستبعَد — صفحة تسويق للمنتج الأمريكي | ⛔ |
+| `welcome/vanlynk` | مستبعَد — صفحة تسويق للمنتج الأمريكي | ⛔ |
+| `welcome/Pricing` | مستبعَد — تسعير اشتراكات السوق الأمريكي | ⛔ |
 
 ---
 
@@ -124,10 +124,18 @@
 | `pro/dashboard` | `/app/contractor-dashboard` | ✅ |
 | `staff/dashboard` | `/app/staff-dashboard` | ✅ |
 | — (جديد للمورّدين) | `/app/supplier-dashboard` (منزل دور المورّد — بطاقات + أحدث أوامر الشراء) | ✅ |
-| `direct-booking-lead/dashboard` | `/app/requests-dashboard` | ⬜ |
+| `direct-booking-lead/dashboard` | مدموج — `/app/admin-dashboard` + فلتر «المصدر» في `/app/work-requests` | ✅ |
 | `pro/dispatchboard` (`AlpCpDispatchboard`) | `/app/dispatch` (لوحة كانبان حسب الحالة) | ✅ |
 | `pro/alp-dispatchboard` (`AlpNewDispatchboard`) | مدموج في `/app/dispatch` | ✅ |
 | `topproz/myprofile/:id` | `/app/profile` (هوية من الجلسة + تغيير كلمة المرور) | ✅ |
+
+> **قرار: بوّابة واحدة لكل الأدوار السبعة.** كان تسجيل الدخول (وكذلك إعادة تعيين
+> كلمة المرور وتفعيل الحساب) يقذف المستفيد والمتبرّع إلى أصل خارجي
+> (`customerPortalUrl`). ذلك القرار سابق لبناء تجربتهما داخل التطبيق، وصار يناقض
+> `homeRouteForRole` و`roleGuard` والشريط الجانبي واختبارات الحارس — وكلّها توجّههما
+> إلى الداخل. النتيجة كانت: مستفيد مسجّل دخوله مسبقًا يعمل بشكل سليم، لكنه إن سجّل
+> دخوله من جديد يُقذف خارجًا ولا يرى شيئًا ممّا بُني له. وُحِّدت المسارات الثلاثة على
+> `homeRouteForRole`، وحُذف مفتاح الإعداد الميت.
 
 ### قائمة المستخدم في الترويسة (متاحة لكل الأدوار)
 
@@ -181,10 +189,22 @@
 | `customer/customerDetails` (+ `CustomerDetailsNew`) | `/app/beneficiaries/:id` (ملف + طلبات + توثيق) | ✅ |
 | `pro/prolist` | `/app/contractors` (بطاقات) | ✅ |
 | `pro/promyprofile/:id/:loginId` | `/app/contractors/:id` (ملف + تقييمات) | ✅ |
-| `pro/promyprofile/map/:loginId` | `/app/contractors/:id/service-area` | ⬜ |
-| `pro/propublic/:id` | `/pub/contractor/:id` | ⬜ |
-| `pro/report-pro-list` | `/app/contractors/reports` | ⬜ |
-| `pro/report-a-pro-view/:reportNumber` | `/app/contractors/reports/:reportNumber` | ⬜ |
+| `pro/promyprofile/map/:loginId` | مدموج في `/app/contractors/:id` (خريطة نطاق التغطية) | ✅ |
+| `pro/propublic/:id` | `/pub/contractor/:id` (عام، يُصيَّر على الخادم) | ✅ |
+| `pro/report-pro-list` | `/app/complaints` (سجل الشكاوى) | ✅ |
+| `pro/report-a-pro-view/:reportNumber` | `/app/complaints/:id` (+ ردّ المشغّل يُغلق الشكوى) | ✅ |
+
+> **الشكاوى جانبان لكيان واحد.** «الإبلاغ عن فريق» و«قائمة البلاغات» في البرنامج
+> القديم كانتا شاشتين منفصلتين لنفس السجلّ؛ هنا `/app/complaints` واحدة: المستفيد
+> يرى ما قدّمه، والمشغّل يرى الكل ويملك مربّع الردّ (`POST /complaints/:id/respond`)
+> — وإرسال الردّ يُغلق الشكوى.
+>
+> **الملف العام:** لا يعرض نصوص التقييمات، بل متوسّطها وعددها فقط. التقييمات تحمل
+> أسماء مستفيدين أعاد هذا الفريق بناء منازلهم، ولم يوافقوا على نشر هذا الارتباط على
+> صفحة مفتوحة. تظهر كاملة للمسجّلين في `/app/teams/:id`.
+>
+> **خريطة التغطية:** دبّوس عند مركز كل محافظة — فالتغطية مسجّلة على مستوى المحافظة
+> لا كعنوان دقيق.
 | `vendor/vendorlist` | `/app/suppliers` | ✅ |
 | `vendor/vendorprofile` | `/app/suppliers/:id` (ملف + اعتماد/إيقاف) | ✅ |
 

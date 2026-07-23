@@ -10,7 +10,6 @@ import { SessionStore } from '@core/session/session-store.service';
 import { ToastService } from '@core/toast/toast.service';
 import { PasswordField } from '@shared/ui/password-field/password-field';
 import { mustMatch, passwordStrengthValidator } from '@shared/validators/password.validators';
-import { environment } from '@env/environment';
 import { PasswordResetFlow } from '../password-reset-flow.service';
 
 /**
@@ -81,11 +80,8 @@ export class PasswordResetReset {
       });
   }
 
+  /** Every role is served by this app — see the note in `sign-in.ts`. */
   private routeAfterReset(role: UserRole): void {
-    if (role === 'beneficiary' || role === 'donor') {
-      window.location.href = environment.customerPortalUrl;
-      return;
-    }
     void this.router.navigate(['/app', homeRouteForRole(role)]);
   }
 }
