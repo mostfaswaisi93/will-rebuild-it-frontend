@@ -1,0 +1,52 @@
+name: CI
+
+# Runs the full verification gate on every push and pull request against main.
+# Mirrors `npm run verify` (lint + consistency audit + tests) and adds a
+# production build, split into named steps so a failure says which gate broke.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A newer push to the same branch/PR cancels the in-flight run — no point
+# finishing CI for a commit that has already been superseded.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # The cross-file consistency checks — dead links, nav/guard mismatches,
+      # shared-layout link guards, status-pill labels, uncalled API endpoints.
+      - name: Consistency audit
+        run: npm run audit
+
+      # The audit's own tests — its parser once had a silent false negative, so
+      # its correctness is guarded before its verdict is trusted.
+      - name: Audit self-test
+        run: npm run audit:test
+
+      - name: Build
+        run: npm run build
+
+      # ubuntu-latest ships Chrome and runs as a non-root user, so the default
+      # ChromeHeadless launcher needs no sandbox flags.
+      - name: Unit tests
+        run: npm run test:ci

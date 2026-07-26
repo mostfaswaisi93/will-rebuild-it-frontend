@@ -11,7 +11,8 @@
     "serve:ssr:will-rebuild-it-frontend": "node dist/will-rebuild-it-frontend/server/server.mjs",
     "lint": "ng lint",
     "audit": "node tools/audit.mjs",
-    "verify": "npm run lint && npm run audit && npm run test:ci"
+    "verify": "npm run lint && npm run audit && npm run audit:test && npm run test:ci",
+    "audit:test": "node --test tools/audit.test.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -71,5 +72,8 @@
     "tailwindcss": "^4.3.2",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.46.4"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }
