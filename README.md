@@ -23,11 +23,11 @@ Two rules govern the port, and both are load-bearing:
 
 | | |
 |---|---:|
-| Declared routes | **107** |
+| Declared routes | **108** |
 | Feature areas | **39** |
 | Shared UI components | **30** |
 | API services / mock handlers | **33 / 33** |
-| Unit tests | **498** (+ 16 for the audit tool) |
+| Unit tests | **506** (+ 16 for the audit tool) |
 | Roles | **7**, one sign-in gate |
 
 ---
@@ -126,7 +126,7 @@ src/app/
 | Delivery | `work-orders` (+ `:id`, `:id/inspection/:kind`) | admin · contractor · staff |
 | Inspections | `inspections` | admin · staff |
 | Money | `statements` (+ `:id`) · `pricebook` | admin · contractor |
-| ↳ operator only | `disbursements` (+ `:id`) · `price-lists` · `subscriptions` (+ `:id`) | admin |
+| ↳ operator only | `disbursements` (+ `:id`) · `price-lists` · `subscriptions` (+ `plans`, `:id`) | admin |
 | Parties | `beneficiaries` (+ `:id`) · `contractors` (+ `:id`) | admin · staff |
 | ↳ crews | `staff` (+ `:id`) | admin · contractor |
 | ↳ suppliers | `suppliers` (+ `:id`) | admin |
@@ -227,7 +227,20 @@ Five checks that neither the compiler, nor ESLint, nor unit tests can perform, b
 
 So the audit's own logic is exported as pure functions in [`tools/audit.mjs`](tools/audit.mjs) and covered by 16 tests in [`tools/audit.test.mjs`](tools/audit.test.mjs) (`node --test`), which pin both regressions above. `npm run verify` runs the audit's tests before trusting the audit's verdict.
 
-Current state: 5/5 checks pass across **107 routes** and **22 status-pill contexts**.
+Current state: 5/5 checks pass across **108 routes** and **22 status-pill contexts**.
+
+### Coverage closure
+
+"Is any page still missing?" is answered by four independent sweeps rather than by reading the map. Each carries a self-check that fails loudly if the scanner itself is broken — two of them did fail and were fixed before their findings were trusted:
+
+| Sweep | Method | Result |
+|---|---|---|
+| Legacy route parity | Extract all **149** leaf routes from the legacy app's 29 routing modules; diff against the map | 2 unnamed, both now resolved |
+| Dead links | Resolve full paths with real Angular matching (not "any parent segment counts") | **0** |
+| Uncalled API endpoints | Resolve calls through the injected variable, per service | **0** |
+| Endpoints the mock implements that no service can call | Extract handler branches; diff against the API layer's URL shapes | **0** |
+
+Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1 and 4 are one-off diagnostics against the legacy tree.
 
 ---
 
@@ -284,6 +297,8 @@ Three decisions worth stating, because they cost features on purpose:
 
 Newest first.
 
+- **Membership plans catalogue at `/app/subscriptions/plans`.** The legacy `priceList` module had two tabs and redirected to the *plans* one by default; only its sibling (services rates) had been ported. So `SUBSCRIPTION_PLANS` was a union type, `plan` a field on every membership, and plan a **filter on the register** — while nothing in the app said what the tiers were or what they cost. Each tier now shows its annual fee, what it includes, and how many teams hold it, linking through to `/app/subscriptions?plan=`. Read-only for the same reason as `/app/price-lists`: the fee is agreed contractually off-platform, and editing it here would disagree with what teams have already been billed. Plan copy is backend content held bilingually and served per `lang`, like the assessment questionnaire — not UI dictionary strings. Two traps surfaced and are now pinned by tests: `GET /subscriptions/plans` and `GET /subscriptions/:id` both match two segments, so the plans branch only works above the `:id` one; and `[value]` on a `<select>` is discarded when its options render in the same pass, which left a `?plan=` deep link filtering the table while the control still read "all plans".
+- **Two more pieces of legacy dead code identified and deliberately not ported.** The legacy `auth` module declares four components and routes three: `log-in` (2,460 lines) has both its routes **commented out**, and `sign-in` is declared with no route at all. Building either would have contradicted the single sign-in gate decision and re-fragmented the auth flow. Recorded in the map with the reason, next to the `registrations/map` finding.
 - **Three unreachable endpoints closed, found by hardening the check that was hiding them.** `uncalled-api` matched `.method(` by name across all files at once, so `getById`/`list`/`create` — declared by every one of the 33 API services — counted as called the moment any one service's namesake was. Resolving calls through the injected variable instead surfaced three real gaps, now built: **`/app/shipments/:id`**, the shipment detail page the map had recorded as "merged into the list" while `GET /shipments/:id` sat with no caller — it shows the clearance trail, an overdue warning, the purchase-order link, and the crossing decision (advance, or turn the load back, the latter only while the convoy is still at the crossing); an **availability control** on `/app/equipment/:id` offering only the decisions an operator actually makes, since `booked`/`inUse` follow from the booking record and setting them by hand would let the status contradict the schedule; and an **activate/suspend control** on `/app/staff/:id`, whose counterparts for beneficiaries and suppliers had been wired all along.
 - **Fixed: every detail page showed stale actions after a write.** Handlers mutate the store in place and returned *that same object*, so `resource.set(updated)` set a signal to the value it already held — `Object.is` equal, therefore no notification. A template reading a field directly appeared to update on the next change-detection pass, but every derived `computed` kept its stale value: an **approved** purchase order went on offering its "approve" button, and a shipment already in transit went on offering to be turned back. Pre-existing and affecting every page that calls `resource.set`, so it is fixed at the root — the interceptor now detaches the response body from the store the way a real server does by serialising, one change covering all pages — with two specs that were confirmed to fail without it.
 - **Verification gate + self-tested consistency audit.** Added `npm run verify` (lint · audit · audit:test · test:ci) and the matching GitHub Actions workflow. The audit's five checks each grew out of a real defect; its parser's own silent false negative is now pinned by a test, because a check that has never been exercised against a planted defect proves nothing.

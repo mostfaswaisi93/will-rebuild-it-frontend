@@ -154,6 +154,10 @@ const CONTEXT_TONES: Record<StatusPillContext, ToneMap> = {
     onLeave: 'warning',
     inactive: 'neutral',
   },
+  team: {
+    active: 'success',
+    suspended: 'danger',
+  },
   campaign: {
     draft: 'neutral',
     scheduled: 'info',

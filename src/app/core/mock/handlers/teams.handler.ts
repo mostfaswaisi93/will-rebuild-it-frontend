@@ -1,5 +1,5 @@
-import { Team, TeamReview } from '@core/models';
-import { MockHandler, created, notFound, ok, paginate } from '../mock-types';
+import { TEAM_STATUSES, Team, TeamReview, TeamStatus } from '@core/models';
+import { MockHandler, badRequest, created, notFound, ok, paginate } from '../mock-types';
 
 interface ReviewBody {
   projectId?: string;
@@ -33,12 +33,44 @@ export const handleTeams: MockHandler = (ctx) => {
       items = items.filter((team) => team.name.toLowerCase().includes(searchKey));
     }
 
+    // Opt-in, not default: the operator's contractor register must still show a
+    // suspended firm (that is where it gets reinstated), while the
+    // beneficiary-facing browse asks for active only — offering a suspended firm
+    // to a family choosing who rebuilds their home is the thing suspension is
+    // for. Filtering here by default would hide it from both.
+    const status = ctx.query.get('status');
+    if (status) {
+      items = items.filter((team) => team.status === status);
+    }
+
     return ok(paginate(items, ctx));
   }
 
   if (ctx.method === 'GET' && ctx.segments.length === 2) {
     const team = ctx.store.teams.find((candidate) => candidate.id === ctx.segments[1]);
     return team ? ok(team) : notFound(`Team ${ctx.segments[1]} not found.`);
+  }
+
+  // POST /teams/:id/status — withdraw or restore a firm's standing
+  if (ctx.method === 'POST' && ctx.segments.length === 3 && ctx.segments[2] === 'status') {
+    const team = ctx.store.teams.find((candidate) => candidate.id === ctx.segments[1]);
+    if (!team) {
+      return notFound(`Team ${ctx.segments[1]} not found.`);
+    }
+    const body = (ctx.body ?? {}) as { status?: string; note?: string };
+    if (!body.status || !TEAM_STATUSES.includes(body.status as TeamStatus)) {
+      return badRequest('A valid team status is required.');
+    }
+    // Guarded on the server, not just disabled in the form: suspending a firm
+    // stops it bidding and is visible to the beneficiaries choosing it, so the
+    // record has to say why. Reinstating needs no justification.
+    if (body.status === 'suspended' && !body.note?.trim()) {
+      return badRequest('A reason is required to suspend a contracting firm.');
+    }
+    team.status = body.status as TeamStatus;
+    team.statusNote = body.status === 'suspended' ? body.note?.trim() : undefined;
+    team.statusChangedAt = new Date().toISOString();
+    return ok(team);
   }
 
   if (ctx.method === 'GET' && ctx.segments.length === 3 && ctx.segments[2] === 'reviews') {

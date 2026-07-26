@@ -37,6 +37,10 @@ export class TeamList {
       pageSize: PAGE_SIZE,
       searchKey: this.search().trim() || undefined,
       governorate: this.governorate() || undefined,
+      // Suspended firms are never offered here. This list is where a family
+      // chooses who rebuilds their home; the operator sees suspended firms in
+      // `/app/contractors`, which is where they get reinstated.
+      status: 'active' as const,
     }),
     stream: ({ params }) => this.api.getTeams(params),
   });

@@ -13,6 +13,7 @@ export const seedTeams: Team[] = [
   {
     id: 'team-1',
     name: 'Amal Builders Cooperative',
+    status: 'active',
     specializations: ['Residential', 'Structural repair'],
     licenseNumbers: ['GRP-LIC-1042'],
     isLicensed: true,
@@ -40,6 +41,7 @@ export const seedTeams: Team[] = [
   {
     id: 'team-2',
     name: 'Beit Al-Ard Construction',
+    status: 'active',
     specializations: ['Residential', 'Finishing works'],
     licenseNumbers: ['GRP-LIC-2087'],
     isLicensed: true,
@@ -66,6 +68,7 @@ export const seedTeams: Team[] = [
   {
     id: 'team-3',
     name: 'Sumoud Engineering Group',
+    status: 'active',
     specializations: ['Commercial', 'Infrastructure', 'Structural repair'],
     licenseNumbers: ['GRP-LIC-3311', 'GRP-LIC-3312'],
     isLicensed: true,
@@ -92,6 +95,9 @@ export const seedTeams: Team[] = [
   {
     id: 'team-4',
     name: 'Rafah Rebuild Workshop',
+    status: 'suspended',
+    statusNote: 'Public liability insurance lapsed on 30 June 2026 — reinstate on proof of renewal.',
+    statusChangedAt: '2026-07-02T09:00:00.000Z',
     specializations: ['Residential', 'Agricultural'],
     licenseNumbers: ['GRP-LIC-4420'],
     isLicensed: true,

@@ -50,14 +50,24 @@
         }
       </select>
       <select
-        [value]="plan()"
-        (change)="plan.set($any($event.target).value)"
+        [value]="planFilter()"
+        (change)="planFilter.set($any($event.target).value)"
         [attr.aria-label]="'subscriptions.columns.plan' | translate"
         class="min-h-11 rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       >
-        <option value="">{{ 'subscriptions.allPlans' | translate }}</option>
+        <!--
+          `[selected]` per option, not just `[value]` on the select: a `?plan=`
+          deep link seeds the filter before these options exist, and a value set
+          on an empty select is discarded — leaving the list filtered while the
+          control read "all plans".
+        -->
+        <option value="" [selected]="planFilter() === ''">
+          {{ 'subscriptions.allPlans' | translate }}
+        </option>
         @for (option of plans; track option) {
-          <option [value]="option">{{ 'subscriptions.plan.' + option | translate }}</option>
+          <option [value]="option" [selected]="planFilter() === option">
+            {{ 'subscriptions.plan.' + option | translate }}
+          </option>
         }
       </select>
     </app-filter-bar>

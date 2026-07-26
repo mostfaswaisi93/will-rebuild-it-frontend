@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import {
@@ -16,6 +24,7 @@ import { FilterBar } from '@shared/ui/filter-bar/filter-bar';
 import { PageHeader } from '@shared/ui/page-header/page-header';
 import { StatCard } from '@shared/ui/stat-card/stat-card';
 import { StatusPill } from '@shared/ui/status-pill/status-pill';
+import { resolvePlanParam } from '../plan-param.util';
 
 const PAGE_SIZE = 10;
 
@@ -38,9 +47,18 @@ export class SubscriptionList {
   protected readonly statuses = SUBSCRIPTION_STATUSES;
   protected readonly plans = SUBSCRIPTION_PLANS;
 
+  /**
+   * `?plan=` deep link, bound by `withComponentInputBinding()`. The plans
+   * catalogue links here per tier, so the param has to actually drive the
+   * filter — otherwise the link reads as "show me this tier" and silently
+   * serves the whole register.
+   */
+  readonly plan = input<string | undefined>(undefined);
+
   protected readonly search = signal('');
   protected readonly status = signal<SubscriptionStatus | ''>('');
-  protected readonly plan = signal<SubscriptionPlan | ''>('');
+  /** The live filter. Seeded from the `plan` input, then owned by the select. */
+  protected readonly planFilter = signal<SubscriptionPlan | ''>('');
   protected readonly pageNo = signal(1);
   protected readonly pageSize = PAGE_SIZE;
 
@@ -50,16 +68,21 @@ export class SubscriptionList {
       pageSize: PAGE_SIZE,
       searchKey: this.search().trim() || undefined,
       status: this.status() || undefined,
-      plan: this.plan() || undefined,
+      plan: this.planFilter() || undefined,
     }),
     stream: ({ params }) => this.api.list(params),
   });
 
   constructor() {
+    // Seed the filter from the URL. Validated against the union rather than
+    // cast, so a hand-edited `?plan=gold` falls back to "all plans" instead of
+    // filtering everything out and looking like an empty register.
+    effect(() => this.planFilter.set(resolvePlanParam(this.plan())));
+
     effect(() => {
       this.search();
       this.status();
-      this.plan();
+      this.planFilter();
       this.pageNo.set(1);
     });
   }
@@ -112,7 +135,7 @@ export class SubscriptionList {
 
   protected clearFilters(): void {
     this.status.set('');
-    this.plan.set('');
+    this.planFilter.set('');
     this.search.set('');
   }
 
