@@ -42,6 +42,29 @@
           <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(member.joinedAt) }}</dd>
         </div>
       </dl>
+
+      @if (canManage() && statusOptions().length > 0) {
+        <div class="mt-4 border-t border-ink-300/60 pt-4">
+          <h3 class="text-sm font-semibold text-ink-900">{{ 'staff.profile.setStatus' | translate }}</h3>
+          <div class="mt-2 flex flex-wrap gap-2">
+            @for (option of statusOptions(); track option) {
+              <button
+                type="button"
+                (click)="setStatus(option)"
+                [disabled]="updating()"
+                [class]="
+                  option === 'inactive'
+                    ? 'border-danger/40 text-danger hover:bg-danger/5'
+                    : 'border-ink-300 text-ink-700 hover:bg-surface-container-low'
+                "
+                class="inline-flex min-h-11 items-center justify-center rounded-input border px-3 py-2 text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {{ 'shared.statusPill.staff.' + option | translate }}
+              </button>
+            }
+          </div>
+        </div>
+      }
     </section>
 
     <section class="rounded-card border border-ink-300 bg-surface p-4 lg:col-span-2">

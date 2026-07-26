@@ -6,6 +6,10 @@
 **قاعدة:** لا يُضاف مسار إلى `src/app/app.routes.ts` إلا بعد بناء صفحته بالكامل —
 حتى لا يشير البناء إلى صفحة غير موجودة. هذا الملف هو ما يتتبّع المتبقّي.
 
+للنظرة العامة على المشروع (المنظومة التقنية، البنية، الأدوار، التشغيل) انظر
+[`README.md`](README.md). هذا الملف يبقى **مرجع الترحيل صفًّا بصف**؛ وعند أي تعارض
+بينهما فالحكم لهذا الملف ولـ `app.routes.ts`.
+
 | الرمز | المعنى |
 |---|---|
 | ✅ | مُنجز بالكامل ومُتحقَّق منه (build + lint + test) |
@@ -69,32 +73,30 @@
 > `/auth/contractor-register` (٦ خطوات) ← لوحة المقاول. الحساب يبقى «معلّقًا»
 > ويرفضه تسجيل الدخول حتى تكتمل الخطوة السادسة.
 
-### ⚠️ حجم المتبقّي من المرحلة 1
+### حجم المرحلة 1 — ما تفسّره الأرقام
 
-معالِج التسجيل في المشروع القديم ضخم — **≈23,000 سطر** موزّعة كالتالي
-(TS + HTML، بدون spec):
+معالِج التسجيل في المشروع القديم كان **≈23,000 سطر** (TS + HTML، بدون spec).
+الجدول محفوظ لأنه يفسّر كيف انتهت هذه الكتلة إلى ست خطوات محروسة: نصفها تقريبًا
+مستبعَد بقرار موثّق، لا مُترجَم سطرًا بسطر.
 
-| المكوّن | الأسطر |
-|---|---:|
-| `pro-registration2` | 5,135 |
-| `lead-generation` | 5,000 |
-| `lead-registration2` | 4,738 |
-| `pro-registration` | 3,864 |
-| `map1` | 2,135 |
-| ~~`map`~~ | ~~1,760~~ ❌ كود ميت |
-| `pro-registration3` | 324 |
-| `topproz-confirmation` | 138 |
-| **الإجمالي** | **≈23,094** |
+| المكوّن الأصلي | الأسطر | المصير |
+|---|---:|---|
+| `pro-registration2` | 5,135 | ⛔ مسار VANLYNK |
+| `lead-generation` | 5,000 | ⛔ شراء عملاء محتملين (المرحلة ٤ تغطّي طلب المستفيد) |
+| `lead-registration2` | 4,738 | ✅ خطوتا ٥–٦ من `/auth/contractor-register` |
+| `pro-registration` | 3,864 | ✅ خطوات ١–٤ |
+| `map1` | 2,135 | ✅ مدموج في خطوة الموقع («مناطق العمل») |
+| ~~`map`~~ | ~~1,760~~ | ❌ كود ميت — لم يُرحَّل |
+| `pro-registration3` | 324 | ⛔ تابع للمسار المستبعَد |
+| `topproz-confirmation` | 138 | ✅ `/auth/registered` |
+| **الإجمالي** | **≈23,094** | **10,875 مُرحَّلة · 10,459 مستبعَدة · 1,760 ميتة** |
 
-**اكتشاف:** `registrations/map/` (1,760 سطرًا) **كود ميت** — غير مُصرَّح به في
-`registrations.module.ts` وغير مستورد في أي مكان. النسخة الحيّة هي `map1` فقط.
-لا يُرحَّل.
+**اكتشاف وقت التحليل:** `registrations/map/` (1,760 سطرًا) **كود ميت** — غير
+مُصرَّح به في `registrations.module.ts` وغير مستورد في أي مكان. النسخة الحيّة
+`map1` فقط.
 
-للمقارنة: كل ما رُحِّل حتى الآن (٨ صفحات) كان مصدره ≈1,400 سطر. أي أن بقية
-المرحلة 1 وحدها أكبر بـ 16 مرة مما أُنجز، وتحتاج **جلسة مخصّصة لكل معالِج**.
-
-`topproz-confirmation` (14) صغيرة لكن زرّها الوحيد «متابعة» يفتح المعالِج،
-فبناؤها قبله يعني صفحة إجراؤها الأساسي معطّل — لذلك أُجّلت معه لا قبله.
+**ولماذا لم تُبنَ `topproz-confirmation` أولًا؟** زرّها الوحيد «متابعة» يفتح
+المعالِج، فبناؤها قبله كان سينتج صفحة إجراؤها الأساسي معطّل — فبُنيت معه لا قبله.
 
 ---
 
@@ -193,6 +195,8 @@
 | `pro/propublic/:id` | `/pub/contractor/:id` (عام، يُصيَّر على الخادم) | ✅ |
 | `pro/report-pro-list` | `/app/complaints` (سجل الشكاوى) | ✅ |
 | `pro/report-a-pro-view/:reportNumber` | `/app/complaints/:id` (+ ردّ المشغّل يُغلق الشكوى) | ✅ |
+| `vendor/vendorlist` | `/app/suppliers` | ✅ |
+| `vendor/vendorprofile` | `/app/suppliers/:id` (ملف + اعتماد/إيقاف) | ✅ |
 
 > **الشكاوى جانبان لكيان واحد.** «الإبلاغ عن فريق» و«قائمة البلاغات» في البرنامج
 > القديم كانتا شاشتين منفصلتين لنفس السجلّ؛ هنا `/app/complaints` واحدة: المستفيد
@@ -205,8 +209,6 @@
 >
 > **خريطة التغطية:** دبّوس عند مركز كل محافظة — فالتغطية مسجّلة على مستوى المحافظة
 > لا كعنوان دقيق.
-| `vendor/vendorlist` | `/app/suppliers` | ✅ |
-| `vendor/vendorprofile` | `/app/suppliers/:id` (ملف + اعتماد/إيقاف) | ✅ |
 
 ---
 
@@ -279,17 +281,21 @@
 | `equipment/equipment-history` | مدموج في `/app/equipment/:id` (الحجوزات والأعطال) | ✅ |
 | `equipment/equipment-problems` | مدموج في `/app/equipment/:id` | ✅ |
 | `equipment/equipment-reports` | `/app/equipment/reports` (محسوبة من سجلّ الأسطول) | ✅ |
+| `equipment/equipment-schedule` (Syncfusion Schedule) | `/app/equipment/schedule` (Gantt للقراءة) | ✅ |
+| `equipment/equipment-schedule2` | مدموج في `/app/equipment/schedule` | ✅ |
 
 > **إضافة على الـ mock:** لم يكن للمعدّات نقطتا إنشاء/تعديل، فأُضيفت
 > `POST /equipment` و`PUT /equipment/:id` مع التحقّق من تفرّد الرمز (409)، ولا
 > تمسّان الحجوزات ولا الأعطال — لكلٍّ منهما نقطته الخاصة. أما تقارير الأسطول
 > فمشتقّة بالكامل من قائمة المعدّات (الحالة والصنف والحجوزات والأعطال كلّها على
 > السجلّ)، فلم تلزمها نقطة تقارير.
-| `equipment/equipment-schedule` (Syncfusion Schedule) | `/app/equipment/schedule` (Gantt للقراءة) | ✅ |
-| `equipment/equipment-schedule2` | مدموج في `/app/equipment/schedule` | ✅ |
-
-> ⚠️ `equipment/schedule` هي أثقل شاشة في المشروع (Syncfusion Schedule).
-> تحتاج إعادة بناء بـ CDK drag-drop + شبكة زمنية مخصّصة — خصّص لها جلسة كاملة.
+>
+> **أثقل شاشة في المشروع.** `equipment/schedule` كانت Syncfusion Schedule كاملة.
+> أُعيد بناؤها على شبكة زمنية مخصّصة بأوّليات CDK، **للقراءة** لا للسحب والإفلات:
+> الحجز يُنشأ من صفحة المعدّة (`/app/equipment/:id`) حيث يرفض الخادم أي تعارض
+> (`POST /equipment/:id/bookings` → 409 عند التداخل)، والجدول يعرض النتيجة. سحبُ
+> شريط في شبكة لا يحمل ذلك التحقّق كان سيسمح بحجزين متعارضين على معدّة واحدة —
+> وهو الخلل ذاته الذي يوجد الجدول لمنعه.
 
 ---
 
@@ -303,16 +309,6 @@
 | `priceList/editPlanInfo/:planId` | مدموج — عرض للقراءة (لا تحرير) | ✅ |
 | `priceList/subCatPriceList/:catCode` | مدموج — فلتر التخصّص في نفس القائمة | ✅ |
 | `priceList/editSubCatPriceList/:catId` | مدموج — عرض للقراءة | ✅ |
-| `pro/cards` (+ `ProCardsNew`) | مستبعَد — انظر الملاحظة | ⛔ |
-| `pro/cards/:userId/:stripeCustomerId/view` | مستبعَد | ⛔ |
-| `pro/cards/create` | مستبعَد | ⛔ |
-| `pro/cards/:userId/:stripeCustomerId/edit` | مستبعَد | ⛔ |
-| `pro/createcard` | مستبعَد | ⛔ |
-
-> ⛔ **استبعاد مقصود — بطاقات الدفع (Stripe).** لا يوجد في نطاق الإعمار ما يقابلها:
-> الأموال تصل من المموّلين وتُصرف للمقاولين عبر **الحوالات البنكية والمستخلصات**
-> (`/app/disbursements` و`/app/statements`)، ورسوم العضوية تُسجَّل في
-> `/app/subscriptions`. لا حاجة لتخزين بيانات بطاقات في المنصّة أصلًا.
 | `sub/enableVanlynk` | `/app/subscriptions` (سجل العضويات) | ✅ |
 | `sub/subscriptionHistory` (+ `/pro/:loginId`) | `/app/subscriptions/:id` (سجل المدفوعات) | ✅ |
 | `sub/vanlynkPaymentSubscriptionHistory` | `/app/subscriptions/:id` | ✅ |
@@ -323,6 +319,16 @@
 | `sub/leadgenRefundRequests` (+ `/pro/:loginId`) | `/app/subscriptions/:id` (زر الاسترداد) | ✅ |
 | `sub/leadgenAccountHistory` (+ `/pro/:loginId`) | `/app/subscriptions/:id` | ✅ |
 | `sub/leadgenSubscriptionDetails` (+ `/pro/:loginId`) | `/app/subscriptions/:id` | ✅ |
+| `pro/cards` (+ `ProCardsNew`) | مستبعَد — انظر الملاحظة | ⛔ |
+| `pro/cards/:userId/:stripeCustomerId/view` | مستبعَد | ⛔ |
+| `pro/cards/create` | مستبعَد | ⛔ |
+| `pro/cards/:userId/:stripeCustomerId/edit` | مستبعَد | ⛔ |
+| `pro/createcard` | مستبعَد | ⛔ |
+
+> ⛔ **استبعاد مقصود — بطاقات الدفع (Stripe).** لا يوجد في نطاق الإعمار ما يقابلها:
+> الأموال تصل من المموّلين وتُصرف للمقاولين عبر **الحوالات البنكية والمستخلصات**
+> (`/app/disbursements` و`/app/statements`)، ورسوم العضوية تُسجَّل في
+> `/app/subscriptions`. لا حاجة لتخزين بيانات بطاقات في المنصّة أصلًا.
 
 > ✅ **حُلّ:** أُعيدت صياغة الاشتراكات إلى **عضوية المقاول** في المنصّة (رسم تحقّق
 > سنوي للأهلية للمناقصات) بدلًا من منطق شراء العملاء المحتملين الأمريكي. المسارات
@@ -383,7 +389,7 @@
 
 ---
 
-## المرحلة 10 — المتبقّي
+## المرحلة 10 — الكادر والتشغيل والاتصال
 
 | الأصل | الجديد | الحالة |
 |---|---|---|
@@ -395,6 +401,21 @@
 | `questions/categories-list` | مستبعَد — انظر الملاحظة | ⛔ |
 | `questions/subcategories-list` | مستبعَد — انظر الملاحظة | ⛔ |
 | `questions/category-question-form` | مستبعَد — انظر الملاحظة | ⛔ |
+| `promotions/promotionlist` | `/app/campaigns` | ✅ |
+| `promotions/promotiondetails` | `/app/campaigns/:id` (إرسال/إلغاء) | ✅ |
+| `promotions/emailList` | مدموج في `/app/campaigns/:id` (الجمهور والوصول) | ✅ |
+| `promotions/budget` | مدموج في `/app/campaigns/:id` (الميزانية والمنصرف) | ✅ |
+| `notifications/notificationsList` | `/app/notifications` | ✅ |
+| `notifications/push-notifications` | `/app/notifications/push` (إرسال إعلان) | ✅ |
+| `social/yelp` | `/app/external-ratings` (تقارير مراقبة مستقلّة) | ✅ |
+| `social/google` | مدموج — تقارير المراقبة | ✅ |
+| `support/customer-tickets` | `/app/support` | ✅ |
+| `support/ticket/:ticketId` | `/app/support/:id` (محادثة + رد) | ✅ |
+| `scorecard/scorecardHome` | `/app/scorecards` (ترتيب أداء محسوب) | ✅ |
+| `scorecard/scorecardGeneration` | `/app/scorecards/:id` (تفصيل محسوب) | ✅ |
+| `logs/twilliosms` | `/app/logs` (سجلّ تسليم موحّد) | ✅ |
+| `logs/twilliosendgridMail` | مدموج — سجلّ التسليم | ✅ |
+| `not-found` | `**` | ✅ |
 
 > ⛔ **شجرة تصنيف الأسئلة لا يقابلها شيء هنا.** في البرنامج القديم كان بنك الأسئلة
 > جدولًا مصنَّفًا (فئة ← فئة فرعية ← سؤال) قابلًا للتحرير. في هذا البناء استمارة
@@ -402,12 +423,6 @@
 > مُراجَعة، لا شجرة فئات: فالسؤال التالي تحدّده الإجابة لا التصنيف. محرّر فئات فوق
 > هذا البناء سيكسر سلامة التفرّع ومراجعة النصّين معًا، لذلك يبقى `/app/questions`
 > عارضًا للقراءة يُظهر النصّ ونوع الإدخال والخيارات ووجهة كل خيار.
-| `promotions/promotionlist` | `/app/campaigns` | ✅ |
-| `promotions/promotiondetails` | `/app/campaigns/:id` (إرسال/إلغاء) | ✅ |
-| `promotions/emailList` | مدموج في `/app/campaigns/:id` (الجمهور والوصول) | ✅ |
-| `promotions/budget` | مدموج في `/app/campaigns/:id` (الميزانية والمنصرف) | ✅ |
-| `notifications/notificationsList` | `/app/notifications` | ✅ |
-| `notifications/push-notifications` | `/app/notifications/push` (إرسال إعلان) | ✅ |
 
 > **الحملات:** «قائمة المستلمين» و«الميزانية» لم تكونا تستحقّان صفحتين مستقلّتين —
 > كلتاهما بلا معنى بعيدًا عن حملتها. الجمهور وحجمه ونسبة التسليم كانت معروضة أصلًا
@@ -418,15 +433,6 @@
 > إشعارات جوال؛ هنا يصل الإعلان إلى مركز الإشعارات داخل التطبيق — وهي قناة التسليم
 > التي يملكها هذا البناء فعلًا. أما مخاطبة من هم **خارج** التطبيق (بريد/رسائل) فهي
 > حملة لا إشعار.
-| `social/yelp` | `/app/external-ratings` (تقارير مراقبة مستقلّة) | ✅ |
-| `social/google` | مدموج — تقارير المراقبة | ✅ |
-| `support/customer-tickets` | `/app/support` | ✅ |
-| `support/ticket/:ticketId` | `/app/support/:id` (محادثة + رد) | ✅ |
-| `scorecard/scorecardHome` | `/app/scorecards` (ترتيب أداء محسوب) | ✅ |
-| `scorecard/scorecardGeneration` | `/app/scorecards/:id` (تفصيل محسوب) | ✅ |
-| `logs/twilliosms` | `/app/logs` (سجلّ تسليم موحّد) | ✅ |
-| `logs/twilliosendgridMail` | مدموج — سجلّ التسليم | ✅ |
-| `not-found` | `**` | ✅ |
 
 ---
 
@@ -490,6 +496,7 @@
 | `suspended@example.com` | مقاول | موقوف | اختبار حجب الدخول |
 | `youssef@example.com` | مستفيد | نشط | لوحة المستفيد داخل التطبيق |
 | `amina@example.com` | متبرّع | نشط | صفحة التبرعات داخل التطبيق |
+| `team@example.com` | فريق إعمار | نشط | مساحة عمل الفريق (`/app/team-dashboard`) |
 
 ---
 
@@ -521,4 +528,10 @@
 **التشغيل:**
 - `npm run verify` = `lint` + `audit` + `audit:test` + `test:ci`.
 - `.github/workflows/ci.yml` يشغّل البوّابة نفسها (مع `build`) عند كل دفع وطلب دمج
-  إلى `main`.
+  إلى `main`، بخطوات مسمّاة كي يقول الفشل **أي** بوّابة انكسرت.
+
+**الحالة الراهنة:** الفحوص الخمسة ✅ على **١٠٦ مسارات** و**٢٢ سياق `status-pill`**،
+مع **٤٩٦ اختبار وحدة** و**١٢ اختبارًا** لأداة الفحص نفسها — كلّها ناجحة.
+
+> ملاحظة صيانة: الرقمان (١٠٦ / ٢٢) يطبعهما `npm run audit` في آخر سطر من خرجه،
+> فلا حاجة لعدّهما يدويًا عند تحديث هذا الملف.

@@ -1654,6 +1654,23 @@
       "keremShalom": "Kerem Shalom",
       "rafah": "Rafah",
       "erez": "Beit Hanoun (Erez)"
+    },
+    "detail": {
+      "title": "Shipment detail",
+      "notFound": "This shipment could not be found.",
+      "progress": "Clearance and delivery trail",
+      "cargo": "Cargo",
+      "details": "Shipment details",
+      "purchaseOrder": "Purchase order",
+      "dispatched": "Dispatched",
+      "expected": "Expected arrival",
+      "delivered": "Delivered",
+      "created": "Recorded",
+      "overdue": "This shipment is past its expected arrival and has not been delivered.",
+      "advanceTo": "Move to:",
+      "reject": "Turn shipment back",
+      "rejectHint": "A load can be turned back while it is at the crossing; once inland it cannot.",
+      "rejected": "Shipment recorded as turned back."
     }
   },
   "priceList": {
@@ -2311,7 +2328,10 @@
       "descriptionRequired": "Please give a clear description (at least 10 characters)",
       "submitProblem": "Submit report",
       "problemReported": "Fault recorded.",
-      "problemResolved": "Fault closed."
+      "problemResolved": "Fault closed.",
+      "availability": "Machine availability",
+      "availabilityHint": "\"Booked\" and \"in use\" are derived from bookings and are not set by hand.",
+      "statusUpdated": "Machine availability updated."
     },
     "schedule": {
       "title": "Equipment schedule",
@@ -2506,7 +2526,9 @@
       "timecard": "Timecard",
       "totalHours": "Total: {{hours}} h",
       "hoursValue": "{{hours}} h",
-      "noTimecard": "No timecard entries."
+      "noTimecard": "No timecard entries.",
+      "setStatus": "Change status",
+      "statusUpdated": "Staff status updated."
     }
   },
   "campaigns": {

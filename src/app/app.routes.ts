@@ -237,6 +237,14 @@ export const routes: Routes = [
           import('./features/shipments/shipment-list/shipment-list').then((m) => m.ShipmentList),
       },
       {
+        path: 'shipments/:id',
+        canActivate: [roleGuard(['admin', 'supplier'])],
+        loadComponent: () =>
+          import('./features/shipments/shipment-detail/shipment-detail').then(
+            (m) => m.ShipmentDetail,
+          ),
+      },
+      {
         path: 'price-lists',
         canActivate: [roleGuard(['admin'])],
         loadComponent: () =>

@@ -157,16 +157,53 @@ export function statusPillFindings(usedContexts, contexts, translated) {
   return findings;
 }
 
-/** Public method names on an API service that appear nowhere in `callersText`. */
-export function uncalledMethods(serviceSrc, callersText) {
+/**
+ * Collapses whitespace before a `.` so a multiline fluent chain
+ * (`this.api\n  .login(...)`) binds the method to its receiver. Without this,
+ * every chained call reads as uncalled — and since the codebase pipes almost
+ * every request, that would make the check report nothing but noise.
+ */
+export function joinChains(src) {
+  return src.replace(/\s+\./g, '.');
+}
+
+/**
+ * Public method names on an API service with no *resolved* caller.
+ *
+ * Resolution goes through the variable the service was injected into, not the
+ * bare method name. The first version of this check tested `.method(` against
+ * the concatenation of every file, so `getById`/`list`/`create` — which 33 of
+ * the 33 API services declare — counted as called the moment *any* service's
+ * same-named method was called anywhere. That hid three genuinely unreachable
+ * endpoints (`ShipmentsApi.getById`, `EquipmentApi.setStatus`,
+ * `StaffApi.setStatus`): a shipment detail page that did not exist, and two
+ * status decisions with no control. Only uniquely-named methods were ever
+ * really covered.
+ *
+ * `consumers` is `[{ name, src }]` for every non-API, non-spec file.
+ */
+export function uncalledMethods(serviceSrc, consumers) {
   const cls = serviceSrc.match(/export class (\w+)/)?.[1] ?? 'service';
-  const dead = [];
+  const methods = [];
   for (const m of serviceSrc.matchAll(/^ {2}([a-zA-Z]\w*)\(/gm)) {
-    const method = m[1];
-    if (method === 'constructor') continue;
-    if (!new RegExp(`\\.${method}\\s*\\(`).test(callersText)) dead.push(`${cls}.${method}`);
+    if (m[1] !== 'constructor') methods.push(m[1]);
   }
-  return dead;
+
+  const called = new Set();
+  const injects = new RegExp(`(\\w+)\\s*=\\s*inject\\(${cls}\\)`, 'g');
+  const ctorParam = new RegExp(`(\\w+)\\s*:\\s*${cls}\\b`, 'g');
+
+  for (const { src } of consumers) {
+    const text = joinChains(src);
+    const vars = new Set();
+    for (const m of text.matchAll(injects)) vars.add(m[1]);
+    for (const m of text.matchAll(ctorParam)) vars.add(m[1]);
+    for (const v of vars) {
+      for (const m of text.matchAll(new RegExp(`\\b${v}\\.(\\w+)\\s*\\(`, 'g'))) called.add(m[1]);
+    }
+  }
+
+  return [...new Set(methods)].filter((m) => !called.has(m)).map((m) => `${cls}.${m}`);
 }
 
 /** Resolves a dotted key in a translation dictionary to its leaf value. */
@@ -233,16 +270,15 @@ export function runAudit(root) {
   }
   add('status-pill', statusPillFindings(usedContexts, contexts, translated));
 
-  // 5. uncalled API methods
+  // 5. uncalled API methods — resolved per service, not by bare method name
   const apiDir = join(app, 'core', 'api');
-  const callers = allFiles
+  const consumers = allFiles
     .filter((f) => !f.includes(`${sep}api${sep}`) && !f.endsWith('.spec.ts'))
-    .map(read)
-    .join('\n');
+    .map((f) => ({ name: relative(root, f), src: read(f) }));
   for (const file of readdirSync(apiDir).filter((f) => f.endsWith('-api.service.ts'))) {
     add(
       'uncalled-api',
-      uncalledMethods(read(join(apiDir, file)), callers).map(
+      uncalledMethods(read(join(apiDir, file)), consumers).map(
         (m) => `${m}() has no caller — unbuilt feature or dead code`,
       ),
     );

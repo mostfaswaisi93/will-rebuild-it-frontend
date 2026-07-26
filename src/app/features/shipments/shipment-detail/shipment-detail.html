@@ -1,0 +1,151 @@
+@if (loading()) {
+  <div class="space-y-4">
+    <div class="h-8 w-56 animate-pulse rounded bg-ink-300/40"></div>
+    <div class="h-56 w-full animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else if (failed() || !shipment()) {
+  <app-page-header [title]="'shipments.detail.title' | translate" [showBack]="true" />
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'shipments.detail.notFound' | translate }}
+  </p>
+} @else if (shipment(); as shipment) {
+  <app-page-header [title]="shipment.shipmentNumber" [subtitle]="shipment.supplierName" [showBack]="true">
+    <app-status-pill pageHeaderActions context="shipment" [status]="shipment.status" />
+  </app-page-header>
+
+  <div class="grid gap-4 lg:grid-cols-3">
+    <div class="space-y-4 lg:col-span-2">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'shipments.detail.progress' | translate }}</h2>
+        <ol class="mt-4 space-y-3">
+          @for (stage of trail(); track stage.status) {
+            <li class="flex items-start gap-3">
+              <span
+                aria-hidden="true"
+                [class]="
+                  stage.state === 'done'
+                    ? 'bg-brand-500'
+                    : stage.state === 'current'
+                      ? 'bg-sand-500 ring-4 ring-sand-300/40'
+                      : 'bg-ink-300'
+                "
+                class="mt-1.5 size-2.5 shrink-0 rounded-full"
+              ></span>
+              <span
+                [class]="stage.state === 'pending' ? 'text-ink-500' : 'font-medium text-ink-900'"
+                class="text-sm"
+              >
+                {{ 'shared.statusPill.shipment.' + stage.status | translate }}
+              </span>
+            </li>
+          }
+        </ol>
+        @if (overdue()) {
+          <p class="mt-4 rounded-card border border-warning/30 bg-warning/5 px-3 py-2 text-sm text-warning">
+            {{ 'shipments.detail.overdue' | translate }}
+          </p>
+        }
+      </section>
+
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'shipments.detail.cargo' | translate }}</h2>
+        <p class="mt-2 text-sm leading-relaxed text-ink-700">{{ shipment.cargoDescription }}</p>
+        <dl class="mt-4 grid gap-3 sm:grid-cols-2">
+          <div class="rounded-card bg-surface-container-low px-3 py-2">
+            <dt class="text-xs text-ink-500">{{ 'shipments.columns.trucks' | translate }}</dt>
+            <dd class="text-sm font-semibold text-ink-900">{{ count(shipment.truckCount) }}</dd>
+          </div>
+          <div class="rounded-card bg-surface-container-low px-3 py-2">
+            <dt class="text-xs text-ink-500">{{ 'shipments.columns.crossing' | translate }}</dt>
+            <dd class="text-sm font-semibold text-ink-900">
+              {{ 'shipments.crossing.' + shipment.crossing | translate }}
+            </dd>
+          </div>
+        </dl>
+      </section>
+    </div>
+
+    <div class="space-y-4">
+      <section class="rounded-card border border-ink-300 bg-surface p-4">
+        <h2 class="text-sm font-semibold text-ink-900">{{ 'shipments.detail.details' | translate }}</h2>
+        <dl class="mt-3 space-y-2 text-sm">
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'shipments.columns.supplier' | translate }}</dt>
+            <dd class="text-end font-medium text-ink-900">{{ shipment.supplierName }}</dd>
+          </div>
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'shipments.columns.destination' | translate }}</dt>
+            <dd class="text-end font-medium text-ink-900">{{ shipment.destinationWarehouseName }}</dd>
+          </div>
+          @if (shipment.purchaseOrderId && shipment.poNumber) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'shipments.detail.purchaseOrder' | translate }}</dt>
+              <dd class="text-end">
+                <a
+                  [routerLink]="['/app/purchase-orders', shipment.purchaseOrderId]"
+                  class="font-medium text-brand-600 hover:underline"
+                >
+                  {{ shipment.poNumber }}
+                </a>
+              </dd>
+            </div>
+          }
+          @if (shipment.dispatchedAt) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'shipments.detail.dispatched' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(shipment.dispatchedAt) }}</dd>
+            </div>
+          }
+          @if (shipment.expectedArrival) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'shipments.detail.expected' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(shipment.expectedArrival) }}</dd>
+            </div>
+          }
+          @if (shipment.deliveredAt) {
+            <div class="flex justify-between gap-3">
+              <dt class="text-ink-500">{{ 'shipments.detail.delivered' | translate }}</dt>
+              <dd class="font-medium text-ink-900" dir="ltr">{{ formatDateTime(shipment.deliveredAt) }}</dd>
+            </div>
+          }
+          <div class="flex justify-between gap-3">
+            <dt class="text-ink-500">{{ 'shipments.detail.created' | translate }}</dt>
+            <dd class="font-medium text-ink-900" dir="ltr">{{ formatDate(shipment.createdAt) }}</dd>
+          </div>
+        </dl>
+      </section>
+
+      @if (canDecide() && (nextStatus() || canReject())) {
+        <section class="rounded-card border border-ink-300 bg-surface p-4">
+          <h2 class="text-sm font-semibold text-ink-900">{{ 'workOrders.detail.actions' | translate }}</h2>
+          <div class="mt-3 flex flex-col gap-2">
+            @if (nextStatus(); as next) {
+              <button
+                type="button"
+                (click)="advance()"
+                [disabled]="updating()"
+                class="inline-flex min-h-11 items-center justify-center rounded-input bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {{ 'shipments.detail.advanceTo' | translate }}
+                {{ 'shared.statusPill.shipment.' + next | translate }}
+              </button>
+            }
+            @if (canReject()) {
+              <button
+                type="button"
+                (click)="reject()"
+                [disabled]="updating()"
+                class="inline-flex min-h-11 items-center justify-center rounded-input border border-danger/40 px-4 py-2 text-sm font-semibold text-danger hover:bg-danger/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-danger/40 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {{ 'shipments.detail.reject' | translate }}
+              </button>
+            }
+          </div>
+          @if (canReject()) {
+            <p class="mt-2 text-xs text-ink-500">{{ 'shipments.detail.rejectHint' | translate }}</p>
+          }
+        </section>
+      }
+    </div>
+  </div>
+}

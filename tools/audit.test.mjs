@@ -135,8 +135,62 @@ test('uncalledMethods flags a method with no caller and ignores called ones', ()
   used() {}
   orphan() {}
 }`;
-  const callers = 'this.api.used();';
-  assert.deepEqual(uncalledMethods(service, callers), ['FooApi.orphan']);
+  const consumers = [{ name: 'page.ts', src: `const api = inject(FooApi); api.used();` }];
+  assert.deepEqual(uncalledMethods(service, consumers), ['FooApi.orphan']);
+});
+
+test('uncalledMethods resolves a call across a multiline fluent chain', () => {
+  // Nearly every call in this codebase pipes, so the receiver and the method
+  // land on different lines. Missing this would make the check pure noise.
+  const service = `export class FooApi {
+  login() {}
+}`;
+  const consumers = [
+    {
+      name: 'sign-in.ts',
+      src: `private readonly authApi = inject(FooApi);
+        submit() {
+          this.authApi
+            .login(email, password)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe();
+        }`,
+    },
+  ];
+  assert.deepEqual(uncalledMethods(service, consumers), []);
+});
+
+test('uncalledMethods does not credit a same-named method on a different service (the regression)', () => {
+  // This is the shape that hid three unreachable endpoints. All 33 API services
+  // declare `getById`, and the old check tested `.getById(` against every file
+  // concatenated — so ONE service's call vouched for all of them. Here nothing
+  // injects BarApi at all, yet a `getById` call is present via FooApi.
+  const barApi = `export class BarApi {
+  getById() {}
+}`;
+  const consumers = [
+    { name: 'other-page.ts', src: `const foo = inject(FooApi); foo.getById(id);` },
+  ];
+  assert.deepEqual(uncalledMethods(barApi, consumers), ['BarApi.getById']);
+});
+
+test('uncalledMethods honours constructor injection', () => {
+  const service = `export class FooApi {
+  list() {}
+}`;
+  const consumers = [
+    { name: 'legacy.ts', src: `constructor(private api: FooApi) {} load() { this.api.list(); }` },
+  ];
+  assert.deepEqual(uncalledMethods(service, consumers), []);
+});
+
+test('uncalledMethods ignores the constructor and reports each method once', () => {
+  const service = `export class FooApi {
+  constructor() {}
+  orphan() {}
+  orphan() {}
+}`;
+  assert.deepEqual(uncalledMethods(service, []), ['FooApi.orphan']);
 });
 
 test('runAudit reports zero findings against the real repository', () => {

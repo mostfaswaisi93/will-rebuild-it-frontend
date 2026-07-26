@@ -14,6 +14,7 @@ import {
   Equipment,
   EquipmentProblem,
   EquipmentProblemSeverity,
+  EquipmentStatus,
 } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -25,6 +26,13 @@ import { PageHeader } from '@shared/ui/page-header/page-header';
 import { StatusPill } from '@shared/ui/status-pill/status-pill';
 
 type Panel = 'none' | 'book' | 'problem';
+
+/**
+ * The availability decisions an operator actually takes on a machine. `booked`
+ * and `inUse` are consequences of the booking record, so offering them here
+ * would let the status contradict the schedule that produced it.
+ */
+const AVAILABILITY: readonly EquipmentStatus[] = ['available', 'maintenance', 'outOfService'];
 
 @Component({
   selector: 'app-equipment-detail',
@@ -72,6 +80,19 @@ export class EquipmentDetail {
 
   protected readonly panel = signal<Panel>('none');
   protected readonly submitting = signal(false);
+
+  /**
+   * Availability states other than the one the machine is already in. Empty
+   * while a machine is `booked` or `inUse` — taking it out of service under a
+   * live booking is a booking decision, not a status one.
+   */
+  protected readonly availabilityOptions = computed<EquipmentStatus[]>(() => {
+    const status = this.equipment()?.status;
+    if (!status || !AVAILABILITY.includes(status)) {
+      return [];
+    }
+    return AVAILABILITY.filter((option) => option !== status);
+  });
 
   protected readonly bookForm = new FormGroup({
     from: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
@@ -170,6 +191,29 @@ export class EquipmentDetail {
           this.resource.set(updated);
           this.closePanel();
           this.toast.success('equipment.detail.problemReported');
+        },
+        error: () => {
+          this.submitting.set(false);
+          this.toast.danger('common.errorGeneric');
+        },
+      });
+  }
+
+  /** Takes a machine out of service, or returns it to the fleet. */
+  protected setStatus(status: EquipmentStatus): void {
+    const equipment = this.equipment();
+    if (!equipment || this.submitting()) {
+      return;
+    }
+    this.submitting.set(true);
+    this.api
+      .setStatus(equipment.id, status)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (updated) => {
+          this.submitting.set(false);
+          this.resource.set(updated);
+          this.toast.success('equipment.detail.statusUpdated');
         },
         error: () => {
           this.submitting.set(false);
