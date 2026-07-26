@@ -12,6 +12,7 @@ import {
   CAMPAIGN_STATUSES,
   LOG_STATUSES,
   STAFF_STATUSES,
+  TEAM_STATUSES,
   SUBSCRIPTION_STATUSES,
   SHIPMENT_STATUSES,
   COMPLAINT_STATUSES,
@@ -155,6 +156,12 @@ const EXPECTED: Record<StatusPillContext, Readonly<Record<string, StatusTone>>> 
     onLeave: 'warning',
     inactive: 'neutral',
   },
+  team: {
+    active: 'success',
+    // Suspension is a withdrawal of standing that stops the firm bidding, so it
+    // reads as danger rather than a muted neutral like an inactive staff member.
+    suspended: 'danger',
+  },
   campaign: {
     draft: 'neutral',
     scheduled: 'info',
@@ -231,6 +238,7 @@ const CONTEXT_DOMAINS: readonly { context: StatusPillContext; statuses: readonly
   { context: 'equipmentProblem', statuses: EQUIPMENT_PROBLEM_SEVERITIES },
   { context: 'disbursement', statuses: DISBURSEMENT_STATUSES },
   { context: 'staff', statuses: STAFF_STATUSES },
+  { context: 'team', statuses: TEAM_STATUSES },
   { context: 'campaign', statuses: CAMPAIGN_STATUSES },
   { context: 'deliveryLog', statuses: LOG_STATUSES },
   { context: 'subscription', statuses: SUBSCRIPTION_STATUSES },
@@ -307,6 +315,7 @@ describe('resolveStatusTone', () => {
         'equipmentProblem',
         'disbursement',
         'staff',
+        'team',
         'campaign',
         'deliveryLog',
         'subscription',

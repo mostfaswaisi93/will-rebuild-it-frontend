@@ -20,6 +20,7 @@ export type StatusPillContext =
   | 'equipmentProblem'
   | 'disbursement'
   | 'staff'
+  | 'team'
   | 'campaign'
   | 'deliveryLog'
   | 'subscription'

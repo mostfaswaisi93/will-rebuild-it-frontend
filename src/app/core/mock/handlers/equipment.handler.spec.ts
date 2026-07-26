@@ -215,4 +215,88 @@ describe('equipment handler', () => {
       ).toBe(404);
     });
   });
+
+  describe('releasing a booking', () => {
+    /** Books a machine and returns [equipmentId, bookingId]. */
+    function book(equipmentId: string, from: string, to: string): [string, string] {
+      const result = expectHandled(
+        handleEquipment(
+          makeContext(store, {
+            method: 'POST',
+            path: `equipment/${equipmentId}/bookings`,
+            body: { from, to, projectTitle: 'Al-Karama rebuild', bookedBy: 'Layla' },
+          }),
+        ),
+      );
+      const equipment = result.body as Equipment;
+      return [equipmentId, equipment.bookings[equipment.bookings.length - 1].id];
+    }
+
+    it('frees the machine and the calendar', () => {
+      const target = store.equipment.find((e) => e.status === 'available');
+      const [id, bookingId] = book(target!.id, '2026-09-01', '2026-09-05');
+      expect(store.equipment.find((e) => e.id === id)?.status).toBe('booked');
+
+      const released = expectHandled(
+        handleEquipment(
+          makeContext(store, { method: 'DELETE', path: `equipment/${id}/bookings/${bookingId}` }),
+        ),
+      );
+
+      expect(released.status).toBe(200);
+      const equipment = released.body as Equipment;
+      expect(equipment.bookings.some((b) => b.id === bookingId)).toBeFalse();
+      // The whole point: the freed period books again instead of clashing.
+      expect(equipment.status).toBe('available');
+      const rebooked = expectHandled(
+        handleEquipment(
+          makeContext(store, {
+            method: 'POST',
+            path: `equipment/${id}/bookings`,
+            body: { from: '2026-09-01', to: '2026-09-05', projectTitle: 'Another site' },
+          }),
+        ),
+      );
+      expect(rebooked.status).toBe(200);
+    });
+
+    it('leaves a status that describes the machine, not its calendar', () => {
+      const target = store.equipment.find((e) => e.status === 'available')!;
+      const [id, bookingId] = book(target.id, '2026-10-01', '2026-10-03');
+      expectHandled(
+        handleEquipment(
+          makeContext(store, {
+            method: 'POST',
+            path: `equipment/${id}/status`,
+            body: { status: 'maintenance' },
+          }),
+        ),
+      );
+
+      const released = expectHandled(
+        handleEquipment(
+          makeContext(store, { method: 'DELETE', path: `equipment/${id}/bookings/${bookingId}` }),
+        ),
+      );
+
+      // Releasing must not quietly declare a machine under maintenance available.
+      expect((released.body as Equipment).status).toBe('maintenance');
+    });
+
+    it('404s for an unknown booking or machine', () => {
+      const target = store.equipment[0];
+      expect(
+        expectHandled(
+          handleEquipment(
+            makeContext(store, { method: 'DELETE', path: `equipment/${target.id}/bookings/nope` }),
+          ),
+        ).status,
+      ).toBe(404);
+      expect(
+        expectHandled(
+          handleEquipment(makeContext(store, { method: 'DELETE', path: 'equipment/nope/bookings/x' })),
+        ).status,
+      ).toBe(404);
+    });
+  });
 });

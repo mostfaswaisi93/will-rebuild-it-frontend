@@ -37,8 +37,20 @@
                   <span class="block text-sm font-medium text-ink-900">{{ booking.projectTitle }}</span>
                   <span class="block text-xs text-ink-500">{{ 'equipment.detail.bookedBy' | translate: { name: booking.bookedBy } }}</span>
                 </span>
-                <span class="shrink-0 text-end text-xs text-ink-700" dir="ltr">
-                  {{ formatDate(booking.from) }} → {{ formatDate(booking.to) }}
+                <span class="flex shrink-0 items-center gap-3">
+                  <span class="text-end text-xs text-ink-700" dir="ltr">
+                    {{ formatDate(booking.from) }} → {{ formatDate(booking.to) }}
+                  </span>
+                  @if (canManage()) {
+                    <button
+                      type="button"
+                      (click)="releaseBooking(booking)"
+                      [disabled]="submitting()"
+                      class="shrink-0 text-xs font-medium text-brand-600 hover:underline disabled:opacity-50"
+                    >
+                      {{ 'equipment.detail.releaseBooking' | translate }}
+                    </button>
+                  }
                 </span>
               </li>
             }

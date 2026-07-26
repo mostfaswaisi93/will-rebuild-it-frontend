@@ -27,7 +27,7 @@ Two rules govern the port, and both are load-bearing:
 | Feature areas | **39** |
 | Shared UI components | **30** |
 | API services / mock handlers | **33 / 33** |
-| Unit tests | **506** (+ 16 for the audit tool) |
+| Unit tests | **519** (+ 16 for the audit tool) |
 | Roles | **7**, one sign-in gate |
 
 ---
@@ -231,16 +231,19 @@ Current state: 5/5 checks pass across **108 routes** and **22 status-pill contex
 
 ### Coverage closure
 
-"Is any page still missing?" is answered by four independent sweeps rather than by reading the map. Each carries a self-check that fails loudly if the scanner itself is broken — two of them did fail and were fixed before their findings were trusted:
+"Is any page still missing?" is answered by five independent sweeps rather than by reading the map. Each carries a self-check that fails loudly if the scanner itself is broken — three of them did fail, and were fixed before their findings were trusted:
 
 | Sweep | Method | Result |
 |---|---|---|
-| Legacy route parity | Extract all **149** leaf routes from the legacy app's 29 routing modules; diff against the map | 2 unnamed, both now resolved |
+| Legacy route parity | Extract all **149** leaf routes from the legacy app's 29 routing modules; diff against the map | 2 unnamed, both resolved |
 | Dead links | Resolve full paths with real Angular matching (not "any parent segment counts") | **0** |
 | Uncalled API endpoints | Resolve calls through the injected variable, per service | **0** |
 | Endpoints the mock implements that no service can call | Extract handler branches; diff against the API layer's URL shapes | **0** |
+| **Components that are not route targets** | 222 components vs 163 routed: screens rendered *inside* other pages | 23 embedded · 33 dead |
 
-Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1 and 4 are one-off diagnostics against the legacy tree.
+The fifth sweep exists because the first four only see **routes**. The legacy app has 222 components against 163 route targets, so dozens of screens live as tabs or dialogs inside a parent and are invisible to any route-based check. It found the last two real gaps — a contracting firm could not be suspended, and an equipment booking could not be released — both now built.
+
+Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1, 4 and 5 are one-off diagnostics against the legacy tree.
 
 ---
 
@@ -297,6 +300,8 @@ Three decisions worth stating, because they cost features on purpose:
 
 Newest first.
 
+- **A contracting firm can now be suspended, with a reason.** `Team` carried no status at all, so suppliers, beneficiaries and staff each had a standing decision while a contracting firm — the party that actually builds — had none. That is the enforcement end of membership: the annual fee exists to keep a firm verified and eligible for tenders, so there has to be a way to withdraw that standing when a licence lapses or an inspection fails. `/app/contractors/:id` now suspends or reinstates, and **the server refuses a suspension with no reason** rather than merely disabling the button — a firm that can no longer bid must carry why. Suspension has real effect: the firm disappears from `/app/teams`, the list a family chooses who rebuilds their home from, while staying visible in the operator's register, which is where it gets reinstated. The status filter is opt-in for exactly that reason; defaulting it would have hidden the firm from both.
+- **An equipment booking can now be released.** Bookings could be created but never ended, so a machine was held for the full period even when the job finished early or moved — and the scheduler kept refusing overlapping bookings against a commitment nobody was using. Releasing frees the calendar and returns a `booked` machine to `available`, while deliberately leaving `inUse`, `maintenance` and `outOfService` alone: those describe the machine, not its calendar, and quietly marking a machine under maintenance as available would be worse than the original bug.
 - **Membership plans catalogue at `/app/subscriptions/plans`.** The legacy `priceList` module had two tabs and redirected to the *plans* one by default; only its sibling (services rates) had been ported. So `SUBSCRIPTION_PLANS` was a union type, `plan` a field on every membership, and plan a **filter on the register** — while nothing in the app said what the tiers were or what they cost. Each tier now shows its annual fee, what it includes, and how many teams hold it, linking through to `/app/subscriptions?plan=`. Read-only for the same reason as `/app/price-lists`: the fee is agreed contractually off-platform, and editing it here would disagree with what teams have already been billed. Plan copy is backend content held bilingually and served per `lang`, like the assessment questionnaire — not UI dictionary strings. Two traps surfaced and are now pinned by tests: `GET /subscriptions/plans` and `GET /subscriptions/:id` both match two segments, so the plans branch only works above the `:id` one; and `[value]` on a `<select>` is discarded when its options render in the same pass, which left a `?plan=` deep link filtering the table while the control still read "all plans".
 - **Two more pieces of legacy dead code identified and deliberately not ported.** The legacy `auth` module declares four components and routes three: `log-in` (2,460 lines) has both its routes **commented out**, and `sign-in` is declared with no route at all. Building either would have contradicted the single sign-in gate decision and re-fragmented the auth flow. Recorded in the map with the reason, next to the `registrations/map` finding.
 - **Three unreachable endpoints closed, found by hardening the check that was hiding them.** `uncalled-api` matched `.method(` by name across all files at once, so `getById`/`list`/`create` — declared by every one of the 33 API services — counted as called the moment any one service's namesake was. Resolving calls through the injected variable instead surfaced three real gaps, now built: **`/app/shipments/:id`**, the shipment detail page the map had recorded as "merged into the list" while `GET /shipments/:id` sat with no caller — it shows the clearance trail, an overdue warning, the purchase-order link, and the crossing decision (advance, or turn the load back, the latter only while the convoy is still at the crossing); an **availability control** on `/app/equipment/:id` offering only the decisions an operator actually makes, since `booked`/`inUse` follow from the booking record and setting them by hand would let the status contradict the schedule; and an **activate/suspend control** on `/app/staff/:id`, whose counterparts for beneficiaries and suppliers had been wired all along.

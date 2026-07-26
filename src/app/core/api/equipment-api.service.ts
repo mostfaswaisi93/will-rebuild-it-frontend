@@ -89,6 +89,14 @@ export class EquipmentApi {
     return this.http.post<Equipment>(`${this.base}/${id}/bookings`, payload);
   }
 
+  /**
+   * Gives a machine back before its booking ends. Frees the calendar so an
+   * overlapping booking stops being refused against a commitment nobody is using.
+   */
+  releaseBooking(id: string, bookingId: string): Observable<Equipment> {
+    return this.http.delete<Equipment>(`${this.base}/${id}/bookings/${bookingId}`);
+  }
+
   reportProblem(id: string, payload: ReportProblemPayload): Observable<Equipment> {
     return this.http.post<Equipment>(`${this.base}/${id}/problems`, payload);
   }

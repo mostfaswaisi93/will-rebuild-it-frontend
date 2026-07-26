@@ -118,6 +118,31 @@ export const handleEquipment: MockHandler = (ctx) => {
     return ok(item);
   }
 
+  // DELETE /equipment/:id/bookings/:bookingId — release a booking early
+  //
+  // Ports the legacy "drop equipment" screen. Without it a booking, once made,
+  // held the machine forever: a job that finished early or moved could not give
+  // the machine back, and the scheduler would keep refusing overlapping
+  // bookings against a commitment nobody was using.
+  if (ctx.method === 'DELETE' && ctx.segments.length === 4 && ctx.segments[2] === 'bookings') {
+    if (!item) {
+      return notFound(`Equipment ${ctx.segments[1]} not found.`);
+    }
+    const booking = item.bookings.find((candidate) => candidate.id === ctx.segments[3]);
+    if (!booking) {
+      return notFound(`Booking ${ctx.segments[3]} not found.`);
+    }
+    item.bookings = item.bookings.filter((candidate) => candidate.id !== ctx.segments[3]);
+
+    // Mirror of the create rule: a machine held only by this commitment is free
+    // again. `inUse`, `maintenance` and `outOfService` are left alone — those
+    // say something about the machine, not about its calendar.
+    if (item.status === 'booked' && item.bookings.length === 0) {
+      item.status = 'available';
+    }
+    return ok(item);
+  }
+
   // POST /equipment/:id/bookings
   if (ctx.method === 'POST' && ctx.segments.length === 3 && ctx.segments[2] === 'bookings') {
     if (!item) {

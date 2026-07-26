@@ -12,6 +12,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import {
   EQUIPMENT_PROBLEM_SEVERITIES,
   Equipment,
+  EquipmentBooking,
   EquipmentProblem,
   EquipmentProblemSeverity,
   EquipmentStatus,
@@ -214,6 +215,29 @@ export class EquipmentDetail {
           this.submitting.set(false);
           this.resource.set(updated);
           this.toast.success('equipment.detail.statusUpdated');
+        },
+        error: () => {
+          this.submitting.set(false);
+          this.toast.danger('common.errorGeneric');
+        },
+      });
+  }
+
+  /** Gives the machine back before the booking's end date. */
+  protected releaseBooking(booking: EquipmentBooking): void {
+    const equipment = this.equipment();
+    if (!equipment || this.submitting()) {
+      return;
+    }
+    this.submitting.set(true);
+    this.api
+      .releaseBooking(equipment.id, booking.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (updated) => {
+          this.submitting.set(false);
+          this.resource.set(updated);
+          this.toast.success('equipment.detail.bookingReleased');
         },
         error: () => {
           this.submitting.set(false);

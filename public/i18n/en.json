@@ -766,6 +766,10 @@
         "onLeave": "On leave",
         "inactive": "Inactive"
       },
+      "team": {
+        "active": "Approved",
+        "suspended": "Suspended"
+      },
       "campaign": {
         "draft": "Draft",
         "scheduled": "Scheduled",
@@ -2074,7 +2078,18 @@
       "licenses": "Licence numbers",
       "coverage": "Coverage areas",
       "noCoverage": "No areas on record.",
-      "contact": "Contact"
+      "contact": "Contact",
+      "standing": "Standing on the platform",
+      "suspend": "Suspend firm",
+      "suspendHint": "Suspending stops the firm bidding on tenders and removes it from the list beneficiaries choose from.",
+      "confirmSuspend": "Confirm suspension",
+      "reason": "Reason for suspension",
+      "reasonRequired": "Please give a clear reason (at least 10 characters) — the suspension is recorded with it.",
+      "suspended": "Firm suspended.",
+      "suspendedTitle": "This firm is suspended",
+      "reinstate": "Reinstate",
+      "reinstateHint": "Reinstating returns the firm to the available list and to tender eligibility.",
+      "reinstated": "Firm reinstated."
     }
   },
   "materials": {
@@ -2329,6 +2344,8 @@
       "submitProblem": "Submit report",
       "problemReported": "Fault recorded.",
       "problemResolved": "Fault closed.",
+      "releaseBooking": "Release",
+      "bookingReleased": "Machine released and the booking cleared.",
       "availability": "Machine availability",
       "availabilityHint": "\"Booked\" and \"in use\" are derived from bookings and are not set by hand.",
       "statusUpdated": "Machine availability updated."
