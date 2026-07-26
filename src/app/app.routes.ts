@@ -633,6 +633,15 @@ export const routes: Routes = [
           ),
       },
       {
+        // Must precede `subscriptions/:id`, or `:id` captures the literal "plans".
+        path: 'subscriptions/plans',
+        canActivate: [roleGuard(['admin'])],
+        loadComponent: () =>
+          import('./features/subscriptions/subscription-plans/subscription-plans').then(
+            (m) => m.SubscriptionPlans,
+          ),
+      },
+      {
         path: 'subscriptions/:id',
         canActivate: [roleGuard(['admin'])],
         loadComponent: () =>

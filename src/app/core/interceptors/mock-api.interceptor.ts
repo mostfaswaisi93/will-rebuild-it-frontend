@@ -113,10 +113,31 @@ export const mockApiInterceptor: HttpInterceptorFn = (req, next) => {
   const latency = isPlatformServer(platformId) ? 0 : 250 + Math.round(Math.random() * 200);
 
   if (result.status >= 200 && result.status < 300) {
-    return of(new HttpResponse({ status: result.status, body: result.body, url: req.url })).pipe(delay(latency));
+    return of(
+      new HttpResponse({ status: result.status, body: detach(result.body), url: req.url }),
+    ).pipe(delay(latency));
   }
 
   return throwError(
-    () => new HttpErrorResponse({ status: result.status, error: result.body, url: req.url }),
+    () => new HttpErrorResponse({ status: result.status, error: detach(result.body), url: req.url }),
   ).pipe(delay(latency));
 };
+
+/**
+ * Severs the response from the store, the way a real server does by serialising
+ * to JSON: a caller can never hold a reference into the mock's own state.
+ *
+ * Without this the handlers' mutate-in-place-and-return pattern handed callers
+ * the very object the store keeps, so `resource.set(updated)` set a signal to
+ * the value it already held — `Object.is` equal, therefore no notification.
+ * Templates reading a field straight off the object still appeared to update on
+ * the next change-detection pass, but every *derived* `computed` kept its stale
+ * value. That is how an approved purchase order went on offering its "approve"
+ * button, and a shipment already in transit went on offering to be turned back.
+ */
+function detach<T>(body: T): T {
+  if (body === null || typeof body !== 'object') {
+    return body;
+  }
+  return structuredClone(body);
+}

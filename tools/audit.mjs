@@ -19,6 +19,15 @@
  *                       unbuilt write-flows (the donor could not donate, the
  *                       beneficiary could not report damage) whose APIs and
  *                       translations had been ported and whose pages never were.
+ *                       Then the check itself proved too loose: it matched
+ *                       `.method(` by name across all files concatenated, so
+ *                       `getById`/`list`/`create` — declared by every one of the
+ *                       33 API services — counted as called as soon as any one
+ *                       service's namesake was called. Three endpoints hid
+ *                       behind that: a shipment detail page that did not exist,
+ *                       and two status decisions with no control. Calls are now
+ *                       resolved through the variable the service is injected
+ *                       into.
  *
  * The parsing/logic is exported as pure functions (tested in `audit.test.mjs`)
  * and kept separate from the filesystem walk so the checks can be exercised

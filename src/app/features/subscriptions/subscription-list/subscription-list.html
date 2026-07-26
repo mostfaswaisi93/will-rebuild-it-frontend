@@ -1,4 +1,12 @@
-<app-page-header [title]="'subscriptions.title' | translate" [subtitle]="'subscriptions.subtitle' | translate" />
+<app-page-header [title]="'subscriptions.title' | translate" [subtitle]="'subscriptions.subtitle' | translate">
+  <a
+    pageHeaderActions
+    routerLink="/app/subscriptions/plans"
+    class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+  >
+    {{ 'subscriptions.plans.link' | translate }}
+  </a>
+</app-page-header>
 
 @if (failed()) {
   <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">

@@ -106,4 +106,64 @@ describe('subscriptions handler', () => {
   it('404s for an unknown subscription', () => {
     expect(expectHandled(handleSubscriptions(makeContext(store, { path: 'subscriptions/nope' }))).status).toBe(404);
   });
+
+  /**
+   * `GET /subscriptions/plans` and `GET /subscriptions/:id` both match two
+   * segments, so the plans branch only works while it sits above the `:id` one.
+   * Move it below and "plans" is read as a subscription id — a 404 on a route
+   * that looks correct in the router. These pin the order.
+   */
+  describe('GET /subscriptions/plans', () => {
+    it('serves the catalogue rather than being read as an id', () => {
+      const result = expectHandled(
+        handleSubscriptions(makeContext(store, { path: 'subscriptions/plans' })),
+      );
+
+      expect(result.status).toBe(200);
+      const plans = result.body as { plan: string; fee: number; features: string[] }[];
+      expect(plans.map((p) => p.plan)).toEqual(['standard', 'premium']);
+      expect(plans.every((p) => p.features.length > 0)).toBeTrue();
+    });
+
+    it('quotes the same fee the seeded memberships are billed', () => {
+      const plans = expectHandled(
+        handleSubscriptions(makeContext(store, { path: 'subscriptions/plans' })),
+      ).body as { plan: string; fee: number }[];
+
+      for (const plan of plans) {
+        const billed = store.subscriptions.filter((sub) => sub.plan === plan.plan);
+        for (const sub of billed) {
+          expect(sub.amount)
+            .withContext(`${sub.subscriptionNumber} is billed ${sub.amount} but ${plan.plan} quotes ${plan.fee}`)
+            .toBe(plan.fee);
+        }
+      }
+    });
+
+    it('counts only active memberships per tier', () => {
+      const plans = expectHandled(
+        handleSubscriptions(makeContext(store, { path: 'subscriptions/plans' })),
+      ).body as { plan: string; activeTeams: number }[];
+
+      for (const plan of plans) {
+        const expected = store.subscriptions.filter(
+          (sub) => sub.plan === plan.plan && sub.status === 'active',
+        ).length;
+        expect(plan.activeTeams).toBe(expected);
+      }
+    });
+
+    it('serves plan copy in the requested locale', () => {
+      const en = expectHandled(
+        handleSubscriptions(makeContext(store, { path: 'subscriptions/plans', query: { lang: 'en' } })),
+      ).body as { name: string }[];
+      const ar = expectHandled(
+        handleSubscriptions(makeContext(store, { path: 'subscriptions/plans', query: { lang: 'ar' } })),
+      ).body as { name: string }[];
+
+      expect(ar.length).toBe(en.length);
+      expect(ar[0].name).not.toBe(en[0].name);
+      expect(ar[0].name).toMatch(/[؀-ۿ]/);
+    });
+  });
 });

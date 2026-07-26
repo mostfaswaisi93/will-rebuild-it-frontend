@@ -52,7 +52,7 @@ import { seedStaff } from './fixtures/staff.fixture';
 import { seedCampaigns } from './fixtures/campaigns.fixture';
 import { seedDeliveryLogs } from './fixtures/delivery-logs.fixture';
 import { seedMonitoringReports } from './fixtures/monitoring.fixture';
-import { seedSubscriptions } from './fixtures/subscriptions.fixture';
+import { seedMembershipPlans, seedSubscriptions } from './fixtures/subscriptions.fixture';
 import { seedShipments } from './fixtures/shipments.fixture';
 import { seedPriceList } from './fixtures/price-list.fixture';
 import { seedEstimates } from './fixtures/estimates.fixture';
@@ -100,6 +100,8 @@ export class MockStore {
   readonly deliveryLogs: DeliveryLog[] = structuredClone(seedDeliveryLogs);
   readonly monitoringReports: MonitoringReport[] = structuredClone(seedMonitoringReports);
   readonly subscriptions: Subscription[] = structuredClone(seedSubscriptions);
+  /** Bilingual, like `assessmentQuestions`: the handler localizes per request. */
+  readonly membershipPlans: typeof seedMembershipPlans = structuredClone(seedMembershipPlans);
   readonly shipments: Shipment[] = structuredClone(seedShipments);
   readonly priceList: PriceListItem[] = structuredClone(seedPriceList);
   readonly estimates: Estimate[] = structuredClone(seedEstimates);

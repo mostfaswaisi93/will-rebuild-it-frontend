@@ -1,4 +1,5 @@
 import { Subscription } from '@core/models';
+import { localizeMembershipPlans } from '../fixtures/subscriptions.fixture';
 import { MockHandler, badRequest, notFound, ok } from '../mock-types';
 
 function summarise(subscriptions: Subscription[]) {
@@ -82,6 +83,21 @@ export const handleSubscriptions: MockHandler = (ctx) => {
     }
     payment.refunded = true;
     return ok(subscription);
+  }
+
+  // GET /subscriptions/plans — the membership tier catalogue.
+  //
+  // MUST stay above the `/:id` branch below: that branch also matches two
+  // segments, so if this moved down, "plans" would be read as a subscription id
+  // and answered with 404. `subscriptions.handler.spec.ts` pins the order.
+  if (ctx.method === 'GET' && ctx.segments.length === 2 && ctx.segments[1] === 'plans') {
+    return ok(
+      localizeMembershipPlans(
+        ctx.store.membershipPlans,
+        ctx.store.subscriptions,
+        ctx.query.get('lang') ?? 'en',
+      ),
+    );
   }
 
   if (ctx.method === 'GET' && ctx.segments.length === 2) {

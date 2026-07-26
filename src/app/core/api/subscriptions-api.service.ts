@@ -2,7 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@env/environment';
-import { PagedResult, Subscription, SubscriptionPlan, SubscriptionStatus } from '@core/models';
+import {
+  MembershipPlan,
+  PagedResult,
+  Subscription,
+  SubscriptionPlan,
+  SubscriptionStatus,
+} from '@core/models';
 
 export interface SubscriptionFilters {
   pageNo: number;
@@ -44,6 +50,16 @@ export class SubscriptionsApi {
 
   getById(id: string): Observable<Subscription> {
     return this.http.get<Subscription>(`${this.base}/${id}`);
+  }
+
+  /**
+   * The membership tier catalogue. `lang` is passed because plan names, blurbs
+   * and feature lists are backend content served per locale, not UI chrome.
+   */
+  plans(lang: string): Observable<MembershipPlan[]> {
+    return this.http.get<MembershipPlan[]>(`${this.base}/plans`, {
+      params: new HttpParams().set('lang', lang),
+    });
   }
 
   /** Records a renewal payment, extends the cover by a year, and marks it active. */

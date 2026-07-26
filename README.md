@@ -23,11 +23,11 @@ Two rules govern the port, and both are load-bearing:
 
 | | |
 |---|---:|
-| Declared routes | **106** |
+| Declared routes | **107** |
 | Feature areas | **39** |
 | Shared UI components | **30** |
 | API services / mock handlers | **33 / 33** |
-| Unit tests | **496** (+ 12 for the audit tool) |
+| Unit tests | **498** (+ 16 for the audit tool) |
 | Roles | **7**, one sign-in gate |
 
 ---
@@ -134,7 +134,7 @@ src/app/
 | Supply chain | `inventory` · `warehouses` · `equipment` (+ `schedule`, `:id`) | admin · contractor · staff |
 | ↳ write actions | `equipment/new` · `equipment/:id/edit` · `equipment/reports` · `purchase-orders/new` | admin · contractor |
 | ↳ procurement | `purchase-orders` (+ `:id`) | admin · contractor · supplier |
-| ↳ logistics | `shipments` | admin · supplier |
+| ↳ logistics | `shipments` (+ `:id`) | admin · supplier |
 | Ops & comms | `support` (+ `:id`) · `scorecards` (+ `:id`) · `questions` · `external-ratings` | admin · staff |
 | ↳ operator only | `campaigns` (+ `:id`) · `logs` · `notifications/push` | admin |
 | Settings | `global-settings` (+ `terms`, `geofencing`, `reference`) · `permissions` | admin |
@@ -217,21 +217,27 @@ Five checks that neither the compiler, nor ESLint, nor unit tests can perform, b
 | `status-pill` | `shared.statusPill.workOrderPriority.*` was missing entirely — the key is built at runtime, so the raw code rendered where the label belonged |
 | `uncalled-api` | 14 API endpoints with no caller — not dead code but **write flows whose pages were never built**: the donor couldn't donate, the beneficiary couldn't report damage |
 
-> **The lesson the audit taught about itself.** The first `nav-guard` required `canActivate` to appear immediately after `path:` — so any route with a comment between them was read as **unguarded and silently skipped**. The check reported "clean" while inspecting nothing, and specifically on `estimates` and `pricebook`: the two routes it was later fixed to catch. The parser now slices each route's full text up to the next route. **A check never exercised against a planted defect cannot be trusted.**
+> **The lesson the audit taught about itself — twice.**
+>
+> The first `nav-guard` required `canActivate` to appear immediately after `path:` — so any route with a comment between them was read as **unguarded and silently skipped**. The check reported "clean" while inspecting nothing, and specifically on `estimates` and `pricebook`: the two routes it was later fixed to catch. The parser now slices each route's full text up to the next route.
+>
+> Then `uncalled-api` turned out to have the same shape of hole. It matched `.method(` **by name** across every file concatenated — and `getById`/`list`/`create` are declared by all 33 API services, so one service's call vouched for all of them. Only uniquely-named methods were ever really covered. Three unreachable endpoints hid behind that: `ShipmentsApi.getById` (a shipment detail page that did not exist), `EquipmentApi.setStatus` and `StaffApi.setStatus` (two status decisions with no control anywhere in the UI). Calls are now resolved **through the variable the service is injected into**, with multiline fluent chains folded first — without that fold every piped call would read as uncalled, which is most of the codebase.
+>
+> **A check never exercised against a planted defect cannot be trusted.** Both fixes were confirmed by reinstating the bug: with `StaffApi.setStatus` unwired, the old check answers "called" (because `.setStatus(` appears in three unrelated files) while the new one fails and names it.
 
-So the audit's own logic is exported as pure functions in [`tools/audit.mjs`](tools/audit.mjs) and covered by 12 tests in [`tools/audit.test.mjs`](tools/audit.test.mjs) (`node --test`) — one of which pins the comment-before-guard case above, verified by reinstating the bug and confirming it fails. `npm run verify` runs the audit's tests before trusting the audit's verdict.
+So the audit's own logic is exported as pure functions in [`tools/audit.mjs`](tools/audit.mjs) and covered by 16 tests in [`tools/audit.test.mjs`](tools/audit.test.mjs) (`node --test`), which pin both regressions above. `npm run verify` runs the audit's tests before trusting the audit's verdict.
 
-Current state: 5/5 checks pass across **106 routes** and **22 status-pill contexts**.
+Current state: 5/5 checks pass across **107 routes** and **22 status-pill contexts**.
 
 ---
 
 ## Testing
 
-496 unit tests across 36 spec files, aimed at the logic most likely to break silently rather than at render assertions:
+498 unit tests across 36 spec files, aimed at the logic most likely to break silently rather than at render assertions:
 
 | Area | What it guards |
 |---|---|
-| `mock-api.interceptor` | That query params (filters, paging, `lang`) actually reach the handlers — a regression guard for a real bug (see changelog) |
+| `mock-api.interceptor` | Two real bugs this one seam has had: that query params (filters, paging, `lang`) actually reach the handlers, and that a response is never a live reference into the mock's store (see changelog) |
 | `mock/handlers/*` (19 specs) | Approve/reject transitions, receipt confirmation, server-side money arithmetic, review averaging, fall-through |
 | `auth.guard` / `role.guard` | Redirect targets per role, including the exact `returnUrl` |
 | `session-store` (+ `.malformed`) | Persistence, rehydration, and rejection of structurally invalid stored sessions |
@@ -278,6 +284,8 @@ Three decisions worth stating, because they cost features on purpose:
 
 Newest first.
 
+- **Three unreachable endpoints closed, found by hardening the check that was hiding them.** `uncalled-api` matched `.method(` by name across all files at once, so `getById`/`list`/`create` — declared by every one of the 33 API services — counted as called the moment any one service's namesake was. Resolving calls through the injected variable instead surfaced three real gaps, now built: **`/app/shipments/:id`**, the shipment detail page the map had recorded as "merged into the list" while `GET /shipments/:id` sat with no caller — it shows the clearance trail, an overdue warning, the purchase-order link, and the crossing decision (advance, or turn the load back, the latter only while the convoy is still at the crossing); an **availability control** on `/app/equipment/:id` offering only the decisions an operator actually makes, since `booked`/`inUse` follow from the booking record and setting them by hand would let the status contradict the schedule; and an **activate/suspend control** on `/app/staff/:id`, whose counterparts for beneficiaries and suppliers had been wired all along.
+- **Fixed: every detail page showed stale actions after a write.** Handlers mutate the store in place and returned *that same object*, so `resource.set(updated)` set a signal to the value it already held — `Object.is` equal, therefore no notification. A template reading a field directly appeared to update on the next change-detection pass, but every derived `computed` kept its stale value: an **approved** purchase order went on offering its "approve" button, and a shipment already in transit went on offering to be turned back. Pre-existing and affecting every page that calls `resource.set`, so it is fixed at the root — the interceptor now detaches the response body from the store the way a real server does by serialising, one change covering all pages — with two specs that were confirmed to fail without it.
 - **Verification gate + self-tested consistency audit.** Added `npm run verify` (lint · audit · audit:test · test:ci) and the matching GitHub Actions workflow. The audit's five checks each grew out of a real defect; its parser's own silent false negative is now pinned by a test, because a check that has never been exercised against a planted defect proves nothing.
 - **Write flows completed.** An audit of endpoints with no caller found 14 — not dead code, but write flows whose pages were never built (a donor who couldn't donate, a beneficiary who couldn't report damage, funding that couldn't be confirmed received). Every endpoint now has a caller: `/app/donations/new`, `/app/requests/new`, funding receipt confirmation with signature, disbursement detail, team review, `/app/support/new`, profile editing, `/pub/project/:id`, and statement review.
 - **Public-facing role experiences wired in.** `homeRouteForRole` routed beneficiary, donor, and team to three routes that **did not exist**, so every sign-in for those roles fell through to `**`. All seven role homes now resolve, and the beneficiary sidebar's seven dead links are live pages.

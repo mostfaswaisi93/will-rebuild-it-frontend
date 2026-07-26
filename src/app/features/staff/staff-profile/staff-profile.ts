@@ -67,7 +67,7 @@ export class StaffProfile {
     }
     this.updating.set(true);
     this.api
-      .getById(member.id)
+      .setStatus(member.id, status)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (updated) => {

@@ -92,4 +92,33 @@ describe('mockApiInterceptor', () => {
 
     expect(status).toBe(404);
   });
+
+  /**
+   * The second regression this seam has had. Handlers mutate the store in place
+   * and return the record they just changed, so the interceptor used to hand
+   * callers a reference straight into the mock's own state. `resource.set(res)`
+   * then set a signal to the value it already held — `Object.is` equal, so no
+   * notification, so every derived `computed` kept a stale value while a
+   * template reading the field directly appeared to update. That is how an
+   * approved purchase order kept offering "approve". A real server cannot do
+   * this: it serializes. These two specs pin that it stays that way.
+   */
+  describe('response isolation from the store', () => {
+    it('does not hand back the same object twice', async () => {
+      const first = await firstValueFrom(http.get<Team>('/api/teams/team-1'));
+      const second = await firstValueFrom(http.get<Team>('/api/teams/team-1'));
+
+      expect(first).not.toBe(second);
+      expect(first.id).toBe(second.id);
+    });
+
+    it('keeps a mutation of the response out of the store', async () => {
+      const received = await firstValueFrom(http.get<Team>('/api/teams/team-1'));
+      const originalName = received.name;
+      received.name = 'MUTATED BY CALLER';
+
+      const refetched = await firstValueFrom(http.get<Team>('/api/teams/team-1'));
+      expect(refetched.name).toBe(originalName);
+    });
+  });
 });

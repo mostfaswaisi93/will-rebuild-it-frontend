@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import {
   SUBSCRIPTION_PLANS,
   SUBSCRIPTION_STATUSES,
@@ -26,7 +27,7 @@ const PAGE_SIZE = 10;
  */
 @Component({
   selector: 'app-subscription-list',
-  imports: [TranslatePipe, DataTable, FilterBar, PageHeader, StatCard, StatusPill],
+  imports: [RouterLink, TranslatePipe, DataTable, FilterBar, PageHeader, StatCard, StatusPill],
   templateUrl: './subscription-list.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

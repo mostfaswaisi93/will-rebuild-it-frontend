@@ -2615,6 +2615,19 @@
     "empty": "No matching memberships.",
     "allStatuses": "All statuses",
     "allPlans": "All plans",
+    "plans": {
+      "link": "Membership plans",
+      "title": "Membership plans",
+      "subtitle": "What each tier includes and its annual fee — the rates memberships are billed against.",
+      "perYear": "per year",
+      "empty": "No plans defined.",
+      "activeTeams": {
+        "=0": "No teams on this plan yet",
+        "one": "1 team on this plan",
+        "other": "{{count}} teams on this plan"
+      },
+      "readOnlyNote": "Fees and plan terms are agreed contractually outside the platform, so they are shown here for reference only. Editing them here would disagree with what teams have already been billed."
+    },
     "summary": {
       "active": "Active memberships",
       "pastDue": "Overdue renewals",

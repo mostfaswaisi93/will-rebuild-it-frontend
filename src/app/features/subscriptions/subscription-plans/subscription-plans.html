@@ -1,0 +1,65 @@
+<app-page-header
+  [title]="'subscriptions.plans.title' | translate"
+  [subtitle]="'subscriptions.plans.subtitle' | translate"
+  [showBack]="true"
+/>
+
+@if (failed()) {
+  <p class="rounded-card border border-danger/30 bg-danger/5 px-4 py-3 text-sm text-danger">
+    {{ 'common.errorGeneric' | translate }}
+  </p>
+} @else if (loading()) {
+  <div class="grid gap-4 md:grid-cols-2">
+    <div class="h-72 animate-pulse rounded-card bg-ink-300/30"></div>
+    <div class="h-72 animate-pulse rounded-card bg-ink-300/30"></div>
+  </div>
+} @else {
+  <div class="grid gap-4 md:grid-cols-2">
+    @for (plan of plans(); track plan.plan) {
+      <section
+        [class]="plan.plan === 'premium' ? 'border-brand-500/50 ring-1 ring-brand-500/20' : 'border-ink-300'"
+        class="flex flex-col rounded-card border bg-surface p-5"
+      >
+        <header>
+          <h2 class="text-base font-semibold text-ink-900">{{ plan.name }}</h2>
+          <p class="mt-1 text-sm leading-relaxed text-ink-700">{{ plan.summary }}</p>
+        </header>
+
+        <p class="mt-4 flex flex-wrap items-baseline gap-x-2">
+          <span class="text-2xl font-bold text-brand-600" dir="ltr">{{ money(plan.fee, plan.currency) }}</span>
+          <span class="text-sm text-ink-500">{{ 'subscriptions.plans.perYear' | translate }}</span>
+        </p>
+
+        <ul class="mt-4 flex-1 space-y-2">
+          @for (feature of plan.features; track feature) {
+            <li class="flex items-start gap-2 text-sm text-ink-700">
+              <span
+                aria-hidden="true"
+                class="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand-500"
+              ></span>
+              <span>{{ feature }}</span>
+            </li>
+          }
+        </ul>
+
+        <footer class="mt-5 border-t border-ink-300/60 pt-3">
+          <a
+            [routerLink]="['/app/subscriptions']"
+            [queryParams]="{ plan: plan.plan }"
+            class="text-sm font-medium text-brand-600 hover:underline"
+          >
+            {{ 'subscriptions.plans.activeTeams' | translate: { count: plan.activeTeams } }}
+          </a>
+        </footer>
+      </section>
+    } @empty {
+      <p class="rounded-card border border-dashed border-ink-300 bg-surface p-8 text-center text-ink-500">
+        {{ 'subscriptions.plans.empty' | translate }}
+      </p>
+    }
+  </div>
+
+  <p class="mt-4 text-xs leading-relaxed text-ink-500">
+    {{ 'subscriptions.plans.readOnlyNote' | translate }}
+  </p>
+}
