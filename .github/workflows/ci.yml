@@ -5,9 +5,16 @@ name: CI
 # production build, split into named steps so a failure says which gate broke.
 on:
   push:
-    branches: [main]
+    # `ci/**` as well as main: a branch prefixed `ci/` exists to work on this
+    # pipeline, and a pipeline that only runs after it merges cannot be
+    # verified before it merges. This gate went in on such a branch and had
+    # never executed once — the failure mode it exists to prevent.
+    branches: [main, 'ci/**']
   pull_request:
     branches: [main]
+  # Lets the gate be run by hand on any branch, so "does CI pass?" never
+  # requires pushing a commit to find out.
+  workflow_dispatch:
 
 # A newer push to the same branch/PR cancels the in-flight run — no point
 # finishing CI for a commit that has already been superseded.

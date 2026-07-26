@@ -193,7 +193,9 @@ Dev server on `http://localhost:4200`. Other tasks:
 | `npm run audit:test` | The audit tool's own tests |
 | **`npm run verify`** | **The gate: lint + audit + audit:test + test:ci** |
 
-`.github/workflows/ci.yml` runs the same gate plus `build` on every push and pull request to `main`, as named steps so a failure says which gate broke.
+`.github/workflows/ci.yml` runs the same gate plus `build` as named steps, so a failure says which gate broke. It triggers on `main`, on `ci/**` branches, and on demand via `workflow_dispatch`.
+
+> **Why `ci/**` and `workflow_dispatch`.** The trigger was `main` only — and this gate was added on a branch named `ci/verify-pipeline`, so it could not be exercised before it merged and had never run once. That is the shape of failure the gate exists to prevent, so branches whose purpose is CI now run CI, and the gate can be invoked by hand on any branch without pushing a commit to find out.
 
 If Karma can't find Chrome, point it at your install first — on Git Bash for Windows:
 
