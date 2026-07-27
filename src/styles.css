@@ -40,7 +40,19 @@
   /* Neutrals — ink & surface (DESIGN on-surface / outline family) */
   --color-ink-900: #191c1b; /* DESIGN on-surface */
   --color-ink-700: #3e4a42; /* DESIGN on-surface-variant */
-  --color-ink-500: #6d7a71; /* DESIGN outline */
+  /*
+    Secondary text. DESIGN points this at the M3 *outline* token (#6d7a71) —
+    a colour specified for borders, which is why it measured 4.28:1 on white
+    and 4.07:1 on `surface-container-low`, under the 4.5:1 WCAG AA floor. Since
+    `text-ink-500` carries every label, subtitle and hint in the app, that was
+    one token failing on every page.
+
+    Darkened by 7% to the lightest value that clears AA on BOTH backgrounds
+    (5.10:1 on surface, 4.61:1 on the tinted container). `--color-outline`
+    below deliberately keeps the original value: borders are not text and do
+    not owe a text contrast ratio.
+  */
+  --color-ink-500: #657169;
   --color-ink-300: #bdcabf; /* DESIGN outline-variant */
   --color-surface: #ffffff; /* DESIGN surface-container-lowest */
   --color-canvas: #f8faf8; /* DESIGN surface / background */

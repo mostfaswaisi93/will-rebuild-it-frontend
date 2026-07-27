@@ -31,7 +31,15 @@
               @if (allowed(capability, role)) {
                 <span class="inline-block text-brand-600" [attr.aria-label]="'common.yes' | translate">✓</span>
               } @else {
+                <!--
+                  The dot stays decorative (`aria-hidden`) — it only shows the
+                  cell exists. But the label carries the meaning: without it a
+                  denied cell announced nothing at all, so a screen-reader user
+                  could not tell "not permitted" from a cell that failed to
+                  render. The allowed branch above has said "yes" all along.
+                -->
                 <span class="inline-block text-ink-300" aria-hidden="true">·</span>
+                <span class="sr-only">{{ 'common.no' | translate }}</span>
               }
             </td>
           }
