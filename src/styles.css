@@ -81,6 +81,11 @@
   --color-error-container: #ffdad6;
   --color-on-error-container: #93000a;
 
+  /* Motion — one duration and one curve for every interactive transition, so
+     the app's feel is a token rather than 244 independent decisions. */
+  --duration-ui: 180ms;
+  --ease-ui: cubic-bezier(0.2, 0, 0, 1);
+
   /* Sidebar — deep emerald charcoal */
   --color-nav-bg: #0f3a29;
   --color-nav-hover: #185640;
@@ -126,6 +131,60 @@
 
   ::selection {
     background-color: var(--color-brand-200);
+  }
+
+  /*
+    Interactive affordances ease instead of snapping. There were 244 hover
+    styles in the templates against 56 transitions, so most controls changed
+    colour instantly — legible, but it reads as unfinished.
+
+    Done here rather than by adding a class to 244 elements: the duration is a
+    token, so the whole app's feel is one edit. 180ms sits inside the 150–300ms
+    band that reads as responsive rather than sluggish, and only paint-level
+    properties are transitioned — never `all`, which would animate layout and
+    fight the router.
+  */
+  button,
+  a,
+  select,
+  textarea,
+  input:not([type='range']),
+  [role='button'],
+  [role='tab'] {
+    transition-property: color, background-color, border-color, outline-color, box-shadow, opacity;
+    transition-duration: var(--duration-ui);
+    transition-timing-function: var(--ease-ui);
+  }
+}
+
+/*
+  Anyone who has told their operating system to reduce motion gets none of it.
+
+  This platform is used by people who have just lost their homes, often on
+  modest phones; the design principles call for a calm, trauma-informed tone,
+  and 81 `animate-pulse` skeletons plus a spinner previously animated regardless
+  of that preference. Ending animations immediately (rather than pausing them)
+  leaves each at its final keyframe, so a skeleton settles into a solid block
+  instead of freezing half-faded.
+
+  Kept outside `@layer base` deliberately: this must outrank utility classes
+  like `animate-pulse`, and layered rules lose to unlayered ones.
+*/
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* The native route cross-fade is also motion; drop it for the same reason. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 
