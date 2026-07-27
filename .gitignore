@@ -28,6 +28,12 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Third-party AI skills, installed per developer and reproducible with one
+# command, so they are tooling rather than app code (~2.8 MB, 146 files):
+#   npx ui-ux-pro-max-cli init --ai claude
+# `.claude/launch.json` stays tracked — that one IS shared project config.
+/.claude/skills/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
