@@ -1,8 +1,25 @@
+<!--
+  Toasts confirm the outcome of nearly every write in this portal — a donation
+  recorded, a firm suspended, a machine released, a statement approved. Without
+  a live region a screen-reader user gets no confirmation at all, and the visual
+  toast has already gone by the time they could find it.
+
+  `aria-live="polite"` on the container (not the toast) so the region exists
+  before a message arrives — announcing from an element created at the same
+  moment is unreliable. Polite, never assertive: it must not interrupt what the
+  user is reading. And the region is not focusable, so it never steals focus.
+-->
 <div
   class="fixed z-50 bottom-4 inset-x-4 flex flex-col gap-2 sm:inset-x-auto sm:bottom-6 sm:inset-e-6 sm:w-96"
+  aria-live="polite"
+  aria-atomic="false"
 >
   @for (toast of toastService.all(); track toast.id) {
-    <div class="flex items-start gap-3 rounded-card p-4 shadow-card" [class]="toneClasses(toast.tone)">
+    <div
+      class="flex items-start gap-3 rounded-card p-4 shadow-card"
+      [class]="toneClasses(toast.tone)"
+      [attr.role]="toast.tone === 'danger' ? 'alert' : 'status'"
+    >
       <svg [lucideIcon]="toneIcon(toast.tone)" [size]="20" class="mt-0.5 shrink-0"></svg>
 
       <p class="flex-1 text-sm">{{ toast.messageKey | translate: toast.params }}</p>
