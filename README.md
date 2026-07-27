@@ -27,7 +27,7 @@ Two rules govern the port, and both are load-bearing:
 | Feature areas | **39** |
 | Shared UI components | **30** |
 | API services / mock handlers | **33 / 33** |
-| Unit tests | **519** (+ 16 for the audit tool) |
+| Unit tests | **523** (+ 16 for the audit tool) |
 | Roles | **7**, one sign-in gate |
 
 ---
@@ -267,6 +267,7 @@ Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1, 4 and 5 are one-o
 | `session-store` (+ `.malformed`) | Persistence, rehydration, and rejection of structurally invalid stored sessions |
 | `i18n-format.util` | Plural selection across all six Arabic CLDR categories, interpolation, key fallback |
 | `translation.service` | Locale state, RTL flag, missing-key contract |
+| `translated-title.strategy` | Deepest route key wins, an unresolved key never reaches the tab, and a locale change re-titles the open page |
 | `status-tone.util` | The status→tone map, with a completeness guard so a new status can't go unmapped |
 | `password-reset-flow` / `-step.guard` / `mask.util` | Step ordering, intent branching, email masking |
 | `onboarding-flow` | The six-step contractor registration state machine |
@@ -308,6 +309,7 @@ Three decisions worth stating, because they cost features on purpose:
 
 Newest first.
 
+- **All 108 routes shared one document title.** `index.html` set a single `<title>` and nothing overrode it, so browser history, bookmarks and tabs were indistinguishable, a screen reader announced the same title after every navigation, and a shared `/pub/project/:id` link previewed as "admin console" — WCAG 2.4.2 (Level A). Angular's built-in strategy takes a static string, which cannot work when the locale is switched at runtime, so routes now carry `data: { titleKey }` and a `TranslatedTitleStrategy` resolves it, **re-titling the open page when the language is toggled**. The keys were not invented: 96 of them were derived from the key each page's own `app-page-header` already renders, so the tab always agrees with the heading on screen. The landing page deliberately has no key — its tab reads as the platform name alone.
 - **Every secondary text style in the app failed WCAG AA.** Measured in a real browser rather than eyeballed: `text-ink-500` — labels, subtitles, hints, table headers, footers — rendered at **4.28:1** on cards and **4.07:1** on tinted containers, against a 4.5:1 floor. The cause was in the token, not the pages: DESIGN aims `ink-500` at M3's *outline* colour, which is specified for borders. Darkening it 7% to `#657169` (the lightest value that clears AA on both backgrounds) took the surveyed pages from **57 contrast failures to 2**, and the two left are Leaflet's own attribution links. `--color-outline` was deliberately left alone. Also gave the permissions matrix's denied cells a screen-reader label — the allowed cells said "yes" while denied cells announced nothing, so a non-visual reader could not tell "not permitted" from a cell that failed to render.
 - **The public pages were unreachable; they now have entrances.** `/pub/project/:id` had no inbound link anywhere in the app, and `/pub/contractor/:id` was linked only from that page — so both formed an island with no way in, while the landing page offered only sign-in and contractor registration. They are the server-rendered, deliberately narrowed records the platform's transparency rests on (governorate only, progress photos only, a rating average without its review text), so being built-but-unreachable defeated their entire purpose. A **Public page** link now sits on `/app/projects/:id` and a **Public profile** link on `/app/contractors/:id`. Found by a sweep asking the inverse of the audit's `dead-link` check: not "does every link have a route?" but "does every route have a link?".
 - **A contracting firm can now be suspended, with a reason.** `Team` carried no status at all, so suppliers, beneficiaries and staff each had a standing decision while a contracting firm — the party that actually builds — had none. That is the enforcement end of membership: the annual fee exists to keep a firm verified and eligible for tenders, so there has to be a way to withdraw that standing when a licence lapses or an inspection fails. `/app/contractors/:id` now suspends or reinstates, and **the server refuses a suspension with no reason** rather than merely disabling the button — a firm that can no longer bid must carry why. Suspension has real effect: the firm disappears from `/app/teams`, the list a family chooses who rebuilds their home from, while staying visible in the operator's register, which is where it gets reinstated. The status filter is opt-in for exactly that reason; defaulting it would have hidden the firm from both.

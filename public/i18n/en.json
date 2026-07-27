@@ -154,9 +154,11 @@
       }
     },
     "contractor": {
+      "title": "Team public profile",
       "reviewsPrivate": "The average rating and review count are shown here, but not the reviews themselves: reviews carry the names of beneficiaries whose homes this team rebuilt, and they did not consent to that association being published openly. Signed-in users see the full reviews."
     },
     "projectPublic": {
+      "title": "Project page",
       "notFound": "We couldn't find this project. It may have been moved or is no longer available.",
       "progressTitle": "Reconstruction progress",
       "photosTitle": "Progress photos",
@@ -1894,6 +1896,7 @@
       "needPostWork": "The post-work inspection must be completed first."
     },
     "inspection": {
+      "title": "Work order inspection",
       "subtitle": "Complete the checklist and sign to submit.",
       "readOnly": "This inspection is complete and shown read-only.",
       "inspector": "Inspector name",
