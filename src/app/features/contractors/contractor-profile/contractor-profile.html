@@ -11,6 +11,18 @@
 } @else if (team(); as team) {
   <app-page-header [title]="team.name" [showBack]="true">
     <app-status-pill pageHeaderActions context="team" [status]="team.status" />
+    <!--
+      The firm's public profile was only linked from the public project page,
+      which nothing linked to either — so both `/pub/*` pages formed an island
+      no user could enter. This is one of the two ways in.
+    -->
+    <a
+      pageHeaderActions
+      [routerLink]="['/pub/contractor', team.id]"
+      class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'contractors.profile.publicProfile' | translate }}
+    </a>
   </app-page-header>
 
   @if (suspended() && team.statusNote) {

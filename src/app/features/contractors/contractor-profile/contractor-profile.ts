@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { rxResource, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { GOVERNORATE_CENTROIDS, Team, TeamReview } from '@core/models';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { TranslationService } from '@core/i18n/translation.service';
@@ -31,7 +32,7 @@ import { specializationKey } from '../contractor-spec';
  */
 @Component({
   selector: 'app-contractor-profile',
-  imports: [ReactiveFormsModule, TranslatePipe, MapView, PageHeader, StatusPill],
+  imports: [RouterLink, ReactiveFormsModule, TranslatePipe, MapView, PageHeader, StatusPill],
   templateUrl: './contractor-profile.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

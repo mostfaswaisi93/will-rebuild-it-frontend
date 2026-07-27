@@ -493,6 +493,7 @@
       },
       "phasesTitle": "Reconstruction phases",
       "notFound": "We couldn't find this project.",
+      "publicPage": "Public page",
       "details": {
         "overviewTitle": "Overview",
         "projectNumber": "Project number",
@@ -2079,6 +2080,7 @@
       "coverage": "Coverage areas",
       "noCoverage": "No areas on record.",
       "contact": "Contact",
+      "publicProfile": "Public profile",
       "standing": "Standing on the platform",
       "suspend": "Suspend firm",
       "suspendHint": "Suspending stops the firm bidding on tenders and removes it from the list beneficiaries choose from.",

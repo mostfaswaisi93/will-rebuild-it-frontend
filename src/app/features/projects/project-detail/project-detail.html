@@ -11,6 +11,19 @@
 } @else if (project(); as project) {
   <app-page-header [title]="project.title" [subtitle]="project.projectNumber" [showBack]="true">
     <app-status-pill pageHeaderActions context="project" [status]="project.status" />
+    <!--
+      The way into the public page. It is server-rendered and deliberately
+      narrowed (governorate only, progress photos only), but nothing linked to
+      it, so the shareable record the platform's transparency rests on could
+      only be reached by typing the URL.
+    -->
+    <a
+      pageHeaderActions
+      [routerLink]="['/pub/project', project.id]"
+      class="inline-flex min-h-11 items-center rounded-input border border-ink-300 px-4 text-sm font-medium text-ink-700 hover:bg-surface-container-low"
+    >
+      {{ 'projects.view.publicPage' | translate }}
+    </a>
   </app-page-header>
 
   <section class="rounded-card border border-ink-300 bg-surface p-4">
