@@ -8,6 +8,7 @@
         inputmode="numeric"
         autocomplete="one-time-code"
         maxlength="1"
+        [attr.aria-label]="'shared.otp.digit' | translate: { index: $index + 1 }"
         class="h-12 w-10 rounded-card border border-ink-300 bg-surface-container-low text-center text-xl font-semibold text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 sm:h-14 sm:w-12"
         [value]="value"
         (input)="onDigitInput($event, $index)"

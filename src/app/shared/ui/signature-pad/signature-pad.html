@@ -28,6 +28,7 @@
         <input
           type="text"
           class="w-full border-0 border-b-2 border-ink-300 bg-transparent text-center font-serif text-2xl text-ink-900 italic outline-none focus:border-brand-500"
+          [attr.aria-label]="'shared.signaturePad.typePlaceholder' | translate"
           [placeholder]="'shared.signaturePad.typePlaceholder' | translate"
           [value]="typedName()"
           (input)="onTypedNameInput($event)"

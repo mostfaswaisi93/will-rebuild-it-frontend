@@ -874,6 +874,9 @@
       "resend": "Resend code",
       "resendIn": "Resend code in {{seconds}}s"
     },
+    "otp": {
+      "digit": "Digit {{index}} of the verification code"
+    },
     "signaturePad": {
       "draw": "Draw",
       "type": "Type",
