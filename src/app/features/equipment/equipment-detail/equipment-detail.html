@@ -211,9 +211,9 @@
             </div>
             <div>
               <label for="pr-desc" class="block text-xs text-ink-500">{{ 'equipment.detail.description' | translate }}</label>
-              <textarea id="pr-desc" rows="3" formControlName="description" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none"></textarea>
+              <textarea id="pr-desc" rows="3" formControlName="description" aria-describedby="pr-desc-error" [attr.aria-invalid]="problemForm.controls.description.touched && problemForm.controls.description.invalid" class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none"></textarea>
               @if (problemForm.controls.description.touched && problemForm.controls.description.invalid) {
-                <p class="mt-1 text-xs text-danger">{{ 'equipment.detail.descriptionRequired' | translate }}</p>
+                <p id="pr-desc-error" class="mt-1 text-xs text-danger">{{ 'equipment.detail.descriptionRequired' | translate }}</p>
               }
             </div>
             <div class="flex items-center gap-2">

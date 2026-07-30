@@ -27,7 +27,7 @@ Two rules govern the port, and both are load-bearing:
 | Feature areas | **39** |
 | Shared UI components | **30** |
 | API services / mock handlers | **33 / 33** |
-| Unit tests | **523** (+ 16 for the audit tool) |
+| Unit tests | **523** (+ 25 for the audit tool) |
 | Roles | **7**, one sign-in gate |
 
 ---
@@ -115,7 +115,7 @@ src/app/
 │  └─ validators/     # date / identity / password validators
 ├─ layout/            # app-shell, auth-shell, header, sidebar (role-aware)
 ├─ features/          # 39 areas — see the route inventory below
-└─ app.routes.ts      # 106 routes, every one backed by a real page
+└─ app.routes.ts      # 108 routes, every one backed by a real page
 ```
 
 `shared/ui/data-table` is the in-house replacement for the legacy Syncfusion Grid; `shared/ui/status-pill` is the single renderer for every status label in the app, which is what makes the `status-pill` audit check possible.
@@ -218,7 +218,7 @@ The language toggle is in the header (globe icon); the choice persists in `local
 
 ## The consistency audit
 
-Five checks that neither the compiler, nor ESLint, nor unit tests can perform, because each one spans files that don't import one another. **Every check exists because it found a real defect in this repo:**
+Six checks that neither the compiler, nor ESLint, nor unit tests can perform, because each one spans files that don't import one another. **Every check exists because it found a real defect in this repo:**
 
 | Check | The defect it caught |
 |---|---|
@@ -227,6 +227,7 @@ Five checks that neither the compiler, nor ESLint, nor unit tests can perform, b
 | `layout-link` | The shared header showed `/app/support` to all seven roles while the route admits two (invisible to `nav-guard`, which reads only the sidebar) |
 | `status-pill` | `shared.statusPill.workOrderPriority.*` was missing entirely — the key is built at runtime, so the raw code rendered where the label belonged |
 | `uncalled-api` | 14 API endpoints with no caller — not dead code but **write flows whose pages were never built**: the donor couldn't donate, the beneficiary couldn't report damage |
+| `form-error` | Every validation message in the app was a bare sibling of its field: **0 `aria-describedby` and 1 `aria-invalid` across 26 forms**, so a screen-reader user who submitted the damage report was told it had failed by a colour they could not see |
 
 > **The lesson the audit taught about itself — twice.**
 >
@@ -235,10 +236,12 @@ Five checks that neither the compiler, nor ESLint, nor unit tests can perform, b
 > Then `uncalled-api` turned out to have the same shape of hole. It matched `.method(` **by name** across every file concatenated — and `getById`/`list`/`create` are declared by all 33 API services, so one service's call vouched for all of them. Only uniquely-named methods were ever really covered. Three unreachable endpoints hid behind that: `ShipmentsApi.getById` (a shipment detail page that did not exist), `EquipmentApi.setStatus` and `StaffApi.setStatus` (two status decisions with no control anywhere in the UI). Calls are now resolved **through the variable the service is injected into**, with multiline fluent chains folded first — without that fold every piped call would read as uncalled, which is most of the codebase.
 >
 > **A check never exercised against a planted defect cannot be trusted.** Both fixes were confirmed by reinstating the bug: with `StaffApi.setStatus` unwired, the old check answers "called" (because `.setStatus(` appears in three unrelated files) while the new one fails and names it.
+>
+> **And a third time, while `form-error` was being written.** Its first version scoped itself to `@if` blocks testing `.invalid`/`.hasError(`/`.errors` — which reads as precise until you notice that two group-level rules (the trades fieldset, the damage report's address) are gated on a component signal instead, because the rule spans several controls. Both files fell out of scope and were reported clean while they were not. The condition now also matches that shape, the check prints how many forms it inspected so a form dropping out of scope is visible, and the doc comment states what it still does not cover. The lesson each time is the same: the dangerous failure is not a wrong answer, it is a confident answer about nothing.
 
-So the audit's own logic is exported as pure functions in [`tools/audit.mjs`](tools/audit.mjs) and covered by 16 tests in [`tools/audit.test.mjs`](tools/audit.test.mjs) (`node --test`), which pin both regressions above. `npm run verify` runs the audit's tests before trusting the audit's verdict.
+So the audit's own logic is exported as pure functions in [`tools/audit.mjs`](tools/audit.mjs) and covered by 25 tests in [`tools/audit.test.mjs`](tools/audit.test.mjs) (`node --test`), which pin all three regressions above. `npm run verify` runs the audit's tests before trusting the audit's verdict.
 
-Current state: 5/5 checks pass across **108 routes** and **22 status-pill contexts**.
+Current state: 6/6 checks pass across **108 routes**, **23 status-pill contexts** and **26 validated forms**.
 
 ### Coverage closure
 
@@ -263,7 +266,7 @@ Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1, 4 and 5 are one-o
 
 ## Testing
 
-498 unit tests across 36 spec files, aimed at the logic most likely to break silently rather than at render assertions:
+523 unit tests across 38 spec files, aimed at the logic most likely to break silently rather than at render assertions:
 
 | Area | What it guards |
 |---|---|
@@ -315,6 +318,8 @@ Three decisions worth stating, because they cost features on purpose:
 
 Newest first.
 
+- **Every validation message in the app was announced by colour alone.** The red text under a failed field was a bare sibling of it: **0 `aria-describedby` and 1 `aria-invalid` across 26 forms** — now 66 controls and field groups each point at the message that explains them. So a screen-reader user could submit `/app/requests/new` — the beneficiary's way into the platform, the form where a family reports what is left of their home — have it refused, and hear nothing at all: not which field, not why. The text was there and translated the whole time; nothing tied it to the control. **WCAG 3.3.1 Error Identification (Level A)**, and invisible to `npm run lint` even though `templateAccessibility` is enabled, because no ESLint rule pairs a message with the field it describes. Every message now carries an id and every control points at it — including the three that need it most awkwardly: `app-password-field`, `app-phone-input` and `app-address-picker` render their own `<input>`, so their host element is not what a screen reader reads, and an `errorId` input now forwards the reference to the real control inside. Group rules (the trades fieldset, the address) describe the `<fieldset>`, since the rule belongs to the group and not to any one checkbox. And because a convention only holds if something enforces it, this is now the audit's sixth check — see below, including the silent-skip its own first version had.
+- **Five form controls had no accessible name, and the toast region was unannounced.** A skip-to-content link now opens the app shell, so a keyboard user is not walked through the whole sidebar to reach the page; and toasts announce politely rather than appearing silently.
 - **Motion: `prefers-reduced-motion` was ignored, and most hover states snapped.** Audited against the pre-delivery checklist in [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill). The project already passed three of its items (SVG icons not emoji, ≥4.5:1 light-mode contrast, visible focus states) and failed two. **81 skeleton pulses and a spinner animated regardless of the user's stated motion preference** — on a platform for people who have just lost their homes, and under design principles that call for a calm, trauma-informed tone. And 244 hover styles had only 56 transitions between them, so most controls changed colour instantly. Both are now fixed systemically rather than element-by-element: two motion tokens applied once in `@layer base`, and a reduced-motion rule kept deliberately *outside* the layer so it outranks utilities like `animate-pulse` — verified empirically by proving a rule of that shape takes `animate-pulse` from 2s to 0.001s. Navigation also gained a native View Transitions cross-fade, disabled by the same reduced-motion rule.
 - **All 108 routes shared one document title.** `index.html` set a single `<title>` and nothing overrode it, so browser history, bookmarks and tabs were indistinguishable, a screen reader announced the same title after every navigation, and a shared `/pub/project/:id` link previewed as "admin console" — WCAG 2.4.2 (Level A). Angular's built-in strategy takes a static string, which cannot work when the locale is switched at runtime, so routes now carry `data: { titleKey }` and a `TranslatedTitleStrategy` resolves it, **re-titling the open page when the language is toggled**. The keys were not invented: 96 of them were derived from the key each page's own `app-page-header` already renders, so the tab always agrees with the heading on screen. The landing page deliberately has no key — its tab reads as the platform name alone.
 - **Every secondary text style in the app failed WCAG AA.** Measured in a real browser rather than eyeballed: `text-ink-500` — labels, subtitles, hints, table headers, footers — rendered at **4.28:1** on cards and **4.07:1** on tinted containers, against a 4.5:1 floor. The cause was in the token, not the pages: DESIGN aims `ink-500` at M3's *outline* colour, which is specified for borders. Darkening it 7% to `#657169` (the lightest value that clears AA on both backgrounds) took the surveyed pages from **57 contrast failures to 2**, and the two left are Leaflet's own attribution links. `--color-outline` was deliberately left alone. Also gave the permissions matrix's denied cells a screen-reader label — the allowed cells said "yes" while denied cells announced nothing, so a non-visual reader could not tell "not permitted" from a cell that failed to render.

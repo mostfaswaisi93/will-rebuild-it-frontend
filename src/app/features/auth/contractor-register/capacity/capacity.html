@@ -14,10 +14,14 @@
         min="1"
         formControlName="employeeCount"
         dir="ltr"
+        aria-describedby="employeeCount-error"
+        [attr.aria-invalid]="
+          form.controls.employeeCount.touched && form.controls.employeeCount.invalid
+        "
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
       @if (form.controls.employeeCount.touched && form.controls.employeeCount.invalid) {
-        <p class="mt-1 text-sm text-danger">
+        <p id="employeeCount-error" class="mt-1 text-sm text-danger">
           {{ 'auth.onboarding.capacity.employeesInvalid' | translate }}
         </p>
       }
@@ -34,13 +38,15 @@
         min="0"
         formControlName="vehicleCount"
         dir="ltr"
+        aria-describedby="vehicleCount-hint vehicleCount-error"
+        [attr.aria-invalid]="form.controls.vehicleCount.touched && form.controls.vehicleCount.invalid"
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
-      <p class="mt-1 text-xs text-ink-500">
+      <p id="vehicleCount-hint" class="mt-1 text-xs text-ink-500">
         {{ 'auth.onboarding.capacity.vehiclesHint' | translate }}
       </p>
       @if (form.controls.vehicleCount.touched && form.controls.vehicleCount.invalid) {
-        <p class="mt-1 text-sm text-danger">
+        <p id="vehicleCount-error" class="mt-1 text-sm text-danger">
           {{ 'auth.onboarding.capacity.vehiclesInvalid' | translate }}
         </p>
       }
@@ -59,10 +65,12 @@
       [max]="currentYear"
       formControlName="foundedYear"
       dir="ltr"
+      aria-describedby="foundedYear-error"
+      [attr.aria-invalid]="form.controls.foundedYear.touched && form.controls.foundedYear.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 sm:max-w-40"
     />
     @if (form.controls.foundedYear.touched && form.controls.foundedYear.invalid) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="foundedYear-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.capacity.foundedInvalid' | translate: { year: currentYear } }}
       </p>
     }
@@ -77,11 +85,13 @@
       rows="4"
       maxlength="600"
       formControlName="summary"
+      aria-describedby="summary-hint summary-error"
+      [attr.aria-invalid]="form.controls.summary.touched && form.controls.summary.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     ></textarea>
-    <p class="mt-1 text-xs text-ink-500">{{ 'auth.onboarding.capacity.summaryHint' | translate }}</p>
+    <p id="summary-hint" class="mt-1 text-xs text-ink-500">{{ 'auth.onboarding.capacity.summaryHint' | translate }}</p>
     @if (form.controls.summary.touched && form.controls.summary.invalid) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="summary-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.capacity.summaryRequired' | translate }}
       </p>
     }

@@ -13,18 +13,21 @@
       maxlength="9"
       formControlName="nationalId"
       dir="ltr"
+      aria-describedby="nationalId-hint nationalId-error"
+      [attr.aria-invalid]="form.controls.nationalId.touched && form.controls.nationalId.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start tracking-widest text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     />
-    <p class="mt-1 text-xs text-ink-500">
+    <p id="nationalId-hint" class="mt-1 text-xs text-ink-500">
       {{ 'auth.onboarding.identity.nationalIdHint' | translate }}
     </p>
 
+    <!-- The branches are mutually exclusive, so the shared id is never duplicated in the DOM. -->
     @if (form.controls.nationalId.touched && form.controls.nationalId.hasError('required')) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="nationalId-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.identity.nationalIdRequired' | translate }}
       </p>
     } @else if (form.controls.nationalId.touched && form.controls.nationalId.hasError('nationalId')) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="nationalId-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.identity.nationalIdInvalid' | translate }}
       </p>
     }
@@ -38,15 +41,17 @@
       id="dateOfBirth"
       type="date"
       formControlName="dateOfBirth"
+      aria-describedby="dateOfBirth-error"
+      [attr.aria-invalid]="form.controls.dateOfBirth.touched && form.controls.dateOfBirth.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     />
 
     @if (form.controls.dateOfBirth.touched && form.controls.dateOfBirth.hasError('required')) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="dateOfBirth-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.identity.dateOfBirthRequired' | translate }}
       </p>
     } @else if (form.controls.dateOfBirth.touched && form.controls.dateOfBirth.hasError('dateOfBirth')) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="dateOfBirth-error" class="mt-1 text-sm text-danger">
         {{
           'auth.onboarding.identity.' + form.controls.dateOfBirth.getError('dateOfBirth') | translate
         }}

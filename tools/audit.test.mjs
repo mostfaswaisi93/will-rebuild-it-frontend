@@ -22,6 +22,9 @@ import {
   parseContextTones,
   statusPillFindings,
   uncalledMethods,
+  extractInvalidBlocks,
+  collectDescribedByRefs,
+  formErrorFindings,
   runAudit,
 } from './audit.mjs';
 
@@ -191,6 +194,115 @@ test('uncalledMethods ignores the constructor and reports each method once', () 
   orphan() {}
 }`;
   assert.deepEqual(uncalledMethods(service, []), ['FooApi.orphan']);
+});
+
+// --- form-error ------------------------------------------------------------
+//
+// The whole check rests on scoping: it must see field errors and ignore the
+// ~100 page-level "could not load" messages wearing the same `text-danger`
+// class. Every case below was run against a planted defect first — a check
+// never exercised against one proves nothing.
+
+const WIRED_FIELD = `
+  <input id="email" formControlName="email"
+    aria-describedby="email-error"
+    [attr.aria-invalid]="form.controls.email.touched && form.controls.email.invalid" />
+  @if (form.controls.email.touched && form.controls.email.invalid) {
+    <p id="email-error" class="mt-1 text-sm text-danger">Enter an email</p>
+  }`;
+
+test('formErrorFindings passes a field whose error is wired to it', () => {
+  assert.deepEqual(formErrorFindings('sign-in.html', WIRED_FIELD), []);
+});
+
+test('formErrorFindings flags an error message with no id (the defect this check was built for)', () => {
+  // Exactly the shape every one of the 26 forms had: the text is on screen and
+  // translated, but neither attribute is present, so nothing ties it to the
+  // control and a screen-reader user is told the form failed by a colour they
+  // cannot see. Reinstating that shape must fail, or the check proves nothing.
+  const planted = WIRED_FIELD.replace(' id="email-error"', '').replace(
+    '\n    aria-describedby="email-error"',
+    '',
+  );
+  const findings = formErrorFindings('sign-in.html', planted);
+  assert.equal(findings.length, 1);
+  assert.match(findings[0], /has no id/);
+});
+
+test('formErrorFindings flags an error nothing points at (a rename that broke the link)', () => {
+  const renamed = WIRED_FIELD.replace('aria-describedby="email-error"', 'aria-describedby="email-err"');
+  const findings = formErrorFindings('sign-in.html', renamed);
+  // Both halves of the break are named: the orphaned message and the dangling ref.
+  assert.equal(findings.length, 2);
+  assert.ok(findings.some((f) => /"email-error" is not referenced/.test(f)));
+  assert.ok(findings.some((f) => /"email-err" matches no id/.test(f)));
+});
+
+test('formErrorFindings ignores a page-level error that owes no control a description', () => {
+  const pageError = `
+    @if (resource.error()) {
+      <p class="text-sm text-danger">Could not load the register.</p>
+    }`;
+  assert.deepEqual(formErrorFindings('list.html', pageError), []);
+});
+
+test('formErrorFindings accepts errorId forwarding into a wrapper control', () => {
+  // `app-password-field` renders its own <input>; the host is not focusable, so
+  // the parent form forwards the reference rather than setting the attribute.
+  const src = `
+    <app-password-field formControlName="confirmPassword" errorId="confirm-error"
+      [invalid]="form.controls.confirmPassword.invalid" />
+    @if (form.controls.confirmPassword.hasError('mustMatch')) {
+      <p id="confirm-error" class="mt-1 text-sm text-danger">Passwords must match</p>
+    }`;
+  assert.deepEqual(formErrorFindings('reset.html', src), []);
+});
+
+test('formErrorFindings matches a bound id against a bound reference, per FormArray row', () => {
+  // Licences are a FormArray, so both id and reference are expressions. Comparing
+  // them only after whitespace normalisation is what keeps this row in scope
+  // instead of being silently skipped.
+  const src = `
+    <input [id]="'licenceName' + $index" formControlName="name"
+      [attr.aria-describedby]="'licenceName' + $index + '-error'" />
+    @if (licence.get('name')?.invalid) {
+      <p [id]="'licenceName' + $index + '-error'" class="mt-1 text-sm text-danger">Required</p>
+    }`;
+  assert.deepEqual(formErrorFindings('credentials.html', src), []);
+});
+
+test('extractInvalidBlocks scopes group-level errors in (the second silent-skip)', () => {
+  // The trades fieldset and the damage report's address gate their error on a
+  // component signal, not a control. A first version keyed only on `.invalid`
+  // scoped both out and called the two files clean while they were not.
+  const group = `
+    @if (submitted() && tradesInvalid()) {
+      <p class="text-sm text-danger">Pick at least one trade</p>
+    }`;
+  assert.equal(extractInvalidBlocks(group).length, 1);
+  assert.equal(formErrorFindings('business.html', group).length, 1);
+});
+
+test('extractInvalidBlocks closes on the matching brace, not the first one', () => {
+  // A nested @for inside an error block must not end it early, or the message
+  // after the nested block would fall out of scope unnoticed.
+  const src = `
+    @if (form.controls.trades.invalid) {
+      @for (t of trades; track t) {
+        <span>{{ t }}</span>
+      }
+      <p class="text-sm text-danger">Required</p>
+    }
+    <p class="text-sm text-danger">Not a field error</p>`;
+  const blocks = extractInvalidBlocks(src);
+  assert.equal(blocks.length, 1);
+  assert.equal((blocks[0].match(/text-danger/g) ?? []).length, 1);
+});
+
+test('collectDescribedByRefs splits a multi-id list', () => {
+  const refs = collectDescribedByRefs('<input aria-describedby="a-hint a-error" />');
+  assert.ok(refs.has('a-hint'));
+  assert.ok(refs.has('a-error'));
 });
 
 test('runAudit reports zero findings against the real repository', () => {

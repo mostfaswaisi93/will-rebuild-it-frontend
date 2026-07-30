@@ -58,10 +58,12 @@
               min="1"
               formControlName="familySize"
               dir="ltr"
+              aria-describedby="familySize-error"
+              [attr.aria-invalid]="editForm.controls.familySize.touched && editForm.controls.familySize.invalid"
               class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             />
             @if (editForm.controls.familySize.touched && editForm.controls.familySize.invalid) {
-              <p class="mt-1 text-xs text-danger">{{ 'profile.familySizeError' | translate }}</p>
+              <p id="familySize-error" class="mt-1 text-xs text-danger">{{ 'profile.familySizeError' | translate }}</p>
             }
           </div>
         </div>

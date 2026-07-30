@@ -18,6 +18,8 @@
       maxlength="11"
       class="min-w-0 flex-1 bg-transparent px-3 text-base text-ink-900 outline-none disabled:opacity-60"
       [disabled]="disabled()"
+      [attr.aria-invalid]="invalid()"
+      [attr.aria-describedby]="errorId() ?? null"
       [placeholder]="'shared.phoneInput.placeholder' | translate"
       (input)="onInput($event)"
       (blur)="onBlur()"

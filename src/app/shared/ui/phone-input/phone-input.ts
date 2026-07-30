@@ -43,6 +43,14 @@ const GAZA_DIAL_CODE = '+970';
 export class PhoneInput implements ControlValueAccessor, AfterViewInit {
   readonly labelKey = input<string>();
 
+  /**
+   * See `PasswordField`: the parent form owns the error text, but the
+   * description has to be attached to the `<input>` this component renders,
+   * not to the non-focusable `<app-phone-input>` host.
+   */
+  readonly errorId = input<string>();
+  readonly invalid = input(false);
+
   protected readonly dialCode = GAZA_DIAL_CODE;
   protected readonly uid = `phone-input-${crypto.randomUUID().slice(0, 8)}`;
   protected readonly disabled = signal(false);

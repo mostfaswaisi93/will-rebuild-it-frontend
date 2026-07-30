@@ -21,10 +21,12 @@
             id="code"
             type="text"
             formControlName="code"
+            aria-describedby="code-error"
+            [attr.aria-invalid]="form.controls.code.touched && form.controls.code.invalid"
             class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
           @if (form.controls.code.touched && form.controls.code.invalid) {
-            <p class="mt-1 text-xs text-danger">{{ 'equipment.form.codeRequired' | translate }}</p>
+            <p id="code-error" class="mt-1 text-xs text-danger">{{ 'equipment.form.codeRequired' | translate }}</p>
           }
         </div>
 
@@ -36,10 +38,12 @@
             id="name"
             type="text"
             formControlName="name"
+            aria-describedby="name-error"
+            [attr.aria-invalid]="form.controls.name.touched && form.controls.name.invalid"
             class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
           @if (form.controls.name.touched && form.controls.name.invalid) {
-            <p class="mt-1 text-xs text-danger">{{ 'equipment.form.nameRequired' | translate }}</p>
+            <p id="name-error" class="mt-1 text-xs text-danger">{{ 'equipment.form.nameRequired' | translate }}</p>
           }
         </div>
 
@@ -80,10 +84,12 @@
             min="0"
             formControlName="dailyRate"
             dir="ltr"
+            aria-describedby="dailyRate-error"
+            [attr.aria-invalid]="form.controls.dailyRate.touched && form.controls.dailyRate.invalid"
             class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
           @if (form.controls.dailyRate.touched && form.controls.dailyRate.invalid) {
-            <p class="mt-1 text-xs text-danger">{{ 'equipment.form.rateInvalid' | translate }}</p>
+            <p id="dailyRate-error" class="mt-1 text-xs text-danger">{{ 'equipment.form.rateInvalid' | translate }}</p>
           }
         </div>
       </div>

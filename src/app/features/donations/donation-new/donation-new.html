@@ -30,10 +30,12 @@
       step="any"
       formControlName="amount"
       dir="ltr"
+      aria-describedby="amount-error"
+      [attr.aria-invalid]="submitted() && form.controls.amount.invalid"
       class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     />
     @if (submitted() && form.controls.amount.invalid) {
-      <p class="mt-1 text-xs text-danger">{{ 'donations.donate.amountError' | translate }}</p>
+      <p id="amount-error" class="mt-1 text-xs text-danger">{{ 'donations.donate.amountError' | translate }}</p>
     }
 
     <label class="mt-4 block text-sm font-medium text-ink-900" for="frequency">
@@ -86,10 +88,12 @@
         type="email"
         formControlName="email"
         dir="ltr"
+        aria-describedby="email-error"
+        [attr.aria-invalid]="submitted() && form.controls.email.invalid"
         class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
       @if (submitted() && form.controls.email.invalid) {
-        <p class="mt-1 text-xs text-danger">{{ 'donations.donate.emailError' | translate }}</p>
+        <p id="email-error" class="mt-1 text-xs text-danger">{{ 'donations.donate.emailError' | translate }}</p>
       }
     </div>
 

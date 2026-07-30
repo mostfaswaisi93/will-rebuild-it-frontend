@@ -15,17 +15,24 @@
           id="contactName"
           type="text"
           formControlName="contactName"
+          aria-describedby="contactName-error"
+          [attr.aria-invalid]="form.controls.contactName.touched && form.controls.contactName.invalid"
           class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         />
         @if (form.controls.contactName.touched && form.controls.contactName.invalid) {
-          <p class="mt-1 text-sm text-danger">{{ 'workRequests.new.nameRequired' | translate }}</p>
+          <p id="contactName-error" class="mt-1 text-sm text-danger">{{ 'workRequests.new.nameRequired' | translate }}</p>
         }
       </div>
 
       <div>
-        <app-phone-input formControlName="contactPhone" labelKey="workRequests.detail.phone" />
+        <app-phone-input
+          formControlName="contactPhone"
+          labelKey="workRequests.detail.phone"
+          errorId="contactPhone-error"
+          [invalid]="form.controls.contactPhone.touched && form.controls.contactPhone.invalid"
+        />
         @if (form.controls.contactPhone.touched && form.controls.contactPhone.invalid) {
-          <p class="mt-1 text-sm text-danger">{{ 'auth.register.phoneInvalid' | translate }}</p>
+          <p id="contactPhone-error" class="mt-1 text-sm text-danger">{{ 'auth.register.phoneInvalid' | translate }}</p>
         }
       </div>
     </div>
@@ -97,6 +104,8 @@
         <select
           id="governorate"
           formControlName="governorate"
+          aria-describedby="governorate-error"
+          [attr.aria-invalid]="form.controls.governorate.touched && form.controls.governorate.invalid"
           class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         >
           <option value="">{{ 'auth.onboarding.location.governoratePlaceholder' | translate }}</option>
@@ -105,7 +114,7 @@
           }
         </select>
         @if (form.controls.governorate.touched && form.controls.governorate.invalid) {
-          <p class="mt-1 text-sm text-danger">
+          <p id="governorate-error" class="mt-1 text-sm text-danger">
             {{ 'auth.onboarding.location.governorateRequired' | translate }}
           </p>
         }
@@ -119,10 +128,12 @@
           id="district"
           type="text"
           formControlName="district"
+          aria-describedby="district-error"
+          [attr.aria-invalid]="form.controls.district.touched && form.controls.district.invalid"
           class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         />
         @if (form.controls.district.touched && form.controls.district.invalid) {
-          <p class="mt-1 text-sm text-danger">
+          <p id="district-error" class="mt-1 text-sm text-danger">
             {{ 'auth.onboarding.location.areaRequired' | translate }}
           </p>
         }
@@ -153,10 +164,12 @@
       rows="4"
       maxlength="1000"
       formControlName="description"
+      aria-describedby="description-error"
+      [attr.aria-invalid]="form.controls.description.touched && form.controls.description.invalid"
       class="mt-2 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     ></textarea>
     @if (form.controls.description.touched && form.controls.description.invalid) {
-      <p class="mt-1 text-sm text-danger">{{ 'workRequests.new.descriptionRequired' | translate }}</p>
+      <p id="description-error" class="mt-1 text-sm text-danger">{{ 'workRequests.new.descriptionRequired' | translate }}</p>
     }
   </section>
 

@@ -12,10 +12,12 @@
     <app-password-field
       formControlName="confirmPassword"
       labelKey="auth.reset.reset.confirmPassword"
+      errorId="confirmPassword-error"
+      [invalid]="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid"
     />
 
     @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('mustMatch')) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.reset.reset.mustMatch' | translate }}</p>
+      <p id="confirmPassword-error" class="mt-1 text-sm text-danger">{{ 'auth.reset.reset.mustMatch' | translate }}</p>
     }
   </div>
 

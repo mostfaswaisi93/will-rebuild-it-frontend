@@ -48,11 +48,13 @@
               rows="4"
               formControlName="responseBody"
               [attr.aria-label]="'complaints.view.respondTitle' | translate"
+              aria-describedby="responseBody-error"
+              [attr.aria-invalid]="form.controls.responseBody.touched && form.controls.responseBody.invalid"
               [placeholder]="'complaints.view.respondPlaceholder' | translate"
               class="w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
             ></textarea>
             @if (form.controls.responseBody.touched && form.controls.responseBody.invalid) {
-              <p class="mt-1 text-xs text-danger">{{ 'complaints.view.respondRequired' | translate }}</p>
+              <p id="responseBody-error" class="mt-1 text-xs text-danger">{{ 'complaints.view.respondRequired' | translate }}</p>
             }
             <button
               type="submit"

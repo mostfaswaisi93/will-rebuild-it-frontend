@@ -66,11 +66,13 @@
             id="otherDetail"
             type="text"
             formControlName="otherReasonDetail"
+            aria-describedby="otherDetail-error"
+            [attr.aria-invalid]="submitted() && otherDetailMissing()"
             [placeholder]="'complaints.form.otherDetailPlaceholder' | translate"
             class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
           />
           @if (submitted() && otherDetailMissing()) {
-            <p class="mt-1 text-xs text-danger">{{ 'complaints.form.otherDetailRequired' | translate }}</p>
+            <p id="otherDetail-error" class="mt-1 text-xs text-danger">{{ 'complaints.form.otherDetailRequired' | translate }}</p>
           }
         </div>
       }
@@ -84,11 +86,13 @@
         id="description"
         formControlName="description"
         rows="5"
+        aria-describedby="description-error"
+        [attr.aria-invalid]="submitted() && form.controls.description.invalid"
         [placeholder]="'complaints.form.descriptionPlaceholder' | translate"
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       ></textarea>
       @if (submitted() && form.controls.description.invalid) {
-        <p class="mt-1 text-xs text-danger">{{ 'complaints.form.descriptionRequired' | translate }}</p>
+        <p id="description-error" class="mt-1 text-xs text-danger">{{ 'complaints.form.descriptionRequired' | translate }}</p>
       }
     </section>
 

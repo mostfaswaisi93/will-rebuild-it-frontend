@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, forwardRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  forwardRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
@@ -34,6 +42,14 @@ const EMPTY_DRAFT: AddressDraft = { governorate: '', district: '', streetDescrip
 })
 export class AddressPicker implements ControlValueAccessor {
   private readonly masterApi = inject(MasterApi);
+
+  /**
+   * See `PasswordField`. Both required selects carry the description, since
+   * either one being empty is what the parent's single "address required"
+   * message is about; the street line is optional and stays undescribed.
+   */
+  readonly errorId = input<string>();
+  readonly invalid = input(false);
 
   protected readonly uid = `address-picker-${crypto.randomUUID().slice(0, 8)}`;
   protected readonly governorates = GAZA_GOVERNORATES;

@@ -38,6 +38,16 @@ export class PasswordField implements ControlValueAccessor {
   readonly labelKey = input<string>();
   readonly showRules = input(false);
 
+  /**
+   * The message describing this field's current error, and whether it is
+   * showing. The error text belongs to the parent form (it knows which rule
+   * broke), but `aria-describedby` has to land on the real `<input>` inside
+   * this component — a screen reader reads the description of the element it
+   * is on, and the host `<app-password-field>` is not focusable.
+   */
+  readonly errorId = input<string>();
+  readonly invalid = input(false);
+
   protected readonly uid = `password-field-${crypto.randomUUID().slice(0, 8)}`;
   protected readonly value = signal('');
   protected readonly disabled = signal(false);

@@ -10,10 +10,12 @@
       id="businessName"
       type="text"
       formControlName="businessName"
+      aria-describedby="businessName-error"
+      [attr.aria-invalid]="form.controls.businessName.touched && form.controls.businessName.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     />
     @if (form.controls.businessName.touched && form.controls.businessName.invalid) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.nameRequired' | translate }}</p>
+      <p id="businessName-error" class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.nameRequired' | translate }}</p>
     }
   </div>
 
@@ -24,6 +26,8 @@
     <select
       id="businessType"
       formControlName="businessType"
+      aria-describedby="businessType-error"
+      [attr.aria-invalid]="form.controls.businessType.touched && form.controls.businessType.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     >
       <option value="">{{ 'auth.onboarding.business.typePlaceholder' | translate }}</option>
@@ -32,7 +36,7 @@
       }
     </select>
     @if (form.controls.businessType.touched && form.controls.businessType.invalid) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.typeRequired' | translate }}</p>
+      <p id="businessType-error" class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.typeRequired' | translate }}</p>
     }
   </div>
 
@@ -47,24 +51,36 @@
         inputmode="numeric"
         formControlName="registrationNumber"
         dir="ltr"
+        aria-describedby="registrationNumber-hint registrationNumber-error"
+        [attr.aria-invalid]="
+          form.controls.registrationNumber.touched && form.controls.registrationNumber.invalid
+        "
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
-      <p class="mt-1 text-xs text-ink-500">
+      <p id="registrationNumber-hint" class="mt-1 text-xs text-ink-500">
         {{ 'auth.onboarding.business.registrationHint' | translate }}
       </p>
       @if (form.controls.registrationNumber.touched && form.controls.registrationNumber.invalid) {
-        <p class="mt-1 text-sm text-danger">
+        <p id="registrationNumber-error" class="mt-1 text-sm text-danger">
           {{ 'auth.onboarding.business.registrationRequired' | translate }}
         </p>
       }
     </div>
   }
 
-  <fieldset>
+  <!--
+    The trades error belongs to the group, not to any one checkbox, so the
+    description sits on the fieldset — the element a screen reader announces
+    when entering the group.
+  -->
+  <fieldset
+    aria-describedby="trades-hint trades-error"
+    [attr.aria-invalid]="submitted() && tradesInvalid()"
+  >
     <legend class="text-sm font-medium text-ink-700">
       {{ 'auth.onboarding.business.trades' | translate }}
     </legend>
-    <p class="mt-0.5 text-xs text-ink-500">
+    <p id="trades-hint" class="mt-0.5 text-xs text-ink-500">
       {{ 'auth.onboarding.business.tradesHint' | translate }}
     </p>
 
@@ -90,7 +106,7 @@
     </div>
 
     @if (submitted() && tradesInvalid()) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.tradesRequired' | translate }}</p>
+      <p id="trades-error" class="mt-1 text-sm text-danger">{{ 'auth.onboarding.business.tradesRequired' | translate }}</p>
     }
   </fieldset>
 

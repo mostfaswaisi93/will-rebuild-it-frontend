@@ -15,10 +15,12 @@
         type="text"
         maxlength="80"
         formControlName="title"
+        aria-describedby="title-error"
+        [attr.aria-invalid]="form.controls.title.touched && form.controls.title.invalid"
         class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
       @if (form.controls.title.touched && form.controls.title.invalid) {
-        <p class="mt-1 text-xs text-danger">{{ 'notifications.broadcast.titleRequired' | translate }}</p>
+        <p id="title-error" class="mt-1 text-xs text-danger">{{ 'notifications.broadcast.titleRequired' | translate }}</p>
       }
     </div>
 
@@ -30,11 +32,13 @@
         id="body"
         rows="5"
         formControlName="body"
+        aria-describedby="body-error"
+        [attr.aria-invalid]="form.controls.body.touched && form.controls.body.invalid"
         [placeholder]="'notifications.broadcast.bodyPlaceholder' | translate"
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       ></textarea>
       @if (form.controls.body.touched && form.controls.body.invalid) {
-        <p class="mt-1 text-xs text-danger">{{ 'notifications.broadcast.bodyRequired' | translate }}</p>
+        <p id="body-error" class="mt-1 text-xs text-danger">{{ 'notifications.broadcast.bodyRequired' | translate }}</p>
       }
     </div>
 

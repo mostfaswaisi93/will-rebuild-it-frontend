@@ -10,6 +10,8 @@
         <select
           id="supplier"
           formControlName="supplierId"
+          aria-describedby="supplier-error"
+          [attr.aria-invalid]="submitted() && form.controls.supplierId.invalid"
           class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         >
           <option value="">—</option>
@@ -18,7 +20,7 @@
           }
         </select>
         @if (submitted() && form.controls.supplierId.invalid) {
-          <p class="mt-1 text-xs text-danger">{{ 'purchaseOrders.form.supplierRequired' | translate }}</p>
+          <p id="supplier-error" class="mt-1 text-xs text-danger">{{ 'purchaseOrders.form.supplierRequired' | translate }}</p>
         }
       </div>
 
@@ -29,6 +31,8 @@
         <select
           id="warehouse"
           formControlName="warehouseId"
+          aria-describedby="warehouse-error"
+          [attr.aria-invalid]="submitted() && form.controls.warehouseId.invalid"
           class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         >
           <option value="">—</option>
@@ -37,7 +41,7 @@
           }
         </select>
         @if (submitted() && form.controls.warehouseId.invalid) {
-          <p class="mt-1 text-xs text-danger">{{ 'purchaseOrders.form.warehouseRequired' | translate }}</p>
+          <p id="warehouse-error" class="mt-1 text-xs text-danger">{{ 'purchaseOrders.form.warehouseRequired' | translate }}</p>
         }
       </div>
 

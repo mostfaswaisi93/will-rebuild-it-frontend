@@ -8,10 +8,12 @@
         id="tm-title"
         type="text"
         formControlName="title"
+        aria-describedby="tm-title-error"
+        [attr.aria-invalid]="form.controls.title.touched && form.controls.title.invalid"
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
       @if (form.controls.title.touched && form.controls.title.invalid) {
-        <p class="mt-1 text-sm text-danger">{{ 'settings.terms.titleRequired' | translate }}</p>
+        <p id="tm-title-error" class="mt-1 text-sm text-danger">{{ 'settings.terms.titleRequired' | translate }}</p>
       }
     </div>
 
@@ -39,11 +41,13 @@
           type="text"
           formControlName="version"
           dir="ltr"
+          aria-describedby="tm-version-error"
+          [attr.aria-invalid]="form.controls.version.touched && form.controls.version.invalid"
           placeholder="v1.0"
           class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-start text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         />
         @if (form.controls.version.touched && form.controls.version.invalid) {
-          <p class="mt-1 text-sm text-danger">{{ 'settings.terms.versionRequired' | translate }}</p>
+          <p id="tm-version-error" class="mt-1 text-sm text-danger">{{ 'settings.terms.versionRequired' | translate }}</p>
         }
       </div>
     </div>
@@ -56,10 +60,12 @@
         id="tm-body"
         rows="6"
         formControlName="body"
+        aria-describedby="tm-body-error"
+        [attr.aria-invalid]="form.controls.body.touched && form.controls.body.invalid"
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       ></textarea>
       @if (form.controls.body.touched && form.controls.body.invalid) {
-        <p class="mt-1 text-sm text-danger">{{ 'settings.terms.bodyRequired' | translate }}</p>
+        <p id="tm-body-error" class="mt-1 text-sm text-danger">{{ 'settings.terms.bodyRequired' | translate }}</p>
       }
     </div>
   </form>

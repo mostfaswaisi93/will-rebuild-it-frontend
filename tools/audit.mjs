@@ -1,5 +1,5 @@
 /**
- * Consistency audit — five checks the compiler, linter and unit tests cannot
+ * Consistency audit — six checks the compiler, linter and unit tests cannot
  * make, because each one spans files that never import each other.
  *
  * Every check here exists because it caught a real bug in this codebase:
@@ -28,6 +28,15 @@
  *                       and two status decisions with no control. Calls are now
  *                       resolved through the variable the service is injected
  *                       into.
+ *  6. form errors     — every validation message in the app was a bare sibling
+ *                       of its field: 0 `aria-describedby` and 1 `aria-invalid`
+ *                       across 28 forms. The red text was on screen and had a
+ *                       translation key, but nothing tied it to the control, so
+ *                       a screen-reader user who submitted the damage report —
+ *                       the beneficiary's way into the platform — was told the
+ *                       form had failed by a colour they could not see. ESLint's
+ *                       `templateAccessibility` set cannot see it: no rule pairs
+ *                       a message with the field it describes.
  *
  * The parsing/logic is exported as pure functions (tested in `audit.test.mjs`)
  * and kept separate from the filesystem walk so the checks can be exercised
@@ -45,7 +54,14 @@ export const ROLES = ['beneficiary', 'donor', 'team', 'admin', 'contractor', 'st
 /** Public routes that live outside `/app` and are reached by direct link. */
 export const PUBLIC_PREFIXES = ['pub/contractor', 'pub/project'];
 
-export const CHECKS = ['dead-link', 'nav-guard', 'layout-link', 'status-pill', 'uncalled-api'];
+export const CHECKS = [
+  'dead-link',
+  'nav-guard',
+  'layout-link',
+  'status-pill',
+  'uncalled-api',
+  'form-error',
+];
 
 // --- pure helpers -----------------------------------------------------------
 
@@ -215,6 +231,146 @@ export function uncalledMethods(serviceSrc, consumers) {
   return [...new Set(methods)].filter((m) => !called.has(m)).map((m) => `${cls}.${m}`);
 }
 
+/**
+ * Bodies of every `@if` / `@else if` block whose condition tests a form
+ * control's validity — i.e. the blocks that render a *field* error, as opposed
+ * to the ~100 page-level "could not load" messages that share the same
+ * `text-danger` style and owe no control anything.
+ *
+ * Scoping the check this way is the whole reason it can be strict: told to
+ * inspect every `text-danger` element it would drown in false positives, and a
+ * check whose findings are mostly noise gets muted rather than fixed.
+ *
+ * The second alternative is not decoration. Two group-level errors — the trades
+ * fieldset on the contractor's business step, and the address on the damage
+ * report — are gated on a component signal (`tradesInvalid()`,
+ * `addressMissing()`) rather than on a control, because the rule spans several
+ * controls. A first version keyed only on `.invalid`/`.hasError(`/`.errors`
+ * scoped both of them out and reported the two files clean while they were not:
+ * the same silent-skip shape that `parseGuards` and `uncalledMethods` each had
+ * to be hardened against.
+ *
+ * What this deliberately does NOT cover: an error gated on a signal named
+ * outside that vocabulary. The check reports how many forms it inspected so a
+ * form silently dropping out of scope is visible in the output.
+ *
+ * Braces are counted rather than regex-matched so nested `@if`/`@for` blocks
+ * close correctly. Interpolations and inline object literals nest evenly, so
+ * they cancel out.
+ */
+export function extractInvalidBlocks(src) {
+  const blocks = [];
+  for (const m of src.matchAll(/@(?:else\s+)?if\s*\(/g)) {
+    const condStart = m.index + m[0].length;
+    let depth = 1;
+    let i = condStart;
+    for (; i < src.length && depth > 0; i++) {
+      if (src[i] === '(') depth++;
+      else if (src[i] === ')') depth--;
+    }
+    const condition = src.slice(condStart, i - 1);
+    const testsControl = /\.invalid|\.hasError\(|\.errors\b/.test(condition);
+    const testsGroup = /\b\w*(?:Invalid|Missing|Required)\(\)/.test(condition);
+    if (!testsControl && !testsGroup) continue;
+
+    const open = src.indexOf('{', i);
+    if (open === -1) continue;
+    let braces = 1;
+    let j = open + 1;
+    for (; j < src.length && braces > 0; j++) {
+      if (src[j] === '{') braces++;
+      else if (src[j] === '}') braces--;
+    }
+    blocks.push(src.slice(open + 1, j - 1));
+  }
+  return blocks;
+}
+
+/**
+ * Normalises an id so a static attribute and a bound expression compare equal:
+ * `id="email-error"` and `[id]="'licence-' + $index + '-name-error'"` both
+ * reduce to a single token, letting the FormArray case be checked as strictly
+ * as the plain one instead of being silently skipped.
+ */
+export function normaliseIdRef(value) {
+  return value.replace(/\s+/g, '');
+}
+
+/** Every id an element in this template declares, static or bound. */
+export function collectDeclaredIds(src) {
+  const ids = new Set();
+  for (const m of src.matchAll(/\bid="([^"]+)"/g)) ids.add(normaliseIdRef(m[1]));
+  for (const m of src.matchAll(/\[id\]="([^"]+)"/g)) ids.add(normaliseIdRef(m[1]));
+  return ids;
+}
+
+/**
+ * Every id this template points an `aria-describedby` at, static or bound.
+ *
+ * `errorId` counts as one. Three form controls (`app-password-field`,
+ * `app-phone-input`, `app-address-picker`) render their own `<input>`, so the
+ * parent form cannot put `aria-describedby` on anything that a screen reader
+ * would read — the host element is not focusable. `errorId` is the input that
+ * forwards the reference to the real control inside, and each of those three
+ * binds it straight to `[attr.aria-describedby]`. Treating it as anything less
+ * than a reference would make this check reject correct markup, and a check
+ * that fails on correct code gets deleted.
+ */
+export function collectDescribedByRefs(src) {
+  const refs = new Set();
+  for (const attr of [/\baria-describedby="([^"]+)"/g, /\berrorId="([^"]+)"/g]) {
+    for (const m of src.matchAll(attr)) {
+      for (const token of m[1].split(/\s+/).filter(Boolean)) refs.add(normaliseIdRef(token));
+    }
+  }
+  for (const bound of [/\[attr\.aria-describedby\]="([^"]+)"/g, /\[errorId\]="([^"]+)"/g]) {
+    for (const m of src.matchAll(bound)) refs.add(normaliseIdRef(m[1]));
+  }
+  return refs;
+}
+
+/**
+ * Field-level validation messages that no control points at.
+ *
+ * Three findings, because the gap has three shapes and only catching the first
+ * would let the other two through a rename:
+ *   - a message with no id at all — nothing *can* reference it;
+ *   - a message with an id that no `aria-describedby` uses — the wiring was
+ *     never done, or was done on the wrong control;
+ *   - an `aria-describedby` resolving to no id in its own template — a dangling
+ *     reference, which reads to a screen reader exactly like no description.
+ */
+export function formErrorFindings(name, src) {
+  const findings = [];
+  const declared = collectDeclaredIds(src);
+  const referenced = collectDescribedByRefs(src);
+
+  const messageIds = new Set();
+  for (const block of extractInvalidBlocks(src)) {
+    for (const tag of block.matchAll(/<p\b([^>]*)>/g)) {
+      if (!/text-danger/.test(tag[1])) continue;
+      const id = tag[1].match(/\bid="([^"]+)"/) ?? tag[1].match(/\[id\]="([^"]+)"/);
+      if (!id) {
+        findings.push(`${name}: a field error message has no id, so no field can describe it`);
+        continue;
+      }
+      messageIds.add(normaliseIdRef(id[1]));
+    }
+  }
+
+  for (const id of [...messageIds].sort()) {
+    if (!referenced.has(id)) {
+      findings.push(`${name}: error "${id}" is not referenced by any aria-describedby`);
+    }
+  }
+  for (const ref of [...referenced].sort()) {
+    if (!declared.has(ref)) {
+      findings.push(`${name}: aria-describedby "${ref}" matches no id in this template`);
+    }
+  }
+  return findings;
+}
+
 /** Resolves a dotted key in a translation dictionary to its leaf value. */
 export function lookup(dict, key) {
   return key
@@ -293,9 +449,19 @@ export function runAudit(root) {
     );
   }
 
+  // 6. field errors reachable from the field they describe
+  let formsChecked = 0;
+  for (const file of templates) {
+    const src = read(file);
+    if (extractInvalidBlocks(src).length === 0) continue;
+    formsChecked++;
+    add('form-error', formErrorFindings(relative(root, file), src));
+  }
+
   const stats = {
     routes: (routesSrc.match(/loadComponent:/g) ?? []).length,
     contexts: usedContexts.size,
+    forms: formsChecked,
   };
   return { findings, stats };
 }
@@ -315,7 +481,9 @@ function main() {
       for (const hit of hits) console.log(`          ${hit.message}`);
     }
   }
-  console.log(`\n${stats.routes} routes · ${stats.contexts} status-pill contexts`);
+  console.log(
+    `\n${stats.routes} routes · ${stats.contexts} status-pill contexts · ${stats.forms} validated forms`,
+  );
 
   if (findings.length > 0) {
     console.error(`\n${findings.length} finding(s).`);

@@ -15,6 +15,7 @@
         formControlName="email"
         autocomplete="email"
         dir="ltr"
+        aria-describedby="email-error"
         [attr.aria-invalid]="unknownEmail() || (form.controls.email.touched && form.controls.email.invalid)"
         class="w-full rounded-input border border-ink-300 bg-surface py-2.5 pe-10 ps-9 text-start text-ink-900 placeholder:text-ink-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         placeholder="name@example.ps"
@@ -28,11 +29,11 @@
     </div>
 
     @if (form.controls.email.touched && form.controls.email.hasError('required')) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.emailRequired' | translate }}</p>
+      <p id="email-error" class="mt-1 text-sm text-danger">{{ 'auth.signIn.emailRequired' | translate }}</p>
     } @else if (form.controls.email.touched && form.controls.email.hasError('pattern')) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.emailInvalid' | translate }}</p>
+      <p id="email-error" class="mt-1 text-sm text-danger">{{ 'auth.signIn.emailInvalid' | translate }}</p>
     } @else if (unknownEmail()) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.noSuchUser' | translate }}</p>
+      <p id="email-error" class="mt-1 text-sm text-danger">{{ 'auth.signIn.noSuchUser' | translate }}</p>
     }
   </div>
 
@@ -45,6 +46,8 @@
       <select
         id="role"
         formControlName="role"
+        aria-describedby="role-error"
+        [attr.aria-invalid]="submitted() && form.controls.role.value === ''"
         class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       >
         <option value="">{{ 'auth.signIn.rolePlaceholder' | translate }}</option>
@@ -54,7 +57,7 @@
       </select>
 
       @if (submitted() && form.controls.role.value === '') {
-        <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.roleRequired' | translate }}</p>
+        <p id="role-error" class="mt-1 text-sm text-danger">{{ 'auth.signIn.roleRequired' | translate }}</p>
       }
     </div>
   }
@@ -104,6 +107,8 @@
         formControlName="password"
         autocomplete="current-password"
         maxlength="15"
+        aria-describedby="password-error"
+        [attr.aria-invalid]="form.controls.password.touched && form.controls.password.invalid"
         class="w-full rounded-input border border-ink-300 bg-surface py-2.5 pe-11 ps-3 text-ink-900 placeholder:text-ink-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
       />
       <button
@@ -123,9 +128,9 @@
     </div>
 
     @if (form.controls.password.touched && form.controls.password.hasError('required')) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.passwordRequired' | translate }}</p>
+      <p id="password-error" class="mt-1 text-sm text-danger">{{ 'auth.signIn.passwordRequired' | translate }}</p>
     } @else if (form.controls.password.touched && form.controls.password.hasError('minlength')) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.signIn.passwordTooShort' | translate }}</p>
+      <p id="password-error" class="mt-1 text-sm text-danger">{{ 'auth.signIn.passwordTooShort' | translate }}</p>
     }
   </div>
 

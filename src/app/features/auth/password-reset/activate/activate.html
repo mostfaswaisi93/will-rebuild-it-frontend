@@ -12,10 +12,12 @@
     <app-password-field
       formControlName="confirmPassword"
       labelKey="auth.reset.reset.confirmPassword"
+      errorId="confirmPassword-error"
+      [invalid]="form.controls.confirmPassword.touched && form.controls.confirmPassword.invalid"
     />
 
     @if (form.controls.confirmPassword.touched && form.controls.confirmPassword.hasError('mustMatch')) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.reset.reset.mustMatch' | translate }}</p>
+      <p id="confirmPassword-error" class="mt-1 text-sm text-danger">{{ 'auth.reset.reset.mustMatch' | translate }}</p>
     }
   </div>
 
@@ -33,6 +35,8 @@
       <input
         type="checkbox"
         formControlName="acceptedTerms"
+        aria-describedby="acceptedTerms-error"
+        [attr.aria-invalid]="form.controls.acceptedTerms.touched && form.controls.acceptedTerms.invalid"
         class="mt-0.5 size-4 shrink-0 rounded border-ink-300 text-brand-500 focus:ring-brand-500/30"
       />
       <span>
@@ -48,7 +52,7 @@
     </label>
 
     @if (form.controls.acceptedTerms.touched && form.controls.acceptedTerms.invalid) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.reset.activate.termsRequired' | translate }}</p>
+      <p id="acceptedTerms-error" class="mt-1 text-sm text-danger">{{ 'auth.reset.activate.termsRequired' | translate }}</p>
     }
   </div>
 

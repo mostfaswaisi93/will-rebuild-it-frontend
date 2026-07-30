@@ -9,6 +9,8 @@
     <select
       id="governorate"
       formControlName="governorate"
+      aria-describedby="governorate-error"
+      [attr.aria-invalid]="form.controls.governorate.touched && form.controls.governorate.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     >
       <option value="">{{ 'auth.onboarding.location.governoratePlaceholder' | translate }}</option>
@@ -17,7 +19,7 @@
       }
     </select>
     @if (form.controls.governorate.touched && form.controls.governorate.invalid) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="governorate-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.location.governorateRequired' | translate }}
       </p>
     }
@@ -31,10 +33,12 @@
       id="area"
       type="text"
       formControlName="area"
+      aria-describedby="area-error"
+      [attr.aria-invalid]="form.controls.area.touched && form.controls.area.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     />
     @if (form.controls.area.touched && form.controls.area.invalid) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.onboarding.location.areaRequired' | translate }}</p>
+      <p id="area-error" class="mt-1 text-sm text-danger">{{ 'auth.onboarding.location.areaRequired' | translate }}</p>
     }
   </div>
 
@@ -46,10 +50,12 @@
       id="streetAddress"
       type="text"
       formControlName="streetAddress"
+      aria-describedby="streetAddress-error"
+      [attr.aria-invalid]="form.controls.streetAddress.touched && form.controls.streetAddress.invalid"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2.5 text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     />
     @if (form.controls.streetAddress.touched && form.controls.streetAddress.invalid) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="streetAddress-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.location.streetAddressRequired' | translate }}
       </p>
     }
@@ -59,20 +65,27 @@
     <app-phone-input
       formControlName="contactPhone"
       labelKey="auth.onboarding.location.contactPhone"
+      errorId="contactPhone-hint contactPhone-error"
+      [invalid]="form.controls.contactPhone.touched && form.controls.contactPhone.invalid"
     />
-    <p class="mt-1 text-xs text-ink-500">
+    <p id="contactPhone-hint" class="mt-1 text-xs text-ink-500">
       {{ 'auth.onboarding.location.contactPhoneHint' | translate }}
     </p>
     @if (form.controls.contactPhone.touched && form.controls.contactPhone.invalid) {
-      <p class="mt-1 text-sm text-danger">{{ 'auth.register.phoneInvalid' | translate }}</p>
+      <p id="contactPhone-error" class="mt-1 text-sm text-danger">{{ 'auth.register.phoneInvalid' | translate }}</p>
     }
   </div>
 
-  <fieldset class="pt-2">
+  <!-- Group-level rule: the description belongs to the fieldset, not to any one governorate. -->
+  <fieldset
+    class="pt-2"
+    aria-describedby="serviceArea-hint serviceArea-error"
+    [attr.aria-invalid]="submitted() && servedInvalid()"
+  >
     <legend class="text-sm font-medium text-ink-700">
       {{ 'auth.onboarding.location.serviceArea' | translate }}
     </legend>
-    <p class="mt-0.5 text-xs text-ink-500">
+    <p id="serviceArea-hint" class="mt-0.5 text-xs text-ink-500">
       {{ 'auth.onboarding.location.serviceAreaHint' | translate }}
     </p>
 
@@ -106,7 +119,7 @@
     </div>
 
     @if (submitted() && servedInvalid()) {
-      <p class="mt-1 text-sm text-danger">
+      <p id="serviceArea-error" class="mt-1 text-sm text-danger">
         {{ 'auth.onboarding.location.serviceAreaRequired' | translate }}
       </p>
     }

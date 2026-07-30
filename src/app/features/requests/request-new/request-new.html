@@ -58,10 +58,14 @@
   <section class="rounded-card border border-ink-300 bg-surface p-4">
     <h2 class="text-sm font-medium text-ink-900">{{ 'requests.view.address' | translate }}</h2>
     <div class="mt-2">
-      <app-address-picker formControlName="address" />
+      <app-address-picker
+        formControlName="address"
+        errorId="address-error"
+        [invalid]="addressMissing()"
+      />
     </div>
     @if (addressMissing()) {
-      <p class="mt-1 text-xs text-danger">{{ 'requests.new.addressRequired' | translate }}</p>
+      <p id="address-error" class="mt-1 text-xs text-danger">{{ 'requests.new.addressRequired' | translate }}</p>
     }
   </section>
 
@@ -73,11 +77,13 @@
       id="description"
       rows="5"
       formControlName="description"
+      aria-describedby="description-error"
+      [attr.aria-invalid]="submitted() && form.controls.description.invalid"
       [placeholder]="'requests.new.descriptionPlaceholder' | translate"
       class="mt-1 w-full rounded-input border border-ink-300 bg-surface px-3 py-2 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
     ></textarea>
     @if (submitted() && form.controls.description.invalid) {
-      <p class="mt-1 text-xs text-danger">{{ 'requests.new.descriptionRequired' | translate }}</p>
+      <p id="description-error" class="mt-1 text-xs text-danger">{{ 'requests.new.descriptionRequired' | translate }}</p>
     }
   </section>
 
@@ -92,6 +98,8 @@
           id="contactName"
           type="text"
           formControlName="contactName"
+          aria-describedby="contact-error"
+          [attr.aria-invalid]="submitted() && form.controls.contactName.invalid"
           class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         />
       </div>
@@ -104,12 +112,14 @@
           type="tel"
           formControlName="contactPhone"
           dir="ltr"
+          aria-describedby="contact-error"
+          [attr.aria-invalid]="submitted() && form.controls.contactPhone.invalid"
           class="mt-1 min-h-11 w-full rounded-input border border-ink-300 bg-surface px-3 text-sm text-ink-900 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
         />
       </div>
     </div>
     @if (submitted() && (form.controls.contactName.invalid || form.controls.contactPhone.invalid)) {
-      <p class="mt-1 text-xs text-danger">{{ 'requests.new.contactRequired' | translate }}</p>
+      <p id="contact-error" class="mt-1 text-xs text-danger">{{ 'requests.new.contactRequired' | translate }}</p>
     }
   </section>
 

@@ -8,6 +8,8 @@
       class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:opacity-60"
       [disabled]="disabled()"
       [value]="draft().governorate"
+      [attr.aria-invalid]="invalid()"
+      [attr.aria-describedby]="errorId() ?? null"
       (change)="onGovernorateChange($any($event.target).value)"
       (blur)="onBlur()"
     >
@@ -27,6 +29,8 @@
       class="min-h-11 w-full rounded-card border border-ink-300 bg-surface-container-low px-3 text-base text-ink-900 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/30 disabled:cursor-not-allowed disabled:opacity-60"
       [disabled]="disabled() || districts().length === 0"
       [value]="draft().district"
+      [attr.aria-invalid]="invalid()"
+      [attr.aria-describedby]="errorId() ?? null"
       (change)="onDistrictChange($any($event.target).value)"
       (blur)="onBlur()"
     >

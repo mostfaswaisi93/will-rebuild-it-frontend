@@ -41,7 +41,8 @@ jobs:
         run: npm run lint
 
       # The cross-file consistency checks — dead links, nav/guard mismatches,
-      # shared-layout link guards, status-pill labels, uncalled API endpoints.
+      # shared-layout link guards, status-pill labels, uncalled API endpoints,
+      # and validation messages no field points at.
       - name: Consistency audit
         run: npm run audit
 
