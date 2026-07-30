@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { DialogRef } from '@angular/cdk/dialog';
 import { LucideX } from '@lucide/angular';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
+import { DIALOG_TITLE_ID } from './dialog.service';
 
 /**
  * Consistent chrome (header with title + close button, scrollable body,
@@ -24,7 +25,15 @@ import { TranslatePipe } from '@core/i18n/translate.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogShell {
-  readonly titleKey = input<string>();
+  /**
+   * Required, because this heading is what names the dialog: `DialogService`
+   * points the CDK container's `aria-labelledby` at it. A shell without one
+   * would open as an unnamed "dialog", so the compiler refuses it.
+   */
+  readonly titleKey = input.required<string>();
+
+  /** Minted by `DialogService` for this dialog instance. */
+  protected readonly titleId = inject(DIALOG_TITLE_ID);
 
   private readonly dialogRef = inject(DialogRef);
 

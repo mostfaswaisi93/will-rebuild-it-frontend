@@ -2,11 +2,8 @@
   class="fixed inset-x-0 bottom-0 flex max-h-[85vh] w-full flex-col overflow-y-auto rounded-t-card bg-surface shadow-card sm:relative sm:inset-auto sm:mx-auto sm:w-full sm:max-w-md sm:rounded-card"
 >
   <header class="flex items-center justify-between gap-4 border-b border-outline-variant px-5 py-4">
-    @if (titleKey(); as title) {
-      <h2 class="text-lg font-semibold text-ink-900">{{ title | translate }}</h2>
-    } @else {
-      <span></span>
-    }
+    <!-- `aria-labelledby` on the CDK container points here — see DialogService. -->
+    <h2 [id]="titleId" class="text-lg font-semibold text-ink-900">{{ titleKey() | translate }}</h2>
     <button
       type="button"
       class="-me-2 inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-ink-500 hover:bg-surface-container-low hover:text-ink-900"

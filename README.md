@@ -27,7 +27,7 @@ Two rules govern the port, and both are load-bearing:
 | Feature areas | **39** |
 | Shared UI components | **30** |
 | API services / mock handlers | **33 / 33** |
-| Unit tests | **523** (+ 25 for the audit tool) |
+| Unit tests | **526** (+ 25 for the audit tool) |
 | Roles | **7**, one sign-in gate |
 
 ---
@@ -107,6 +107,7 @@ src/app/
 │  ├─ interceptors/   # auth, error, mock-api
 │  ├─ guards/         # authGuard, roleGuard
 │  ├─ i18n/           # TranslationService + TranslatePipe + CLDR plural util
+│  ├─ a11y/           # InvalidSubmitFocus — a refused submit lands on the error
 │  ├─ toast/          # ToastService
 │  └─ mock/           # in-memory backend: 29 fixtures + 33 handlers
 ├─ shared/
@@ -266,7 +267,7 @@ Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1, 4 and 5 are one-o
 
 ## Testing
 
-523 unit tests across 38 spec files, aimed at the logic most likely to break silently rather than at render assertions:
+526 unit tests across 39 spec files, aimed at the logic most likely to break silently rather than at render assertions:
 
 | Area | What it guards |
 |---|---|
@@ -278,6 +279,7 @@ Sweeps 2 and 3 run in `npm run audit` on every push. Sweeps 1, 4 and 5 are one-o
 | `translation.service` | Locale state, RTL flag, missing-key contract |
 | `translated-title.strategy` | Deepest route key wins, an unresolved key never reaches the tab, and a locale change re-titles the open page |
 | `status-tone.util` | The status→tone map, with a completeness guard so a new status can't go unmapped |
+| `invalid-submit-focus` | That a refused submit lands on the first field in error, skips controls rendering `aria-invalid="false"`, and reaches inside a `<fieldset>` whose error belongs to the group |
 | `password-reset-flow` / `-step.guard` / `mask.util` | Step ordering, intent branching, email masking |
 | `onboarding-flow` | The six-step contractor registration state machine |
 | `shared/validators/*` | Date, identity, and password rules |
@@ -318,6 +320,7 @@ Three decisions worth stating, because they cost features on purpose:
 
 Newest first.
 
+- **Every dialog opened without a name, and a refused submit left you where you were.** Two halves of the same omission, both now fixed once rather than per call site. `DialogService` declared an `ariaLabel` option that **no call site passed**, so CDK — which renders `aria-labelledby` only from `ariaLabelledBy`, and `aria-label` only from `ariaLabel` — gave every dialog `role="dialog"` with **no accessible name at all**, announced as a bare "dialog" while its title sat in an `<h2>` a few lines away in `DialogShell`. The id is now minted per open and handed to both sides (to CDK as `ariaLabelledBy`, to the shell through an injection token), and `titleKey` is **required**, so a nameless dialog no longer compiles. `aria-modal` was also `false` — CDK's default — while these dialogs take a backdrop, trap focus and close on escape; a screen reader was therefore free to wander into a page the user could not reach. And on the submit side: 23 forms called `markAllAsTouched()` and stopped, which paints the messages for anyone who can see red text and tells everyone else nothing. Focus now moves to the first field in error — targeting `[aria-invalid="true"]`, which the previous entry is what made meaningful — so the failure both announces itself and is reachable. That listener is installed once at the root rather than being a directive 23 forms must remember to import, because the 24th form is exactly where it would be forgotten.
 - **Every validation message in the app was announced by colour alone.** The red text under a failed field was a bare sibling of it: **0 `aria-describedby` and 1 `aria-invalid` across 26 forms** — now 66 controls and field groups each point at the message that explains them. So a screen-reader user could submit `/app/requests/new` — the beneficiary's way into the platform, the form where a family reports what is left of their home — have it refused, and hear nothing at all: not which field, not why. The text was there and translated the whole time; nothing tied it to the control. **WCAG 3.3.1 Error Identification (Level A)**, and invisible to `npm run lint` even though `templateAccessibility` is enabled, because no ESLint rule pairs a message with the field it describes. Every message now carries an id and every control points at it — including the three that need it most awkwardly: `app-password-field`, `app-phone-input` and `app-address-picker` render their own `<input>`, so their host element is not what a screen reader reads, and an `errorId` input now forwards the reference to the real control inside. Group rules (the trades fieldset, the address) describe the `<fieldset>`, since the rule belongs to the group and not to any one checkbox. And because a convention only holds if something enforces it, this is now the audit's sixth check — see below, including the silent-skip its own first version had.
 - **Five form controls had no accessible name, and the toast region was unannounced.** A skip-to-content link now opens the app shell, so a keyboard user is not walked through the whole sidebar to reach the page; and toasts announce politely rather than appearing silently.
 - **Motion: `prefers-reduced-motion` was ignored, and most hover states snapped.** Audited against the pre-delivery checklist in [ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill). The project already passed three of its items (SVG icons not emoji, ≥4.5:1 light-mode contrast, visible focus states) and failed two. **81 skeleton pulses and a spinner animated regardless of the user's stated motion preference** — on a platform for people who have just lost their homes, and under design principles that call for a calm, trauma-informed tone. And 244 hover styles had only 56 transitions between them, so most controls changed colour instantly. Both are now fixed systemically rather than element-by-element: two motion tokens applied once in `@layer base`, and a reduced-motion rule kept deliberately *outside* the layer so it outranks utilities like `animate-pulse` — verified empirically by proving a rule of that shape takes `animate-pulse` from 2s to 0.001s. Navigation also gained a native View Transitions cross-fade, disabled by the same reduced-motion rule.
